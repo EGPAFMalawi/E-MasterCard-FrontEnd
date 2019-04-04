@@ -1,4 +1,4 @@
-# DHISAuth
+# EGPAF
 
 ## Project setup
 ```
