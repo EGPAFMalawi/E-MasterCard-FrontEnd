@@ -12,20 +12,19 @@
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
     "bootstrap-4-grid": "^2.4.1",
+    "bootstrap-vue": "^2.0.0-rc.16",
     "font-awesome": "^4.7.0",
-    "lodash": "^4.17.10",
-    "postcss": "^7.0.2",
-    "postcss-loader": "^3.0.0",
-    "tailwindcss": "^0.6.5",
+    "lodash": "^4.17.11",
     "vee-validate": "^2.2.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.1",
-    "@vue/cli-plugin-eslint": "^3.0.1",
-    "@vue/cli-service": "^3.0.1",
+    "@vue/cli-plugin-babel": "^3.5.5",
+    "@vue/cli-plugin-eslint": "^3.5.1",
+    "@vue/cli-service": "^3.5.3",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
@@ -44,7 +43,6 @@
   },
   "postcss": {
     "plugins": {
-      "tailwindcss": {},
       "autoprefixer": {}
     }
   },

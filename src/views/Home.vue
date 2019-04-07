@@ -9,28 +9,28 @@
         <div class="container">
             <div class="search-patient">
                 <form v-on:submit.prevent="search">
-                    <div class="mb-4">
-                        <input v-model="searchParam" id="search" class="shadow appearance-none border flex mx-auto rounded w-50 py-4 px-5 text-gray-darker" type="search" placeholder="Search using Names" required/>
+                    <div class="mb-4 mx-auto position-sticky">
+                        <input v-model="searchParam" id="search" class="mx-auto" type="search" placeholder="Search using Names" required/>
                     </div>
 
                     <div class="mb-4 row">
                         <div class="offset-3 col-3">
-                            <button type="submit" class="bg-yellow-darker px-4 py-3 text-white rounded flex mx">Search Patient <font-awesome-icon icon="search" class="ml-1"/></button>
+                            <button type="submit" class="">Search Patient <font-awesome-icon icon="search" class="ml-1"/></button>
                         </div>
                         <div class="col-3">
                             <router-link to="/patients/add">
-                                <button class="bg-yellow-darker px-4 py-3 text-white rounded flex mx-auto">Add Patient <font-awesome-icon icon="plus" class="ml-1"/></button>
+                                <button class="">Add Patient <font-awesome-icon icon="plus" class="ml-1"/></button>
                             </router-link>
                         </div>
                     </div>
                 </form>
             </div>
             <div>
-                <div class="border-r-4 border-l-4 border-yellow-darker shadow-md rounded bg-white mt-2">
-                    <div class="pl-3 mt-5 pt-3">
-                        <h2 class="text-yellow-darker font-light">{{patients.length}} Patients Matching '{{this.searchParam}}' Search</h2>
-                        <div class="container-fluid my-3">
-                            <table class="tableauto w-full">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="">{{patients.length}} Patients Matching '{{this.searchParam}}' Search</h2>
+                        <div class="container">
+                            <table class="">
                                 <thead>
                                 <tr>
                                     <th>
@@ -110,7 +110,7 @@ export default {
     name: 'Home',
     components: {NavBar},
     methods: {
-        search : function ()
+        search ()
         {
             this.isLoading = true;
             this.patients = [];
