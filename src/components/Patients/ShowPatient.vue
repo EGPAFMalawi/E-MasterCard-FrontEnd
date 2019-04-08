@@ -86,8 +86,10 @@
 
                 authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
-                        console.log(response)
+                        this.patientCards
+                        
                         this.availableMasterCards.push(...response.data.data)
+                        console.log(this.availableMasterCards)
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -159,6 +161,7 @@
                     .then((response)=>{
                         console.log(response)
                         this.patientCards.push(...response.data.data)
+                        
                     })
                     .catch((error)=>{
                         console.log(error)

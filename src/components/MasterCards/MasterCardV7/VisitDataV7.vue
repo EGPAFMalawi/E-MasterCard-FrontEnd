@@ -208,7 +208,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class="form-control"  required>
+                        <!--<input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class="form-control"  required>-->
+                        <date-picker v-model="concepts.concept32" format="YYYY-MM-DD" lang="en"></date-picker>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
@@ -324,8 +325,10 @@
 <script>
     import authResource from './../../../authResource'
     import _ from 'lodash'
+    import DatePicker from 'vue2-datepicker'
 
     export default {
+        components: { DatePicker },
         name: 'VisitDataV7',
         props: ['encounterTypes', 'postPayload'],
         methods: {

@@ -16,11 +16,13 @@
     "bootstrap-4-grid": "^2.4.1",
     "bootstrap-vue": "^2.0.0-rc.16",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "vee-validate": "^2.2.0",
     "vue": "^2.5.17",
     "vue-filter-date-format": "^1.2.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue2-datepicker": "^2.10.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",

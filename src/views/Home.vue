@@ -27,7 +27,9 @@
                     </div>
                     <div v-if="patients[0] === undefined && searchParam != ''" class="alert text-align-center alert-warning" role="alert">
                         <h4 class="alert-heading">No Patient found  matching <strong>{{this.searchParam}}</strong> Search</h4>
-                        <p class="mb-3">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                        <p class="mb-3">
+                            Click on the button below to add a new Patient
+                        </p>
                         <div>
                             <button type="button" class="btn btn-success btn-lg" v-b-modal.modal-1>Add New Patient</button>
                             
@@ -69,121 +71,83 @@
         </div>
         
     </section>
-    <b-modal id="modal-1" title="Enter Patient Details" size="lg">
-          <form>
-                                <div class="form-row">
-                                  <div class="col-md-4 mb-3">
-                                    <label for="validationServer01">Given Name</label>
-                                    <input type="text" class="form-control" id="validationServer01" placeholder="First name" value="Mark" required>
-                                    <div class="valid-feedback">
-                                      Looks good!
-                                    </div>
-                                  </div>
-                                  <div class="col-md-4 mb-3">
-                                    <label for="validationServer02">Middle Name</label>
-                                    <input type="text" class="form-control" id="validationServer02" placeholder="Last name" value="Otto" required>
-                                    <div class="valid-feedback">
-                                      Looks good!
-                                    </div>
-                                  </div>
-                                  <div class="col-md-4 mb-3">
-                                        <label for="validationServer02">Family Name</label>
-                                        <input type="text" class="form-control" id="validationServer02" placeholder="Last name" value="Otto" required>
-                                        <div class="valid-feedback">
-                                          Looks good!
-                                        </div>
-                                      </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-4 mb-3">
-                                            <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
-                                            <div class="col-sm-10">
-                                              <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="sex" id="sex1" value="Female" checked>
-                                                <label class="form-check-label" for="sex1">
-                                                  Female
-                                                </label>
-                                              </div>
-                                              <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="sex" id="sex2" value="Male">
-                                                <label class="form-check-label" for="sex2">
-                                                  Male
-                                                </label>
-                                              </div>
-                                            </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="validationServer03">Date of Birth</label>
-                                        <input type="date" class="form-control" id="validationServer03" required>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                            <label for="validationServer03">Tribe</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="Tribe" required>
-                                        </div>
-                                </div>
-                                <div class="form-row">
-                                        <div class="col-md-6 mb-3">
-                                                <label for="validationServer03">Guardian Name</label>
-                                                <input type="text" class="form-control" id="validationServer03" placeholder="Name of guardian" required>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <label for="validationServer03">Phone Numbers</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="Patient" required>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                                <label for="validationServer03" style="color: #fff">.</label>
-                                                <input type="text" class="form-control" id="validationServer03" placeholder="Guardian" required>
-                                            </div>
-                                    </div>
-                                    <br>
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-3">
-                                                <label for="validationServer03">Address 1</label>
-                                                <input type="text" class="form-control" id="validationServer03" placeholder="Address 1" required>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="validationServer03">Address 2</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="Address 2" required>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                                <label for="validationServer03">City Village</label>
-                                                <input type="text" class="form-control" id="validationServer03" placeholder="City Village" required>
-                                            </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-3">
-                                                <label for="validationServer03">State Province</label>
-                                                <input type="text" class="form-control" id="validationServer03" placeholder="" required>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="validationServer03">Postal Code</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="" required>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="validationServer03">Country</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="City Village" required>
-                                        </div>
+    <b-modal id="modal-1" title="Enter Patient Details" hide-footer	 size="lg">
+          <form name='addpatient' v-on:submit.prevent="addPatient">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationServer01">Given Name</label>
+                    <input type="text" class="form-control" placeholder="First name" v-model="given_name">
+                
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationServer02">Middle Name</label>
+                    <input type="text" class="form-control" placeholder="Last name" v-model="middle_name">
+                
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationServer02">Family Name</label>
+                    <input type="text" class="form-control" placeholder="Last name" v-model="family_name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                        <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="F">
+                            <label class="form-check-label" for="sex1">
+                                Female
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="M">
+                            <label class="form-check-label" for="sex2">
+                                Male
+                            </label>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationServer03">Date of Birth</label>
+                    <input type="date" class="form-control" v-model="birthdate">
+                </div>
+                <div class="col-md-4 mb-3">
+                        <label for="validationServer03">Tribe</label>
+                        <input type="text" class="form-control" placeholder="Tribe" v-model="tribe">
+                    </div>
+            </div>
+            <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                            <label for="validationServer03">Guardian Name</label>
+                            <input type="text" class="form-control" placeholder="Name of guardian" v-model="guardian_name">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationServer03">Phone Numbers</label>
+                        <input type="text" class="form-control" placeholder="Patient" v-model="patient_phone">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                            <label for="validationServer03" style="color: #fff">.</label>
+                            <input type="text" class="form-control" placeholder="Guardian" v-model="guardian_phone">
+                        </div>
+                </div>
 
-                                        
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-3">
-                                            <label for="validationServer03">District</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="City Village" required>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                                <label for="validationServer03">Latitude</label>
-                                                <input type="text" class="form-control" id="validationServer03" placeholder="Latitude" required>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="validationServer03">Longitude</label>
-                                            <input type="text" class="form-control" id="validationServer03" placeholder="Longitude" required>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary" type="submit">Submit form</button>
-                                    </form>
-    </b-modal>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="validationServer03">District</label>
+                        <input type="text" class="form-control" placeholder="City Village" v-model="county_district">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                            <label for="validationServer03">Region</label>
+                            <input type="text" class="form-control" placeholder="Region" v-model="region">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="validationServer03">TA</label>
+                        <input type="text" class="form-control" placeholder="TA" v-model="township_division">
+                    </div>
+                </div>
+                <button class="btn btn-success" type="submit">Submit form</button>
+            </form>
+        </b-modal>
     </div>
 </template>
 
@@ -224,15 +188,90 @@ export default {
             
             sessionStorage.setItem('patient',JSON.stringify(patient));
             this.$router.push('/patients/show')
-        }
+        },
+        addPatient : function ()
+            {
+                this.isLoading = true;
+
+                let payload = {
+                    prefix : this.prefix,
+                    given_name : this.given_name,
+                    middle_name : this.middle_name,
+                    family_name : this.family_name,
+                    gender : this.gender,
+                    birthdate : this.birthdate,
+                    tribe : this.tribe,
+                    guardian_name : this.guardian_name,
+                    patient_phone : this.patient_phone,
+                    guardian_phone : this.guardian_phone,
+                    follow_up : this.follow_up,
+                    guardian_relation : this.guardian_relation,
+                    address1 : this.address1,
+                    address2 : this.address2,
+                    city_village :  this.city_village,
+                    state_province : this.state_province,
+                    postal_code : this.postal_code,
+                    country : this.country,
+                    latitude : this.latitude,
+                    longitude : this.longitude,
+                    county_district : this.county_district,
+                    neighborhood_cell : this.neighborhood_cell,
+                    region : this.region,
+                    subregion : this.subregion,
+                    township_division : this.township_division
+                };
+                
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
+
+                axios.post(dhisAPIEndpoint, payload)
+                    .then(({data: {data}})=>{
+                        this.isLoading = false;
+                        console.log(data)
+                        sessionStorage.setItem('patient', JSON.stringify(data));
+                        this.setPatient(data)
+                        
+                    })
+                    .catch((error)=>{
+                        this.isLoading = false;
+                        console.log(error)
+                    })
+
+            }
     },
     data: () => {
         return {
             isLoading : false,
 
             BASE_URL : 'patients/search',
+            BASE_URL_POST: 'patients',
             searchParam : '',
-            patients : []
+            patients : [],
+
+            prefix : '',
+            given_name : '',
+            middle_name : '',
+            family_name : '',
+            gender : '',
+            birthdate : '',
+            tribe : '',
+            guardian_name : '',
+            patient_phone : '',
+            guardian_phone : '',
+            follow_up : '',
+            guardian_relation : '',
+            address1 : '',
+            address2 : '',
+            city_village :  '',
+            state_province : '',
+            postal_code : '',
+            country : '',
+            latitude : '',
+            longitude : '',
+            county_district : '',
+            neighborhood_cell : '',
+            region : '',
+            subregion : '',
+            township_division : ''
         }
     }
 
