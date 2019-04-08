@@ -208,8 +208,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <!--<input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class="form-control"  required>-->
-                        <date-picker v-model="concepts.concept32" format="YYYY-MM-DD" lang="en"></date-picker>
+                        <input v-model="concepts.concept32" placeholder="DD-MM-YYYY" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control"  required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
+                        <!-- <date-picker v-model="concepts.concept32" format="DD-MM-YYYY" lang="en"></date-picker> -->
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
@@ -465,6 +465,7 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
+                    concept52: ''
 
                 }
             }
@@ -504,6 +505,7 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
+                    concept52: ''
                 }
             }
         },

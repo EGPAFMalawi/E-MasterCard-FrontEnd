@@ -233,7 +233,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class="form-control"  required>
+                            <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control"  placeholder='DD-MM-YYYY' required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
                             <span>{{ errors.first('Visit-Date')}}</span>
                         </td>
                         <td style="width:60px">
@@ -332,7 +332,7 @@
                             <input v-model="concepts.concept46" class="form-control"  type="number">
                         </td>
                         <td>
-                            <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd/MM/yyyy|after:visitDate'" class="form-control"  type="text" required>
+                            <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd-MM-yyyy|after:visitDate'" class="form-control"  type="text" placeholder='DD-MM-YYYY' required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
                             <span>{{ errors.first('Next Visit')}}</span>
                         </td>
                         <td>
@@ -496,7 +496,9 @@
                     concept48 : '',
                     concept49 : '',
                     concept50 : '',
-                    concept51 : ''
+                    concept51 : '',
+                    concept52: ''
+
                 }
             }
         },
@@ -534,7 +536,9 @@
                     concept48 : '',
                     concept49 : '',
                     concept50 : '',
-                    concept51 : ''
+                    concept51 : '',
+                    concept52: ''
+
                 }
             }
         },
