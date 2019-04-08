@@ -44,6 +44,7 @@
                                 <th scope="col">Family Name</th>
                                 <th scope="col">Sex</th>
                                 <th scope="col">Date of Birth</th>
+                                <th scope="col">Guardian</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Date Created</th>
                                 <th scope="col">Actions</th>
@@ -57,6 +58,7 @@
                                 <td>{{ patient.person.personName.family}}</td>
                                 <td>{{ patient.person.gender}}</td>
                                 <td>{{ patient.person.birthdate}}</td>
+                                <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.dateCreated}}</td>
                                 <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient)">View MasterCards</button></td>

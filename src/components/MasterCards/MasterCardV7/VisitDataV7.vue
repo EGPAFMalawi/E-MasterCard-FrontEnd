@@ -106,7 +106,7 @@
                 <tbody>
                 <tr v-for="(encounter, key) in encounters" v-bind:key="key">
                     <td>
-                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
+                       <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
