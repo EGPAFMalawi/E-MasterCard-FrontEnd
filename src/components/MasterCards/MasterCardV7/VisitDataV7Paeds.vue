@@ -8,10 +8,13 @@
                         Visit Date
                     </th>
                     <th >
-                        Weight
+                        Age
                     </th>
                     <th >
-                        Pregnant / Breastfeed
+                        Height
+                    </th>
+                    <th >
+                        Weight
                     </th>
                     <th >
                         Tb Status (Current)*
@@ -54,10 +57,13 @@
                         DD/MM/YYY
                     </th>
                     <th>
-                        kg
+                        Curr
                     </th>
                     <th>
-
+                        cm
+                    </th>
+                    <th>
+                        kg
                     </th>
                     <th>
 
@@ -109,14 +115,13 @@
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
+                        <input v-model="observations['concept52Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                     </td>
-                    <td>
-                        <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
-                            <option value=""></option>
-                            <option value="Preg">Preg</option>
-                            <option value="Br">Br</option>
-                        </select>
+                    <td style="width:60px">
+                        <input v-model="observations['concept51Encounter'+encounter.encounterID].value" class="form-control"  type="number">
+                    </td>
+                    <td style="width:60px">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                     </td>
                     <td>
                         <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control">
@@ -143,19 +148,12 @@
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                            <option value="0P">0</option>
+                            <option value="2P">2</option>
+                            <option value="4P">4</option>
+                            <option value="9P">9</option>
+                            <option value="11P">11</option>
+                            <option value="0thP">0th</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -212,14 +210,13 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
+                        <input v-model="concepts.concept52" class="form-control"  type="number" min="30">
                     </td>
-                    <td>
-                        <select v-model="concepts.concept34" class="form-control" >
-                            <option value=""></option>
-                            <option value="Preg">Preg</option>
-                            <option value="Br">Br</option>
-                        </select>
+                    <td style="width:60px">
+                        <input v-model="concepts.concept51" class="form-control"  type="number" min="30">
+                    </td>
+                    <td style="width:60px">
+                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
                     </td>
                     <td>
                         <select v-model="concepts.concept35" class="form-control">
@@ -246,19 +243,12 @@
                     <td>
                         <select v-model="concepts.concept39" class="form-control" required>
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                            <option value="0P">0</option>
+                            <option value="2P">2</option>
+                            <option value="4P">4</option>
+                            <option value="9P">9</option>
+                            <option value="11P">11</option>
+                            <option value="0thP">0th</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -326,7 +316,7 @@
     import _ from 'lodash'
 
     export default {
-        name: 'VisitDataV7',
+        name: 'VisitDataV7Paeds',
         props: ['encounterTypes', 'postPayload'],
         methods: {
             getPatientCardDetails : function ()
@@ -462,6 +452,7 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
+                    concept52 : '',
 
                 }
             }

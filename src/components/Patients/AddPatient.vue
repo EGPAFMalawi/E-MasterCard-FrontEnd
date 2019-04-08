@@ -254,7 +254,7 @@
 </template>
 
 <script>
-    import  axios from 'axios'
+    import authResource from './../../authResource'
     import NavBar from "../../views/NavBar";
 
     export default {
@@ -297,7 +297,7 @@
 
                 let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         this.isLoading = false;
                         console.log(response)

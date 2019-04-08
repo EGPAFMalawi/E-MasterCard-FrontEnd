@@ -9,10 +9,6 @@
             <input v-model="concepts.concept29"  name="concept29" class="form-control"  type="text">
             <span>{{ errors.first('concept29')}}</span>
         </div>
-        <div class="col-3">
-            <label>Child HCC no</label>
-            <input v-model="concepts.concept30" class="form-control"  type="text">
-        </div>
         <div class="col-2">
             <label>Year</label>
             <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class="form-control"  type="text">
@@ -25,7 +21,7 @@
     import authResource from './../../../authResource'
 
     export default {
-        name: 'RegistrationDataV7',
+        name: 'RegistrationDataV7Paeds',
         props : ['encounterTypes', 'postPayload'],
         methods: {
             getPatientCardDetails : function ()

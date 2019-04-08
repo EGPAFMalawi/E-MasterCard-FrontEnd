@@ -296,7 +296,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import authResource from './../../../authResource'
 
     export default {
         name: 'InitDataV5',
@@ -310,7 +310,7 @@
                     'consider-version' : false
                 };
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData.push(...response.data.data)
@@ -327,7 +327,7 @@
                     'consider-version' : false
                 };
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData.push(...response.data.data)
@@ -381,7 +381,7 @@
                     'observations' : payload
                 };
 
-                axios.post(dhisAPIEndpoint, finalPayload)
+                authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData = [];

@@ -124,13 +124,7 @@
                                                 <input v-model="concepts.concept5" type="date" class="form-control">
                                             </div>
                                             <div class="col-md-6 mb-2">
-                                                    <label for="validationServer03">Pregnant/Breastfeeding</label>
-                                                    <select class="form-control" v-model="concepts.concept11">
-                                                        <option :value="null" disabled></option>
-                                                        <option value="N">N</option>
-                                                        <option value="Preg">Preg</option>
-                                                        <option value="Bf">Bf</option>
-                                                    </select>
+
                                             </div>
                                         </div>
 
@@ -273,16 +267,6 @@
                                                                     </div>
                                                             </div>
                                                       </div>
-
-                                                      <div class="form-row">
-                                                            <div class="col-md-12 mb-2">
-                                                                    <label for="validationServer03">Annual BP Screening for 30+ yrs (sys / dias)</label>
-                                                                    <div class="form-inline fit-2-input-fields">
-                                                                            <input v-model="concepts.concept26" type="number" class="form-control" placeholder="SYS" required>
-                                                                            <input v-model="concepts.concept27" type="number" class="form-control" placeholder="DIAS" required>
-                                                                    </div>
-                                                            </div>
-                                                      </div>
                                           </form>
                             </div>
                         </div>  
@@ -296,7 +280,7 @@
     import authResource from './../../../authResource'
 
     export default {
-        name: 'InitDataV7',
+        name: 'InitDataV7Paeds',
         props : ['encounterTypes', 'postPayload'],
         methods: {
             getPatientCardStatusAtInitDetails : function ()

@@ -11,153 +11,8 @@
             <div class="row">
                     <div class="card" style="width: 100%">
                         <div class="card-body">
-                            <h5 class="card-title">{{patient.person.personName.given + ' ' + patient.person.personName.middle + ' ' + patient.person.personName.family }}</h5>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p>Sex</p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>{{ patient.person.gender}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p>Tribe</p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>{{ patient.tribe}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p>Date of Birth</p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>{{ patient.person.birthdate }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p>Guardian Name</p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>{{ patient.guardianName + ', ' +  patient.guardianRelation}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p>Phone</p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>Patient: {{ patient.patientPhone}}, Guardian: {{ patient.guardianPhone}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                    <div class="col-md-4">
-                                        <p>Agree to FUP</p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p>{{ patient.followUp}}</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                        <div class="col-md-4">
-                                            <p>Address 1</p>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <p>{{ patient.person.personAddress.address1}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <p>Address 2</p>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <p>{{ patient.person.personAddress.address2}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <p>City Village</p>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <p>{{ patient.person.personAddress.cityVillage}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                            <div class="col-md-4">
-                                                <p>State Province</p>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <p>{{ patient.person.personAddress.stateProvince}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                                <div class="col-md-4">
-                                                    <p>Country</p>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p>{{ patient.person.personAddress.country}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p>District</p>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p>{{ patient.person.personAddress.countryDistrict}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                        <div class="col-md-4">
-                                            <p>Neighbor hood Cell</p>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <p>{{ patient.person.personAddress.neighborhoodCell}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                            <div class="col-md-4">
-                                                <p>Township Division</p>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <p>{{ patient.person.personAddress.townshipDivision}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                                <div class="col-md-4">
-                                                    <p>Region</p>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p>{{ patient.person.personAddress.region}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p>SubRegion</p>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p>{{ patient.person.personAddress.subRegion}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p>Latitude</p>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p>{{ patient.person.personAddress.latitude}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p>Longitude</p>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p>{{ patient.person.personAddress.longitude}}</p>
-                                                </div>
-                                            </div> 
-                                            <button type="button" class="btn btn-primary btn-sm d-flex justify-content-end">View MasterCards</button>
+                            <h5 class="card-title">Name : {{patient.person.personName.given + ' ' + patient.person.personName.middle + ' ' + patient.person.personName.family }}</h5>
+                            <h5 class="card-title">ARTNo : {{patient.artNumber }}</h5>
                         </div>
                     </div>
             </div>
@@ -219,7 +74,7 @@
 <script>
 
     import NavBar from "../../views/NavBar";
-    import axios from "axios";
+    import authResource from './../../authResource';
 
     export default {
         name: 'ShowPatient',
@@ -229,7 +84,7 @@
             {
                 let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards`;
 
-                axios.get(dhisAPIEndpoint)
+                authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
                         console.log(response)
                         this.availableMasterCards.push(...response.data.data)
@@ -247,7 +102,7 @@
                     patient : this.patient.patientID
                 };
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response)
                         sessionStorage.setItem('patientCard', JSON.stringify(response.data.data))
@@ -300,7 +155,7 @@
 
                 let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/${value.patientID}/cards`;
 
-                axios.get(dhisAPIEndpoint)
+                authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
                         console.log(response)
                         this.patientCards.push(...response.data.data)

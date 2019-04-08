@@ -4,43 +4,46 @@
             <div class="row d-flex justify-content-center">
                 <ul class="nav ">
                 <li class="nav-item">
-                    <h5 class="navbar-brand">ART Patient Card ARV Formulations, <span class="badge badge-warning">Version 6</span></h5>
+                    <h5 class="navbar-brand">
+                        ART Patient Card ARV Formulations, 
+                        <span class="badge badge-info">Version 7 Paids</span>
+                    </h5>
                         
                 </li>
                 <li class="nav-item">
-                    <RegistrationDataV6 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV6>
+                    <RegistrationDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV7Paeds>
                 </li>
             </ul>
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <InitDataV6 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV6>
+            <InitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV7Paeds>
         </div>
         <div class="container d-flex justify-content-center">
-            <VisitDataV6 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV6>
+            <VisitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7Paeds>
         </div>
         <section>
-        <div class="container">
-                <form class="form-row " v-on:submit.prevent="initiatePost">
-                    <div class="col-md-12 d-flex justify-content-center">
-                            <button type="submit" class="btn btn-success btn-lg my-4">Save <font-awesome-icon icon="save" class="ml-1"/></button>
-                    </div>
-                </form>
-        </div>
-        
-    </section>
+            <div class="container">
+                    <form class="form-row " v-on:submit.prevent="initiatePost">
+                        <div class="col-md-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success btn-lg my-4">Save <font-awesome-icon icon="save" class="ml-1"/></button>
+                        </div>
+                    </form>
+            </div>
+            
+        </section>
     </div>
 </template>
 
 <script>
     import authResource from './../../../authResource'
-    import InitDataV6 from "./InitiDataV6";
-    import VisitDataV6 from "./VisitDataV6";
-    import RegistrationDataV6 from "./RegistrationDataV6";
+    import InitDataV7Paeds from "./InitiDataV7Paeds";
+    import VisitDataV7Paeds from "./VisitDataV7Paeds";
+    import RegistrationDataV7Paeds from "./RegistrationDataV7Paeds";
 
     export default {
-        name: 'MasterCardV6',
-        components: {RegistrationDataV6, VisitDataV6, InitDataV6},
+        name: 'MasterCardV7Paeds',
+        components: {RegistrationDataV7Paeds, VisitDataV7Paeds, InitDataV7Paeds},
         methods: {
             getMasterCardDetails : function ()
             {

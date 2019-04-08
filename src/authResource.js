@@ -2,11 +2,12 @@ import axios from 'axios'
 
 const authResource = () => {
 
-    let basicAuthToken = sessionStorage.getItem('basicAuthToken');
+    let auth = JSON.parse(sessionStorage.getItem('auth'));
+
 
     const defaultOptions = {
         headers: {
-            "Authorization" : `Basic ${basicAuthToken}`
+            "Authorization" : `Bearer ${auth.accessToken}`
         },
     };
 

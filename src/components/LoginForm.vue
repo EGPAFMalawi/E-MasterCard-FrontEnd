@@ -12,7 +12,7 @@
 
         <div class="mb-4">
             <button type="submit" class="bg-teal-darker px-3 py-2 text-white rounded flex mx-auto">Login <font-awesome-icon icon="check" class="ml-1"/></button>
-            <p v-if="isLoading" class="my-4 text-center">Authenticating with DHIS ...</p>
+            <p v-if="isLoading" class="my-4 text-center">Authenticating ...</p>
             <p v-if="authResponse.isAuthenticated" class="text-green my-4 text-center"><span class="font-bold">Login Successful!</span><br>Redirecting to Home...</p>
             <p v-if="authResponse.hasFailedAuthentication" class="text-red my-4 text-center"><span class="font-bold">Authentication Failed!</span><br>Check Auth Credentials</p>
         </div>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import authResource from './../../authResource'
+    import  axios from 'axios'
 
     export default {
         name: 'LoginForm',
@@ -33,17 +33,15 @@
 
 
                 let requestConfig = this.prepareAuthRequestData();
-                var authCredentialsEncoded = btoa(`${requestConfig.auth.username}:${requestConfig.auth.password}`);
 
-                let dhisAPIEndpoint = `${this.APIHosts.dhis}/${this.BASE_URL}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
 
-                authResource().get(dhisAPIEndpoint, requestConfig)
+                axios.post(dhisAPIEndpoint, requestConfig)
                     .then((response)=>{
                         this.isLoading = false;
                         this.authResponse.isAuthenticated = true;
 
-                        sessionStorage.setItem('basicAuthToken', authCredentialsEncoded);
-                        sessionStorage.setItem('user', JSON.stringify(response.data));
+                        sessionStorage.setItem('auth', JSON.stringify(response.data));
 
                         setTimeout(()=>{this.$router.push('/')},2000);
                     })
@@ -59,16 +57,14 @@
             prepareAuthRequestData : function()
             {
                 return {
-                    auth : {
                         username: this.authCredentials.username,
                         password: this.authCredentials.password
-                    },
                 }
             }
         },
         data: () => {
             return {
-                BASE_URL : 'me.json',
+                BASE_URL : 'auth/login',
 
                 isLoading : false,
 

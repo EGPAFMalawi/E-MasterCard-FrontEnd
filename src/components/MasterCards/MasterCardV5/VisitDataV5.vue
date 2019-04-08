@@ -357,7 +357,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import authResource from './../../../authResource'
     import _ from 'lodash'
 
     export default {
@@ -372,7 +372,7 @@
                     'consider-version' : true
                 };
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData.push(...response.data.data)
@@ -440,7 +440,7 @@
                     'observations' : payload
                 };
 
-                axios.post(dhisAPIEndpoint, finalPayload)
+                authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
                         console.log(response);
                         this.clearFields();

@@ -190,7 +190,8 @@
 <script>
 
 import NavBar from "./NavBar";
-import axios from 'axios'
+import authResource from './../authResource'
+
 export default {
     name: 'Home',
     components: {NavBar},
@@ -206,7 +207,7 @@ export default {
             console.log(this.searchParam)
             let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
 
-            axios.post(dhisAPIEndpoint, payload)
+            authResource().post(dhisAPIEndpoint, payload)
                 .then((response)=>{
                     this.isLoading = false;
                     this.patients.push(...response.data.data);

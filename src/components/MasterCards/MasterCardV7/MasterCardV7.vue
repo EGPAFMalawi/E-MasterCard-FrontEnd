@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import authResource from './../../../authResource'
     import InitDataV7 from "./InitiDataV7";
     import VisitDataV7 from "./VisitDataV7";
     import RegistrationDataV7 from "./RegistrationDataV7";
@@ -49,7 +49,7 @@
             {
                 let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
 
-                axios.get(dhisAPIEndpoint)
+                authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
                         console.log(response)
                         this.masterCardWithDetails = response.data.data
