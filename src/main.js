@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
+import VueFilterDateFormat from 'vue-filter-date-format';
+ 
+
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -14,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.use(VueFilterDateFormat)
 Vue.use(BootstrapVue)
 Vue.use(VeeValidate, {
     classes:true

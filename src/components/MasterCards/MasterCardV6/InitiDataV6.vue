@@ -1,307 +1,286 @@
 <template>
     <div class="row">
-        <div class="col">
-            <h3>Status at ART Initiation</h3>
-            <br>
-            <div>
-                <div class="row mb-2">
-                    <div class="col-4">HIV-related diseases</div>
-                    <div class="col">
-                        <input v-model="concepts.concept1" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text" >
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col row">
-                        <div class="col-4">TB Status at Initiation</div>
-                        <div class="col">
-                            <select v-model="concepts.concept9" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
-                                <option value=""></option>
-                                <option value="Never > 2yrs">Never > 2yrs</option>
-                                <option value="Last 2yrs">Last 2yrs</option>
-                                <option value="Curr">Curr</option>
-                            </select>
+         <div class="card-group">
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <h5 class="text-align-center">Patient / Guardian Details</h5>
                         </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col row">
-                        <div class="col-4">
-                            CD4
-                        </div>
-                        <div class="col row">
-                            <div class="col">
-                                <h5 style="color: transparent;">PlaceHolder</h5>
-                                <input v-model="concepts.concept4" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col row">
-                        <div class="col-4">
-                            KS
-                        </div>
-                        <div class="col">
-                            <select v-model="concepts.concept10" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
-                                <option value="N">N</option>
-                                <option value="Y">Y</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col row">
-                        <div class="col-4">
-                            CD4 Date
-                        </div>
-                        <div class="col">
-                            <input v-model="concepts.concept5" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                        </div>
-                    </div>
-                    <div class="col row">
-                        <div class="col-4">Pregnant / Breast feeding</div>
-                        <div class="col">
-                            <select v-model="concepts.concept11" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
-                                <option value=""></option>
-                                <option value="N">N</option>
-                                <option value="Preg">Preg</option>
-                                <option value="Bf">Bf</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col row">
-                        <div class="col-4">
-                            Height / Wgt
-                        </div>
-                        <div class="col">
+                        <div class="card-body reduce-margin-p">
                             <div class="row">
-                                <div class="col-6">
-                                    <h5>cm</h5>
-                                    <input v-model="concepts.concept6" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" >
+                                <div class="col-md-3">
+                                    Patient Name
                                 </div>
-                                <div class="col-6">
-                                    <h5>kg</h5>
-                                    <input v-model="concepts.concept7"  class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" >
+                                <div class="col-md-9">
+                                    {{ patient.person.personName.given+' '+patient.person.personName.middle+' '+patient.person.personName.family}}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col row">
-                        <div class="col-4">
-                            Ever taken ARVs
-                        </div>
-                        <div class="col">
-                            <select v-model="concepts.concept12" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
-                                <option value=""></option>
-                                <option value="N">N</option>
-                                <option value="Y">Y</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col row">
-                        <div class="col-4">
-                            Age at Init
-                        </div>
-                        <div class="col">
-                            <input v-model="concepts.concept8"  class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" >
-                        </div>
-                    </div>
-                    <div class="col row">
-                        <div class="col-4">
-                            Last ARVs
-                        </div>
-                        <div class="col">
-                            <div>
-                                <h5>drug</h5>
-                                <input v-model="concepts.concept13" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text" >
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Sex
+                                </div>
+                                <div class="col-md-9">
+                                    {{ patient.person.birthdate }}
+                                </div>
                             </div>
-                            <div>
-                                <h5>date</h5>
-                                <input v-model="concepts.concept14" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Tribe
+                                </div>
+                                <div class="col-md-9">
+                                    {{ patient.person.tribe }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Date of Birth
+                                </div>
+                                <div class="col-md-9">
+                                    {{ patient.person.birthdate }}
+                                </div>
+                            </div>
+                                <div class="row">
+                                <div class="col-md-3">
+                                    Physical Address
+                                </div>
+                                <div class="col-md-9">
+                                    {{ patient.person.personAddress.cityVillage + ', ' + patient.person.personAddress.townshipDivision}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Guardian Name
+                                </div>
+                                <div class="col-md-9">
+                                    {{ patient.guardianName + ', ' + patient.guardianRelation}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Phone
+                                </div>
+                                <div class="col-md-9">
+                                    Patient: {{ patient.patientPhone}}, Guardian: {{ patient.guardianPhone}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Agree to FUP
+                                </div>
+                                <div class="col-md-9">
+                                    {{ (patient.followUp === 'true' ? 'Yes' : 'No') }}
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <h5 class="text-align-center">Status at ART Initiation</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-row">
+                                        <div class="col-md-12 mb-2">
+                                            <label for="validationServer01">HIV Related Diseases</label>
+                                            <input v-model="concepts.concept1" type="text" class="form-control" placeholder="HIV Related Diseases">
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-2">
+                                                <label for="validationServer03">CD4</label>
+                                                <input v-model="concepts.concept4" type="text" class="form-control" placeholder="CD4" required>
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <label for="validationServer03">TB Status at Init</label>
+                                                <select class="form-control" v-model="concepts.concept9">
+                                                    <option :value="null" disabled>Select Status</option>
+                                                    <option value="Never > 2yrs">Never > 2yrs</option>
+                                                    <option value="Last 2yrs">Last 2yrs</option>
+                                                    <option value="Curr">Curr</option>
+                                                </select>
+                                            </div>
+                                        </div>
+            
+                                         <div class="form-row">
+                                            <div class="col-md-6 mb-2">
+                                                <label>CD4 Date</label>
+                                                <input v-model="concepts.concept5" type="date" class="form-control">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <label>KS</label>
+                                                <select class="form-control" v-model="concepts.concept10">
+                                                    <option :value="null" disabled>Y for yes, N for no</option>
+                                                    <option value="N">N</option>
+                                                    <option value="Y">Y</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-2">
+                                                <label for="validationServer03">Height / Wgt</label>
+                                                <div class="form-inline fit-2-input-fields">
+                                                        <input v-model="concepts.concept6" type="text" class="form-control" placeholder="CM" required>
+                                                        <input v-model="concepts.concept7" type="text" class="form-control" placeholder="KG" required>
+                                                </div>  
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                    <label for="validationServer03">Pregnant/Breastfeeding</label>
+                                                    <select class="form-control" v-model="concepts.concept10">
+                                                        <option :value="null" disabled></option>
+                                                        <option value="N">N</option>
+                                                        <option value="Preg">Preg</option>
+                                                        <option value="Bf">Bf</option>
+                                                    </select>
+                                            </div>                     
+                                        </div>
+            
+                                        <div class="form-row">
+                                                <div class="col-md-6 mb-2">
+                                                        <label for="validationServer03">Age at Initiation</label>
+                                                        <input v-model="concepts.concept8" type="text" class="form-control" placeholder="Age" required>
+                                                    </div>
+                                                <div class="col-md-6 mb-2">
+                                                        <label for="validationServer03">Ever taken ARVs</label>
+                                                        <select class="form-control" v-model="concepts.concept12">
+                                                            <option :value="null" disabled>Y for yes, N for no</option>
+                                                            <option value="N">N</option>
+                                                            <option value="Y">Y</option>
+                                                        </select>
+                                                </div>    
+                                        </div>
+                                        <div class="form-row">
+                                                <div class="col-md-12 mb-2">
+                                                        <label for="validationServer03">Last ARVs (type/date)</label>
+                                                        <div class="form-inline fit-2-input-fields">
+                                                                <input  v-model="concepts.concept13" type="text" class="form-control" id="validationServer03" placeholder="Drug">
+                                                                <input  v-model="concepts.concept14" type="date" class="form-control" id="validationServer03" required>
+                                                        </div>
+                                                </div>    
+                                        </div>
+                            </form>
+                        </div>
+                    </div>
+
+        <div class="card my-4">
+                            <div class="card-header">
+                                <h5 class="text-align-center">Confirmatory HIV Test before ART Start</h5>
+                            </div>
+                            <div class="card-body">
+                                        <form>
+                                                <div class="form-row">
+                                                        <div class="col-md-12 mb-2">
+                                                          <label>Site, HTC Serial No.</label>
+                                                          <input v-model="concepts.concept15" type="text" class="form-control" placeholder="Site, HTC Serial No."  required>
+                                                        </div>
+                                                      </div>
+                          
+                                                      <div class="form-row">
+                                                            <div class="col-md-12 mb-2">
+                                                                    <label for="validationServer03">Test Date</label>
+                                                                    <div class="form-inline fit-2-input-fields">
+                                                                            <input v-model="concepts.concept16" type="date" class="form-control">
+                                                                            <select v-model="concepts.concept17" class="form-control" >
+                                                                                <option :value="null" disabled>Rapid or PCR</option>
+                                                                                <option value="Rapid">Rapid</option>
+                                                                                <option value="PCR">PCR</option>
+                                                                            </select>
+                                                                    </div>
+                                                            </div>
+                                                      </div>
+
+                                                      <div class="form-row">
+                                                            <div class="col-md-12 mb-2">
+                                                                    <label for="validationServer03">ART educatucation done</label>
+                                                                    <div class="form-inline fit-2-input-fields">
+                                                                            <select v-model="concepts.concept18" class="form-control" >
+                                                                                <option :value="null" disabled>Y for yes, N for no</option>
+                                                                                <option value="N">N</option>
+                                                                                <option value="Y">Y</option>
+                                                                            </select>
+                                                                            <input v-model="concepts.concept19" type="date" class="form-control" required>
+                                                                    </div>
+                                                            </div>
+                                                      </div>
+
+                                                      <div class="form-row">
+                                                            <div class="col-md-12 mb-2">
+                                                                    <label for="validationServer03">TB treatment (Reg No. / Start Date)</label>
+                                                                    <div class="form-inline fit-2-input-fields">
+                                                                            <input v-model="concepts.concept20" type="text" class="form-control" placeholder="Registration Number">
+                                                                            <input v-model="concepts.concept21" type="date" class="form-control">
+                                                                    </div>
+                                                            </div>
+                                                      </div>
+
+                                                      <div class="form-row">
+                                                            <div class="col-md-12 mb-2">
+                                                                    <label for="validationServer03">ART Regimens (Regimen / Start Date)</label>
+                                                                    <div class="form-inline fit-2-input-fields">
+                                                                            <select v-model="concepts.concept22" class="form-control">
+                                                                                <option :value="null" disabled>Regimen</option>
+                                                                                <option value="0A">0A</option>
+                                                                                <option value="1A">1A</option>
+                                                                                <option value="2A">2A</option>
+                                                                                <option value="3A">3A</option>
+                                                                                <option value="4A">4A</option>
+                                                                                <option value="5A">5A</option>
+                                                                                <option value="6A">6A</option>
+                                                                                <option value="7A">7A</option>
+                                                                                <option value="8A">8A</option>
+                                                                                <option value="9A">9A</option>
+                                                                                <option value="10A">10A</option>
+                                                                                <option value="11A">11A</option>
+                                                                                <option value="12A">12A</option>
+                                                                                <option value="13A">13A</option>
+                                                                                <option value="14A">14A</option>
+                                                                            </select>
+                                                                            <input v-model="concepts.concept23" type="date" class="form-control" required>
+                                                                    </div>
+                                                            </div>
+                                                      </div>
+
+                                                      <div class="form-row">
+                                                            <div class="col-md-12 mb-2">
+                                                                    <label for="validationServer03">Current Regimens</label>
+                                                                    <div class="form-inline fit-2-input-fields">
+                                                                            <select v-model="concepts.concept24" class="form-control">
+                                                                                <option :value="null" disabled>Regimen</option>
+                                                                                <option value="0A">0A</option>
+                                                                                <option value="1A">1A</option>
+                                                                                <option value="2A">2A</option>
+                                                                                <option value="3A">3A</option>
+                                                                                <option value="4A">4A</option>
+                                                                                <option value="5A">5A</option>
+                                                                                <option value="6A">6A</option>
+                                                                                <option value="7A">7A</option>
+                                                                                <option value="8A">8A</option>
+                                                                                <option value="9A">9A</option>
+                                                                                <option value="10A">10A</option>
+                                                                                <option value="11A">11A</option>
+                                                                                <option value="12A">12A</option>
+                                                                                <option value="13A">13A</option>
+                                                                                <option value="14A">14A</option>
+                                                                            </select>
+                                                                            <input v-model="concepts.concept25" type="date" class="form-control" required>
+                                                                    </div>
+                                                            </div>
+                                                      </div>
+
+                                                      <div class="form-row">
+                                                            <div class="col-md-12 mb-2">
+                                                                    <label for="validationServer03">Annual BP Screening for 30+ yrs (sys / dias)</label>
+                                                                    <div class="form-inline fit-2-input-fields">
+                                                                            <input v-model="concepts.concept26" type="number" class="form-control" placeholder="SYS" required>
+                                                                            <input v-model="concepts.concept27" type="number" class="form-control" placeholder="DIAS" required>
+                                                                    </div>
+                                                            </div>
+                                                      </div>
+                                          </form>
+                            </div>
+                        </div>  
+    
                 </div>
-            </div>
         </div>
-        <div class="col">
-            <h3>Confirmatory HIV Test before ART Start</h3>
-            <br>
-            <div>
-                <div class="row mb-2">
-                    <div class="col-3">Site, HTC Serial No.</div>
-                    <div class="col">
-                        <input v-model="concepts.concept15" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text" >
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-3">Test Date</div>
-                    <div class="col row">
-                        <div class="col-6">
-                            <input v-model="concepts.concept16" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                        </div>
-                        <div class="col-6">
-                            <select v-model="concepts.concept17" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
-                                <option value=""></option>
-                                <option value="Rapid">Rapid</option>
-                                <option value="PCR">PCR</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-3">
-                        <strong>ART</strong> educat. done
-                    </div>
-                    <div class="col row">
-                        <div class="col-6">
-                            <select v-model="concepts.concept18" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
-                                <option value=""></option>
-                                <option value="N">N</option>
-                                <option value="Y">Y</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <h5>
-                                Date
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept19" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-3">
-                        <strong>TB treatm.</strong>
-                    </div>
-                    <div class="col row">
-                        <div class="col-6">
-                            <h5>
-                                Reg. No
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept20" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text" >
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <h5>
-                                Start Date
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept21" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-3">
-                        <strong>ART Regimens</strong>
-                    </div>
-                    <div class="col row">
-                        <div class="col-6">
-                            <h5>
-                                Regimen
-                            </h5>
-                            <div>
-                                <select v-model="concepts.concept22" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
-                                    <option value=""></option>
-                                    <option value="0A">0A</option>
-                                    <option value="1A">1A</option>
-                                    <option value="2A">2A</option>
-                                    <option value="3A">3A</option>
-                                    <option value="4A">4A</option>
-                                    <option value="5A">5A</option>
-                                    <option value="6A">6A</option>
-                                    <option value="7A">7A</option>
-                                    <option value="8A">8A</option>
-                                    <option value="9A">9A</option>
-                                    <option value="10A">10A</option>
-                                    <option value="11A">11A</option>
-                                    <option value="12A">12A</option>
-                                    <option value="13A">13A</option>
-                                    <option value="14A">14A</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <h5>
-                                Start Date
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept23" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-3">
-                        <strong>Current Regimens</strong>
-                    </div>
-                    <div class="col row">
-                        <div class="col-6">
-                            <h5>
-                                Regimen
-                            </h5>
-                            <div>
-                                <select v-model="concepts.concept24" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
-                                    <option value=""></option>
-                                    <option value="0A">0A</option>
-                                    <option value="1A">1A</option>
-                                    <option value="2A">2A</option>
-                                    <option value="3A">3A</option>
-                                    <option value="4A">4A</option>
-                                    <option value="5A">5A</option>
-                                    <option value="6A">6A</option>
-                                    <option value="7A">7A</option>
-                                    <option value="8A">8A</option>
-                                    <option value="9A">9A</option>
-                                    <option value="10A">10A</option>
-                                    <option value="11A">11A</option>
-                                    <option value="12A">12A</option>
-                                    <option value="13A">13A</option>
-                                    <option value="14A">14A</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <h5>
-                                Start Date
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept25" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6">
-                        <strong>Annual BP Screening for 30+ yrs</strong>
-                    </div>
-                    <div class="col row">
-                        <div class="col">
-                            <h5>
-                                sys
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept26" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" >
-                            </div>
-                        </div>
-                        <div class="col">
-                            <h5>
-                                dias
-                            </h5>
-                            <div>
-                                <input v-model="concepts.concept27" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
 <script>

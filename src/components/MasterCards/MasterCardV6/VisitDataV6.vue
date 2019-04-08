@@ -1,18 +1,17 @@
 <template>
-    <div class="shadow-8 border-2 border-yellow rounded p-2 m-4">
         <form v-on:submit.prevent="addNewVisit">
             <div class="table-responsive">
-                <table style="font-size: 10px">
-                    <thead>
+                <table class="table visit-table">
+                    <thead class="thead-dark">
                     <tr>
                         <th>
                             Visit Date
                         </th>
-                        <th >
+                        <th>
                             Weight
                         </th>
                         <th >
-                            Pregnant / Breastfeed
+                            Pregnant/Breastfeed
                         </th>
                         <th >
                             Tb Status (Current)*
@@ -116,20 +115,20 @@
                     <tbody>
                     <tr v-for="(encounter, key) in encounters" v-bind:key="key">
                         <td>
-                            <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
+                            <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
+                            <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
                                 <option value=""></option>
                                 <option value="Preg">Preg</option>
                                 <option value="Br">Br</option>
                             </select>
                         </td>
                         <td>
-                            <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N (Suspected No)</option>
                                 <option value="Y">Y (Suspected Yes)</option>
@@ -138,20 +137,20 @@
                             </select>
                         </td>
                         <td>
-                            <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N</option>
                                 <option value="Y">Y</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" value="">
+                            <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control"  type="number" value="">
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" value="">
+                            <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control"  type="number" value="">
                         </td>
                         <td>
-                            <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="0A">0A</option>
                                 <option value="2A">2A</option>
@@ -167,10 +166,10 @@
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" value="">
+                            <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control"  type="number" value="">
                         </td>
                         <td style="width:30px">
-                            <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="P">P</option>
                                 <option value="G">G</option>
@@ -178,7 +177,7 @@
                         </td>
 
                         <td>
-                            <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="C">C (CPT Only)</option>
                                 <option value="I">I (IPT Only)</option>
@@ -186,36 +185,36 @@
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="observations['concept49Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept49Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="Depo">Depo Given</option>
                                 <option value="false">Depo not Given</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept50Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept50Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="true">Bled True</option>
                                 <option value="false">Bled False</option>
                             </select>
                         </td>
                         <td>
-                            <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td>
-                            <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
+                            <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                         </td>
                         <td>
-                            <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="D">D</option>
                                 <option value="Def">Def</option>
@@ -226,21 +225,21 @@
                     </tr>
                     <tr>
                         <td>
-                            <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  required>
+                            <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class="form-control"  required>
                             <span>{{ errors.first('Visit-Date')}}</span>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept33" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="30">
+                            <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
                         </td>
                         <td>
-                            <select v-model="concepts.concept34" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
+                            <select v-model="concepts.concept34" class="form-control" >
                                 <option value=""></option>
                                 <option value="Preg">Preg</option>
                                 <option value="Br">Br</option>
                             </select>
                         </td>
                         <td>
-                            <select v-model="concepts.concept35" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept35" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N (Suspected No)</option>
                                 <option value="Y">Y (Suspected Yes)</option>
@@ -249,20 +248,20 @@
                             </select>
                         </td>
                         <td>
-                            <select v-model="concepts.concept36" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept36" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N</option>
                                 <option value="Y">Y</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept37" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="0">
+                            <input v-model="concepts.concept37" class="form-control"  type="number" min="0">
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept38" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="0">
+                            <input v-model="concepts.concept38" class="form-control"  type="number" min="0">
                         </td>
                         <td>
-                            <select v-model="concepts.concept39" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept39" class="form-control">
                                 <option value=""></option>
                                 <option value="0A">0A</option>
                                 <option value="2A">2A</option>
@@ -278,10 +277,10 @@
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept40" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="0">
+                            <input v-model="concepts.concept40" class="form-control"  type="number" min="0">
                         </td>
                         <td style="width:30px">
-                            <select v-model="concepts.concept41" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept41" class="form-control">
                                 <option value=""></option>
                                 <option value="P">P</option>
                                 <option value="G">G</option>
@@ -289,7 +288,7 @@
                         </td>
 
                         <td>
-                            <select v-model="concepts.concept42" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept42" class="form-control">
                                 <option value=""></option>
                                 <option value="C">C (CPT Only)</option>
                                 <option value="I">I (IPT Only)</option>
@@ -297,37 +296,37 @@
                             </select>
                         </td>
                         <td>
-                            <input v-model="concepts.concept43" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept43" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="concepts.concept49"  class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept49"  class="form-control">
                                 <option value=""></option>
                                 <option value="Depo">Depo Given</option>
                                 <option value="false">Depo not Given</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept50" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept50" class="form-control"  type="number">
                         </td>
                         <td>
-                            <input v-model="concepts.concept44" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept44" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="concepts.concept45" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept45" class="form-control">
                                 <option value=""></option>
                                 <option value="Bled">Bled True</option>
                                 <option value="false">Bled False</option>
                             </select>
                         </td>
                         <td>
-                            <input v-model="concepts.concept46" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept46" class="form-control"  type="number">
                         </td>
                         <td>
-                            <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd/MM/yyyy|after:visitDate'" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text" required>
+                            <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd/MM/yyyy|after:visitDate'" class="form-control"  type="text" required>
                             <span>{{ errors.first('Next Visit')}}</span>
                         </td>
                         <td>
-                            <select v-model="concepts.concept48" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept48" class="form-control">
                                 <option value=""></option>
                                 <option value="D">D</option>
                                 <option value="Def">Def</option>
@@ -339,23 +338,12 @@
                     </tbody>
                 </table>
             </div>
-            <div class="my-4">
-
-                <div class="row">
-                    <div class="offset-4 col-4">
-                        <div class="w-full">
-                            <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2">
-                                Master Card Version
-                            </label>
-                            <div class="relative">
-                                <button type="submit" class="bg-yellow-darker px-4 py-2 text-white rounded flex mx-auto">Add Visit <font-awesome-icon icon="plus" class="ml-1"/></button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="form-row my-4">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
                 </div>
             </div>
         </form>
-    </div>
 </template>
 
 <script>
