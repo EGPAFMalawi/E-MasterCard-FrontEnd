@@ -223,7 +223,7 @@ export default {
                 
                 let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then(({data: {data}})=>{
                         this.isLoading = false;
                         console.log(data)
