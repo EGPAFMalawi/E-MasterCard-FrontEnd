@@ -12,7 +12,7 @@
                 <div class="card-deck">
                     <div class="card" v-on:click="loadPatientsDue6MonthsData">
                         <div class="card-body">
-                            <h5 class="card-title">Patients Due Viral</h5>
+                            <h5 class="card-title">Patients Due Viral Load(6 Months)</h5>
                             
                         </div>
                         <div class="card-footer"><h1 class="display-4">{{dueSixMonths.counts}}</h1></div>
@@ -32,6 +32,13 @@
                         <div class="card-footer"><h1 class="display-4">{{defaulters.counts}}</h1></div>
                     </div>
                      <div class="card" v-on:click="loadTXCurrentData">
+                        <div class="card-body">
+                            <h5 class="card-title">TX Current(CDC) </h5>
+                            
+                        </div>
+                        <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
+                    </div>
+                    <div class="card" v-on:click="loadTXCurrentData">
                         <div class="card-body">
                             <h5 class="card-title">TX Current(CDC) </h5>
                             
@@ -77,7 +84,7 @@
                             </thead>
                             <tbody>
                               <tr v-for="(patient, index) in patients" v-bind:key="index">
-                                <th scope="row">{{ patient.artNumber}}</th>
+                                <th scope="row">{{ index+1}}</th>
                                 <td>{{ patient.person.personName.given}}</td>
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
@@ -107,35 +114,12 @@ export default {
     name: 'Reports',
     components: {NavBar},
     methods: {
-        // search ()
-        // {
-        //     this.isLoading = true;
-        //     this.patients = [];
-
-        //     let payload = {
-        //         search : this.searchParam,
-        //     };
-        //     console.log(this.searchParam)
-        //     let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
-
-        //     authResource().post(dhisAPIEndpoint, payload)
-        //         .then((response)=>{
-        //             this.isLoading = false;
-        //             this.patients.push(...response.data.data);
-
-        //         })
-        //         .catch((error)=>{
-        //             this.isLoading = false;
-        //             console.log(error)
-        //         })
-
-        // },
-        // setPatient : function (patient)
-        // {
+        setPatient : function (patient)
+        {
             
-        //     sessionStorage.setItem('patient',JSON.stringify(patient));
-        //     this.$router.push('/patients/show')
-        // },
+            sessionStorage.setItem('patient',JSON.stringify(patient));
+            this.$router.push('/patients/show')
+        },
         loadPatientDueViralCount : function ()
             {
                 this.isLoading = true;
