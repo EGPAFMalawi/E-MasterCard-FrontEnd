@@ -1,8 +1,8 @@
 <template>
     <header class="shadow-sm">
         <nav class="nav justify-content-center bg-light">
-            <a class="navbar-brand" href="#">
-                <h1>ART Mastercard Back-Data App</h1>
+            <a class="navbar-brand" style="color: #d6d61a">
+                <h5>ART Mastercard Back-Data App</h5>
             </a>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -16,11 +16,11 @@
                     <router-link to="/"><span class="nav-link">Home <span class="sr-only">(current)</span></span></router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reports</a>
+                    <a class="nav-link">Reports</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Registration
+                        <LogoutButton></LogoutButton>
                     </a>
                 </li>
                 </ul>
@@ -30,8 +30,13 @@
 </template>
 
 <script>
+    import LogoutButton from  '@/components/LogoutButton'
 
     export default {
-        name: 'NavBar'
+        
+        name: 'NavBar',
+        components : {
+            LogoutButton
+        }
     }
 </script>

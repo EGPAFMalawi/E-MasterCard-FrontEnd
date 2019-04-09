@@ -1,5 +1,5 @@
 <template>
-    <button v-on:click="logout" class="btn bg-teal-darkest py-2 px-4 mx-auto rounded hover:shadow-md text-white">
+    <button v-on:click="logout" class="btn btn-danger">
         Logout
     </button>
 </template>
