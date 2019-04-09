@@ -6,8 +6,7 @@
         </div>
         <div class="col-3">
             <label>ART Reg no</label>
-            <input v-model="concepts.concept29"  name="concept29" class="form-control"  type="text">
-            <span>{{ errors.first('concept29')}}</span>
+            <h3>{{patient.artNumber}}</h3>
         </div>
         <div class="col-3">
             <label>Child HCC no</label>

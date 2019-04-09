@@ -4,11 +4,10 @@
             <label>Transfer-In Date</label>
             <input v-model="concepts.concept28" name="concept28" class="form-control"  type="date">
         </div>
-        <div class="col-3">
-            <label>ART Reg no</label>
-            <input v-model="concepts.concept29"  name="concept29" class="form-control"  type="text">
-            <span>{{ errors.first('concept29')}}</span>
-        </div>
+     <div class="col-3">
+         <label>ART Reg no</label>
+         <h3>{{patient.artNumber}}</h3>
+     </div>
         <div class="col-3">
             <label>Child HCC no</label>
             <input v-model="concepts.concept30" class="form-control"  type="text">

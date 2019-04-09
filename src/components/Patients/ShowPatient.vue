@@ -29,7 +29,7 @@
                                 <label>Select MasterCard Version</label>
                                 <select class="form-control" v-model="selectedMasterCardVersion" required>
                                     <option :value="null" disabled>Pick from the Available Versions</option>
-                                    <option v-for="(masterCard,index) in availableMasterCards" v-bind:key="index" :value="masterCard.masterCardID">{{masterCard.name}}</option>
+                                    <option v-for="(masterCard,index) in masterCardsToShow" v-bind:key="index" :value="masterCard.masterCardID">{{masterCard.name}}</option>
                                 </select>
                             </div>
                     </div>
@@ -75,6 +75,7 @@
 
     import NavBar from "../../views/NavBar";
     import authResource from './../../authResource';
+    import _ from 'lodash'
 
     export default {
         name: 'ShowPatient',
@@ -86,8 +87,6 @@
 
                 authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
-                        this.patientCards
-                        
                         this.availableMasterCards.push(...response.data.data)
                         console.log(this.availableMasterCards)
                     })
@@ -137,6 +136,9 @@
                 patientCards : [
 
                 ],
+                masterCardsToShow : [
+
+                ],
                 selectedMasterCardVersion : null
             }
         },
@@ -161,11 +163,17 @@
                     .then((response)=>{
                         console.log(response)
                         this.patientCards.push(...response.data.data)
-                        
                     })
                     .catch((error)=>{
                         console.log(error)
                     })
+            },
+            patientCards : function (value) {
+                this.masterCardsToShow = this.availableMasterCards.filter((item) => {
+                    return value.filter((item2)=>{
+                        return item.masterCardID === item2.masterCard.masterCardID
+                    }).length === 0
+                })
             }
         }
     }

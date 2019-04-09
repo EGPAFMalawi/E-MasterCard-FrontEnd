@@ -54,7 +54,7 @@
                             </thead>
                             <tbody>
                               <tr v-for="(patient, index) in patients" v-bind:key="index">
-                                <th scope="row">{{ index+1}}</th>
+                                <th scope="row">{{ patient.artNumber}}</th>
                                 <td>{{ patient.person.personName.given}}</td>
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
@@ -75,32 +75,39 @@
           <form name='addpatient' v-on:submit.prevent="addPatient">
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                    <label for="validationServer01">Given Name</label>
-                    <input type="text" class="form-control" placeholder="First name" v-model="given_name">
+                    <label for="validationServer011">ART Number</label>
+                    <input type="text" class="form-control" placeholder="ARTNumber" v-model="art_number" required>
                 
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="validationServer02">Middle Name</label>
-                    <input type="text" class="form-control" placeholder="Last name" v-model="middle_name">
-                
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="validationServer02">Family Name</label>
-                    <input type="text" class="form-control" placeholder="Last name" v-model="family_name">
                 </div>
             </div>
+              <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                      <label for="validationServer01">Given Name</label>
+                      <input type="text" class="form-control" placeholder="First name" v-model="given_name" required>
+
+                  </div>
+                  <div class="col-md-4 mb-3">
+                      <label for="validationServer02">Middle Name</label>
+                      <input type="text" class="form-control" placeholder="Last name" v-model="middle_name">
+
+                  </div>
+                  <div class="col-md-4 mb-3">
+                      <label for="validationServer02">Family Name</label>
+                      <input type="text" class="form-control" placeholder="Last name" v-model="family_name" required>
+                  </div>
+              </div>
             <div class="form-row">
                 <div class="col-md-4 mb-3">
                         <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
                         <div class="col-sm-10">
                             <div class="form-check">
-                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="F">
+                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="F" required>
                             <label class="form-check-label" for="sex1">
                                 Female
                             </label>
                             </div>
                             <div class="form-check">
-                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="M">
+                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="M" required>
                             <label class="form-check-label" for="sex2">
                                 Male
                             </label>
@@ -134,7 +141,7 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">District</label>
-                        <input type="text" class="form-control" placeholder="City Village" v-model="county_district">
+                        <input type="text" class="form-control" placeholder="City" v-model="county_district">
                     </div>
                     <div class="col-md-4 mb-3">
                             <label for="validationServer03">Region</label>
@@ -195,6 +202,7 @@ export default {
 
                 let payload = {
                     prefix : this.prefix,
+                    art_number : this.art_number,
                     given_name : this.given_name,
                     middle_name : this.middle_name,
                     family_name : this.family_name,
@@ -248,6 +256,7 @@ export default {
             patients : [],
 
             prefix : '',
+            art_number : '',
             given_name : '',
             middle_name : '',
             family_name : '',
