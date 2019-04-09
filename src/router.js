@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Reports from './views/Reports.vue'
 import MasterCardsHome from "./components/MasterCards/MasterCardsHome";
 import AddPatient from "./components/Patients/AddPatient";
 import ShowPatient from "./components/Patients/ShowPatient";
@@ -27,6 +28,14 @@ const router =  new Router({
             path: '/',
             name: 'home',
             component: Home,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/reports',
+            name: 'reports',
+            component: Reports,
             meta: {
                 requiresAuth: true
             }
