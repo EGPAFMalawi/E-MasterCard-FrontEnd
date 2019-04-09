@@ -140,16 +140,24 @@
 
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
-                        <label for="validationServer03">District</label>
-                        <input type="text" class="form-control" placeholder="City" v-model="county_district">
+                            <label for="validationServer03">Region</label>
+                            <select  v-model="region" class="form-control" placeholder="Region" >
+                                <option v-for="region in regions" v-bind:key="key">{{region.name}}</option>
+                            </select>
                     </div>
                     <div class="col-md-4 mb-3">
-                            <label for="validationServer03">Region</label>
-                            <input type="text" class="form-control" placeholder="Region" v-model="region">
+                        <label for="validationServer03">District</label>
+                        
+                            <select v-model="county_district" class="form-control" placeholder="District" >
+                                <option v-for="district in districts" v-bind:key="key">{{district.name}}</option>
+                            </select>
                     </div>
+                    
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">TA</label>
-                        <input type="text" class="form-control" placeholder="TA" v-model="township_division">
+                        <select v-model="township_division" class="form-control" placeholder="TA" >
+                                <option v-for="TA in TAs" v-bind:key="key">{{TA.name}}</option>
+                            </select>
                     </div>
                 </div>
                 <button class="btn btn-success" type="submit">Submit form</button>
@@ -193,7 +201,7 @@ export default {
         setPatient : function (patient)
         {
             
-            sessionStorage.setItem('patient',JSON.stringify(patient));
+            sessionStorage.setItem('patient', JSON.stringify(patient));
             this.$router.push('/patients/show')
         },
         addPatient : function ()
@@ -244,7 +252,63 @@ export default {
                         console.log(error)
                     })
 
-            }
+            },
+        loadRegions(){
+            let dhisAPIEndpoint = `${this.APIHosts.art}/regions`;
+
+
+            authResource().get(dhisAPIEndpoint)
+                .then(({data: {data}})=>{
+                    this.isLoading = false;
+                    this.regions = JSON.parse(JSON.stringify(data))
+                    // sessionStorage.setItem('patient', JSON.stringify(data));
+                    // this.setPatient(data)
+                    
+                })
+                .catch((error)=>{
+                    this.isLoading = false;
+                    console.log(error)
+                })
+        },
+        loadDistricts(){
+            let dhisAPIEndpoint = `${this.APIHosts.art}/districts`;
+
+
+            authResource().get(dhisAPIEndpoint)
+                .then(({data: {data}})=>{
+                    this.isLoading = false;
+                    this.districts = JSON.parse(JSON.stringify(data))
+                    // sessionStorage.setItem('patient', JSON.stringify(data));
+                    // this.setPatient(data)
+                    
+                })
+                .catch((error)=>{
+                    this.isLoading = false;
+                    console.log(error)
+                })
+        },
+        loadTAs(){
+            let dhisAPIEndpoint = `${this.APIHosts.art}/traditional-authorities`;
+
+
+            authResource().get(dhisAPIEndpoint)
+                .then(({data: {data}})=>{
+                    this.isLoading = false;
+                    this.TAs = JSON.parse(JSON.stringify(data))
+                    // sessionStorage.setItem('patient', JSON.stringify(data));
+                    // this.setPatient(data)
+                    
+                })
+                .catch((error)=>{
+                    this.isLoading = false;
+                    console.log(error)
+                })
+        },
+    },
+    beforeMount(){
+        this.loadRegions(),
+        this.loadDistricts()
+        this.loadTAs()
     },
     data: () => {
         return {
@@ -255,6 +319,9 @@ export default {
             searchParam : '',
             patients : [],
 
+            regions: [],
+            districts: [],
+            TAs:[],
             prefix : '',
             art_number : '',
             given_name : '',

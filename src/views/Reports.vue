@@ -38,12 +38,12 @@
                         </div>
                         <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
                     </div>
-                    <div class="card" v-on:click="loadTXCurrentData">
+                    <div class="card" v-on:click="loadMOHTXCurrentData">
                         <div class="card-body">
-                            <h5 class="card-title">TX Current(CDC) </h5>
+                            <h5 class="card-title">TX Current(MOH) </h5>
                             
                         </div>
-                        <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
+                        <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,6 @@
                                 <th scope="col">Guardian</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Date Created</th>
-                                <th scope="col">Actions</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -93,8 +92,7 @@
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.dateCreated}}</td>
-                                <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient)">View MasterCards</button></td>
-                              </tr>
+                            </tr>
                             </tbody>
                           </table>
             </div> 
@@ -218,6 +216,30 @@ export default {
                     })
 
             },
+            loadMOHTXCurrentCount ()
+            {
+                this.isLoading = true;
+
+                let payload = {
+                    code: 7,
+                    type:'MOHTXCurrent'
+
+                };
+                
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+
+                authResource().post(dhisAPIEndpoint, payload)
+                    .then(({data: {data: {counts}}})=>{
+                        this.isLoading = false;
+                        this.mohctxcurrent = JSON.parse(JSON.stringify({counts}))
+                        
+                    })
+                    .catch((error)=>{
+                        this.isLoading = false;
+                        console.log(error)
+                    })
+
+            },
 
             loadMissedAppointmentsCount ()
             {
@@ -314,12 +336,37 @@ export default {
                     })
             },
 
+            loadMOHTXCurrentData(){
+                let payload = {
+                    code: 7,
+                    type:'MOHTXCurrent'
+
+                };
+                
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+
+                authResource().post(dhisAPIEndpoint, payload)
+                    .then(({data: {data: {patients}}})=>{
+                        this.isLoading = false;
+                        this.patients = JSON.parse(JSON.stringify(patients))
+                        
+                        console.log(this.dueSixMonths)
+                        
+                    })
+                    .catch((error)=>{
+                        this.isLoading = false;
+                        console.log(error)
+                    })
+            },
+
+
     },
      beforeMount(){
         this.loadPatientDueViralCount()
         this.loadDefaultersCount()
         this.loadMissedAppointmentsCount()
         this.loadTXCurrentCount()
+        this.loadMOHTXCurrentCount()
     },
     data: () => {
         return {
@@ -330,6 +377,7 @@ export default {
             defaulters: {},
             appointmentMissers: {},
             cdctxcurrent: {},
+            mohctxcurrent: {},
             patients: []
         }
     }
