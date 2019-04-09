@@ -49,7 +49,7 @@
             </div>
         </div>
     </section>
-    <section class="search-results">
+    <section class="search-results" v-if="patients[0] !== undefined">
         <div class="container">
             <div class="row d-flex justify-content-center py-5">
                     <!-- <div v-if="patients[0] !== undefined" class="alert alert-info" role="alert">
@@ -66,7 +66,9 @@
                         </div>
                         
                     </div> -->
-                    
+                    <div class="alert alert-primary" role="alert">
+                        Download the excel sheet  <a href="#" class="alert-link">HERE</a> (in development)
+                    </div>
                     <table class="table">
                             <thead class="thead-dark">
                               <tr>
