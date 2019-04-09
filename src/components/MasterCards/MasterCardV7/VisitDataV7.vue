@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <th width="5">
-                        DD/MM/YYY
+                        DD/MM/YYYY
                     </th>
                     <th>
                         kg
@@ -298,7 +298,7 @@
                         <input v-model="concepts.concept46" class="form-control"  type="number">
                     </td>
                     <td>
-                        <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd/MM/yyyy|after:visitDate'" class="form-control"  type="text" required>
+                        <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd-MM-yyyy|after:visitDate'" class="form-control"  type="text" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
