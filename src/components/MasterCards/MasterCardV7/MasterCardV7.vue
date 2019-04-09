@@ -19,7 +19,13 @@
         <div class="d-flex justify-content-center">
             <InitDataV7 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV7>
         </div>
-        <div class="container d-flex justify-content-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <h5 class="text-align-center">Visit Data</h5>
+            </div>
+            
+        </div>
+        <div class="container-fluid d-flex justify-content-center">
             <VisitDataV7 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7>
         </div>
         <section>
