@@ -1,22 +1,36 @@
 <template>
-    <form v-on:submit.prevent="authenticate">
-        <div class="mb-4">
-            <label for="username" class="block text-gray-darker text-sm font-bold mb-2">Username</label>
-            <input v-model="authCredentials.username" id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-darker" type="text" required/>
+    <div class="card w-50">
+        <div class="card-header">
+            <h5>Art Mastercard App Login</h5>
         </div>
+        <div class="card-body">
+            <form v-on:submit.prevent="authenticate">
+            <div class="form-row mb-4">
+                <div class="col-md-12">
+                    <label for="username">Username</label>
+                    <input v-model="authCredentials.username" id="username" class="form-control" type="text" required/>
+                </div>
+            </div>
+            <div class="form-row mb-4">
+                <div class="col-md-12">
+                    <label for="password">Password</label>
+                    <input v-model="authCredentials.password" id="password" class="form-control" type="password" required/>
+                </div>
+            </div>
+            
 
-        <div class="mb-10">
-            <label for="password" class="block text-gray-darker text-sm font-bold mb-2">Password</label>
-            <input v-model="authCredentials.password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-darker" type="password" required/>
+            <div class="mb-4">
+                <button type="submit" class="btn btn-primary">Login <font-awesome-icon icon="lock" class="ml-1"/></button>
+                <p v-if="isLoading" class="my-4 text-center">Authenticating ...</p>
+                <p v-if="authResponse.isAuthenticated" class="text-green my-4 text-center"><span class="font-bold">Login Successful!</span><br>Redirecting to Home...</p>
+                <p v-if="authResponse.hasFailedAuthentication" class="text-redmy-4 text-center">
+                    Authentication Failed!<br>Check Auth Credentials
+                </p>
+            </div>
+        </form>
         </div>
-
-        <div class="mb-4">
-            <button type="submit" class="bg-teal-darker px-3 py-2 text-white rounded flex mx-auto">Login <font-awesome-icon icon="check" class="ml-1"/></button>
-            <p v-if="isLoading" class="my-4 text-center">Authenticating ...</p>
-            <p v-if="authResponse.isAuthenticated" class="text-green my-4 text-center"><span class="font-bold">Login Successful!</span><br>Redirecting to Home...</p>
-            <p v-if="authResponse.hasFailedAuthentication" class="text-red my-4 text-center"><span class="font-bold">Authentication Failed!</span><br>Check Auth Credentials</p>
-        </div>
-    </form>
+    </div>
+    
 </template>
 
 <script>
