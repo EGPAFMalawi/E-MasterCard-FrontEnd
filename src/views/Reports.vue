@@ -77,7 +77,7 @@
                                 <th scope="col">Middle Name</th>
                                 <th scope="col">Family Name</th>
                                 <th scope="col">Sex</th>
-                                <th scope="col">Date of Birth</th>
+                                <th scope="col">Address</th>
                                 <th scope="col">Guardian</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Date Created</th>
@@ -90,7 +90,7 @@
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
                                 <td>{{ patient.person.gender}}</td>
-                                <td>{{ patient.person.birthdate}}</td>
+                                <td>{{ (patient.person.personAddress.cityVillage !== null ? patient.person.personAddress.cityVillage : '' ) + (patient.person.personAddress.townshipDivision !== null ? (' ' + patient.person.personAddress.townshipDivision) : '')}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.dateCreated}}</td>
