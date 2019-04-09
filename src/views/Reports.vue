@@ -24,14 +24,14 @@
                         </div>
                         <div class="card-footer"><h1 class="display-4">{{appointmentMissers.counts}}</h1></div>
                     </div>
-                     <div class="card" v-on:click="loadDefaultersData">
+                     <div class="card" v-on:click="loadCDCDefaultersData">
                         <div class="card-body">
                             <h5 class="card-title">Defaulters(CDC) </h5>
                             
                         </div>
                         <div class="card-footer"><h1 class="display-4">{{defaulters.counts}}</h1></div>
                     </div>
-                     <div class="card" v-on:click="loadTXCurrentData">
+                     <div class="card" v-on:click="loadCDCTXCurrentData">
                         <div class="card-body">
                             <h5 class="card-title">TX Current(CDC) </h5>
                             
@@ -159,9 +159,6 @@ export default {
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                        console.log(this.dueSixMonths)
-                        
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -169,7 +166,7 @@ export default {
                     })
             },
 
-        loadDefaultersCount ()
+        loadCDCDefaultersCount ()
             {
                 this.isLoading = true;
 
@@ -283,8 +280,6 @@ export default {
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
                         
-                        console.log(this.dueSixMonths)
-                        
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -292,11 +287,10 @@ export default {
                     })
             },
 
-            loadDefaultersData(){
+            loadCDCDefaultersData(){
                 let payload = {
-                    code: 3,
-                    type:null
-
+                    code: 6,
+                    type:'CDCDefaulters'
                 };
                 
                 let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
@@ -306,8 +300,6 @@ export default {
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
                         
-                        console.log(this.dueSixMonths)
-                        
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -315,7 +307,7 @@ export default {
                     })
             },
 
-            loadTXCurrentData(){
+            loadCDCTXCurrentData(){
                 let payload = {
                     code: 7,
                     type:'CDCTXCurrent'
@@ -328,8 +320,6 @@ export default {
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                        console.log(this.dueSixMonths)
                         
                     })
                     .catch((error)=>{
@@ -352,8 +342,6 @@ export default {
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
                         
-                        console.log(this.dueSixMonths)
-                        
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -365,7 +353,7 @@ export default {
     },
      beforeMount(){
         this.loadPatientDueViralCount()
-        this.loadDefaultersCount()
+        this.loadCDCDefaultersCount()
         this.loadMissedAppointmentsCount()
         this.loadTXCurrentCount()
         this.loadMOHTXCurrentCount()
