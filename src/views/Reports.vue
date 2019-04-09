@@ -85,7 +85,7 @@
                             </thead>
                             <tbody>
                               <tr v-for="(patient, index) in patients" v-bind:key="index">
-                                <th scope="row">{{ index+1}}</th>
+                                <th scope="row">{{ patient.artNumber}}</th>
                                 <td>{{ patient.person.personName.given}}</td>
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>

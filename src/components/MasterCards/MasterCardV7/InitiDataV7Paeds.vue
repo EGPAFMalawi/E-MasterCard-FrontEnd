@@ -19,7 +19,7 @@
                                     Sex
                                 </div>
                                 <div class="col-md-9">
-                                    {{ patient.person.birthdate }}
+                                    {{ patient.person.gender === 'M' ? 'Male' : 'Female'}}
                                 </div>
                             </div>
                             <div class="row">
@@ -43,7 +43,7 @@
                                     Physical Address
                                 </div>
                                 <div class="col-md-9">
-                                    {{ patient.person.personAddress.cityVillage + ', ' + patient.person.personAddress.townshipDivision}}
+                                    {{ patient.person.personAddress.cityVillage + (patient.person.personAddress.townshipDivision !== null ? (', ' + patient.person.personAddress.townshipDivision) : '')}}
                                 </div>
                             </div>
                             <div class="row">

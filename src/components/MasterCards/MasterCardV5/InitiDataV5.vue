@@ -20,7 +20,7 @@
                                     Sex
                                 </div>
                                 <div class="col-md-9">
-                                    {{ patient.person.birthdate }}
+                                    {{ patient.person.gender === 'M' ? 'Male' : 'Female'}}
                                 </div>
                             </div>
                             <div class="row">
@@ -44,7 +44,7 @@
                                     Physical Address
                                 </div>
                                 <div class="col-md-9">
-                                    {{ patient.person.personAddress.cityVillage + ', ' + patient.person.personAddress.townshipDivision}}
+                                    {{ patient.person.personAddress.cityVillage + (patient.person.personAddress.townshipDivision !== null ? (', ' + patient.person.personAddress.townshipDivision) : '')}}
                                 </div>
                             </div>
                             <div class="row">
@@ -130,10 +130,10 @@
                                             <div class="col-md-6 mb-2">
                                                     <label for="validationServer03">Pregnant/Breastfeeding</label>
                                                     <select class="form-control" v-model="concepts.concept11">
-                                                        <option :value="null" disabled></option>
-                                                        <option value="N">N</option>
-                                                        <option value="Preg">Preg</option>
-                                                        <option value="Bf">Bf</option>
+                                                        <option v-if="patient.person.gender === 'M'" :value="null" disabled>Not Allowed</option>
+                                                        <option v-if="patient.person.gender !== 'M'" value="N">N</option>
+                                                        <option v-if="patient.person.gender !== 'M'" value="Preg">Preg</option>
+                                                        <option v-if="patient.person.gender !== 'M'" value="Bf">Bf</option>
                                                     </select>
                                             </div>
                                         </div>
