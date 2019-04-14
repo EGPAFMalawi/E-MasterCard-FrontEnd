@@ -83,8 +83,13 @@
               <div class="form-row">
                   <div class="col-md-4 mb-3">
                       <label for="validationServer01">Given Name</label>
-                      <input type="text" class="form-control" placeholder="First name" v-model="given_name" required>
-
+                      <input type="text" :state="validation" class="form-control" placeholder="First name" v-model="given_name" required>
+                        <b-form-invalid-feedback :state="validation">
+                            Your user ID must be 5-12 characters long.
+                        </b-form-invalid-feedback>
+                        <b-form-valid-feedback :state="validation">
+                            Looks Good.
+                        </b-form-valid-feedback>
                   </div>
                   <div class="col-md-4 mb-3">
                       <label for="validationServer02">Middle Name</label>
@@ -100,18 +105,8 @@
                 <div class="col-md-4 mb-3">
                         <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
                         <div class="col-sm-10">
-                            <div class="form-check">
-                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="F" required>
-                            <label class="form-check-label" for="sex1">
-                                Female
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input v-model="gender" class="form-check-input" type="radio" name="sex" value="M" required>
-                            <label class="form-check-label" for="sex2">
-                                Male
-                            </label>
-                            </div>
+                            <b-form-radio v-model="selected" name="sex" value="F">Female</b-form-radio>
+                            <b-form-radio v-model="selected" name="sex" value="M">Male</b-form-radio>
                         </div>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -349,7 +344,12 @@ export default {
             subregion : '',
             township_division : ''
         }
-    }
+    },
+        computed: {
+            validation() {
+                return this.given_name.length > 4 && this.given_name.length < 13
+            }
+        }
 
 }
 </script>
