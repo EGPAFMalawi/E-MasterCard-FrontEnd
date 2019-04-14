@@ -76,6 +76,7 @@
     import NavBar from "../../views/NavBar";
     import authResource from './../../authResource';
     import _ from 'lodash'
+import { version } from 'punycode';
 
     export default {
         name: 'ShowPatient',
@@ -161,7 +162,6 @@
 
                 authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
-                        console.log(response)
                         this.patientCards.push(...response.data.data)
                     })
                     .catch((error)=>{
@@ -169,10 +169,13 @@
                     })
             },
             patientCards : function (value) {
-                this.masterCardsToShow = this.availableMasterCards.filter((item) => {
-                    return value.filter((item2)=>{
-                        return item.masterCardID === item2.masterCard.masterCardID
-                    }).length === 0
+                
+                const allVersions = JSON.parse(JSON.stringify(this.availableMasterCards))
+                const patientVersions = JSON.parse(JSON.stringify(value)).map(({masterCard: {name}}) => name)
+
+                this.masterCardsToShow = allVersions.filter(({name}) => {
+                    if (!patientVersions.includes(name))
+                        return name
                 })
             }
         }

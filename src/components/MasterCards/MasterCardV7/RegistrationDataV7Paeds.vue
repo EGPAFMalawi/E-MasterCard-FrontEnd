@@ -6,7 +6,7 @@
         </div>
         <div class="col-3">
             <label>ART Reg no</label>
-            <h3>{{patient.artNumber}}</h3>
+            <input v-model="concepts.concept29" placeholder="ART Registration No." class="form-control"  type="text">
         </div>
         <div class="col-2">
             <label>Year</label>
