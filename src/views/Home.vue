@@ -180,8 +180,9 @@ export default {
             };
             console.log(this.searchParam)
             let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
-
-            authResource().post(dhisAPIEndpoint, payload)
+            
+            if(this.searchParam !== '' && this.searchParam !== undefined){
+                authResource().post(dhisAPIEndpoint, payload)
                 .then((response)=>{
                     this.isLoading = false;
                     this.patients.push(...response.data.data);
@@ -191,6 +192,8 @@ export default {
                     this.isLoading = false;
                     console.log(error)
                 })
+            }
+            
 
         },
         setPatient : function (patient)
