@@ -137,21 +137,21 @@
                     <div class="col-md-4 mb-3">
                             <label for="validationServer03">Region</label>
                             <select  v-model="region" class="form-control" placeholder="Region" >
-                                <option v-for="region in regions" v-bind:key="key">{{region.name}}</option>
+                                <option v-for="(region, index) in regions" v-bind:key="index">{{region.name}}</option>
                             </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">District</label>
                         
                             <select v-model="county_district" class="form-control" placeholder="District" >
-                                <option v-for="district in districts" v-bind:key="key">{{district.name}}</option>
+                                <option v-for="(district, index) in districts" v-bind:key="index">{{district.name}}</option>
                             </select>
                     </div>
                     
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">TA</label>
                         <select v-model="township_division" class="form-control" placeholder="TA" >
-                                <option v-for="TA in TAs" v-bind:key="key">{{TA.name}}</option>
+                                <option v-for="(TA, index) in TAs" v-bind:key="index">{{TA.name}}</option>
                             </select>
                     </div>
                 </div>

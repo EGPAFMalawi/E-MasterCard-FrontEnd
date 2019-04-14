@@ -116,7 +116,6 @@
                             <th scope="col">Address</th>
                             <th scope="col">Guardian</th>
                             <th scope="col">Phone</th>
-                            <th scope="col">Date Created</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,7 +128,6 @@
                             <td>{{ (patient.person.personAddress.cityVillage !== null ? patient.person.personAddress.cityVillage : '' ) + (patient.person.personAddress.townshipDivision !== null ? (' ' + patient.person.personAddress.townshipDivision) : '')}}</td>
                             <td>{{ patient.guardianName}}</td>
                             <td>{{ patient.patientPhone}}</td>
-                            <td>{{ patient.dateCreated}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -165,9 +163,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.dueSixMonths = JSON.parse(JSON.stringify({counts}))
@@ -190,9 +188,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.dueTwelveMonths = JSON.parse(JSON.stringify({counts}))
@@ -213,9 +211,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.dueAfterYear = JSON.parse(JSON.stringify({counts}))
@@ -234,9 +232,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -253,9 +251,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -273,9 +271,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -296,9 +294,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.defaultersCDC = JSON.parse(JSON.stringify({counts}))
@@ -321,9 +319,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.defaultersMOH = JSON.parse(JSON.stringify({counts}))
@@ -345,9 +343,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.patientsOnDTG = JSON.parse(JSON.stringify({counts}))
@@ -370,9 +368,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.cdctxcurrent = JSON.parse(JSON.stringify({counts}))
@@ -394,9 +392,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.mohctxcurrent = JSON.parse(JSON.stringify({counts}))
@@ -419,9 +417,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.appointmentsTomorrow = JSON.parse(JSON.stringify({counts}))
@@ -440,9 +438,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -463,9 +461,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.appointmentMissers = JSON.parse(JSON.stringify({counts}))
@@ -488,9 +486,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.lastViralLoadGT1000 = JSON.parse(JSON.stringify({counts}))
@@ -510,9 +508,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -531,9 +529,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -551,9 +549,9 @@ export default {
                     type:null
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -571,9 +569,9 @@ export default {
                     type:'CDCDefaulters'
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -591,9 +589,9 @@ export default {
                     type:'MOHDefaulters'
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -611,9 +609,9 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
@@ -632,13 +630,12 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
                         this.isLoading = false;
                         this.patients = JSON.parse(JSON.stringify(patients))
-                        
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -656,23 +653,25 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${payload.code},type=${payload.type}`;
 
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        // return console.log(response)
-                        const FileDownload = require('js-file-download');
-                        this.isLoading = false;
-                        const headers = response.headers;
-                        const blob = new Blob([response.data],{type:headers['content-type']});
-                        const link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = "Filename.xlsx";
-                        link.click();
+                const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
+
+                fetch(dhisAPIEndpoint, {
+                        method: 'GET',
+                        headers: new Headers({
+                            "Authorization": "Bearer " + token
+                        })
                     })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
+                    .then((res) => res.blob())
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = "filename.xlsx"
+                        document.body.appendChild(a)
+                        a.click()    
+                        a.remove()
                     })
 
             },
