@@ -2,7 +2,7 @@
     <div>
         <div class="container py-5">
             <div class="row d-flex justify-content-center">
-                <h5 class="navbar-brand">{{ patient.name + "'s"}} Steps</h5>
+                <h5 class="navbar-brand">{{ patient.person.name + "'s"}} Steps</h5>
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center">
@@ -83,15 +83,20 @@
                         personAddress : {}
                     }
                 },
+                personName: '',
                 steps: [],
                 postPayload : false
+            }
+        },
+        computed: {
+            personName(){
+                return `${this.patient.personName.given} ${this.patient.personName.family}`
             }
         },
         created() {
 
             this.patient = JSON.parse(sessionStorage.getItem('patient'))
-            this.patientCard = patientCard
-
+            console.log(JSON.parse(JSON.stringify(this.patient)))
             this.getStages()
         }
     }

@@ -209,7 +209,7 @@ export default {
         {
             
             sessionStorage.setItem('patient', JSON.stringify(patient));
-            this.$router.push('/steps')
+            this.$router.push('/patient/show')
         },
         addPatient : function ()
             {
@@ -251,7 +251,7 @@ export default {
                         this.isLoading = false;
                         console.log(data)
                         sessionStorage.setItem('patient', JSON.stringify(data));
-                        this.setPatient(data)
+                        this.$router.push('steps')
                         
                     })
                     .catch((error)=>{
