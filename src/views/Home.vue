@@ -83,13 +83,8 @@
               <div class="form-row">
                   <div class="col-md-4 mb-3">
                       <label for="validationServer01">Given Name</label>
-                      <input type="text" :state="validation" class="form-control" placeholder="First name" v-model="given_name" required>
-                        <b-form-invalid-feedback :state="validation">
-                            Your user ID must be 5-12 characters long.
-                        </b-form-invalid-feedback>
-                        <b-form-valid-feedback :state="validation">
-                            Looks Good.
-                        </b-form-valid-feedback>
+                      <input type="text" class="form-control" placeholder="First name" v-model="given_name" required>
+                       
                   </div>
                   <div class="col-md-4 mb-3">
                       <label for="validationServer02">Middle Name</label>
@@ -111,7 +106,7 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="validationServer03">Date of Birth</label>
-                    <input type="date" class="form-control" v-model="birthdate">
+                    <input type="date"  class="form-control" v-model="birthdate" ref="el">
                 </div>
                 <div class="col-md-4 mb-3">
                         <label for="validationServer03">Tribe</label>
@@ -165,11 +160,22 @@
 
 import NavBar from "./NavBar";
 import authResource from './../authResource'
+import { constants } from 'crypto';
 
 export default {
     name: 'Home',
     components: {NavBar},
     methods: {
+        dealWithDate(){
+            const element = this.$refs.el
+
+            element.setAttribute(
+                "data-date",
+                moment(element.value, "YYYY-MM-DD")
+                    .format( element.getAttribute("data-date-format") 
+                    )
+                ).dispatchEvent('change')
+        },
         search ()
         {
             this.isLoading = true;
@@ -348,11 +354,15 @@ export default {
             township_division : ''
         }
     },
-        computed: {
-            validation() {
-                return this.given_name.length > 4 && this.given_name.length < 13
-            }
+    computed: {
+        validation() {
+            return this.given_name.length > 4 && this.given_name.length < 13
         }
+    },
+    beforeMount(){
+        const inputDate = document.querySelector('.input-date')
 
+    }
+    
 }
 </script>

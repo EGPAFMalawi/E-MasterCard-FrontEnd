@@ -23,6 +23,8 @@ Vue.use(VeeValidate, {
     classes:true
 });
 
+Vue.use(require('vue-moment'))
+
 
 Vue.config.productionTip = false
 
