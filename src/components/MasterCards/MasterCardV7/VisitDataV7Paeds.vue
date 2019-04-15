@@ -42,14 +42,11 @@
                     <th>
                         Month on ART
                     </th>
-                    <th colspan="2">
+                    <th colspan="3">
                         Viral Load
                     </th>
                     <th>
-                        Next Appointment / Outcome Date
-                    </th>
-                    <th>
-                        Adverse Outcome
+                        Next Appointment
                     </th>
                 </tr>
                 <tr>
@@ -99,10 +96,10 @@
                         Sample Taken
                     </th>
                     <th>
-                        Result
+                        Symbol
                     </th>
                     <th>
-
+                        Result
                     </th>
                     <th>
 
@@ -128,7 +125,7 @@
                             <option value=""></option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
-                            <option value="C">C (Confirmed no Rx)</option>
+                            <option value="C">C (Confirmed Not Rx)</option>
                             <option value="Rx">Rx (Confirmed Rx)</option>
                         </select>
                     </td>
@@ -184,8 +181,16 @@
                     <td>
                         <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
-                            <option value="true">Bled True</option>
-                            <option value="false">Bled False</option>
+                            <option value="Bled">Bled</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control">
+                            <option value=""></option>
+                            <option value=">"> &gt; </option>
+                            <option value="<"> &lt; </option>
+                            <option value="=">=</option>
+                            <option value="LDL">LDL</option>
                         </select>
                     </td>
                     <td>
@@ -193,15 +198,6 @@
                     </td>
                     <td>
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
-                    </td>
-                    <td>
-                        <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="form-control">
-                            <option value=""></option>
-                            <option value="D">D</option>
-                            <option value="Def">Def</option>
-                            <option value="Stop">Stop</option>
-                            <option value="TO">TO</option>
-                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -223,7 +219,7 @@
                             <option value=""></option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
-                            <option value="C">C (Confirmed no Rx)</option>
+                            <option value="C">C (Confirmed Not Rx)</option>
                             <option value="Rx">Rx (Confirmed Rx)</option>
                         </select>
                     </td>
@@ -279,8 +275,16 @@
                     <td>
                         <select v-model="concepts.concept45" class="form-control">
                             <option value=""></option>
-                            <option value="Bled">Bled True</option>
-                            <option value="false">Bled False</option>
+                            <option value="Bled">Bled</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select v-model="concepts.concept53" class="form-control">
+                            <option value=""></option>
+                            <option value=">"> &gt; </option>
+                            <option value="<"> &lt; </option>
+                            <option value="=">=</option>
+                            <option value="LDL">LDL</option>
                         </select>
                     </td>
                     <td>
@@ -289,15 +293,6 @@
                     <td>
                         <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd-MM-yyyy|after:visitDate'" class="form-control"  type="text" placeholder='DD-MM-YYYY' required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
                         <span>{{ errors.first('Next Visit')}}</span>
-                    </td>
-                    <td>
-                        <select v-model="concepts.concept48" class="form-control">
-                            <option value=""></option>
-                            <option value="D">D</option>
-                            <option value="Def">Def</option>
-                            <option value="Stop">Stop</option>
-                            <option value="TO">TO</option>
-                        </select>
                     </td>
                 </tr>
                 </tbody>
@@ -453,6 +448,7 @@
                     concept50 : '',
                     concept51 : '',
                     concept52 : '',
+                    concept53 : '',
 
                 }
             }
@@ -492,6 +488,8 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
+                    concept52 : '',
+                    concept53 : '',
                 }
             }
         },

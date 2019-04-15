@@ -2,11 +2,11 @@
     <div class="row">
         <div class="col-4">
             <label>Transfer-In Date</label>
-            <input v-model="concepts.concept28" name="concept28" class="form-control"  type="date">
+            <h3>{{ this.patient.lastVisit.date}}</h3>
         </div>
         <div class="col-3">
             <label>ART Reg no</label>
-            <input v-model="concepts.concept29" placeholder="ART Registration No." class="form-control"  type="text">
+            <h3>{{ this.patient.artNumber}}</h3>
         </div>
         <div class="col-2">
             <label>Year</label>
