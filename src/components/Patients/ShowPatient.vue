@@ -13,9 +13,15 @@
                         <div class="card-body">
                             <h5 class="card-title">Name : {{patient.person.personName.given + ' ' + (patient.person.personName.middle !== null ? patient.person.personName.middle : '') + ' ' + patient.person.personName.family }}</h5>
                             <h5 class="card-title">ARTNo : {{patient.artNumber }}</h5>
+                            <div class="row d-flex justify-content-center">
+                                <div class="alert alert-success" role="alert">
+                                    Click  <router-link to="/steps"><span class="alert-link">HERE</span> </router-link> to manage Steps .
+                                </div>
+                            </div>
                         </div>
                     </div>
             </div>
+            
         </div>
 
     </section>
@@ -37,28 +43,6 @@
                             <button type="submit" class="btn btn-primary btn-lg my-4">Add New Mastercard</button>
                     </div>
                 </form>
-        </div>
-        
-    </section>
-
-    <section>
-        <div class="container">
-                <h5 class="text-align-center">Patient Steps</h5>
-                <div class="form-row">
-                    
-                    <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Available Steps</label>
-                                <select class="form-control">
-                                    <option :value="null" disabled>All The Available Stages</option>
-                                    <option v-for="(stage,index) in stages" v-bind:key="index" :value="stage.step">{{stage.step}}</option>
-                                </select>
-                            </div>
-                    </div>
-                    <div class="col-md-6 d-flex justify-content-center">
-                            <button class="btn btn-primary btn-lg my-4" v-b-modal.stage-modal>Add New Stage</button>
-                    </div>
-                </div>
         </div>
         
     </section>
@@ -119,6 +103,9 @@
                             <option value="Art Start">Art Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
+                            <option value="Back to facility">Back to facility</option>
+                            <option value="Died">Died</option>
+                            <option value="Restart">Restart</option>
                         </select>
                 </div>
             </div>

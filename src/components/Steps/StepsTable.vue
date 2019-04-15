@@ -1,5 +1,5 @@
 <template>
-        <form v-on:submit.prevent="addNewVisit">
+        <form v-on:submit.prevent="addStep">
         <div class="table-responsive">
             <table class="table visit-table">
                 <thead class="thead-dark">
@@ -8,26 +8,23 @@
                         Step Date
                     </th>
                     <th >
-                        ART Number
-                    </th>
-                    <th >
                         Step
                     </th>
                     <th >
                         Site
                     </th>
                     <th>
-                        Original Destination
+                        ART Number
+                    </th>
+                    <th>
+                        Origin Destination
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="(singleStep, key) in steps" v-bind:key="key">
                     <td>
-                       <input v-model="singleStep.stepDate" placeholder="DD-MM-YYYY" name="Step-Date" ref="stepDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}" required>
-                    </td>
-                    <td style="width:60px">
-                        <input v-model="singleStep.art_number" class="form-control"  type="text" required>
+                        <input type="date" class="form-control" v-model="singleStep.date" required>
                     </td>
                     <td>
                         <select v-model="singleStep.step" class="form-control">
@@ -35,21 +32,25 @@
                             <option value="Art Start">Art Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
+                            <option value="Back to facility">Back to facility</option>
+                            <option value="Died">Died</option>
+                            <option value="Restart">Restart</option>
                         </select>
                     </td>
                     <td>
                         <input v-model="singleStep.site" class="form-control"  type="text" required>
                     </td>
+
                     <td>
-                        <input v-model="singleStep.original_destination" class="form-control"  type="text" required>
+                        <input v-model="singleStep.artNumber" class="form-control"  type="text" required>
+                    </td>
+                    <td>
+                        <input v-model="singleStep.originDestination" class="form-control"  type="text" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                       <input v-model="stepDate" placeholder="DD-MM-YYYY" name="Step-Date" ref="stepDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}" required>
-                    </td>
-                    <td style="width:60px">
-                        <input v-model="art_number" class="form-control"  type="text" required>
+                        <input type="date" class="form-control" v-model="stepDate" required>
                     </td>
                     <td>
                         <select v-model="step" class="form-control">
@@ -57,10 +58,16 @@
                             <option value="Art Start">Art Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
+                            <option value="Back to facility">Back to facility</option>
+                            <option value="Died">Died</option>
+                            <option value="Restart">Restart</option>
                         </select>
                     </td>
                     <td>
                         <input v-model="site" class="form-control"  type="text" required>
+                    </td>
+                    <td>
+                        <input v-model="art_number" class="form-control"  type="text" required>
                     </td>
                     <td>
                         <input v-model="original_destination" class="form-control"  type="text" required>
@@ -71,7 +78,7 @@
         </div>
             <div class="form-row my-4">
                 <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
+                    <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
                 </div>
             </div>
         </form>
@@ -93,7 +100,7 @@
                     date: this.stepDate,
                     site: this.site,
                     step: this.step,
-                    original_destination: this.original_destination,
+                    origin_destination: this.original_destination,
                     patient: this.patient.patientID,
                 }
                 const url = `${this.APIHosts.art}/patient-steps`
@@ -101,6 +108,25 @@
                 authResource().post(url, payload)
                     .then(({data: {data}})=> {
                         this.stages.push(data)
+                    })
+                    .catch(err => console.error(err))
+            },
+
+            getStages(){
+                const url = `${this.APIHosts.art}/patients/${this.patient.patientID}/steps`
+
+                authResource().get(url)
+                    .then(({data: {data}})=> {
+                        this.steps = data;
+                        console.log(data);
+                        
+                    })
+                    .catch(err => console.error(err))
+            },
+            saveStages(){
+                authResource().post(url, this.steps)
+                    .then(({data: {data}})=> {
+                        this.stages = data
                     })
                     .catch(err => console.error(err))
             }
@@ -113,42 +139,23 @@
                 step:'',
                 stepDate:'',
                 site:'',
-                original_destination: '',
+                origin_destination: '',
                 steps: []
             }
         },
-        // created() {patient_phone
+         created() {
+            this.patient = JSON.parse(sessionStorage.getItem('patient'));
+            this.getStages()
 
-
-        //     let patient = JSON.parse(sessionStorage.getItem('patient'));
-        //     let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-        //     if (!patient || !patientCard){
-        //         this.$router.push('/')
-        //     }
-
-        //     this.patient = patient;
-        //     this.patientCard = patientCard;
-
-        // },
+        },
         watch : {
             steps(value){
                 return value
-            }
-            // postPayload : function ()
-            // {
-            //     this.processDataForPost(false);
-            // },
-            // encounterTypes : function (value) {
-            //     if (value.length > 0)
-            //     {
-            //         this.getPatientCardDetails()
-            //     }
-            // },
-            // patientCardData : function (value) {
-            //     this.fillConceptObservations(value);
-            //     console.log(this.concepts)
-            // }
+            },
+            postPayload : function ()
+            {
+                this.saveStages()
+            },
         }
     }
 </script>

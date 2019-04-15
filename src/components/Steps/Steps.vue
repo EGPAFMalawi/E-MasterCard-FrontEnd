@@ -1,12 +1,20 @@
 <template>
     <div>
+        <div>
+            <NavBar></NavBar>
+        </div>
         <div class="container py-5">
+            <div v-if="steps.length > 0" class="row d-flex justify-content-center">
+                <div class="alert alert-success" role="alert">
+                    Click  <router-link to="/patients/show"><span class="alert-link">HERE</span> </router-link> to manage Mastercards .
+                </div>
+            </div>
             <div class="row d-flex justify-content-center">
-                <h5 class="navbar-brand">{{ patient.person.name + "'s"}} Steps</h5>
+                <h5 class="navbar-brand">{{ `${patient.person.personName.given} ${patient.person.personName.family}'s` }} Steps</h5>
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <StepsTable :steps="steps" :postPayload="postPayload"></StepsTable>
+            <StepsTable :postPayload="postPayload"></StepsTable>
         </div>
         <section>
             <div class="container">
@@ -24,79 +32,38 @@
 <script>
     import authResource from './../../authResource'
     import StepsTable from "./StepsTable";
+    import NavBar from "../../views/NavBar"
 
     export default {
         name: 'Steps',
-        components: {StepsTable},
+        components: {StepsTable, NavBar},
         methods: {
-            getMasterCardDetails : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then((response)=>{
-                        console.log(response)
-                        this.masterCardWithDetails = response.data.data
-                    })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
-            },
-            initiatePost : function ()
-            {
-                this.postPayload++;
-            },
             getStages(){
                 const url = `${this.APIHosts.art}/patients/${this.patient.patientID}/steps`
 
                 authResource().get(url)
                     .then(({data: {data}})=> {
-                        this.steps = data;
-                        console.log(this.stages[0].patientStepID)
+                        this.steps = data
                     })
                     .catch(err => console.error(err))
             },
-            // addStep(){
-            //     const payload = {
-            //         art_number: this.art_number,
-            //         date: this.stepDate,
-            //         site: this.site,
-            //         step: this.step,
-            //         original_destination: this.original_destination,
-            //         patient: this.patient.patientID,
-            //     }
-            //     const url = `${this.APIHosts.art}/patient-steps`
-            //     console.log(payload)
-            //     authResource().post(url, payload)
-            //         .then(({data: {data}})=> {
-            //             this.stages.push(data)
-            //         })
-            //         .catch(err => console.error(err))
-            // }
         },
         data: () => {
             return {
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-                personName: '',
+                patient : {person: {personName: { }}},
                 steps: [],
                 postPayload : false
             }
         },
         computed: {
-            personName(){
-                return `${this.patient.personName.given} ${this.patient.personName.family}`
+            personName: ()=>{
+                return `${this.patient.person.personName.given} ${this.patient.person.personName.family}`
             }
         },
         created() {
 
             this.patient = JSON.parse(sessionStorage.getItem('patient'))
-            console.log(JSON.parse(JSON.stringify(this.patient)))
             this.getStages()
         }
     }
