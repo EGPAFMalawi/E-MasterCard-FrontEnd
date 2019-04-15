@@ -73,13 +73,6 @@
     </section>
     <b-modal id="modal-1" title="Enter Patient Details" hide-footer	 size="lg">
           <form name='addpatient' v-on:submit.prevent="addPatient">
-            <div class="form-row">
-                <div class="col-md-4 mb-3">
-                    <label for="validationServer011">ART Number</label>
-                    <input type="text" class="form-control" placeholder="ARTNumber" v-model="art_number" required>
-                
-                </div>
-            </div>
               <div class="form-row">
                   <div class="col-md-4 mb-3">
                       <label for="validationServer01">Given Name</label>
@@ -100,8 +93,8 @@
                 <div class="col-md-4 mb-3">
                         <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
                         <div class="col-sm-10">
-                            <b-form-radio v-model="selected" name="sex" value="F">Female</b-form-radio>
-                            <b-form-radio v-model="selected" name="sex" value="M">Male</b-form-radio>
+                            <b-form-radio v-model="gender" name="sex" value="F">Female</b-form-radio>
+                            <b-form-radio v-model="gender" name="sex" value="M">Male</b-form-radio>
                         </div>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -166,16 +159,6 @@ export default {
     name: 'Home',
     components: {NavBar},
     methods: {
-        dealWithDate(){
-            const element = this.$refs.el
-
-            element.setAttribute(
-                "data-date",
-                moment(element.value, "YYYY-MM-DD")
-                    .format( element.getAttribute("data-date-format") 
-                    )
-                ).dispatchEvent('change')
-        },
         search ()
         {
             this.isLoading = true;
@@ -265,8 +248,7 @@ export default {
                 .then(({data: {data}})=>{
                     this.isLoading = false;
                     this.regions = JSON.parse(JSON.stringify(data))
-                    // sessionStorage.setItem('patient', JSON.stringify(data));
-                    // this.setPatient(data)
+                    console.log(this.regions)
                     
                 })
                 .catch((error)=>{
@@ -358,10 +340,6 @@ export default {
         validation() {
             return this.given_name.length > 4 && this.given_name.length < 13
         }
-    },
-    beforeMount(){
-        const inputDate = document.querySelector('.input-date')
-
     }
     
 }
