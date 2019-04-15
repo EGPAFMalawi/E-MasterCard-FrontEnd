@@ -81,7 +81,7 @@
                   </div>
                   <div class="col-md-4 mb-3">
                       <label for="validationServer02">Middle Name</label>
-                      <input type="text" class="form-control" placeholder="Last name" v-model="middle_name">
+                      <input type="text" class="form-control" placeholder="Middle name" v-model="middle_name">
 
                   </div>
                   <div class="col-md-4 mb-3">
@@ -209,7 +209,7 @@ export default {
         {
             
             sessionStorage.setItem('patient', JSON.stringify(patient));
-            this.$router.push('/patients/show')
+            this.$router.push('/steps')
         },
         addPatient : function ()
             {
@@ -223,7 +223,7 @@ export default {
                     family_name : this.family_name,
                     gender : this.gender,
                     birthdate : this.birthdate,
-                    tribe : this.tribe,
+                    tribe : 'Yao',
                     guardian_name : this.guardian_name,
                     patient_phone : this.patient_phone,
                     guardian_phone : this.guardian_phone,

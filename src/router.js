@@ -6,6 +6,7 @@ import MasterCardsHome from "./components/MasterCards/MasterCardsHome";
 import AddPatient from "./components/Patients/AddPatient";
 import ShowPatient from "./components/Patients/ShowPatient";
 import LoginPage from "./views/LoginPage";
+import Steps from './components/Steps/Steps'
 
 Vue.use(Router);
 
@@ -20,7 +21,6 @@ const router =  new Router({
                 if (sessionStorage.getItem('auth')) {
                     next('/');
                 }
-
                 next();
             }
         },
@@ -36,6 +36,14 @@ const router =  new Router({
             path: '/reports',
             name: 'reports',
             component: Reports,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/steps',
+            name: 'steps',
+            component: Steps,
             meta: {
                 requiresAuth: true
             }
