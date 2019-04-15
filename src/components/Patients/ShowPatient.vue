@@ -11,7 +11,7 @@
             <div class="row">
                     <div class="card" style="width: 100%">
                         <div class="card-body">
-                            <h5 class="card-title">Name : {{patient.person.personName.given + ' ' + patient.person.personName.middle + ' ' + patient.person.personName.family }}</h5>
+                            <h5 class="card-title">Name : {{patient.person.personName.given + ' ' + (patient.person.personName.middle !== null ? patient.person.personName.middle : '') + ' ' + patient.person.personName.family }}</h5>
                             <h5 class="card-title">ARTNo : {{patient.artNumber }}</h5>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
             <div class="form-row">
                 <div class="col-md-12 mb-3">
                         <label>Step</label>
-                        <select  v-model="step" class="form-control" placeholder="Stape" >
+                        <select  v-model="step" class="form-control" placeholder="Step" >
                             <option :value="null" disabled>All The Available Step</option>
                             <option value="Art Start">Art Start</option>
                             <option value="Trans-in">Trans-in</option>

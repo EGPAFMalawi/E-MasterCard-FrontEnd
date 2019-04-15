@@ -209,7 +209,7 @@ export default {
         {
             
             sessionStorage.setItem('patient', JSON.stringify(patient));
-            this.$router.push('/patient/show')
+            this.$router.push('/patients/show')
         },
         addPatient : function ()
             {
