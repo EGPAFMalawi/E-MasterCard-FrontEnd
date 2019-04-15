@@ -90,43 +90,63 @@
                   </div>
               </div>
             <div class="form-row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                         <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
                         <div class="col-sm-10">
                             <b-form-radio v-model="gender" name="sex" value="F">Female</b-form-radio>
                             <b-form-radio v-model="gender" name="sex" value="M">Male</b-form-radio>
                         </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="validationServer03">Date of Birth</label>
                     <input type="date"  class="form-control" v-model="birthdate" ref="el">
                 </div>
-                <div class="col-md-4 mb-3">
-                        <label for="validationServer03">Tribe</label>
-                        <input type="text" class="form-control" placeholder="Tribe" v-model="tribe">
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                        <label for="validationServer03">Guardian Name</label>
+                        <input type="text" class="form-control" placeholder="Name of guardian" v-model="guardian_name">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationServer03">Patient Phone Number</label>
+                    <input type="text" class="form-control" placeholder="Patient" v-model="patient_phone">
+                    <b-form-invalid-feedback :state="patientPhoneValidation">
+                        Phone Number must be 10 characters long.
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="patientPhoneValidation">
+                        Looks Good.
+                    </b-form-valid-feedback>
+                </div>
+                <div class="col-md-3 mb-3">
+                        <label for="validationServer03">Guardian Phone Number</label>
+                        <input type="text" class="form-control" placeholder="Guardian" v-model="guardian_phone">
+                        <b-form-invalid-feedback :state="guardianPhoneValidation">
+                            Phone Number must be 10 characters long.
+                        </b-form-invalid-feedback>
+                        <b-form-valid-feedback :state="guardianPhoneValidation">
+                            Looks Good.
+                        </b-form-valid-feedback>
                     </div>
             </div>
             <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                            <label for="validationServer03">Guardian Name</label>
-                            <input type="text" class="form-control" placeholder="Name of guardian" v-model="guardian_name">
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="validationServer03">Patient Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Patient" v-model="patient_phone">
-                    </div>
-                    <div class="col-md-3 mb-3">
-                            <label for="validationServer03">Guardian Phone Number</label>
-                            <input type="text" class="form-control" placeholder="Guardian" v-model="guardian_phone">
+                <div class="col-md-6 mb-3">
+                    <label for="validationServer03">Guardian Relation</label>
+                    <input type="text" class="form-control" placeholder="Guardian Relation" v-model="guardian_relation">
+                </div>
+                <div class="col-md-6 mb-3">
+                        <label>Agrees to FUP</label>
+                        <div class="col-sm-10">
+                            <b-form-radio v-model="follow_up" name="followUp" value="true">Yes</b-form-radio>
+                            <b-form-radio v-model="follow_up" name="followUp" value="false">No</b-form-radio>
                         </div>
                 </div>
+                
+            </div>
 
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
-                            <label for="validationServer03">Region</label>
-                            <select  v-model="region" class="form-control" placeholder="Region" >
-                                <option v-for="(region, index) in regions" v-bind:key="index">{{region.name}}</option>
-                            </select>
+                            <label>Physical Address</label>
+                            <input type="text" class="form-control" placeholder="Physical Address" v-model="address1">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">District</label>
@@ -337,8 +357,11 @@ export default {
         }
     },
     computed: {
-        validation() {
-            return this.given_name.length > 4 && this.given_name.length < 13
+        patientPhoneValidation() {
+            return this.patient_phone !== '' && this.patient_phone.length === 10 
+        },
+        guardianPhoneValidation() {
+            return this.guardian_phone !== '' && this.guardian_phone.length === 10 
         }
     }
     
