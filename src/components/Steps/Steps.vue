@@ -4,11 +4,6 @@
             <NavBar></NavBar>
         </div>
         <div class="container py-5">
-            <div v-if="steps.length > 0" class="row d-flex justify-content-center">
-                <div class="alert alert-success" role="alert">
-                    Click  <router-link to="/patients/show"><span class="alert-link">HERE</span> </router-link> to manage Mastercards .
-                </div>
-            </div>
             <div class="row d-flex justify-content-center">
                 <h5 class="navbar-brand">{{ `${patient.person.personName.given} ${patient.person.personName.family}'s` }} Steps</h5>
             </div>
@@ -46,7 +41,7 @@
                         this.steps = data
                     })
                     .catch(err => console.error(err))
-            },
+            }
         },
         data: () => {
             return {

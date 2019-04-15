@@ -1,5 +1,10 @@
 <template>
-        <form v-on:submit.prevent="addStep">
+    <form v-on:submit.prevent="addStep">
+        <div v-if="steps.length > 0" class="row d-flex justify-content-center">
+            <div class="alert alert-success" role="alert">
+                Click  <router-link to="/patients/show"><span class="alert-link">HERE</span> </router-link> to manage Mastercards .
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table visit-table">
                 <thead class="thead-dark">
@@ -70,18 +75,28 @@
                         <input v-model="art_number" class="form-control"  type="text" required>
                     </td>
                     <td>
-                        <input v-model="original_destination" class="form-control"  type="text" required>
+                        <input v-model="original_destination" class="form-control"  type="text">
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-            <div class="form-row my-4">
-                <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
-                </div>
+        <div class="form-row my-4">
+            <div class="col-md-12 d-flex justify-content-center">
+                <button @click="showAlert" type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
             </div>
-        </form>
+        </div>
+
+        <b-alert
+            :show="dismissCountDown"
+            dismissible
+            variant="success"
+            @dismissed="dismissCountDown=0"
+            @dismiss-count-down="countDownChanged"
+            >
+                Step addition successful
+        </b-alert>
+    </form>
 </template>
 
 <script>
@@ -104,10 +119,18 @@
                     patient: this.patient.patientID,
                 }
                 const url = `${this.APIHosts.art}/patient-steps`
-                console.log(payload)
+
                 authResource().post(url, payload)
                     .then(({data: {data}})=> {
-                        this.stages.push(data)
+                        this.steps.push(data)
+                        this.art_number = ''
+                        this.stepDate = ''
+                        this.site = ''
+                        this.step = ''
+                        this.original_destination = ''
+                        this.patient.patientID = ''
+
+                        showAlert()
                     })
                     .catch(err => console.error(err))
             },
@@ -117,8 +140,7 @@
 
                 authResource().get(url)
                     .then(({data: {data}})=> {
-                        this.steps = data;
-                        console.log(data);
+                        this.steps = data
                         
                     })
                     .catch(err => console.error(err))
@@ -129,12 +151,19 @@
                         this.stages = data
                     })
                     .catch(err => console.error(err))
+            },
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         },
         data: () => {
             return {
                 BASE_URL : 'patients',
-                
+                dismissSecs: 5,
+                dismissCountDown: 0,
                 art_number:'',
                 step:'',
                 stepDate:'',
