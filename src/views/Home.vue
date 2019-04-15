@@ -110,7 +110,7 @@
                 <div class="col-md-3 mb-3">
                     <label for="validationServer03">Patient Phone Number</label>
                     <input type="text" class="form-control" placeholder="Patient" v-model="patient_phone">
-                    <b-form-invalid-feedback :state="patientPhoneValidation">
+                    <b-form-invalid-feedback v-if="patient_phone !== ''" :state="patientPhoneValidation">
                         Phone Number must be 10 characters long.
                     </b-form-invalid-feedback>
                     <b-form-valid-feedback :state="patientPhoneValidation">
@@ -120,7 +120,7 @@
                 <div class="col-md-3 mb-3">
                         <label for="validationServer03">Guardian Phone Number</label>
                         <input type="text" class="form-control" placeholder="Guardian" v-model="guardian_phone">
-                        <b-form-invalid-feedback :state="guardianPhoneValidation">
+                        <b-form-invalid-feedback v-if="guardian_phone !== ''" :state="guardianPhoneValidation">
                             Phone Number must be 10 characters long.
                         </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="guardianPhoneValidation">
