@@ -112,11 +112,11 @@
                             <input type="text" class="form-control" placeholder="Name of guardian" v-model="guardian_name">
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="validationServer03">Phone Numbers</label>
+                        <label for="validationServer03">Patient Phone Number</label>
                         <input type="text" class="form-control" placeholder="Patient" v-model="patient_phone">
                     </div>
                     <div class="col-md-3 mb-3">
-                            <label for="validationServer03" style="color: #fff">.</label>
+                            <label for="validationServer03">Guardian Phone Number</label>
                             <input type="text" class="form-control" placeholder="Guardian" v-model="guardian_phone">
                         </div>
                 </div>
