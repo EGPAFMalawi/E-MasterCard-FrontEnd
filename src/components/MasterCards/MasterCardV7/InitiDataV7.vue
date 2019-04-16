@@ -157,7 +157,7 @@
                                                         <label for="validationServer03">Age at Initiation</label>
                                                         <input v-model="concepts.concept8" type="text" class="form-control" placeholder="Age" required>
                                                     </div>
-                                                <div class="col-md-6 mb-2">
+                                                <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                                         <label for="validationServer03">Last ARVs (type/date)</label>
                                                         <div class="form-inline fit-2-input-fields">
                                                                 <input  v-model="concepts.concept13" type="text" class="form-control" id="validationServer03" placeholder="Drug">
@@ -193,6 +193,12 @@
                                                                                 <option value="PCR">PCR</option>
                                                                             </select>
                                                                     </div>
+                                                                    <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
+                                                                        Please make sure that the Test date is before the ART regimen start date 
+                                                                    </b-form-invalid-feedback>
+                                                                    <b-form-valid-feedback :state="eval">
+                                                                        Looks Good.
+                                                                    </b-form-valid-feedback>
                                                             </div>
                                                       </div>
 
@@ -244,6 +250,12 @@
                                                                             </select>
                                                                             <input v-model="concepts.concept23" type="date" class="form-control" required>
                                                                     </div>
+                                                                    <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
+                                                                        Please make sure that the Test date is before the ART regimen start date 
+                                                                    </b-form-invalid-feedback>
+                                                                    <b-form-valid-feedback :state="eval">
+                                                                        Looks Good.
+                                                                    </b-form-valid-feedback>
                                                             </div>
                                                       </div>
 
@@ -294,6 +306,8 @@
 
 <script>
     import authResource from './../../../authResource'
+import { log } from 'util';
+import { type } from 'os';
 
     export default {
         name: 'InitDataV7',
@@ -395,6 +409,22 @@
                 {
                     this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
                 }
+            },
+            calculatedBirthDate(){
+               const date = new Date(this.concepts.concept23)
+               const age = this.concepts.concept8
+               const birthYear = date.getFullYear() - age;
+               const birthdate = new Date(birthYear.toString())
+               return birthdate.toLocaleDateString()
+            },
+            evaluateIfTestDateBeforeARTStartDate(testDate, startDate){
+                testDate = new Date(testDate)
+                startDate = new Date(startDate)
+
+                if (testDate < startDate)
+                    return true
+                else
+                    return false
             }
         },
         data: () => {
@@ -438,7 +468,8 @@
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
-                }
+                },
+                eval:false
             }
         },
         created() {
@@ -453,8 +484,11 @@
 
             this.patient = patient;
             this.patientCard = patientCard;
+            console.log(this.concepts)
+            this.concepts = this.concepts
         },
-
+        computed: {
+        },
         watch : {
             postPayload : function ()
             {
@@ -468,7 +502,17 @@
                 }
             },
             patientCardData : function (value) {
+                console.log('hello')
                 this.fillConceptObservations(value);
+            },
+            'concepts.concept23': function(){
+                if (this.patient.person.birthdate === '')
+                    this.patient.person.birthdate = this.calculatedBirthDate()    
+
+                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+            },
+            'concepts.concept16': function(){
+                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             }
         }
     }

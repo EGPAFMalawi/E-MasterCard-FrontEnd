@@ -10,7 +10,7 @@
                         <th>
                             Weight
                         </th>
-                        <th >
+                        <th v-if="patient.person.gender === 'F'">
                             Pregnant/Breastfeed
                         </th>
                         <th >
@@ -36,7 +36,10 @@
                         <th colspan="2">
                             CPT/IPT Given
                         </th>
-                        <th colspan="2">
+                        <th v-if="patient.person.gender === 'F'" colspan="2" >
+                            Family Planning
+                        </th>
+                        <th v-if="patient.person.gender === 'M'" >
                             Family Planning
                         </th>
                         <th>
@@ -59,7 +62,7 @@
                         <th>
                             kg
                         </th>
-                        <th>
+                        <th v-if="patient.person.gender === 'F'">
 
                         </th>
                         <th>
@@ -89,7 +92,7 @@
                         <th >
                             No. of Tablets
                         </th>
-                        <th>
+                        <th v-if="patient.person.gender === 'F'">
                             Depo Given
                         </th>
                         <th >
@@ -120,7 +123,7 @@
                         <td style="width:60px">
                             <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
-                        <td>
+                        <td v-if="patient.person.gender === 'F'">
                             <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
                                 <option value=""></option>
                                 <option value="Preg">Preg</option>
@@ -187,7 +190,7 @@
                         <td style="width:60px">
                             <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
-                        <td>
+                        <td v-if="patient.person.gender === 'F'">
                             <select v-model="observations['concept49Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="Depo">Depo Given</option>
@@ -225,13 +228,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <input v-model="concepts.concept32" placeholder="DD-MM-YYYY" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control"  required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
+                            <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control"  type="date" >
                             <span>{{ errors.first('Visit-Date')}}</span>
                         </td>
                         <td style="width:60px">
                             <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
                         </td>
-                        <td>
+                        <td v-if="patient.person.gender === 'F'">
                             <select v-model="concepts.concept34" class="form-control" >
                                 <option value=""></option>
                                 <option value="Preg">Preg</option>
@@ -298,7 +301,7 @@
                         <td>
                             <input v-model="concepts.concept43" class="form-control"  type="number">
                         </td>
-                        <td>
+                        <td v-if="patient.person.gender === 'F'">
                             <select v-model="concepts.concept49"  class="form-control">
                                 <option value=""></option>
                                 <option value="Depo">Depo Given</option>
@@ -322,7 +325,7 @@
                             <input v-model="concepts.concept46" class="form-control"  type="number">
                         </td>
                         <td>
-                            <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd-MM-yyyy|after:visitDate'" class="form-control"  type="text" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
+                            <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" >
                             <span>{{ errors.first('Next Visit')}}</span>
                         </td>
                         <td>
@@ -336,7 +339,16 @@
                         </td>
                     </tr>
                     </tbody>
-                </table>
+                     <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                        Visit Date must be before Appointment Date
+                    </b-tooltip>
+                    <b-form-invalid-feedback v-if="concepts.concept47 !== ''" :state="show">
+                        Visit Date must be before Appointment Date 
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="show">
+                        Looks Good.
+                    </b-form-valid-feedback>
+                    </table>
             </div>
             <div class="form-row my-4">
                 <div class="col-md-12 d-flex justify-content-center">
@@ -490,6 +502,15 @@
                      concept52: ''
 
                 }
+            },
+            evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
+                visitDate = new Date(visitDate)
+                appointmentDate = new Date(appointmentDate)
+
+                if (visitDate < appointmentDate)
+                    return true
+                else
+                    return false
             }
         },
         data: () => {
@@ -560,6 +581,14 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
                 console.log(this.concepts)
+            },
+            'concepts.concept32': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
+            },
+            'concepts.concept47': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
         }
     }

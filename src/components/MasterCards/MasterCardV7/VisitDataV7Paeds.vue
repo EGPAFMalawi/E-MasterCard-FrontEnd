@@ -206,7 +206,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control"  placeholder='DD-MM-YYYY' required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
+                        <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
@@ -287,7 +287,7 @@
                         <input v-model="concepts.concept46" class="form-control"  type="number">
                     </td>
                     <td>
-                        <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd-MM-yyyy|after:visitDate'" class="form-control"  type="text" placeholder='DD-MM-YYYY' required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
+                        <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" >
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
@@ -301,6 +301,15 @@
                     </td>
                 </tr>
                 </tbody>
+                 <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                    Visit Date must be before Appointment Date
+                </b-tooltip>
+                <b-form-invalid-feedback v-if="concepts.concept47 !== ''" :state="show">
+                    Visit Date must be before Appointment Date 
+                </b-form-invalid-feedback>
+                <b-form-valid-feedback :state="show">
+                    Looks Good.
+                </b-form-valid-feedback>
             </table>
         </div>
             <div class="form-row my-4">
@@ -455,6 +464,15 @@
                     concept52 : '',
 
                 }
+            },
+            evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
+                visitDate = new Date(visitDate)
+                appointmentDate = new Date(appointmentDate)
+
+                if (visitDate < appointmentDate)
+                    return true
+                else
+                    return false
             }
         },
         data: () => {
@@ -523,6 +541,14 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
                 console.log(this.concepts)
+            },
+            'concepts.concept32': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
+            },
+            'concepts.concept47': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
         }
     }

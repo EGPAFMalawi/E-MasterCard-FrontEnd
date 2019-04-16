@@ -208,8 +208,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input v-model="concepts.concept32" placeholder="DD-MM-YYYY" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd-MM-yyyy'" class="form-control"  required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
-                        <!-- <date-picker v-model="concepts.concept32" format="DD-MM-YYYY" lang="en"></date-picker> -->
+                        <input v-model="concepts.concept32" class="form-control"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
@@ -239,10 +238,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" required>
+                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0" required>
+                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0" >
                     </td>
                     <td>
                         <select v-model="concepts.concept39" class="form-control" required>
@@ -263,10 +262,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control"  type="number" min="0" required>
+                        <input v-model="concepts.concept40" class="form-control"  type="number" min="0">
                     </td>
                     <td style="width:30px">
-                        <select v-model="concepts.concept41" class="form-control" required>
+                        <select v-model="concepts.concept41" class="form-control" >
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -274,7 +273,7 @@
                     </td>
 
                     <td>
-                        <select v-model="concepts.concept42" class="form-control" required>
+                        <select v-model="concepts.concept42" class="form-control">
                             <option value=""></option>
                             <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
@@ -298,7 +297,7 @@
                         <input v-model="concepts.concept46" class="form-control"  type="number">
                     </td>
                     <td>
-                        <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd-MM-yyyy|after:visitDate'" class="form-control"  type="text" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}">
+                        <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" >
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
@@ -311,6 +310,15 @@
                         </select>
                     </td>
                 </tr>
+                <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                    Visit Date must be before Appointment Date
+                </b-tooltip>
+                <b-form-invalid-feedback v-if="concepts.concept47 !== ''" :state="show">
+                    Visit Date must be before Appointment Date 
+                </b-form-invalid-feedback>
+                <b-form-valid-feedback :state="show">
+                    Looks Good.
+                </b-form-valid-feedback>
                 </tbody>
             </table>
         </div>
@@ -468,6 +476,15 @@
                     concept52: ''
 
                 }
+            },
+             evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
+                visitDate = new Date(visitDate)
+                appointmentDate = new Date(appointmentDate)
+
+                if (visitDate < appointmentDate)
+                    return true
+                else
+                    return false
             }
         },
         data: () => {
@@ -484,6 +501,7 @@
                 patientCardData : [
 
                 ],
+                show: false,
                 concepts : {
                     concept32 : '',
                     concept33 : '',
@@ -537,6 +555,14 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
                 console.log(this.concepts)
+            },
+            'concepts.concept32': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
+            },
+            'concepts.concept47': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
         }
     }
