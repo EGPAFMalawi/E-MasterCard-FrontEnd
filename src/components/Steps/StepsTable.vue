@@ -33,7 +33,7 @@
                     </td>
                     <td>
                         <select v-model="singleStep.step" class="form-control">
-                            <option value="singleStep.step">{{singleStep.step}}</option>
+                            <option>{{singleStep.step}}</option>
                             <option value="Art Start">Art Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
@@ -43,14 +43,18 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="singleStep.site" class="form-control"  type="text" required>
+                        <select  v-model="singleStep.site" class="form-control">
+                            <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
+                        </select>
                     </td>
 
                     <td>
                         <input v-model="singleStep.artNumber" class="form-control"  type="text" required>
                     </td>
                     <td>
-                        <input v-model="singleStep.originDestination" class="form-control"  type="text" required>
+                        <select  v-model="singleStep.originDestination" class="form-control">
+                            <option v-for="(facility, index) in facilities" :value="facility.name" v-bind:key="index">{{facility.name}}</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -69,13 +73,17 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="site" class="form-control"  type="text" required>
+                        <select  v-model="site" class="form-control" required>
+                            <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
+                        </select>
                     </td>
                     <td>
                         <input v-model="art_number" class="form-control"  type="text" required>
                     </td>
                     <td>
-                        <input v-model="original_destination" class="form-control"  type="text">
+                        <select  v-model="origin_destination" class="form-control">
+                            <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
+                        </select>
                     </td>
                 </tr>
                 </tbody>
@@ -115,7 +123,7 @@
                     date: this.stepDate,
                     site: this.site,
                     step: this.step,
-                    origin_destination: this.original_destination,
+                    origin_destination: this.origin_destination,
                     patient: this.patient.patientID,
                 }
                 const url = `${this.APIHosts.art}/patient-steps`
@@ -127,7 +135,7 @@
                         this.stepDate = ''
                         this.site = ''
                         this.step = ''
-                        this.original_destination = ''
+                        this.origin_destination = ''
                         this.patient.patientID = ''
 
                         showAlert()
@@ -157,7 +165,21 @@
             },
             showAlert() {
                 this.dismissCountDown = this.dismissSecs
-            }
+            },
+            loadFacilities(){
+                let dhisAPIEndpoint = `${this.APIHosts.art}/locations`;
+
+
+                authResource().get(dhisAPIEndpoint)
+                    .then(({data: {data}})=>{
+                        this.isLoading = false
+                        this.facilities = JSON.parse(JSON.stringify(data))
+                        console.log(JSON.parse(JSON.stringify(data)))
+                    })
+                    .catch((error)=>{
+                        this.isLoading = false;
+                    })
+            },
         },
         data: () => {
             return {
@@ -169,12 +191,17 @@
                 stepDate:'',
                 site:'',
                 origin_destination: '',
-                steps: []
+                steps: [],
+                facilities: []
             }
+        },
+        beforeMount(){
+            this.loadFacilities()
         },
          created() {
             this.patient = JSON.parse(sessionStorage.getItem('patient'));
             this.getStages()
+            
 
         },
         watch : {
@@ -185,6 +212,9 @@
             {
                 this.saveStages()
             },
+            origin_destination: function(){
+                console.log(this.origin_destination)
+            }
         }
     }
 </script>

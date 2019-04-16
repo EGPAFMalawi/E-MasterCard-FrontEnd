@@ -48,7 +48,8 @@
                                 <th scope="col">Date of Birth</th>
                                 <th scope="col">Guardian</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Date Created</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Steps</th>
                                 <th scope="col">Actions</th>
                               </tr>
                             </thead>
@@ -62,8 +63,10 @@
                                 <td>{{ patient.person.birthdate}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
-                                <td>{{ patient.dateCreated}}</td>
-                                <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient)">View MasterCards</button></td>
+                                <td>{{ patient.person.personAddress.address1 }}</td>
+                                <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient, 'steps')">View Steps</button></td>
+                                <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient,'/patients/show')">View MasterCards</button></td>
+                                
                               </tr>
                             </tbody>
                           </table>
@@ -99,7 +102,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationServer03">Date of Birth</label>
-                    <input type="date"  class="form-control" v-model="birthdate" ref="el">
+                    <input type="date" class="form-control" v-model="birthdate">
                 </div>
             </div>
             <div class="form-row">
@@ -205,11 +208,11 @@ export default {
             
 
         },
-        setPatient : function (patient)
+        setPatient : function (patient, route)
         {
             
             sessionStorage.setItem('patient', JSON.stringify(patient));
-            this.$router.push('/patients/show')
+            this.$router.push(route)
         },
         addPatient : function ()
             {
