@@ -227,7 +227,8 @@
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept36" class="form-control" required>
+                        <select v-model="concepts.concept36" class="form-control"
+                        >
                             <option value=""></option>
                             <option value="N">N</option>
                             <option value="Y">Y</option>
@@ -240,7 +241,7 @@
                         <input v-model="concepts.concept38" class="form-control"  type="number" min="0" >
                     </td>
                     <td>
-                        <select v-model="concepts.concept39" class="form-control" required>
+                        <select v-model="concepts.concept39" class="form-control">
                             <option value=""></option>
                             <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
                             <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>

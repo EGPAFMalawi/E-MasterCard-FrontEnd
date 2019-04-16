@@ -224,20 +224,20 @@
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept36" class="form-control" required>
+                        <select v-model="concepts.concept36" class="form-control">
                             <option value=""></option>
                             <option value="N">N</option>
                             <option value="Y">Y</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" required>
+                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0" required>
+                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0">
                     </td>
                     <td>
-                        <select v-model="concepts.concept39" class="form-control" required>
+                        <select v-model="concepts.concept39" class="form-control">
                             <option value=""></option>
                             <option value="0P">0</option>
                             <option value="2P">2</option>
@@ -248,10 +248,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control"  type="number" min="0" required>
+                        <input v-model="concepts.concept40" class="form-control"  type="number" min="0">
                     </td>
                     <td style="width:30px">
-                        <select v-model="concepts.concept41" class="form-control" required>
+                        <select v-model="concepts.concept41" class="form-control">
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -259,7 +259,7 @@
                     </td>
 
                     <td>
-                        <select v-model="concepts.concept42" class="form-control" required>
+                        <select v-model="concepts.concept42" class="form-control">
                             <option value=""></option>
                             <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
