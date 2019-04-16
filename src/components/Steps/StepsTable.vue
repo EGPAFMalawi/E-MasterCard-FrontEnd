@@ -91,7 +91,7 @@
         </div>
         <div class="form-row my-4">
             <div class="col-md-12 d-flex justify-content-center">
-                <button @click="showAlert" type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
+                <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
             </div>
         </div>
 
@@ -110,10 +110,11 @@
 <script>
     import authResource from './../../authResource'
     import _ from 'lodash'
-    import DatePicker from 'vue2-datepicker'
+    import { notificationSystem } from '../../globals'
+import { error } from 'util';
+
 
     export default {
-        components: { DatePicker },
         name: 'Steps',
         props: ['steps', 'postPayload'],
         methods: {
@@ -130,6 +131,7 @@
 
                 authResource().post(url, payload)
                     .then(({data: {data}})=> {
+                        console.log(data)
                         this.steps.push(data)
                         this.art_number = ''
                         this.stepDate = ''
@@ -138,9 +140,16 @@
                         this.origin_destination = ''
                         this.patient.patientID = ''
 
-                        showAlert()
+                        this.$toast.success('Successfully inserted record!', 'OK', notificationSystem.options.success)
                     })
-                    .catch(err => console.error(err))
+                    .catch(({response: {data: {errors}, data}}) => {
+                        console.log(data)
+
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
+                    })
             },
 
             getStages(){
@@ -163,9 +172,6 @@
             countDownChanged(dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
             },
-            showAlert() {
-                this.dismissCountDown = this.dismissSecs
-            },
             loadFacilities(){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/locations`;
 
@@ -183,9 +189,8 @@
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
-                dismissSecs: 5,
-                dismissCountDown: 0,
                 art_number:'',
                 step:'',
                 stepDate:'',

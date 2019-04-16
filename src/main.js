@@ -13,6 +13,12 @@ import VeeValidate from 'vee-validate'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueIziToast from "vue-izitoast";
+
+import "izitoast/dist/css/iziToast.css";
+
+Vue.use(VueIziToast);
+
 
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 

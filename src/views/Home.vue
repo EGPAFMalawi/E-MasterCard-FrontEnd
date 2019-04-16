@@ -13,7 +13,6 @@
                     <input v-model="searchParam" v-on:keyup="search" class="form-control mr-sm-2 py-4" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0 py-2" type="submit">Search</button>
                 </form>
-                        
             </div>
 
         </div>
@@ -173,7 +172,7 @@
 </template>
 
 <script>
-
+import { notificationSystem } from '../globals'
 import NavBar from "./NavBar";
 import authResource from './../authResource'
 import { constants } from 'crypto';
@@ -255,11 +254,13 @@ export default {
                         console.log(data)
                         sessionStorage.setItem('patient', JSON.stringify(data));
                         this.$router.push('steps')
+                        this.$toast.success('Successfully inserted record!', 'OK', notificationSystem.options.success)
                         
                     })
                     .catch((error)=>{
                         this.isLoading = false;
                         console.log(error)
+                        this.$toast.danger(error, 'OK', notificationSystem.options.success)
                     })
 
             },
@@ -297,6 +298,7 @@ export default {
                 })
         },
         loadTAs(){
+
             let dhisAPIEndpoint = `${this.APIHosts.art}/traditional-authorities`;
 
 
@@ -321,6 +323,8 @@ export default {
     },
     data: () => {
         return {
+            notificationSystem,
+
             isLoading : false,
 
             BASE_URL : 'patients/search',

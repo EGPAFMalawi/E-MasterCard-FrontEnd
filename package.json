@@ -22,6 +22,7 @@
     "vee-validate": "^2.2.0",
     "vue": "^2.5.17",
     "vue-filter-date-format": "^1.2.2",
+    "vue-izitoast": "^1.1.2",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.1",
     "vue2-datepicker": "^2.10.3"

@@ -28,6 +28,7 @@
     import authResource from './../../authResource'
     import StepsTable from "./StepsTable";
     import NavBar from "../../views/NavBar"
+    import { notificationSystem } from '../../globals'
 
     export default {
         name: 'Steps',
@@ -45,6 +46,7 @@
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patient : {person: {personName: { }}},
                 steps: [],
