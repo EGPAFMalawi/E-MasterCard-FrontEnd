@@ -10,7 +10,7 @@
                     <th >
                         Weight
                     </th>
-                    <th >
+                    <th v-if="patient.person.gender === 'F'" >
                         Pregnant / Breastfeed
                     </th>
                     <th >
@@ -53,7 +53,7 @@
                     <th>
                         kg
                     </th>
-                    <th>
+                    <th v-if="patient.person.gender === 'F'" >
 
                     </th>
                     <th>
@@ -108,7 +108,7 @@
                     <td style="width:60px">
                         <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                     </td>
-                    <td>
+                    <td v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
@@ -210,7 +210,7 @@
                     <td style="width:60px">
                         <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
                     </td>
-                    <td>
+                    <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" class="form-control" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>

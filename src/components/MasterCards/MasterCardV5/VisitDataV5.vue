@@ -232,7 +232,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" required>
+                            <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control"  type="date" required>
                             <span>{{ errors.first('Visit-Date')}}</span>
                         </td>
                         <td style="width:60px">

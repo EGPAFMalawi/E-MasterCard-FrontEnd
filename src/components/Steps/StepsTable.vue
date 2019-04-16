@@ -22,7 +22,7 @@
                         ART Number
                     </th>
                     <th>
-                        Origin Destination
+                        Origin/Destination
                     </th>
                 </tr>
                 </thead>
@@ -44,7 +44,7 @@
                     </td>
                     <td>
                         <select  v-model="singleStep.site" class="form-control">
-                            <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
+                            <option  v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
                         </select>
                     </td>
 
