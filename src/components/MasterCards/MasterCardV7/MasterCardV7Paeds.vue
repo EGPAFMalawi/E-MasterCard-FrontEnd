@@ -6,7 +6,7 @@
                 <li class="nav-item">
                     <h5 class="navbar-brand">
                         ART Patient Card ARV Formulations, 
-                        <span class="badge badge-info">Version 7 Paids</span>
+                        <span class="badge badge-info">Version 7 Paeds</span>
                     </h5>
                         
                 </li>

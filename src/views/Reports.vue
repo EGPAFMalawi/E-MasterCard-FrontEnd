@@ -163,7 +163,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -188,7 +188,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -211,7 +211,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -232,7 +232,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -251,7 +251,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -271,7 +271,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -294,7 +294,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -319,7 +319,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -343,7 +343,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -368,7 +368,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -392,7 +392,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -417,7 +417,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -438,7 +438,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -461,7 +461,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -486,7 +486,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -508,7 +508,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -529,7 +529,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -549,7 +549,7 @@ export default {
                     type:null
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -569,7 +569,7 @@ export default {
                     type:'CDCDefaulters'
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -589,7 +589,7 @@ export default {
                     type:'MOHDefaulters'
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -609,7 +609,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.dataPayload.code},type=${this.dataPayload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.dataPayload.code}&type=${this.dataPayload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -630,7 +630,7 @@ export default {
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -647,7 +647,7 @@ export default {
             {
                 this.isLoading = true;
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code},type=${this.payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code}&type=${this.payload.type}`;
 
                 const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
 
