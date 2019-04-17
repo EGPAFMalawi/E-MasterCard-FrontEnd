@@ -1,4 +1,4 @@
-# EGPAF
+# ART Frontend
 
 ## Node Setup
 Download and Install Node from the following Website
