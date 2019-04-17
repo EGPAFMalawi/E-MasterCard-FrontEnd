@@ -1,5 +1,9 @@
 # EGPAF
 
+## Node Setup
+Download and Install Node from the following Website
+https://nodejs.org/en/download/
+
 ## Project setup
 ```
 npm install
