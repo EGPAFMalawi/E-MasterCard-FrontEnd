@@ -8,14 +8,14 @@ export const  notificationSystem= {
         buttons: [
           [
             "<button>Ok</button>",
-            function(instance, toast) {
+            (instance, toast) => {
               alert("Hello world!");
             },
             true
           ],
           [
             "<button>Close</button>",
-            function(instance, toast) {
+            (instance, toast) => {
               instance.hide(
                 {
                   transitionOut: "fadeOutUp",

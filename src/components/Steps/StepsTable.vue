@@ -127,29 +127,45 @@ import { error } from 'util';
                     origin_destination: this.origin_destination,
                     patient: this.patient.patientID,
                 }
-                const url = `${this.APIHosts.art}/patient-steps`
 
-                authResource().post(url, payload)
-                    .then(({data: {data}})=> {
-                        console.log(data)
-                        this.steps.push(data)
-                        this.art_number = ''
-                        this.stepDate = ''
-                        this.site = ''
-                        this.step = ''
-                        this.origin_destination = ''
-                        this.patient.patientID = ''
+                if (this.step === 'Art Start' && this.origin_destination === ''){
+                    return this.$toast.error(`<strong>Origi/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
+                }else{
 
-                        this.$toast.success('Successfully inserted record!', 'OK', notificationSystem.options.success)
-                    })
-                    .catch(({response: {data: {errors}, data}}) => {
-                        console.log(data)
+                     const payload = {
+                        art_number: this.art_number,
+                        date: this.stepDate,
+                        site: this.site,
+                        step: this.step,
+                        origin_destination: this.origin_destination,
+                        patient: this.patient.patientID,
+                    }
 
-                        return Object.values(errors).forEach(error => {
-                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
-                        });
-                        
-                    })
+                   const url = `${this.APIHosts.art}/patient-steps`
+
+                    authResource().post(url, payload)
+                        .then(({data: {data}})=> {
+                            console.log(data)
+                            this.steps.push(data)
+                            this.art_number = ''
+                            this.stepDate = ''
+                            this.site = ''
+                            this.step = ''
+                            this.origin_destination = ''
+                            this.patient.patientID = ''
+
+                            this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
+                        })
+                        .catch(({response: {data: {errors}, data}}) => {
+                            console.log(data)
+
+                            return Object.values(errors).forEach(error => {
+                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            });
+                            
+                        }) 
+                }
+                
             },
 
             getStages(){

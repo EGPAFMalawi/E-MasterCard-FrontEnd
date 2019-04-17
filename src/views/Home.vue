@@ -77,7 +77,7 @@
           <form name='addpatient' v-on:submit.prevent="addPatient">
               <div class="form-row">
                   <div class="col-md-4 mb-3">
-                      <label for="validationServer01">Given Name</label>
+                      <label for="validationServer01">Given Name*</label>
                       <input type="text" class="form-control" placeholder="First name" v-model="given_name" required>
                        
                   </div>
@@ -87,13 +87,13 @@
 
                   </div>
                   <div class="col-md-4 mb-3">
-                      <label for="validationServer02">Family Name</label>
+                      <label for="validationServer02">Family Name*</label>
                       <input type="text" class="form-control" placeholder="Last name" v-model="family_name" required>
                   </div>
               </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                        <legend class="col-form-label col-sm-2 pt-0">Sex</legend>
+                        <legend class="col-form-label col-sm-2 pt-0">Sex*</legend>
                         <div class="col-sm-10">
                             <b-form-radio v-model="gender" name="sex" value="F">Female</b-form-radio>
                             <b-form-radio v-model="gender" name="sex" value="M">Male</b-form-radio>
@@ -191,13 +191,12 @@ export default {
             };
             console.log(this.searchParam)
             let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
-            
+
             if(this.searchParam !== '' && this.searchParam !== undefined){
                 authResource().post(dhisAPIEndpoint, payload)
-                .then((response)=>{
+                .then(({data: {data}})=>{
                     this.isLoading = false;
-                    this.patients.push(...response.data.data);
-
+                    this.patients = data
                 })
                 .catch((error)=>{
                     this.isLoading = false;
@@ -216,52 +215,60 @@ export default {
         addPatient : function ()
             {
                 this.isLoading = true;
+                if (this.gender === ''){
+                    this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
+                } else{
+                    let payload = {
+                        prefix : this.prefix,
+                        art_number : this.art_number,
+                        given_name : this.given_name,
+                        middle_name : this.middle_name,
+                        family_name : this.family_name,
+                        gender : this.gender,
+                        birthdate : this.birthdate,
+                        tribe : this.tribe,
+                        guardian_name : this.guardian_name,
+                        patient_phone : this.patient_phone,
+                        guardian_phone : this.guardian_phone,
+                        follow_up : this.follow_up,
+                        guardian_relation : this.guardian_relation,
+                        address1 : this.address1,
+                        address2 : this.address2,
+                        city_village :  this.city_village,
+                        state_province : this.state_province,
+                        postal_code : this.postal_code,
+                        country : this.country,
+                        latitude : this.latitude,
+                        longitude : this.longitude,
+                        county_district : this.county_district,
+                        neighborhood_cell : this.neighborhood_cell,
+                        region : this.region,
+                        subregion : this.subregion,
+                        township_division : this.township_division
+                    };
+                    
+                    let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
 
-                let payload = {
-                    prefix : this.prefix,
-                    art_number : this.art_number,
-                    given_name : this.given_name,
-                    middle_name : this.middle_name,
-                    family_name : this.family_name,
-                    gender : this.gender,
-                    birthdate : this.birthdate,
-                    tribe : 'Yao',
-                    guardian_name : this.guardian_name,
-                    patient_phone : this.patient_phone,
-                    guardian_phone : this.guardian_phone,
-                    follow_up : this.follow_up,
-                    guardian_relation : this.guardian_relation,
-                    address1 : this.address1,
-                    address2 : this.address2,
-                    city_village :  this.city_village,
-                    state_province : this.state_province,
-                    postal_code : this.postal_code,
-                    country : this.country,
-                    latitude : this.latitude,
-                    longitude : this.longitude,
-                    county_district : this.county_district,
-                    neighborhood_cell : this.neighborhood_cell,
-                    region : this.region,
-                    subregion : this.subregion,
-                    township_division : this.township_division
-                };
+                    authResource().post(dhisAPIEndpoint, payload)
+                        .then(({data: {data}})=>{
+                            this.isLoading = false
+
+                            sessionStorage.setItem('patient', JSON.stringify(data))
+                            this.$router.push('steps')
+                            this.$toast.success('Successfully added patient!', 'OK', notificationSystem.options.success)
+                            
+                        })
+                        .catch(({response: {data: {errors}, data}}) => {
+                            this.isLoading = false
+                                console.log(data)
+
+                                return Object.values(errors).forEach(error => {
+                                    this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                                });
+                                
+                            }) 
+                }
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
-
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then(({data: {data}})=>{
-                        this.isLoading = false;
-                        console.log(data)
-                        sessionStorage.setItem('patient', JSON.stringify(data));
-                        this.$router.push('steps')
-                        this.$toast.success('Successfully inserted record!', 'OK', notificationSystem.options.success)
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                        this.$toast.danger(error, 'OK', notificationSystem.options.success)
-                    })
 
             },
         loadRegions(){

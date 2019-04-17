@@ -330,6 +330,7 @@
     import authResource from './../../../authResource'
     import _ from 'lodash'
     import DatePicker from 'vue2-datepicker'
+    import { notificationSystem } from '../../../globals'
 
     export default {
         components: { DatePicker },
@@ -338,6 +339,8 @@
         methods: {
             getPatientCardDetails : function ()
             {
+
+                console.log(this.patient.person.gender)
                 let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,
@@ -418,9 +421,15 @@
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
+                        this.$toast.success('Successfully created a new visit!', 'OK', notificationSystem.options.success)
                     })
-                    .catch((error)=>{
-                        console.log(error)
+                    .catch(({response: {data: {errors}, data}}) => {
+                        console.log(data)
+
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
                     })
             },
             fillConceptObservations: function (patientCardData)
@@ -486,6 +495,7 @@
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patient : {
                     person : {

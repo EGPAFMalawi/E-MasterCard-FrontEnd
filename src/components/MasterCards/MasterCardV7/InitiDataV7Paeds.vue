@@ -403,7 +403,7 @@
                 testDate = new Date(testDate)
                 startDate = new Date(startDate)
 
-                if (testDate < startDate)
+                if (testDate <= startDate)
                     return true
                 else
                     return false

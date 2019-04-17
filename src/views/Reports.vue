@@ -157,13 +157,13 @@ export default {
         loadPatientDueViralCount(){
                 this.isLoading = true;
 
-                let payload = {
+                let count = {
                     code: 1,
                     type:'due6Months'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -182,13 +182,13 @@ export default {
         loadPatientDueViralCountTwelve(){
                 this.isLoading = true;
 
-                let payload = {
+                let count = {
                     code: 1,
                     type:'due12Months'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -205,13 +205,13 @@ export default {
         loadPatientDueViralCountYear(){
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 1,
                     type:'dueAfter12Months'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -226,13 +226,13 @@ export default {
 
         },
         loadPatientsDueAfterYearData(){
-                let payload = {
+                this.payload = {
                     code: 1,
                     type:'dueAfter12Months'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -245,13 +245,13 @@ export default {
                     })
         },
         loadPatientsDueTwelveMonthsData(){
-                let payload = {
+                this.payload = {
                     code: 1,
                     type:'due12Months'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -265,13 +265,13 @@ export default {
         },
 
             loadPatientsDue6MonthsData(){
-                let payload = {
+                this.payload = {
                     code: 1,
                     type:'due6Months'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -288,13 +288,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 6,
                     type:'CDCDefaulters'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -313,13 +313,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 6,
                     type:'MOHDefaulters'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -337,13 +337,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 5,
                     type: null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -362,13 +362,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 7,
                     type:'CDCTXCurrent'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -386,13 +386,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 7,
                     type:'MOHTXCurrent'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -411,13 +411,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 2,
                     type: null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -432,13 +432,13 @@ export default {
             },
 
             loadTomorrowAppointmentData(){
-                let payload = {
+                this.payload = {
                     code: 2,
                     type:null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -455,13 +455,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 3,
                     type:null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -480,13 +480,13 @@ export default {
             {
                 this.isLoading = true;
 
-                let payload = {
+                const count = {
                     code: 4,
                     type:null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code},type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
@@ -502,13 +502,13 @@ export default {
             },
 
             loadLastViralLoadGT1000Data(){
-                let payload = {
+                this.payload = {
                     code: 4,
                     type:null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -523,13 +523,13 @@ export default {
             },
 
             loadMissedAppointmentData(){
-                let payload = {
+                this.payload = {
                     code: 3,
                     type:null
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -544,12 +544,12 @@ export default {
             },
 
             loadPatientsOnDTGData(){
-                let payload = {
+                this.payload = {
                     code: 5,
                     type:null
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -564,12 +564,12 @@ export default {
             },
 
             loadCDCDefaultersData(){
-                let payload = {
+                this.payload = {
                     code: 6,
                     type:'CDCDefaulters'
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -584,12 +584,12 @@ export default {
             },
 
             loadMOHDefaultersData(){
-                let payload = {
+                this.payload = {
                     code: 6,
                     type:'MOHDefaulters'
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -603,13 +603,13 @@ export default {
             },
 
             loadCDCTXCurrentData(){
-                let payload = {
+                this.dataPayload = {
                     code: 7,
                     type:'CDCTXCurrent'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.dataPayload.code},type=${this.dataPayload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -624,13 +624,13 @@ export default {
             },
 
             loadMOHTXCurrentData(){
-                let payload = {
+                this.payload = {
                     code: 7,
                     type:'MOHTXCurrent'
 
                 };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code},type=${this.payload.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {patients}}})=>{
@@ -646,14 +646,8 @@ export default {
             downloadCDCDefaultersCount ()
             {
                 this.isLoading = true;
-
-                let payload = {
-                    code: 6,
-                    type:'CDCDefaulters'
-
-                };
                 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${payload.code},type=${payload.type}`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code},type=${this.payload.type}`;
 
                 const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
 
@@ -706,7 +700,8 @@ export default {
             lastViralLoadGT1000: {},
             cdctxcurrent: {},
             mohctxcurrent: {},
-            patients: []
+            patients: [],
+            payload:{}
         }
     }
 

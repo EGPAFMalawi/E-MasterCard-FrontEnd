@@ -73,60 +73,16 @@
         
     </section>
 
-    <b-modal id="stage-modal" title="Add New Step" hide-footer	 size="lg">
-           <form name='addStep' v-on:submit.prevent="addStep">
-            <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <label>ART Number</label>
-                    <input type="name" class="form-control" v-model="art_number" required>
-                
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <label >Step Date</label>
-                    <input type="date" class="form-control" v-model="stepDate" required>
-                
-                </div>
-            </div>
-              <div class="form-row">
-                  <div class="col-md-12 mb-3">
-                      <label>Site</label>
-                      <input type="text" class="form-control" placeholder="Site" v-model="site" required>
-                  </div>
-              </div>
-            <div class="form-row">
-                <div class="col-md-12 mb-3">
-                        <label>Step</label>
-                        <select  v-model="step" class="form-control" placeholder="Step" >
-                            <option :value="null" disabled>All The Available Step</option>
-                            <option value="Art Start">Art Start</option>
-                            <option value="Trans-in">Trans-in</option>
-                            <option value="Trans-out">Trans-out</option>
-                            <option value="Back to facility">Back to facility</option>
-                            <option value="Died">Died</option>
-                            <option value="Restart">Restart</option>
-                        </select>
-                </div>
-            </div>
-            <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                            <label>Original Destination</label>
-                            <input type="text" class="form-control" placeholder="Original Destination" v-model="original_destination">
-                    </div>
-                </div>
-                <button class="btn btn-success" type="submit">Submit form</button>
-            </form>
-        
-    </b-modal>
     </div>
 </template>
 
 <script>
 
-    import NavBar from "../../views/NavBar";
+    import NavBar from "../../views/NavBar"
     import authResource from './../../authResource'
-    import { version } from 'punycode';
+    import { version } from 'punycode'
+    import { notificationSystem } from '../../globals'
+import { async } from 'q';
 
     export default {
         name: 'ShowPatient',
@@ -137,8 +93,9 @@
                 let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards`;
 
                 authResource().get(dhisAPIEndpoint)
-                    .then((response)=>{
-                        this.availableMasterCards.push(...response.data.data)
+                    .then(async (response)=>{
+                        console.log(response)
+                        this.availableMasterCards = await response.data.data
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -157,11 +114,15 @@
                     .then((response)=>{
                         console.log(response)
                         sessionStorage.setItem('patientCard', JSON.stringify(response.data.data))
-
+                        this.$toast.success('Successfully created new card!', 'OK', notificationSystem.options.success)
                         this.$router.push('/patients/show/card')
+                        
                     })
-                    .catch((error)=>{
-                        console.log(error)
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
                     })
             },
             setPatientCard : function (patientCard)
@@ -170,36 +131,10 @@
 
                 this.$router.push('/patients/show/card')
             },
-            getStages(){
-                const url = `${this.APIHosts.art}/patients/${this.patient.patientID}/steps`
-
-                authResource().get(url)
-                    .then(({data: {data}})=> {
-                        this.stages = data;
-                        console.log(this.stages[0].patientStepID)
-                    })
-                    .catch(err => console.error(err))
-            },
-            addStep(){
-                const payload = {
-                    art_number: this.art_number,
-                    date: this.stepDate,
-                    site: this.site,
-                    step: this.step,
-                    original_destination: this.original_destination,
-                    patient: this.patient.patientID,
-                }
-                const url = `${this.APIHosts.art}/patient-steps`
-                console.log(payload)
-                authResource().post(url, payload)
-                    .then(({data: {data}})=> {
-                        this.stages.push(data)
-                    })
-                    .catch(err => console.error(err))
-            }
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patient : {
                     person : {
@@ -217,43 +152,48 @@
                 patientCards : [],
                 masterCardsToShow : [],
                 selectedMasterCardVersion : null,
-                stages: []
             }
         },
         created() {
             this.getMasterCards()
-            let patient = JSON.parse(sessionStorage.getItem('patient'))
+                let patient = JSON.parse(sessionStorage.getItem('patient'))
+                
+                if (!patient){
+                    this.$router.push('/')
+                }
 
-            if (!patient){
-                this.$router.push('/')
-            }
-
-            this.patient = patient
+                this.patient = patient
+                 console.log(this.patient.person)
+            
 
         },
 
         watch : {
-            patient : function (value) {
-                this.getStages()
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/${value.patientID}/cards`;
+            availableMasterCards : function (value) {
+               
+                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/${this.patient.patientID}/cards`;
 
                 authResource().get(dhisAPIEndpoint)
-                    .then((response)=>{
-                        this.patientCards.push(...response.data.data)
+                    .then(({data: {data}})=>{
+                        
+                        this.patientCards.push(...data)
+                        console.log(this.patientCards)
                     })
                     .catch((error)=>{
                         console.log(error)
                     })
             },
             patientCards : function (value) {
-                
                 const allVersions = JSON.parse(JSON.stringify(this.availableMasterCards))
+                console.log(allVersions)
                 const patientVersions = JSON.parse(JSON.stringify(value)).map(({masterCard: {name}}) => name)
 
                 this.masterCardsToShow = allVersions.filter(({name}) => {
                     if (!patientVersions.includes(name))
                         return name
                 })
+
+                console.log(this.masterCardsToShow)
             }
         }
     }

@@ -317,6 +317,7 @@
 
 <script>
     import authResource from './../../../authResource'
+    import { notificationSystem } from '../../../globals'
     import _ from 'lodash'
 
     export default {
@@ -401,13 +402,18 @@
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
-                        console.log(response);
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
+                        this.$toast.success('Successfully created a new visit!', 'OK', notificationSystem.options.success)
                     })
-                    .catch((error)=>{
-                        console.log(error)
+                    .catch(({response: {data: {errors}, data}}) => {
+                        console.log(data)
+
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
                     })
             },
             fillConceptObservations: function (patientCardData)
@@ -473,6 +479,7 @@
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patient : {
                     person : {
