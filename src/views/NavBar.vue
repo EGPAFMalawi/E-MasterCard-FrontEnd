@@ -2,7 +2,7 @@
     <header class="shadow-sm">
         <nav class="nav justify-content-center bg-light">
             <a class="navbar-brand" style="color: #d6d61a">
-                <h5>ART Mastercard Back-Data App</h5>
+                <h5>E-MasterCard</h5>
             </a>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">

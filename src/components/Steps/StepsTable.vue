@@ -13,7 +13,7 @@
                         Step Date
                     </th>
                     <th >
-                        Step
+                        Step / Outcome
                     </th>
                     <th >
                         Site

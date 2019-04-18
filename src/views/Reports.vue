@@ -103,7 +103,7 @@
                         No Records Available here
                     </div>
                     <div class="alert alert-primary" role="alert" v-if="patients[0] !== undefined">
-                        Download the excel sheet  <span v-on:click="downloadCDCDefaultersCount" class="alert-link">HERE</span> (in development)
+                        Download the excel sheet  <span v-on:click="downloadCDCDefaultersCount" class="alert-link">HERE</span>
                     </div>
                     <table class="table" v-if="patients[0] !== undefined">
                         <thead class="thead-dark">
