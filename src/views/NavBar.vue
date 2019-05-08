@@ -19,7 +19,7 @@
                     <router-link to="/reports"><span class="nav-link">Reports<span class="sr-only">(current)</span></span></router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/hts-records"><span class="nav-link">HTS Records<span class="sr-only">(current)</span></span></router-link>
+                    <router-link to="/hts-records"><span class="nav-link">HTS<span class="sr-only">(current)</span></span></router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
