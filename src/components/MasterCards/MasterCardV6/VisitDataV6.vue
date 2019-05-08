@@ -1,18 +1,17 @@
 <template>
-    <div class="shadow-8 border-2 border-yellow rounded p-2 m-4">
         <form v-on:submit.prevent="addNewVisit">
             <div class="table-responsive">
-                <table style="font-size: 10px">
-                    <thead>
+                <table class="table visit-table">
+                    <thead class="thead-dark">
                     <tr>
                         <th>
                             Visit Date
                         </th>
-                        <th >
+                        <th>
                             Weight
                         </th>
-                        <th >
-                            Pregnant / Breastfeed
+                        <th v-if="patient.person.gender === 'F'">
+                            Pregnant/Breastfeed
                         </th>
                         <th >
                             Tb Status (Current)*
@@ -37,30 +36,30 @@
                         <th colspan="2">
                             CPT/IPT Given
                         </th>
-                        <th colspan="2">
+                        <th v-if="patient.person.gender === 'F'" colspan="2" >
+                            Family Planning
+                        </th>
+                        <th v-if="patient.person.gender === 'M'" >
                             Family Planning
                         </th>
                         <th>
                             Month on ART
                         </th>
-                        <th colspan="2">
+                        <th colspan="3">
                             Viral Load
                         </th>
                         <th>
-                            Next Appointment / Outcome Date
-                        </th>
-                        <th>
-                            Adverse Outcome
+                            Next Appointment
                         </th>
                     </tr>
                     <tr>
                         <th width="5">
-                            DD/MM/YYY
+                            DD/MM/YYYY
                         </th>
                         <th>
                             kg
                         </th>
-                        <th>
+                        <th v-if="patient.person.gender === 'F'">
 
                         </th>
                         <th>
@@ -90,7 +89,7 @@
                         <th >
                             No. of Tablets
                         </th>
-                        <th>
+                        <th v-if="patient.person.gender === 'F'">
                             Depo Given
                         </th>
                         <th >
@@ -103,10 +102,10 @@
                             Sample Taken
                         </th>
                         <th>
-                            Result
+                            Symbol
                         </th>
                         <th>
-
+                            Result
                         </th>
                         <th>
 
@@ -116,42 +115,42 @@
                     <tbody>
                     <tr v-for="(encounter, key) in encounters" v-bind:key="key">
                         <td>
-                            <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
+                            <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
-                        <td>
-                            <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
+                        <td v-if="patient.person.gender === 'F'">
+                            <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
                                 <option value=""></option>
                                 <option value="Preg">Preg</option>
                                 <option value="Br">Br</option>
                             </select>
                         </td>
                         <td>
-                            <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N (Suspected No)</option>
                                 <option value="Y">Y (Suspected Yes)</option>
-                                <option value="C">C (Confirmed no Rx)</option>
+                                <option value="C">C (Confirmed Not Rx)</option>
                                 <option value="Rx">Rx (Confirmed Rx)</option>
                             </select>
                         </td>
                         <td>
-                            <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N</option>
                                 <option value="Y">Y</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" value="">
+                            <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control"  type="number" value="">
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" value="">
+                            <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control"  type="number" value="">
                         </td>
                         <td>
-                            <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="0A">0A</option>
                                 <option value="2A">2A</option>
@@ -167,10 +166,10 @@
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" value="">
+                            <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control"  type="number" value="">
                         </td>
                         <td style="width:30px">
-                            <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="P">P</option>
                                 <option value="G">G</option>
@@ -178,7 +177,7 @@
                         </td>
 
                         <td>
-                            <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="C">C (CPT Only)</option>
                                 <option value="I">I (IPT Only)</option>
@@ -186,83 +185,82 @@
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
-                        <td>
-                            <select v-model="observations['concept49Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                        <td v-if="patient.person.gender === 'F'">
+                            <select v-model="observations['concept49Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
                                 <option value="Depo">Depo Given</option>
                                 <option value="false">Depo not Given</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept50Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept50Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td style="width:60px">
-                            <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
-                                <option value="true">Bled True</option>
-                                <option value="false">Bled False</option>
+                                <option value="Bled">Bled</option>
                             </select>
                         </td>
                         <td>
-                            <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
-                        </td>
-                        <td>
-                            <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date" >
-                        </td>
-                        <td>
-                            <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control">
                                 <option value=""></option>
-                                <option value="D">D</option>
-                                <option value="Def">Def</option>
-                                <option value="Stop">Stop</option>
-                                <option value="TO">TO</option>
+                                <option value=">"> &gt; </option>
+                                <option value="<"> &lt; </option>
+                                <option value="=">=</option>
+                                <option value="LDL">LDL</option>
                             </select>
+                        </td>
+                        <td>
+                            <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control"  type="number">
+                        </td>
+                        <td>
+                            <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input v-model="concepts.concept32" name="Visit-Date" ref="visitDate" v-validate="'date_format:dd/MM/yyyy'" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  required>
+                            <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control"  type="date" required>
                             <span>{{ errors.first('Visit-Date')}}</span>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept33" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="30">
+                            <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
                         </td>
-                        <td>
-                            <select v-model="concepts.concept34" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow" >
+                        <td v-if="patient.person.gender === 'F'">
+                            <select v-model="concepts.concept34" class="form-control" >
                                 <option value=""></option>
                                 <option value="Preg">Preg</option>
                                 <option value="Br">Br</option>
                             </select>
                         </td>
                         <td>
-                            <select v-model="concepts.concept35" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept35" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N (Suspected No)</option>
                                 <option value="Y">Y (Suspected Yes)</option>
-                                <option value="C">C (Confirmed no Rx)</option>
+                                <option value="C">C (Confirmed Not Rx)</option>
                                 <option value="Rx">Rx (Confirmed Rx)</option>
                             </select>
                         </td>
                         <td>
-                            <select v-model="concepts.concept36" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept36" class="form-control">
                                 <option value=""></option>
                                 <option value="N">N</option>
                                 <option value="Y">Y</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept37" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="0">
+                            <input v-model="concepts.concept37" class="form-control"  type="number" min="0">
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept38" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="0">
+                            <input v-model="concepts.concept38" class="form-control"  type="number" min="0">
                         </td>
                         <td>
-                            <select v-model="concepts.concept39" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept39" class="form-control">
                                 <option value=""></option>
                                 <option value="0A">0A</option>
                                 <option value="2A">2A</option>
@@ -278,10 +276,10 @@
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept40" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number" min="0">
+                            <input v-model="concepts.concept40" class="form-control"  type="number" min="0">
                         </td>
                         <td style="width:30px">
-                            <select v-model="concepts.concept41" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept41" class="form-control">
                                 <option value=""></option>
                                 <option value="P">P</option>
                                 <option value="G">G</option>
@@ -289,7 +287,7 @@
                         </td>
 
                         <td>
-                            <select v-model="concepts.concept42" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept42" class="form-control">
                                 <option value=""></option>
                                 <option value="C">C (CPT Only)</option>
                                 <option value="I">I (IPT Only)</option>
@@ -297,69 +295,67 @@
                             </select>
                         </td>
                         <td>
-                            <input v-model="concepts.concept43" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept43" class="form-control"  type="number">
                         </td>
-                        <td>
-                            <select v-model="concepts.concept49"  class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                        <td v-if="patient.person.gender === 'F'">
+                            <select v-model="concepts.concept49"  class="form-control">
                                 <option value=""></option>
                                 <option value="Depo">Depo Given</option>
                                 <option value="false">Depo not Given</option>
                             </select>
                         </td>
                         <td style="width:60px">
-                            <input v-model="concepts.concept50" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept50" class="form-control"  type="number">
                         </td>
                         <td>
-                            <input v-model="concepts.concept44" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <input v-model="concepts.concept44" class="form-control"  type="number">
                         </td>
                         <td>
-                            <select v-model="concepts.concept45" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
+                            <select v-model="concepts.concept45" class="form-control">
                                 <option value=""></option>
-                                <option value="Bled">Bled True</option>
-                                <option value="false">Bled False</option>
+                                <option value="Bled">Bled</option>
                             </select>
                         </td>
                         <td>
-                            <input v-model="concepts.concept46" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="number">
+                            <select v-model="concepts.concept53" class="form-control">
+                                <option value=""></option>
+                                <option value=">"> &gt; </option>
+                                <option value="<"> &lt; </option>
+                                <option value="=">=</option>
+                                <option value="LDL">LDL</option>
+                            </select>
                         </td>
                         <td>
-                            <input name="Next Visit" v-model="concepts.concept47" v-validate="'date_format:dd/MM/yyyy|after:visitDate'" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2  leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text" required>
+                            <input v-model="concepts.concept46" class="form-control"  type="number">
+                        </td>
+                        <td>
+                            <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" >
                             <span>{{ errors.first('Next Visit')}}</span>
-                        </td>
-                        <td>
-                            <select v-model="concepts.concept48" class="appearance-none w-full border-2 border-grey bg-white py-2 px-2 rounded leading-tight focus:outline-none focus:bg-white focus:border-yellow">
-                                <option value=""></option>
-                                <option value="D">D</option>
-                                <option value="Def">Def</option>
-                                <option value="Stop">Stop</option>
-                                <option value="TO">TO</option>
-                            </select>
                         </td>
                     </tr>
                     </tbody>
-                </table>
+                     <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                        Visit Date must be before Appointment Date
+                    </b-tooltip>
+                    <b-form-invalid-feedback v-if="concepts.concept47 !== ''" :state="show">
+                        Visit Date must be before Appointment Date 
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="show">
+                        Looks Good.
+                    </b-form-valid-feedback>
+                    </table>
             </div>
-            <div class="my-4">
-
-                <div class="row">
-                    <div class="offset-4 col-4">
-                        <div class="w-full">
-                            <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2">
-                                Master Card Version
-                            </label>
-                            <div class="relative">
-                                <button type="submit" class="bg-yellow-darker px-4 py-2 text-white rounded flex mx-auto">Add Visit <font-awesome-icon icon="plus" class="ml-1"/></button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="form-row my-4">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
                 </div>
             </div>
         </form>
-    </div>
 </template>
 
 <script>
-    import axios from 'axios'
+    import authResource from './../../../authResource'
+    import { notificationSystem } from '../../../globals'
     import _ from 'lodash'
 
     export default {
@@ -374,7 +370,7 @@
                     'consider-version' : true
                 };
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData.push(...response.data.data)
@@ -442,15 +438,21 @@
                     'observations' : payload
                 };
 
-                axios.post(dhisAPIEndpoint, finalPayload)
+                authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
                         console.log(response);
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
+                        this.$toast.success('Successfully created a new visit!', 'OK', notificationSystem.options.success)
                     })
-                    .catch((error)=>{
-                        console.log(error)
+                    .catch(({response: {data: {errors}, data}}) => {
+                        console.log(data)
+
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
                     })
             },
             fillConceptObservations: function (patientCardData)
@@ -499,11 +501,24 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
+                    concept52: '',
+                    concept53 : '',
+
                 }
+            },
+            evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
+                visitDate = new Date(visitDate)
+                appointmentDate = new Date(appointmentDate)
+
+                if (visitDate < appointmentDate)
+                    return true
+                else
+                    return false
             }
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patient : {
                     person : {
@@ -537,6 +552,9 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
+                    concept52: '',
+                    concept53 : '',
+
                 }
             }
         },
@@ -568,6 +586,14 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
                 console.log(this.concepts)
+            },
+            'concepts.concept32': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
+            },
+            'concepts.concept47': function(){
+                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
         }
     }

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import  axios from 'axios'
+    import authResource from './../../authResource'
 
     export default {
         name: 'LoginForm',
@@ -37,7 +37,7 @@
 
                 let dhisAPIEndpoint = `${this.APIHosts.dhis}/${this.BASE_URL}`;
 
-                axios.get(dhisAPIEndpoint, requestConfig)
+                authResource().get(dhisAPIEndpoint, requestConfig)
                     .then((response)=>{
                         this.isLoading = false;
                         this.authResponse.isAuthenticated = true;

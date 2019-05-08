@@ -8,10 +8,13 @@
                         Visit Date
                     </th>
                     <th >
-                        Weight
+                        Age
                     </th>
-                    <th v-if="patient.person.gender === 'F'" >
-                        Pregnant / Breastfeed
+                    <th >
+                        Height
+                    </th>
+                    <th >
+                        Weight
                     </th>
                     <th >
                         Tb Status (Current)*
@@ -51,10 +54,13 @@
                         DD/MM/YYYY
                     </th>
                     <th>
-                        kg
+                        Curr
                     </th>
-                    <th v-if="patient.person.gender === 'F'" >
-
+                    <th>
+                        cm
+                    </th>
+                    <th>
+                        kg
                     </th>
                     <th>
 
@@ -106,14 +112,13 @@
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
+                        <input v-model="observations['concept52Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                     </td>
-                    <td v-if="patient.person.gender === 'F'">
-                        <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
-                            <option value=""></option>
-                            <option value="Preg">Preg</option>
-                            <option value="Br">Br</option>
-                        </select>
+                    <td style="width:60px">
+                        <input v-model="observations['concept51Encounter'+encounter.encounterID].value" class="form-control"  type="number">
+                    </td>
+                    <td style="width:60px">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number">
                     </td>
                     <td>
                         <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control">
@@ -140,19 +145,12 @@
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                            <option value="0P">0</option>
+                            <option value="2P">2</option>
+                            <option value="4P">4</option>
+                            <option value="9P">9</option>
+                            <option value="11P">11</option>
+                            <option value="0thP">0th</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -204,18 +202,17 @@
                 </tr>
                 <tr>
                     <td>
-                        <input v-model="concepts.concept32" class="form-control"  type="date" required>
+                        <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
+                        <input v-model="concepts.concept52" class="form-control"  type="number" min="30">
                     </td>
-                    <td v-if="patient.person.gender === 'F'">
-                        <select v-model="concepts.concept34" class="form-control" >
-                            <option value=""></option>
-                            <option value="Preg">Preg</option>
-                            <option value="Br">Br</option>
-                        </select>
+                    <td style="width:60px">
+                        <input v-model="concepts.concept51" class="form-control"  type="number" min="30">
+                    </td>
+                    <td style="width:60px">
+                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30">
                     </td>
                     <td>
                         <select v-model="concepts.concept35" class="form-control">
@@ -227,8 +224,7 @@
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept36" class="form-control"
-                        >
+                        <select v-model="concepts.concept36" class="form-control">
                             <option value=""></option>
                             <option value="N">N</option>
                             <option value="Y">Y</option>
@@ -238,31 +234,24 @@
                         <input v-model="concepts.concept37" class="form-control"  type="number" min="0" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0" >
+                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0">
                     </td>
                     <td>
                         <select v-model="concepts.concept39" class="form-control">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                            <option value="0P">0</option>
+                            <option value="2P">2</option>
+                            <option value="4P">4</option>
+                            <option value="9P">9</option>
+                            <option value="11P">11</option>
+                            <option value="0thP">0th</option>
                         </select>
                     </td>
                     <td style="width:60px">
                         <input v-model="concepts.concept40" class="form-control"  type="number" min="0">
                     </td>
                     <td style="width:30px">
-                        <select v-model="concepts.concept41" class="form-control" >
+                        <select v-model="concepts.concept41" class="form-control">
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -306,7 +295,8 @@
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                 </tr>
-                <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                </tbody>
+                 <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
                     Visit Date must be before Appointment Date
                 </b-tooltip>
                 <b-form-invalid-feedback v-if="concepts.concept47 !== ''" :state="show">
@@ -315,7 +305,6 @@
                 <b-form-valid-feedback :state="show">
                     Looks Good.
                 </b-form-valid-feedback>
-                </tbody>
             </table>
         </div>
             <div class="form-row my-4">
@@ -328,19 +317,15 @@
 
 <script>
     import authResource from './../../../authResource'
-    import _ from 'lodash'
-    import DatePicker from 'vue2-datepicker'
     import { notificationSystem } from '../../../globals'
+    import _ from 'lodash'
 
     export default {
-        components: { DatePicker },
-        name: 'VisitDataV7',
+        name: 'VisitDataV7Paeds',
         props: ['encounterTypes', 'postPayload'],
         methods: {
             getPatientCardDetails : function ()
             {
-
-                console.log(this.patient.person.gender)
                 let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,
@@ -417,7 +402,6 @@
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
-                        console.log(response);
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
@@ -478,12 +462,12 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
-                    concept52: '',
+                    concept52 : '',
                     concept53 : '',
 
                 }
             },
-             evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
+            evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
                 visitDate = new Date(visitDate)
                 appointmentDate = new Date(appointmentDate)
 
@@ -508,7 +492,6 @@
                 patientCardData : [
 
                 ],
-                show: false,
                 concepts : {
                     concept32 : '',
                     concept33 : '',
@@ -530,7 +513,7 @@
                     concept49 : '',
                     concept50 : '',
                     concept51 : '',
-                    concept52: '',
+                    concept52 : '',
                     concept53 : '',
                 }
             }

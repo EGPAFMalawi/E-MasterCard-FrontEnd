@@ -1,28 +1,27 @@
 <template>
     <div class="row">
         <div class="col-4">
-            <strong>Transfer-In Date</strong>
-            <input v-model="concepts.concept28" name="concept28" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="date">
+            <label>Transfer-In Date</label>
+            <h3>{{ this.patient.lastVisit.date}}</h3>
         </div>
         <div class="col-3">
-            <strong>ART Reg no</strong>
-            <input v-model="concepts.concept29"  name="concept29" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text">
-            <span>{{ errors.first('concept29')}}</span>
+            <label>ART Reg no</label>
+            <h3>{{ this.patient.artNumber}}</h3>
         </div>
         <div class="col-3">
-            <strong>Child HCC no</strong>
-            <input v-model="concepts.concept30" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text">
+            <label>Child HCC no</label>
+            <input v-model="concepts.concept30" class="form-control"  type="text">
         </div>
         <div class="col-2">
-            <strong>Year</strong>
-            <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class=" appearance-none border-2 border-grey rounded w-full py-2 px-2 -darker leading-tight focus:outline-none focus:bg-white focus:border-yellow"  type="text">
+            <label>Year</label>
+            <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class="form-control"  type="text">
             <span>{{ errors.first('Year')}}</span>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
+    import authResource from './../../../authResource'
 
     export default {
         name: 'RegistrationDataV7',
@@ -36,7 +35,7 @@
                     'consider-version' : true
                 };
 
-                axios.post(dhisAPIEndpoint, payload)
+                authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData.push(...response.data.data)
@@ -77,7 +76,7 @@
                     'observations' : payload
                 };
 
-                axios.post(dhisAPIEndpoint, finalPayload)
+                authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData = [];

@@ -1,32 +1,26 @@
 <template>
     <div>
-         <div class="container-fluid py-4">
+        <div class="container-fluid py-4">
             <div class="row d-flex justify-content-center">
                 <ul class="nav ">
                 <li class="nav-item">
                     <h5 class="navbar-brand">
                         ART Patient Card ARV Formulations, 
-                        <span class="badge badge-warning">Version 5</span>
+                        <span class="badge badge-info">Version 7 Paeds</span>
                     </h5>
                         
                 </li>
                 <li class="nav-item">
-                    <RegistrationDataV5 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV5>
+                    <RegistrationDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV7Paeds>
                 </li>
             </ul>
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <InitDataV5 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV5>
+            <InitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV7Paeds>
         </div>
-         <div class="container">
-            <div class="row justify-content-center">
-                <h5 class="text-align-center">Visit Data</h5>
-            </div>
-            
-        </div>
-        <div class="container-fluid d-flex justify-content-center">
-            <VisitDataV5 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV5>
+        <div class="container d-flex justify-content-center">
+            <VisitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7Paeds>
         </div>
         <section>
             <div class="container">
@@ -43,13 +37,13 @@
 
 <script>
     import authResource from './../../../authResource'
-    import InitDataV5 from "./InitiDataV5";
-    import VisitDataV5 from "./VisitDataV5";
-    import RegistrationDataV5 from "./RegistrationDataV5";
+    import InitDataV7Paeds from "./InitiDataV7Paeds";
+    import VisitDataV7Paeds from "./VisitDataV7Paeds";
+    import RegistrationDataV7Paeds from "./RegistrationDataV7Paeds";
 
     export default {
-        name: 'MasterCardV5',
-        components: {RegistrationDataV5, VisitDataV5, InitDataV5},
+        name: 'MasterCardV7Paeds',
+        components: {RegistrationDataV7Paeds, VisitDataV7Paeds, InitDataV7Paeds},
         methods: {
             getMasterCardDetails : function ()
             {

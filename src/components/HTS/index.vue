@@ -1,0 +1,209 @@
+<template>
+    <div>
+        <div>
+            <NavBar></NavBar>
+        </div>
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center">
+                <h5 class="navbar-brand">{{ HTS }}</h5>
+            </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="row">
+                <div class="card-deck">
+                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;" v-b-modal.recordsModal>
+                        <div class="card-body">
+                            <h5 class="card-title">View Present Records</h5>
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                    </div>
+                    <div class="card text-white bg-success mb-3" style="max-width: 18rem;" v-b-modal.addNewRecord>
+                        <div class="card-body">
+                            <h5 class="card-title">Add a New Record</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         
+
+        <b-modal id="addNewRecord" title="Add New HTS Record" v-model="show" hide-footer>
+            <form v-on:submit.prevent="processRecord">
+            <div class="container">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label>Age</label>
+                            <input v-model="age" class="form-control"  type="number" required>
+                        </div>
+                        <div class="col-6">
+                            <label>Sex</label>
+                            <div class="input-group pt-1">
+                                <b-form-radio v-model="sex" name="sex" value="Female">Female</b-form-radio>
+                                <span style="margin: 0 0.5em"></span>
+                                <b-form-radio v-model="sex" name="sex" value="Male">Male</b-form-radio>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label>Status</label>
+                            <select class="form-control" v-model="status" required>
+                                <option :value="null" disabled>Select Status</option>
+                                <option value="New Positive">New Positive</option>
+                                <option value="New Negative">New Negative</option>
+                                <option value="Positive">Positive</option>
+                                <option value="Negative">Negative</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label>Modality</label>
+                            <select class="form-control" v-model="modality" required>
+                                <option :value="null" disabled>Select Status</option>
+                                <option value="PITC - Other">PITC - Other</option>
+                                <option value="Index (FRS in HTS Register)">Index (FRS in HTS Register)</option>
+                                <option value="VCT (Co-Located & Stand Alone)">VCT (Co-Located & Stand Alone)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-3" type="submit">Submit Record</button>
+            </div>
+            
+            </form>
+        </b-modal>
+
+          <b-modal id="recordsModal" title="HTS Reports" hide-footer size="xl">
+            <div class="container">
+                <div class="row d-flex justify-content-center py-5">
+                    <div class="alert alert-warning" role="alert" v-if="records[0] === undefined">
+                        No Records Available here
+                    </div>
+                    <!-- <div class="alert alert-primary" role="alert" v-if="records[0] !== undefined">
+                        Download the excel sheet  <span class="alert-link">HERE</span>
+                    </div> -->
+                    <b-table
+                        id="my-table"
+                        :items="records"
+                        :per-page="perPage"
+                        :current-page="currentPage"
+                        hover responsive>
+                    </b-table>
+                    <!-- <table id="my-table" class="table" v-if="records[0] !== undefined">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col">RECORD #</th>
+                            <th scope="col">AGE</th>
+                            <th scope="col">SEX</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">MODALITY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(record, index) in records" v-bind:key="index">
+                                <th scope="row">{{ record.HTSRecordID}}</th>
+                                <td>{{ record.age}}</td>
+                                <td>{{ record.sex}}</td>
+                                <td>{{ record.status}}</td>
+                                <td>{{ record.modality}}</td>
+                            </tr>
+                        </tbody>
+                </table> -->
+
+                <b-pagination
+                    v-model="currentPage"
+                    :total-rows="rows"
+                    :per-page="perPage"
+                    aria-controls="my-table"
+                    ></b-pagination>
+            </div>
+        </div>
+        </b-modal>
+    </div>
+</template>
+
+<script>
+    import authResource from './../../authResource'
+    import NavBar from '../../views/NavBar'
+    import { notificationSystem } from '../../globals'
+
+    export default {
+        name: 'HTS',
+        components: { NavBar},
+        methods: {
+            processRecord(){
+                const payload = {
+                    age: this.age,
+                    sex: this.sex,
+                    status: this.status,
+                    modality: this.modality
+                }
+
+                this.show = false
+                return this.postRecord(payload)
+            }
+            ,            
+            getRecords(){
+                const url = `${this.APIHosts.art}/${this.BASE_URL}`
+
+                authResource().get(url)
+                    .then(({data: {data}})=> {
+                        this.records = JSON.parse(JSON.stringify(data)).map((record) => {
+                            const {object, ...rest} = record
+                            return rest
+                        })
+                    })
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                            
+                    }) 
+            },
+            postRecord(payload){
+                const url = `${this.APIHosts.art}/${this.BASE_URL}`
+
+                authResource().post(url, payload)
+                    .then(({data: data}) => {
+                        this.$toast.success('Successfully added record!', 'OK', notificationSystem.options.success)
+                        const {object, ...rest} = data
+                        this.getRecords()
+                        this.age = 0
+                        this.sex = ''
+                        this.status = ''
+                        this.modality = ''
+                    })
+                    .catch(({response: {data: {errors}, data}}) => {
+
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                            
+                    }) 
+            }
+        },
+        data: () => {
+            return {
+                notificationSystem,
+                show: false,
+                BASE_URL : 'hts-records',
+                age: '',
+                sex: '',
+                status: '',
+                modality: '',
+                records: [],
+                postPayload : false,
+                perPage: 8,
+                currentPage: 1,
+            }
+        },
+        computed: {
+            rows() {
+                return this.records.length
+            }
+        },
+        created() {
+            this.getRecords()
+        }
+    }
+</script>

@@ -8,10 +8,6 @@
             <label>ART Reg no</label>
             <h3>{{ this.patient.artNumber}}</h3>
         </div>
-        <div class="col-3">
-            <label>Child HCC no</label>
-            <input v-model="concepts.concept30" class="form-control"  type="text">
-        </div>
         <div class="col-2">
             <label>Year</label>
             <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class="form-control"  type="text">
@@ -24,7 +20,7 @@
     import authResource from './../../../authResource'
 
     export default {
-        name: 'RegistrationDataV6',
+        name: 'RegistrationDataV7Paeds',
         props : ['encounterTypes', 'postPayload'],
         methods: {
             getPatientCardDetails : function ()

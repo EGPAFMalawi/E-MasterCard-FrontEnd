@@ -1,21 +1,36 @@
 import Vue from 'vue'
 import App from './App.vue'
+import BootstrapVue from 'bootstrap-vue'
+import VueFilterDateFormat from 'vue-filter-date-format';
+ 
+
 import router from './router'
-import './assets/css/main.css'
-import './assets/css/other.css'
-import 'bootstrap-4-grid/css/grid.min.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '../src/assets/css/main.css'
 import VeeValidate from 'vee-validate'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueIziToast from "vue-izitoast";
+
+import "izitoast/dist/css/iziToast.css";
+
+Vue.use(VueIziToast);
+
 
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.use(VueFilterDateFormat)
+Vue.use(BootstrapVue)
 Vue.use(VeeValidate, {
     classes:true
 });
+
+Vue.use(require('vue-moment'))
+
 
 Vue.config.productionTip = false
 
@@ -24,7 +39,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://localhost:8000/api',
+                art : 'http://localhost:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             }
         }
