@@ -1,5 +1,6 @@
 <template>
     <div>
+        <button class="sticky-top btn btn-info" @click="goBack">Back</button>
         <div class="container-fluid py-4">
             <div class="row d-flex justify-content-center">
                 <ul class="nav ">
@@ -51,6 +52,10 @@
         name: 'MasterCardV7',
         components: {RegistrationDataV7, VisitDataV7, InitDataV7},
         methods: {
+            goBack(){
+                 this.$router.go(-1)
+            },
+
             getMasterCardDetails : function ()
             {
                 let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
