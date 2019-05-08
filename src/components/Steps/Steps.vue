@@ -48,7 +48,7 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {person: {personName: { }}},
+                patient : {person: {personName: {}}},
                 steps: [],
                 postPayload : false
             }

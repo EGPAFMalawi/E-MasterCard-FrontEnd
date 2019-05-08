@@ -13,7 +13,7 @@
                         Step Date
                     </th>
                     <th >
-                        Step / Outcome
+                        Step/Outcome
                     </th>
                     <th >
                         Site
@@ -34,12 +34,13 @@
                     <td>
                         <select v-model="singleStep.step" class="form-control">
                             <option>{{singleStep.step}}</option>
-                            <option value="Art Start">Art Start</option>
+                            <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
                             <option value="Back to facility">Back to facility</option>
-                            <option value="Died">Died</option>
+                            <option value="ART Stop">ART Stop</option>
                             <option value="Restart">Restart</option>
+                            <option value="Died">Died</option>
                         </select>
                     </td>
                     <td>
@@ -49,7 +50,13 @@
                     </td>
 
                     <td>
-                        <input v-model="singleStep.artNumber" class="form-control"  type="text" required>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">{{prefix}}</div>
+                            </div>
+                            <input v-model="singleStep.artNumber" class="form-control"  type="text" required>
+                        </div>
+                        
                     </td>
                     <td>
                         <select  v-model="singleStep.originDestination" class="form-control">
@@ -78,7 +85,12 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="art_number" class="form-control"  type="text" required>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">{{prefix}}</div>
+                            </div>
+                            <input v-model="art_number" class="form-control"  type="text" required>
+                        </div>
                     </td>
                     <td>
                         <select  v-model="origin_destination" class="form-control">
@@ -128,7 +140,10 @@ import { error } from 'util';
                     patient: this.patient.patientID,
                 }
 
-                if (this.step === 'Art Start' && this.origin_destination === ''){
+                if ((this.step === 'Trans-in' && this.origin_destination === '') ||
+                    (this.step === 'Trans-out' && this.origin_destination === '') ||
+                    (this.step === 'Back to facility' && this.origin_destination === '')
+                ){
                     return this.$toast.error(`<strong>Origi/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
                 }else{
 
@@ -213,7 +228,8 @@ import { error } from 'util';
                 site:'',
                 origin_destination: '',
                 steps: [],
-                facilities: []
+                facilities: [],
+                prefix: 'PRE'
             }
         },
         beforeMount(){

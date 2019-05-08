@@ -6,70 +6,73 @@
                             <h5 class="text-align-center">Patient / Guardian Details</h5>
                         </div>
                         <div class="card-body reduce-margin-p">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Patient Name
-                                </div>
-                                <div class="col-md-9">
-                                    {{ patient.person.personName.given+' '+patient.person.personName.middle+' '+patient.person.personName.family}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Sex
-                                </div>
-                                <div class="col-md-9">
-                                    {{ patient.person.gender === 'M' ? 'Male' : 'Female'}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Tribe
-                                </div>
-                                <div class="col-md-9">
-                                    {{ patient.person.tribe }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Date of Birth
-                                </div>
-                                <div class="col-md-9">
-                                    {{ patient.person.birthdate }}
-                                </div>
-                            </div>
-                                <div class="row">
-                                <div class="col-md-3">
-                                    Physical Address
-                                </div>
-                                <div class="col-md-9">
-                                    {{ patient.person.personAddress.cityVillage + (patient.person.personAddress.townshipDivision !== null ? (', ' + patient.person.personAddress.townshipDivision) : '')}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Guardian Name
-                                </div>
-                                <div class="col-md-9">
-                                    {{ patient.guardianName + ', ' + patient.guardianRelation}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Phone
-                                </div>
-                                <div class="col-md-9">
-                                    Patient: {{ patient.patientPhone}}, Guardian: {{ patient.guardianPhone}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Agree to FUP
-                                </div>
-                                <div class="col-md-9">
-                                    {{ (patient.followUp === 'true' ? 'Yes' : 'No') }}
-                                </div>
-                            </div>
+                            <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                      <label for="validationServer01">Given Name*</label>
+                      <input type="text" class="form-control" placeholder="First name" v-model="patient.person.personName.given" required>
+                       
+                  </div>
+                  <div class="col-md-4 mb-3">
+                      <label for="validationServer02">Middle Name</label>
+                      <input type="text" class="form-control" placeholder="Middle name" v-model="patient.person.personName.middle">
+
+                  </div>
+                  <div class="col-md-4 mb-3">
+                      <label for="validationServer02">Family Name*</label>
+                      <input type="text" class="form-control" placeholder="Last name" v-model="patient.person.personName.family" required>
+                  </div>
+              </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                        <lable class="col-form-label col-sm-2 pt-0">Sex*</lable>
+                        <div class="col-sm-10">
+                            <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
+                            <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
+                        </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationServer03">Date of Birth</label>
+                    <input type="date" class="form-control" v-model="patient.person.birthdate">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                        <label for="validationServer03">Guardian Name</label>
+                        <input type="text" class="form-control" placeholder="Name of guardian" v-model="patient.guardianName">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationServer03">Guardian Relation</label>
+                    <input type="text" class="form-control" placeholder="Guardian Relation" v-model="patient.guardianRelation">
+                </div>
+                
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationServer03">Patient Phone Number</label>
+                    <input type="text" class="form-control" placeholder="Patient" v-model="patient.patientPhone">
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationServer03">Guardian Phone Number</label>
+                    <input type="text" class="form-control" placeholder="Guardian" v-model="patient.guardianPhone">
+                </div>
+                
+            </div>
+             <div class="form-row">
+                <div class="col-md-6 mb-3">
+                        <label>Agrees to FUP</label>
+                        <div class="col-sm-10">
+                            <b-form-radio v-model="patient.followUp" name="followUp" value="true">Yes</b-form-radio>
+                            <b-form-radio v-model="patient.followUp" name="followUp" value="false">No</b-form-radio>
+                        </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                        <label>Physical Address</label>
+                        <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.address1">
+                    </div>
+            </div>  
+                <button class="btn btn-success" type="submit">UPDATE</button>
+            
                         </div>
                     </div>
                     <div class="card my-4">
@@ -91,7 +94,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>WHO Stage</label>
-                                        <input v-model="concepts.concept3" type="text" class="form-control" placeholder="CD4" required>
+                                        <input v-model="concepts.concept3" type="number" class="form-control" placeholder="WHO Stage" required>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label>TB Status at Init</label>
@@ -160,8 +163,24 @@
                                                 <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                                         <label for="validationServer03">Last ARVs (type/date)</label>
                                                         <div class="form-inline fit-2-input-fields">
-                                                                <input  v-model="concepts.concept13" type="text" class="form-control" id="validationServer03" placeholder="Drug">
-                                                                <input  v-model="concepts.concept14" type="date" class="form-control" id="validationServer03" required>
+                                                            <select  class="form-control" v-model="concepts.concept13">
+                                                                <option value=""></option>
+                                                                <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
+                                                                <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
+                                                                <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
+                                                                <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
+                                                                <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
+                                                                <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
+                                                                <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
+                                                                <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
+                                                                <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
+                                                                <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
+                                                                <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
+                                                                <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
+                                                                <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                                                            </select>
+                                                            
+                                                            <input  v-model="concepts.concept14" type="date" class="form-control" id="validationServer03" required>
                                                         </div>
                                                 </div>    
                                         </div>
@@ -211,8 +230,14 @@
                                                                                 <option value="N">N</option>
                                                                                 <option value="Y">Y</option>
                                                                             </select>
-                                                                            <input v-model="concepts.concept19" type="date" class="form-control" required>
+                                                                            <input v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
                                                                     </div>
+                                                                    <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
+                                                                        Please make sure that the education is before the ART regimen start date 
+                                                                    </b-form-invalid-feedback>
+                                                                    <b-form-valid-feedback :state="evalEduDate">
+                                                                        Looks Good.
+                                                                    </b-form-valid-feedback>
                                                             </div>
                                                       </div>
 
@@ -254,6 +279,12 @@
                                                                         Please make sure that the Test date is before the ART regimen start date 
                                                                     </b-form-invalid-feedback>
                                                                     <b-form-valid-feedback :state="eval">
+                                                                        Looks Good.
+                                                                    </b-form-valid-feedback>
+                                                                    <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
+                                                                        Please make sure that the education is before the ART regimen start date 
+                                                                    </b-form-invalid-feedback>
+                                                                    <b-form-valid-feedback :state="evalEduDate">
                                                                         Looks Good.
                                                                     </b-form-valid-feedback>
                                                             </div>
@@ -306,8 +337,9 @@
 
 <script>
     import authResource from './../../../authResource'
-import { log } from 'util';
-import { type } from 'os';
+    import { log } from 'util'
+    import { type } from 'os'
+    import { notificationSystem } from '../../../globals'
 
     export default {
         name: 'InitDataV7',
@@ -348,7 +380,8 @@ import { type } from 'os';
                     })
             },
             processDataForPost: function ()
-            {
+            {   
+
                 let payloadForStatus = this.encounterTypes[1].concepts.map((item)=>{
                     return {
                         'concept' : item.conceptID,
@@ -367,11 +400,26 @@ import { type } from 'os';
                     }
                 });
 
-                let finalPayload = [];
-                finalPayload.push(...payloadForStatus);
-                finalPayload.push(...payloadForConfirmatory);
+                if(this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                    let finalPayload = [];
+                    finalPayload.push(...payloadForStatus);
+                    finalPayload.push(...payloadForConfirmatory);
 
-                this.handlePost(finalPayload);
+                    this.handlePost(finalPayload);
+                }
+                else{
+                    return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+                }
+
+                if(this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+                    let finalPayload = [];
+                    finalPayload.push(...payloadForStatus);
+                    finalPayload.push(...payloadForConfirmatory);
+
+                    this.handlePost(finalPayload);
+                }else{
+                    return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
+                }
             },
             getObservation: function (conceptID)
             {
@@ -417,11 +465,11 @@ import { type } from 'os';
                const birthdate = new Date(birthYear.toString())
                return birthdate.toLocaleDateString()
             },
-            evaluateIfTestDateBeforeARTStartDate(testDate, startDate){
-                testDate = new Date(testDate)
+            evaluateDateBeforeARTStartDate(date, startDate){
+                date = new Date(date)
                 startDate = new Date(startDate)
 
-                if (testDate <= startDate)
+                if (date <= startDate)
                     return true
                 else
                     return false
@@ -429,6 +477,7 @@ import { type } from 'os';
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patient : {
                     person : {
@@ -469,7 +518,8 @@ import { type } from 'os';
                     concept26 : '',
                     concept27 : '',
                 },
-                eval:false
+                eval:false,
+                evalEduDate: false
             }
         },
         created() {
@@ -491,8 +541,10 @@ import { type } from 'os';
         },
         watch : {
             postPayload : function ()
-            {
+            {   
                 this.processDataForPost();
+                
+                
             },
             encounterTypes : function (value) {
                 if (value.length > 0)
@@ -506,13 +558,18 @@ import { type } from 'os';
                 this.fillConceptObservations(value);
             },
             'concepts.concept23': function(){
+                this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
+                
                 if (this.patient.person.birthdate === '')
                     this.patient.person.birthdate = this.calculatedBirthDate()    
 
-                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             'concepts.concept16': function(){
-                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+            },
+            'concepts.concept19': function(){
+                this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             }
         }
     }

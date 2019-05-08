@@ -133,7 +133,13 @@
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="validationServer03">Guardian Relation</label>
-                    <input type="text" class="form-control" placeholder="Guardian Relation" v-model="guardian_relation">
+                    <select class="form-control" v-model="guardian_relation">
+                        <option :value="null" disabled>Select Relation</option>
+                        <option value="Parent">Parent</option>
+                        <option value="Spouse">Spouse</option>
+                        <option value="Relative">Relative</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                         <label>Agrees to FUP</label>
@@ -260,13 +266,12 @@ export default {
                         })
                         .catch(({response: {data: {errors}, data}}) => {
                             this.isLoading = false
-                                console.log(data)
 
-                                return Object.values(errors).forEach(error => {
-                                    this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
-                                });
+                            return Object.values(errors).forEach(error => {
+                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            });
                                 
-                            }) 
+                        }) 
                 }
                 
 
@@ -295,9 +300,6 @@ export default {
                 .then(({data: {data}})=>{
                     this.isLoading = false;
                     this.districts = JSON.parse(JSON.stringify(data))
-                    // sessionStorage.setItem('patient', JSON.stringify(data));
-                    // this.setPatient(data)
-                    
                 })
                 .catch((error)=>{
                     this.isLoading = false;
@@ -313,9 +315,6 @@ export default {
                 .then(({data: {data}})=>{
                     this.isLoading = false;
                     this.TAs = JSON.parse(JSON.stringify(data))
-                    // sessionStorage.setItem('patient', JSON.stringify(data));
-                    // this.setPatient(data)
-                    
                 })
                 .catch((error)=>{
                     this.isLoading = false;
