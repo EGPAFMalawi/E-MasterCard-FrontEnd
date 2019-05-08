@@ -75,8 +75,10 @@
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
                             <option value="Back to facility">Back to facility</option>
-                            <option value="Died">Died</option>
+                            <option value="ART Stop">ART Stop</option>
                             <option value="Restart">Restart</option>
+                            <option value="Died">Died</option>
+                            
                         </select>
                     </td>
                     <td>
@@ -123,7 +125,7 @@
     import authResource from './../../authResource'
     import _ from 'lodash'
     import { notificationSystem } from '../../globals'
-import { error } from 'util';
+    import { error } from 'util';
 
 
     export default {
