@@ -5,7 +5,7 @@
                 <h5>E-MasterCard</h5>
             </a>
         </nav>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -19,7 +19,7 @@
                     <router-link to="/reports"><span class="nav-link">Reports<span class="sr-only">(current)</span></span></router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/hts-records"><span class="nav-link">HTS Records<span class="sr-only">(current)</span></span></router-link>
+                    <router-link to="/hts-records"><span class="nav-link">HTS<span class="sr-only">(current)</span></span></router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

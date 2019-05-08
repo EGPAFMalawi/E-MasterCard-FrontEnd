@@ -10,22 +10,35 @@
         </div>
         <div class="container-fluid d-flex justify-content-center">
             <div class="row">
-                <div class="card-deck">
-                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;" v-b-modal.recordsModal>
-                        <div class="card-body">
-                            <h5 class="card-title">View Present Records</h5>
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-success mb-3" style="max-width: 18rem;" v-b-modal.addNewRecord>
-                        <div class="card-body">
-                            <h5 class="card-title">Add a New Record</h5>
-                        </div>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-success btn-lg" v-b-modal.addNewRecord>Add a New Record</button>
+               
             </div>
         </div>
-
+        <section class="mt-5">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="alert alert-warning" role="alert" v-if="records[0] === undefined">
+                        No Records Available here
+                    </div>
+                        <b-table
+                            v-if="records[0] !== undefined"
+                            id="my-table"
+                            :items="records"
+                            :per-page="perPage"
+                            :current-page="currentPage"
+                            striped hover responsive>
+                        </b-table>
+                        <b-pagination
+                        v-if="records[0] !== undefined"
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        aria-controls="my-table"
+                        ></b-pagination>
+                    
+                </div>
+            </div>
+        </section>
          
 
         <b-modal id="addNewRecord" title="Add New HTS Record" v-model="show" hide-footer>
