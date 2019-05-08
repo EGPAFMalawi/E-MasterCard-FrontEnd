@@ -7,6 +7,7 @@ import AddPatient from "./components/Patients/AddPatient";
 import ShowPatient from "./components/Patients/ShowPatient";
 import LoginPage from "./views/LoginPage";
 import Steps from './components/Steps/Steps'
+import HTS from './components/HTS'
 
 Vue.use(Router);
 
@@ -44,6 +45,14 @@ const router =  new Router({
             path: '/steps',
             name: 'steps',
             component: Steps,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/hts-records',
+            name: 'hts-records',
+            component: HTS,
             meta: {
                 requiresAuth: true
             }
