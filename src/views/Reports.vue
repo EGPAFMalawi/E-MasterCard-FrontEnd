@@ -168,9 +168,7 @@ export default {
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
-                        this.dueSixMonths = JSON.parse(JSON.stringify({counts}))
-                        console.log(this.dueSixMonths)
-                        
+                        this.dueSixMonths = JSON.parse(JSON.stringify({counts}))  
                     })
                     .catch((error)=>{
                         this.isLoading = false;

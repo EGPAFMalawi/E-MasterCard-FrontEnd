@@ -3,17 +3,15 @@
         <div>
             <NavBar></NavBar>
         </div>
-        <div class="container py-5">
-            <div class="row d-flex justify-content-center">
-                <h5 class="navbar-brand">{{ HTS }}</h5>
-            </div>
-        </div>
-        <div class="container-fluid d-flex justify-content-center">
+        <section class="mt-5">
+            <div class="container d-flex justify-content-center">
             <div class="row">
                 <button type="button" class="btn btn-success btn-lg" v-b-modal.addNewRecord>Add a New Record</button>
                
             </div>
         </div>
+        </section>
+        
         <section class="mt-5">
             <div class="container">
                 <div class="row d-flex justify-content-center">
@@ -21,7 +19,6 @@
                         No Records Available here
                     </div>
                         <b-table
-                            v-if="records[0] !== undefined"
                             id="my-table"
                             :items="records"
                             :per-page="perPage"
@@ -66,8 +63,6 @@
                                 <option :value="null" disabled>Select Status</option>
                                 <option value="New Positive">New Positive</option>
                                 <option value="New Negative">New Negative</option>
-                                <option value="Positive">Positive</option>
-                                <option value="Negative">Negative</option>
                             </select>
                         </div>
                         <div class="col-6">
@@ -84,53 +79,6 @@
             </div>
             
             </form>
-        </b-modal>
-
-          <b-modal id="recordsModal" title="HTS Reports" hide-footer size="xl">
-            <div class="container">
-                <div class="row d-flex justify-content-center py-5">
-                    <div class="alert alert-warning" role="alert" v-if="records[0] === undefined">
-                        No Records Available here
-                    </div>
-                    <!-- <div class="alert alert-primary" role="alert" v-if="records[0] !== undefined">
-                        Download the excel sheet  <span class="alert-link">HERE</span>
-                    </div> -->
-                    <b-table
-                        id="my-table"
-                        :items="records"
-                        :per-page="perPage"
-                        :current-page="currentPage"
-                        hover responsive>
-                    </b-table>
-                    <!-- <table id="my-table" class="table" v-if="records[0] !== undefined">
-                        <thead class="thead-dark">
-                            <tr>
-                            <th scope="col">RECORD #</th>
-                            <th scope="col">AGE</th>
-                            <th scope="col">SEX</th>
-                            <th scope="col">STATUS</th>
-                            <th scope="col">MODALITY</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(record, index) in records" v-bind:key="index">
-                                <th scope="row">{{ record.HTSRecordID}}</th>
-                                <td>{{ record.age}}</td>
-                                <td>{{ record.sex}}</td>
-                                <td>{{ record.status}}</td>
-                                <td>{{ record.modality}}</td>
-                            </tr>
-                        </tbody>
-                </table> -->
-
-                <b-pagination
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    aria-controls="my-table"
-                    ></b-pagination>
-            </div>
-        </div>
         </b-modal>
     </div>
 </template>
@@ -177,10 +125,10 @@
                 const url = `${this.APIHosts.art}/${this.BASE_URL}`
 
                 authResource().post(url, payload)
-                    .then(({data: data}) => {
+                    .then(({data: {data}}) => {
                         this.$toast.success('Successfully added record!', 'OK', notificationSystem.options.success)
                         const {object, ...rest} = data
-                        this.getRecords()
+                        this.records.push(...rest)
                         this.age = 0
                         this.sex = ''
                         this.status = ''
@@ -198,6 +146,7 @@
         data: () => {
             return {
                 notificationSystem,
+                isBusy: true,
                 show: false,
                 BASE_URL : 'hts-records',
                 age: '',
@@ -213,6 +162,11 @@
         computed: {
             rows() {
                 return this.records.length
+            }
+        },
+        watch: {
+            records: function(){
+                this.isBusy = !this.isBusy
             }
         },
         created() {

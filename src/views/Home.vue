@@ -93,7 +93,7 @@
               </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                        <legend class="col-form-label col-sm-2 pt-0">Sex*</legend>
+                        <label class="col-form-label col-sm-2 pt-0">Sex*</label>
                         <div class="col-sm-10">
                             <b-form-radio v-model="gender" name="sex" value="F">Female</b-form-radio>
                             <b-form-radio v-model="gender" name="sex" value="M">Male</b-form-radio>
@@ -171,7 +171,7 @@
                             </select>
                     </div>
                 </div>
-                <button class="btn btn-success" type="submit">Submit form</button>
+                <button class="btn btn-success" type="submit">Add Patient</button>
             </form>
         </b-modal>
     </div>
@@ -195,7 +195,6 @@ export default {
             let payload = {
                 search : this.searchParam,
             };
-            console.log(this.searchParam)
             let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
 
             if(this.searchParam !== '' && this.searchParam !== undefined){
@@ -284,8 +283,6 @@ export default {
                 .then(({data: {data}})=>{
                     this.isLoading = false;
                     this.regions = JSON.parse(JSON.stringify(data))
-                    console.log(this.regions)
-                    
                 })
                 .catch((error)=>{
                     this.isLoading = false;

@@ -106,16 +106,6 @@
                 <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
             </div>
         </div>
-
-        <b-alert
-            :show="dismissCountDown"
-            dismissible
-            variant="success"
-            @dismissed="dismissCountDown=0"
-            @dismiss-count-down="countDownChanged"
-            >
-                Step addition successful
-        </b-alert>
     </form>
 </template>
 
@@ -128,7 +118,7 @@ import { error } from 'util';
 
     export default {
         name: 'Steps',
-        props: ['steps', 'postPayload'],
+        props: ['postPayload'],
         methods: {
             addStep(){
                 const payload = {
@@ -160,8 +150,7 @@ import { error } from 'util';
 
                     authResource().post(url, payload)
                         .then(({data: {data}})=> {
-                            console.log(data)
-                            this.steps.push(data)
+                            this.getStages()
                             this.art_number = ''
                             this.stepDate = ''
                             this.site = ''
@@ -200,9 +189,7 @@ import { error } from 'util';
                     })
                     .catch(err => console.error(err))
             },
-            countDownChanged(dismissCountDown) {
-                this.dismissCountDown = dismissCountDown
-            },
+
             loadFacilities(){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/locations`;
 
@@ -211,7 +198,6 @@ import { error } from 'util';
                     .then(({data: {data}})=>{
                         this.isLoading = false
                         this.facilities = JSON.parse(JSON.stringify(data))
-                        console.log(JSON.parse(JSON.stringify(data)))
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -248,9 +234,6 @@ import { error } from 'util';
             postPayload : function ()
             {
                 this.saveStages()
-            },
-            origin_destination: function(){
-                console.log(this.origin_destination)
             }
         }
     }

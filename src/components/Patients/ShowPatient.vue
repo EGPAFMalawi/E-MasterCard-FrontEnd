@@ -94,7 +94,6 @@ import { async } from 'q';
 
                 authResource().get(dhisAPIEndpoint)
                     .then(async (response)=>{
-                        console.log(response)
                         this.availableMasterCards = await response.data.data
                     })
                     .catch((error)=>{
@@ -156,16 +155,13 @@ import { async } from 'q';
         },
         created() {
             this.getMasterCards()
-                let patient = JSON.parse(sessionStorage.getItem('patient'))
-                
-                if (!patient){
-                    this.$router.push('/')
-                }
-
-                this.patient = patient
-                 console.log(this.patient.person)
+            let patient = JSON.parse(sessionStorage.getItem('patient'))
             
+            if (!patient){
+                this.$router.push('/')
+            }
 
+            this.patient = patient
         },
 
         watch : {
@@ -177,7 +173,6 @@ import { async } from 'q';
                     .then(({data: {data}})=>{
                         
                         this.patientCards.push(...data)
-                        console.log(this.patientCards)
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -185,15 +180,12 @@ import { async } from 'q';
             },
             patientCards : function (value) {
                 const allVersions = JSON.parse(JSON.stringify(this.availableMasterCards))
-                console.log(allVersions)
                 const patientVersions = JSON.parse(JSON.stringify(value)).map(({masterCard: {name}}) => name)
 
                 this.masterCardsToShow = allVersions.filter(({name}) => {
                     if (!patientVersions.includes(name))
                         return name
                 })
-
-                console.log(this.masterCardsToShow)
             }
         }
     }
