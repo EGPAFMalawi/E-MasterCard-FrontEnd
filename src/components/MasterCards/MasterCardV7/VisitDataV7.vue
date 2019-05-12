@@ -103,20 +103,20 @@
                 <tbody>
                 <tr v-for="(encounter, key) in encounters" v-bind:key="key">
                     <td>
-                       <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
+                       <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
-                        <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
+                        <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
                             <option value="Br">Br</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
@@ -125,20 +125,20 @@
                         </select>
                     </td>
                     <td>
-                        <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value="N">N</option>
                             <option value="Y">Y</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="">
+                        <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control tb-form" min="0" step="1" oninput="validity.valid||(value='');" value="">
+                        <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control" min="0" step="1" oninput="validity.valid||(value='');" value="">
                     </td>
                     <td>
-                        <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
                             <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
@@ -156,10 +156,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="">
+                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="">
                     </td>
                     <td style="width:30px">
-                        <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -167,7 +167,7 @@
                     </td>
 
                     <td>
-                        <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
@@ -175,19 +175,19 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value="Bled">Bled</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control">
                             <option value=""></option>
                             <option value=">"> &gt; </option>
                             <option value="<"> &lt; </option>
@@ -196,29 +196,29 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
+                        <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input v-model="concepts.concept32" class="form-control tb-form"  type="date" required>
+                        <input v-model="concepts.concept32" class="form-control"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
-                        <select v-model="concepts.concept34" class="form-control tb-form" >
+                        <select v-model="concepts.concept34" class="form-control" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
                             <option value="Br">Br</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept35" class="form-control tb-form">
+                        <select v-model="concepts.concept35" class="form-control">
                             <option value=""></option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
@@ -227,7 +227,7 @@
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept36" class="form-control tb-form"
+                        <select v-model="concepts.concept36" class="form-control"
                         >
                             <option value=""></option>
                             <option value="N">N</option>
@@ -235,13 +235,13 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept37" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
+                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept38" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
+                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
                     </td>
                     <td>
-                        <select v-model="concepts.concept39" class="form-control tb-form">
+                        <select v-model="concepts.concept39" class="form-control">
                             <option value=""></option>
                             <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
                             <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
@@ -260,10 +260,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept40" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td style="width:30px">
-                        <select v-model="concepts.concept41" class="form-control tb-form" >
+                        <select v-model="concepts.concept41" class="form-control" >
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -271,7 +271,7 @@
                     </td>
 
                     <td>
-                        <select v-model="concepts.concept42" class="form-control tb-form">
+                        <select v-model="concepts.concept42" class="form-control">
                             <option value=""></option>
                             <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
@@ -279,19 +279,19 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept43" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept44" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <select v-model="concepts.concept45" class="form-control tb-form">
+                        <select v-model="concepts.concept45" class="form-control">
                             <option value=""></option>
                             <option value="Bled">Bled</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept53" class="form-control tb-form">
+                        <select v-model="concepts.concept53" class="form-control">
                             <option value=""></option>
                             <option value=">"> &gt; </option>
                             <option value="<"> &lt; </option>
@@ -300,10 +300,10 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept46" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control tb-form"  type="date" >
+                        <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" >
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                 </tr>
@@ -332,6 +332,7 @@
     import _ from 'lodash'
     import DatePicker from 'vue2-datepicker'
     import { notificationSystem } from '../../../globals'
+import { networkInterfaces } from 'os';
 
     export default {
         components: { DatePicker },
@@ -508,10 +509,13 @@
             },
 
             assignNextAppointment(currentVisitDate, givenPills){
-                currentVisitDate = new Date(currentVisitDate)
+                const givenPillsInt = parseInt(givenPills)
+                const fromDate = new Date(currentVisitDate)
 
-                const nextApponintmentDate = new Date(currentVisitDate.setDate( currentVisitDate.getDate() + givenPills))
-                return nextApponintmentDate && nextApponintmentDate.toISOString().split('T')[0]
+                const nextApponintmentDate = new Date(currentVisitDate) 
+                nextApponintmentDate.setDate(fromDate.getDate() + givenPillsInt)
+                console.log(typeof givenPillsInt)
+                return nextApponintmentDate.toISOString().split('T')[0]
             }
         },
         data: () => {
