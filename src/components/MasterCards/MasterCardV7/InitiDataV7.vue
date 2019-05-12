@@ -206,7 +206,7 @@
                                                             <div class="col-md-12 mb-2">
                                                                     <label for="validationServer03">Test Date</label>
                                                                     <div class="form-inline fit-2-input-fields">
-                                                                            <input v-model="concepts.concept16" type="date" class="form-control">
+                                                                            <input ref="regimenStartDate" oninput="validity.valid||(value='');" v-model="concepts.concept16" type="date" class="form-control">
                                                                             <select v-model="concepts.concept17" class="form-control" >
                                                                                 <option :value="null" disabled>Rapid or PCR</option>
                                                                                 <option value="Rapid">Rapid</option>
@@ -231,7 +231,7 @@
                                                                                 <option value="N">N</option>
                                                                                 <option value="Y">Y</option>
                                                                             </select>
-                                                                            <input v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
+                                                                            <input ref="regimenStartDate" oninput="validity.valid||(value='');" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
                                                                     </div>
                                                                     <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
                                                                         Please make sure that the education is before the ART regimen start date 
@@ -247,7 +247,7 @@
                                                                     <label for="validationServer03">TB treatment (Reg No. / Start Date)</label>
                                                                     <div class="form-inline fit-2-input-fields">
                                                                             <input v-model="concepts.concept20" type="text" class="form-control" placeholder="Registration Number">
-                                                                            <input v-model="concepts.concept21" type="date" class="form-control">
+                                                                            <input v-model="concepts.concept21" ref="regimenStartDate" type="date" class="form-control" oninput="validity.valid||(value='');">
                                                                     </div>
                                                             </div>
                                                       </div>
@@ -481,8 +481,8 @@
                     return false
             },
             calculateMaxStartDate(birthdate){
-                const dob = new Date(birthdate)
-                const max = new Date(dob.setDate(dob.getFullYear() + 1))
+                const today = new Date()
+                const max = new Date(today.setDate(today.getDate() + 365))
                 return max.toISOString().split('T')[0]
             },
 
@@ -571,11 +571,9 @@
                 }
             },
             patientCardData : function (value) {
-                this.fillConceptObservations(value);
-                console.log(this.patient.person.birthdate)
+                this.fillConceptObservations(value)
 
                 this.setMinMax()
-                
 
             },
             'concepts.concept23': function(){
