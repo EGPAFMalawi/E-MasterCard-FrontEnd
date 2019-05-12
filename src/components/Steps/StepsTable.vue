@@ -75,8 +75,8 @@
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
                             <option value="Back to facility">Back to facility</option>
-                            <option value="Restart">Restart</option>
                             <option value="ART Stop">ART Stop</option>
+                            <option value="Restart">Restart</option>
                             <option value="Died">Died</option>
                         </select>
                     </td>
@@ -157,7 +157,6 @@ import { error } from 'util';
                             this.site = ''
                             this.step = ''
                             this.origin_destination = ''
-                            this.patient.patientID = ''
 
                             this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
                         })
