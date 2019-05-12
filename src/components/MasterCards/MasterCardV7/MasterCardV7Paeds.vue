@@ -56,7 +56,7 @@
 
                 authResource().get(dhisAPIEndpoint)
                     .then((response)=>{
-                        console.log(response)
+                        console.log(JSON.parse(JSON.stringify(response.data.data)))
                         this.masterCardWithDetails = response.data.data
                     })
                     .catch((error)=>{

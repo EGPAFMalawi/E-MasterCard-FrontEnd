@@ -158,7 +158,7 @@
                                         <div class="form-row">
                                                 <div class="col-md-6 mb-2">
                                                         <label for="validationServer03">Age at Initiation</label>
-                                                        <input v-model="concepts.concept8" type="text" class="form-control" placeholder="Age" required>
+                                                        <input v-model="concepts.concept8" type="number" class="form-control" placeholder="Age" min="1" step="1" oninput="validity.valid||(value='');" required>
                                                     </div>
                                                 <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                                         <label for="validationServer03">Last ARVs (type/date)</label>
@@ -272,6 +272,7 @@
                                                                                 <option value="12A">12A</option>
                                                                                 <option value="13A">13A</option>
                                                                                 <option value="14A">14A</option>
+                                                                                <option value="15A">15A</option>
                                                                             </select>
                                                                             <input v-model="concepts.concept23" type="date" class="form-control" required>
                                                                     </div>
@@ -311,6 +312,7 @@
                                                                                 <option value="12A">12A</option>
                                                                                 <option value="13A">13A</option>
                                                                                 <option value="14A">14A</option>
+                                                                                <option value="15A">15A</option>
                                                                             </select>
                                                                             <input v-model="concepts.concept25" type="date" class="form-control" required>
                                                                     </div>
@@ -321,8 +323,8 @@
                                                             <div class="col-md-12 mb-2">
                                                                     <label for="validationServer03">Annual BP Screening for 30+ yrs (sys / dias)</label>
                                                                     <div class="form-inline fit-2-input-fields">
-                                                                            <input v-model="concepts.concept26" type="number" class="form-control" placeholder="SYS" required>
-                                                                            <input v-model="concepts.concept27" type="number" class="form-control" placeholder="DIAS" required>
+                                                                            <input v-model="concepts.concept26" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="SYS" required>
+                                                                            <input v-model="concepts.concept27" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="DIAS" required>
                                                                     </div>
                                                             </div>
                                                       </div>
@@ -457,6 +459,7 @@
                 {
                     this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
                 }
+                localStorage.setItem('startDate', this.concepts.concept23)
             },
             calculatedBirthDate(){
                const date = new Date(this.concepts.concept23)
