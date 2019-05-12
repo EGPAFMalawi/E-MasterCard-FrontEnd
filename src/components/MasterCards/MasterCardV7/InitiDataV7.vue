@@ -24,7 +24,7 @@
               </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                        <lable class="col-form-label col-sm-2 pt-0">Sex*</lable>
+                        <label>Sex*</label>
                         <div class="col-sm-10">
                             <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
                             <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
@@ -178,6 +178,7 @@
                                                                 <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
                                                                 <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
                                                                 <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                                                                <option value="15A">15A</option>
                                                             </select>
                                                             
                                                             <input  v-model="concepts.concept14" type="date" class="form-control" id="validationServer03" required>
@@ -274,7 +275,7 @@
                                                                                 <option value="14A">14A</option>
                                                                                 <option value="15A">15A</option>
                                                                             </select>
-                                                                            <input v-model="concepts.concept23" type="date" class="form-control" required>
+                                                                            <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" oninput="validity.valid||(value='');" required>
                                                                     </div>
                                                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                                                         Please make sure that the Test date is before the ART regimen start date 
@@ -357,7 +358,6 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
@@ -374,7 +374,6 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
@@ -476,6 +475,18 @@
                     return true
                 else
                     return false
+            },
+            calculateMaxStartDate(birthdate){
+                const dob = new Date(birthdate)
+                const max = new Date(dob.setDate(dob.getFullYear() + 1))
+                return max.toISOString().split('T')[0]
+            },
+
+            setMinMax(){
+                if(this.patient.person.birthdate !== ''){
+                    this.$refs.regimenStartDate.setAttribute('min', this.patient.person.birthdate)
+                    this.$refs.regimenStartDate.setAttribute('max', this.calculateMaxStartDate(this.patient.person.birthdate))
+                }
             }
         },
         data: () => {
@@ -537,7 +548,6 @@
 
             this.patient = patient;
             this.patientCard = patientCard;
-            console.log(this.concepts)
             this.concepts = this.concepts
         },
         computed: {
@@ -557,14 +567,22 @@
                 }
             },
             patientCardData : function (value) {
-                console.log('hello')
                 this.fillConceptObservations(value);
+                console.log(this.patient.person.birthdate)
+
+                this.setMinMax()
+                
+
             },
             'concepts.concept23': function(){
+                
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
-                if (this.patient.person.birthdate === '')
-                    this.patient.person.birthdate = this.calculatedBirthDate()    
+                if (this.patient.person.birthdate === ''){
+                    this.patient.person.birthdate = this.calculatedBirthDate() 
+                    this.setMinMax()
+                }
+                       
 
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
