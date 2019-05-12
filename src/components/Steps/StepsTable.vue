@@ -75,8 +75,9 @@
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
                             <option value="Back to facility">Back to facility</option>
-                            <option value="Died">Died</option>
                             <option value="Restart">Restart</option>
+                            <option value="ART Stop">ART Stop</option>
+                            <option value="Died">Died</option>
                         </select>
                     </td>
                     <td>
