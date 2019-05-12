@@ -275,7 +275,7 @@
                                                                                 <option value="14A">14A</option>
                                                                                 <option value="15A">15A</option>
                                                                             </select>
-                                                                            <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" oninput="validity.valid||(value='');" required>
+                                                                            <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
                                                                     </div>
                                                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                                                         Please make sure that the Test date is before the ART regimen start date 

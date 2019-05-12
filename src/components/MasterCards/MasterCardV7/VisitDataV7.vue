@@ -208,7 +208,7 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept33" class="form-control"  type="number" min="30" step="1">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" class="form-control" >
@@ -514,7 +514,7 @@ import { networkInterfaces } from 'os';
 
                 const nextApponintmentDate = new Date(currentVisitDate) 
                 nextApponintmentDate.setDate(fromDate.getDate() + givenPillsInt)
-                console.log(typeof givenPillsInt)
+
                 return nextApponintmentDate.toISOString().split('T')[0]
             }
         },
