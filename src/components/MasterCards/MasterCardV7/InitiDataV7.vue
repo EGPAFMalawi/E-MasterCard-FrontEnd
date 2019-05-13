@@ -480,7 +480,7 @@
                 else
                     return false
             },
-            calculateMaxStartDate(birthdate){
+            calculateMaxStartDate(){
                 const today = new Date()
                 const max = new Date(today.setDate(today.getDate() + 365))
                 return max.toISOString().split('T')[0]
@@ -489,7 +489,7 @@
             setMinMax(){
                 if(this.patient.person.birthdate !== ''){
                     this.$refs.regimenStartDate.setAttribute('min', this.patient.person.birthdate)
-                    this.$refs.regimenStartDate.setAttribute('max', this.calculateMaxStartDate(this.patient.person.birthdate))
+                    this.$refs.regimenStartDate.setAttribute('max', this.calculateMaxStartDate())
                 }
             }
         },

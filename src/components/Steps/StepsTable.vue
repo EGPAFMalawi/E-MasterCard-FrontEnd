@@ -66,7 +66,7 @@
                 </tr>
                 <tr v-if="lastStep !== 'Died'">
                     <td>
-                        <input type="date" class="form-control" v-model="stepDate" required>
+                        <input type="date" ref="stepDate" class="form-control" v-model="stepDate" required>
                     </td>
                     <td>
                         <select v-model="step" class="form-control">
@@ -119,7 +119,7 @@ import { error } from 'util';
 
     export default {
         name: 'Steps',
-        props: ['postPayload', 'lastStep'],
+        props: ['postPayload', 'lastStep', 'dob'],
         methods: {
             addStep(){
                 const payload = {
@@ -207,6 +207,19 @@ import { error } from 'util';
                         this.isLoading = false;
                     })
             },
+
+            setMinMax(){
+                if(this.dob !== ''){
+                    console.log(this.dob)
+                    this.$refs.stepDate.setAttribute('min', this.dob)
+                    this.$refs.stepDate.setAttribute('max', this.calculateMaxStartDate())
+                }
+            },
+            calculateMaxStartDate(){
+                const today = new Date()
+                const max = new Date(today.setDate(today.getDate() + 365))
+                return max.toISOString().split('T')[0]
+            }
         },
         data: () => {
             return {
@@ -229,10 +242,10 @@ import { error } from 'util';
             this.patient = JSON.parse(sessionStorage.getItem('patient'));
             this.getStages()
             
-
         },
         watch : {
             steps(value){
+                this.setMinMax()
                 return value
             },
             postPayload : function ()
