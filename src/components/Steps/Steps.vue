@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <StepsTable :postPayload="postPayload"></StepsTable>
+            <StepsTable :postPayload="postPayload" :lastStep="patient.lastStep.step"></StepsTable>
         </div>
         <section>
             <div class="container">

@@ -64,7 +64,7 @@
                         </select>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="lastStep !== 'Died'">
                     <td>
                         <input type="date" class="form-control" v-model="stepDate" required>
                     </td>
@@ -119,7 +119,7 @@ import { error } from 'util';
 
     export default {
         name: 'Steps',
-        props: ['postPayload'],
+        props: ['postPayload', 'lastStep'],
         methods: {
             addStep(){
                 const payload = {
@@ -135,8 +135,12 @@ import { error } from 'util';
                     (this.step === 'Trans-out' && this.origin_destination === '') ||
                     (this.step === 'Back to facility' && this.origin_destination === '')
                 ){
-                    return this.$toast.error(`<strong>Origi/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
-                }else{
+                    return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
+                }
+                else if(this.step == 'Trans-out' && this.origin_destination === this.site){
+                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
+                }
+                else{
 
                      const payload = {
                         art_number: this.art_number,
