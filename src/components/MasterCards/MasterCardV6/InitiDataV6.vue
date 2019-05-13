@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label >Date of Birth</label>
-                            <input type="date" ref="regimenStartDate" class="form-control" v-model="patient.person.birthdate">
+                            <input type="date" class="form-control" v-model="patient.person.birthdate">
                         </div>
                     </div>
                     <div class="form-row">
@@ -177,7 +177,7 @@
                                                 <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
                                                 <option value="15A">15A</option>
                                             </select>
-                                            <input ref="regimenStartDate" v-model="concepts.concept14" type="date" class="form-control" required>
+                                            <input v-model="concepts.concept14" type="date" class="form-control" required>
                                         </div>
                                 </div>    
                         </div>
@@ -202,7 +202,7 @@
                             <div class="col-md-12 mb-2">
                                     <label >Test Date</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <input ref="regimenStartDate" v-model="concepts.concept16" type="date" class="form-control">
+                                            <input ref="eduDate" v-model="concepts.concept16" type="date" class="form-control">
                                             <select v-model="concepts.concept17" class="form-control" >
                                                 <option :value="null" disabled>Rapid or PCR</option>
                                                 <option value="Rapid">Rapid</option>
@@ -227,7 +227,7 @@
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
-                                            <input ref="regimenStartDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
+                                            <input  v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
@@ -243,7 +243,7 @@
                                     <label >TB treatment (Reg No. / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <input v-model="concepts.concept20" type="text" class="form-control" placeholder="Registration Number">
-                                            <input v-model="concepts.concept21" ref="regimenStartDate" type="date" class="form-control" oninput="validity.valid||(value='');">
+                                            <input ref="tbTreatment" v-model="concepts.concept21"  type="date" class="form-control">
                                     </div>
                             </div>
                         </div>
@@ -311,7 +311,7 @@
                                                 <option value="14A">14A</option>
                                                 <option value="15A">15A</option>
                                             </select>
-                                            <input v-model="concepts.concept25" ref="regimenStartDate" type="date" class="form-control" required>
+                                            <input v-model="concepts.concept25" ref="currentRegimen" type="date" class="form-control" required>
                                     </div>
                             </div>
                         </div>
@@ -466,7 +466,7 @@
                const birthdate = new Date(birthYear.toString())
                return birthdate.toLocaleDateString()
             },
-            evaluateIfTestDateBeforeARTStartDate(testDate, startDate){
+            evaluateDateBeforeARTStartDate(testDate, startDate){
                 testDate = new Date(testDate)
                 startDate = new Date(startDate)
 
@@ -481,10 +481,10 @@
                 return max.toISOString().split('T')[0]
             },
 
-            setMinMax(){
+            setMinMax(ref){
                 if(this.patient.person.birthdate !== ''){
-                    this.$refs.regimenStartDate.setAttribute('min', this.patient.person.birthdate)
-                    this.$refs.regimenStartDate.setAttribute('max', this.calculateMaxStartDate())
+                    this.$refs[ref].setAttribute('min', this.patient.person.birthdate)
+                    this.$refs[ref].setAttribute('max', this.calculateMaxStartDate())
                 }
             }
         },
@@ -560,21 +560,27 @@
             },
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
-
-                this.setMinMax()
+                
+                this.setMinMax('regimenStartDate')
+                this.setMinMax('eduDate')
+                this.setMinMax('tbTreatment')
+                this.setMinMax('currentRegimen')
             },
             'concepts.concept23': function(){
-                this.evalEduDate = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
+                this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
                 if (this.patient.person.birthdate === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate() 
-                    this.setMinMax()
+                    this.setMinMax('regimenStartDate')
+                    this.setMinMax('eduDate')
+                    this.setMinMax('tbTreatment')
+                    this.setMinMax('currentRegimen')
                 }   
 
-                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             'concepts.concept16': function(){
-                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             }
         }
     }

@@ -224,7 +224,7 @@
                     </tr>
                     <tr v-if="patient.lastStep.step !== 'Died'">
                         <td>
-                            <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control tb-form"  type="date" required>
+                            <input id="tooltip-button-1" v-model="concepts.concept32" ref="visitDate" class="form-control tb-form"  type="date" required>
                             <span>{{ errors.first('Visit-Date')}}</span>
                         </td>
                         <td style="width:60px">
@@ -329,7 +329,7 @@
                             <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                         </td>
                         <td>
-                            <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control tb-form"  type="date" >
+                            <input id="tooltip-button-1" ref="appointmentDate" v-model="concepts.concept47" class="form-control tb-form"  type="date" >
                             <span>{{ errors.first('Next Visit')}}</span>
                         </td>
                     </tr>
@@ -357,6 +357,7 @@
     import authResource from './../../../authResource'
     import { notificationSystem } from '../../../globals'
     import _ from 'lodash'
+import { type } from 'os';
 
     export default {
         name: 'VisitDataV6',
@@ -525,7 +526,6 @@
                     return 0
                 }
             },
-
             assignNextAppointment(currentVisitDate, givenPills){
                 const givenPillsInt = parseInt(givenPills)
                 const fromDate = new Date(currentVisitDate)
@@ -534,6 +534,19 @@
                 nextApponintmentDate.setDate(fromDate.getDate() + givenPillsInt)
 
                 return nextApponintmentDate.toISOString().split('T')[0]
+            },
+             calculateMaxStartDate(){
+                const today = new Date()
+                const max = new Date(today.setDate(today.getDate() + 365))
+                return max.toISOString().split('T')[0]
+            },
+            setMinMax(ref){
+                const startDate = localStorage.getItem('startDate')
+                
+                if(startDate !== ''){
+                    this.$refs[ref].setAttribute('min', startDate)
+                    this.$refs[ref].setAttribute('max', this.calculateMaxStartDate())
+                }
             }
         },
         data: () => {
@@ -605,7 +618,8 @@
             },
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
-                console.log(this.concepts)
+                this.setMinMax('visitDate')
+                this.setMinMax('appointmentDate')
             },
             'concepts.concept32': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')

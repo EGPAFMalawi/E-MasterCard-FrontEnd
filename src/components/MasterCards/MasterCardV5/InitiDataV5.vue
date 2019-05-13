@@ -164,7 +164,7 @@
                                         <div class="form-row">
                                                 <div class="col-md-6 mb-2">
                                                         <label >Age at Initiation</label>
-                                                        <input v-model="concepts.concept8" type="text" class="form-control" placeholder="Age" required>
+                                                        <input v-model="concepts.concept8" type="number" class="form-control" placeholder="Age" min="1" step="1" oninput="validity.valid||(value='');" required>
                                                     </div>
                                                 <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                                         <label >Last ARVs (type/date)</label>
