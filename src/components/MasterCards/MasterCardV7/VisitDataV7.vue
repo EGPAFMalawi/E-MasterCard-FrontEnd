@@ -330,12 +330,10 @@
 <script>
     import authResource from './../../../authResource'
     import _ from 'lodash'
-    import DatePicker from 'vue2-datepicker'
     import { notificationSystem } from '../../../globals'
-import { networkInterfaces } from 'os';
+    import { networkInterfaces } from 'os';
 
     export default {
-        components: { DatePicker },
         name: 'VisitDataV7',
         props: ['encounterTypes', 'postPayload'],
         methods: {
@@ -418,15 +416,12 @@ import { networkInterfaces } from 'os';
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
-                        console.log(response);
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
                         this.$toast.success('Successfully created a new visit!', 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
-                        console.log(data)
-
                         return Object.values(errors).forEach(error => {
                             this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                         });
