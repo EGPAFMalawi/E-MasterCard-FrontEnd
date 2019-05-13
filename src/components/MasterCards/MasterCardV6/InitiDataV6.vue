@@ -127,7 +127,7 @@
                             <div class="col-md-6 mb-2">
                                 <label >Height / Wgt</label>
                                 <div class="form-inline fit-2-input-fields">
-                                        <input v-model="concepts.concept6" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="CM" required>
+                                        <input v-model="concepts.concept6" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="CM" required>
                                         <input v-model="concepts.concept7" type="number" step="1" oninput="validity.valid||(value='');" min="0" class="form-control" placeholder="KG" required>
                                 </div>  
                             </div>
@@ -457,6 +457,7 @@
                 {
                     this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
                 }
+                localStorage.setItem('startDate', this.concepts.concept23)
             },
             calculatedBirthDate(){
                const date = new Date(this.concepts.concept23)
