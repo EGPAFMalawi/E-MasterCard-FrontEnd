@@ -100,8 +100,8 @@
                         </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="validationServer03">Date of Birth</label>
-                    <input type="date" class="form-control" v-model="birthdate">
+                    <label>Date of Birth</label>
+                    <input ref="dob" type="date" class="form-control" v-model="birthdate" >
                 </div>
             </div>
             <div class="form-row">
@@ -272,7 +272,6 @@ export default {
                                 
                         }) 
                 }
-                
 
             },
         loadRegions(){
@@ -318,6 +317,11 @@ export default {
                     console.log(error)
                 })
         },
+        setDOBMax(){
+            const today = new Date()
+            
+            this.$refs.dob.setAttribute('max', today.toISOString().split('T')[0])
+        }
     },
     beforeMount(){
         this.loadRegions(),
@@ -372,6 +376,12 @@ export default {
         },
         guardianPhoneValidation() {
             return this.guardian_phone !== '' && this.guardian_phone.length === 10 
+        }
+    },
+    watch: {
+        searchParam: function(){
+            console.log('sas')
+            this.setDOBMax()
         }
     }
     
