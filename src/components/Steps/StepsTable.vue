@@ -29,7 +29,7 @@
                 <tbody>
                 <tr v-for="(singleStep, key) in steps" v-bind:key="key">
                     <td>
-                        <input type="date" class="form-control" v-model="singleStep.date" required>
+                        <input type="date" ref="stepDate" class="form-control" v-model="singleStep.date" required>
                     </td>
                     <td>
                         <select v-model="singleStep.step" class="form-control">
