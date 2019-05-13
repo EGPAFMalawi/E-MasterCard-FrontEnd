@@ -342,7 +342,6 @@ import { networkInterfaces } from 'os';
             getPatientCardDetails : function ()
             {
 
-                console.log(this.patient.person.gender)
                 let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,

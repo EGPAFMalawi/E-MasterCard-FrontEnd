@@ -112,7 +112,7 @@
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept52Encounter'+encounter.encounterID].value" class="form-control"  type="number">
+                        <input v-model="observations['concept52Encounter'+encounter.encounterID].value" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept51Encounter'+encounter.encounterID].value" class="form-control"  type="number">
@@ -200,7 +200,7 @@
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control"  type="date" >
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="patient.lastStep.step !== 'Died'">
                     <td>
                         <input id="tooltip-button-1" v-model="concepts.concept32" class="form-control"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
@@ -231,10 +231,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" >
+                        <input v-model="concepts.concept37" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0">
+                        <input v-model="concepts.concept38" class="form-control"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
                         <select v-model="concepts.concept39" class="form-control">
@@ -267,10 +267,10 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept43" class="form-control"  type="number">
+                        <input v-model="concepts.concept43" class="form-control" type="number" max="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control"  type="number">
+                        <input v-model="concepts.concept44" class="form-control" type="number" max="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
                         <select v-model="concepts.concept45" class="form-control">
@@ -288,7 +288,7 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept46" class="form-control"  type="number">
+                        <input v-model="concepts.concept46" class="form-control"  type="number" max="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
                         <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control"  type="date" >
@@ -307,7 +307,7 @@
                 </b-form-valid-feedback>
             </table>
         </div>
-            <div class="form-row my-4">
+            <div class="form-row my-4" v-if="patient.lastStep.step !== 'Died'">
                 <div class="col-md-12 d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
                 </div>
@@ -475,7 +475,20 @@
                     return true
                 else
                     return false
-            }
+            },
+             calculateMonthsOnART(artStartDate, currentVisitDate){
+                if (artStartDate !== undefined){
+                    artStartDate = new Date(artStartDate)
+                    currentVisitDate = new Date(currentVisitDate)
+
+                    const months = currentVisitDate.getMonth() - artStartDate.getMonth() + (12 * (currentVisitDate.getFullYear() - artStartDate.getFullYear()))
+                    console.log(currentVisitDate, JSON.parse(JSON.stringify(this.patient)))
+                    return months
+                }
+                else{
+                    return 0
+                }
+            },
         },
         data: () => {
             return {
@@ -545,11 +558,16 @@
             },
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
-                console.log(this.concepts)
             },
             'concepts.concept32': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
+                
+                const startDate = localStorage.getItem('startDate')
+                
+                
+                this.concepts.concept44 = this.calculateMonthsOnART(startDate, this.concepts.concept32)
+                
             },
             'concepts.concept47': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
