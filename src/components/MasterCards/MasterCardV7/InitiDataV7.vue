@@ -144,8 +144,8 @@
                         <div class="col-md-6 mb-2">
                             <label>Height / Wgt</label>
                             <div class="form-inline fit-2-input-fields">
-                                    <input v-model="concepts.concept6" type="text" class="form-control" placeholder="CM" required>
-                                    <input v-model="concepts.concept7" type="text" class="form-control" placeholder="KG" required>
+                                    <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" step="1" oninput="validity.valid||(value='');" required>
+                                    <input v-model="concepts.concept7" type="number" min="0" class="form-control" placeholder="KG" step="1" oninput="validity.valid||(value='');" required>
                             </div>  
                         </div>
                         <div class="col-md-6 mb-2">
@@ -544,8 +544,6 @@
             }
         },
         created() {
-
-
             let patient = JSON.parse(sessionStorage.getItem('patient'));
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
 
@@ -575,7 +573,6 @@
                 this.fillConceptObservations(value)
 
                 this.setMinMax()
-
             },
             'concepts.concept23': function(){
                 
