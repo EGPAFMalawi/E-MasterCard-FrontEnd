@@ -204,7 +204,7 @@
                 </tr>
                 <tr v-if="patient.lastStep.step !== 'Died'">
                     <td>
-                        <input v-model="concepts.concept32" class="form-control tb-form"  type="date" required>
+                        <input ref="visitDate" v-model="concepts.concept32" class="form-control tb-form"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
@@ -585,8 +585,8 @@
             'concepts.concept32': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
-                const startDate = localStorage.getItem('startDate')
                 
+                const startDate = localStorage.getItem('startDate')
                 
                 this.concepts.concept44 = this.calculateMonthsOnART(startDate, this.concepts.concept32)
                 

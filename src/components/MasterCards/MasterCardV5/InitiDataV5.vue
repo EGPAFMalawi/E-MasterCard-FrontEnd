@@ -473,7 +473,7 @@
                const birthdate = new Date(birthYear.toString())
                return birthdate.toLocaleDateString()
             },
-            evaluateIfTestDateBeforeARTStartDate(testDate, startDate){
+            evaluateDateBeforeARTStartDate(testDate, startDate){
                 testDate = new Date(testDate)
                 startDate = new Date(startDate)
 
@@ -573,17 +573,17 @@
                 this.setMinMax()
             },
             'concepts.concept23': function(){
-                this.evalEduDate = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
+                this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
 
                 if (this.patient.person.birthdate === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate() 
                     this.setMinMax()
                 }
 
-                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             'concepts.concept16': function(){
-                this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             }
         }
     }
