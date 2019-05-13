@@ -47,10 +47,18 @@
                     .then(({data: {data}})=> {
                         this.steps = data
                     })
-                    .catch(err => console.error(err))
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
+                    })
             },
             patientDied(died){
-                this.patient = JSON.parse(sessionStorage.getItem('patient'))
+                this.patient = this.getPatient()
+            },
+            getPatient(){
+                return JSON.parse(sessionStorage.getItem('patient'))
             }
         },
         data: () => {
@@ -74,7 +82,7 @@
         },
         created() {
 
-            this.patient = JSON.parse(sessionStorage.getItem('patient'))
+            this.patient = this.getPatient()
             this.getStages()
         }
     }
