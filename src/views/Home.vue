@@ -62,7 +62,7 @@
                                 <td>{{ patient.person.birthdate}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
-                                <td>{{ patient.person.personAddress.address1 }}</td>
+                                <td>{{ patient.person.personAddress.cityVillage }}</td>
                                 <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient, 'steps')">View Steps</button></td>
                                 <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient,'/patients/show')">View MasterCards</button></td>
                                 
@@ -154,7 +154,7 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                             <label>Physical Address</label>
-                            <input type="text" class="form-control" placeholder="Physical Address" v-model="address1">
+                            <input type="text" class="form-control" placeholder="Physical Address" v-model="cityVillage">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">District</label>
@@ -211,9 +211,13 @@ export default {
             
 
         },
-        setPatient : function (patient, route)
-        {
-            
+        setPatient : function (patient, route){
+
+            if(patient.person.birthdate !== ''){
+                const dob = new Date(patient.person.birthdate)
+                patient.person.birthdate = dob.toISOString().split('T')[0]
+            }
+
             sessionStorage.setItem('patient', JSON.stringify(patient));
             this.$router.push(route)
         },
@@ -237,7 +241,7 @@ export default {
                         guardian_phone : this.guardian_phone,
                         follow_up : this.follow_up,
                         guardian_relation : this.guardian_relation,
-                        address1 : this.address1,
+                        cityVillage : this.cityVillage,
                         address2 : this.address2,
                         city_village :  this.city_village,
                         state_province : this.state_province,
@@ -257,9 +261,8 @@ export default {
                     authResource().post(dhisAPIEndpoint, payload)
                         .then(({data: {data}})=>{
                             this.isLoading = false
-
-                            sessionStorage.setItem('patient', JSON.stringify(data))
-                            this.$router.push('steps')
+                            
+                            this.setPatient(data, 'steps')
                             this.$toast.success('Successfully added patient!', 'OK', notificationSystem.options.success)
                             
                         })
@@ -355,7 +358,7 @@ export default {
             guardian_phone : '',
             follow_up : '',
             guardian_relation : '',
-            address1 : '',
+            cityVillage : '',
             address2 : '',
             city_village :  '',
             state_province : '',
@@ -380,7 +383,6 @@ export default {
     },
     watch: {
         searchParam: function(){
-            console.log('sas')
             this.setDOBMax()
         }
     }

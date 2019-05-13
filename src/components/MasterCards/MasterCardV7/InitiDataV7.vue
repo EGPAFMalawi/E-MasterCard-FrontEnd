@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                         <label>Physical Address</label>
-                        <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.address1">
+                        <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
                     </div>
             </div>  
                 <button class="btn btn-success" type="submit">UPDATE</button>

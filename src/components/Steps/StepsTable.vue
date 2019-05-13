@@ -161,6 +161,7 @@
                                 this.patient.lastStep = {step: ''}
                             }
                             this.patient.lastStep.step = this.step
+                            
                             sessionStorage.setItem('patient', JSON.stringify(this.patient))
 
                             if (this.step === 'Died'){
