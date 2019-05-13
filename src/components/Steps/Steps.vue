@@ -5,11 +5,17 @@
         </div>
         <div class="container py-5">
             <div class="row d-flex justify-content-center">
+                <div v-if="patient.lastStep !== null && patient.lastStep.step === 'Died'" class="badge badge-danger">deceased</div>
+            </div>
+            
+            <div class="row d-flex justify-content-center">
+                
                 <h5 class="navbar-brand">{{ `${patient.person.personName.given} ${patient.person.personName.family}'s` }} Steps</h5>
+                
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <StepsTable :postPayload="postPayload" :lastStep="patient.lastStep.step" :dob="patient.person.birthdate"></StepsTable>
+            <StepsTable @died="patientDied" :postPayload="postPayload" :dob="patient.person.birthdate"></StepsTable>
         </div>
         <section>
             <div class="container">
@@ -42,13 +48,21 @@
                         this.steps = data
                     })
                     .catch(err => console.error(err))
+            },
+            patientDied(died){
+                this.patient = JSON.parse(sessionStorage.getItem('patient'))
             }
         },
         data: () => {
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {person: {personName: {}}},
+                patient : {
+                    person: {
+                        personName: {},
+                        lastStep: {}
+                    }
+                },
                 steps: [],
                 postPayload : false
             }

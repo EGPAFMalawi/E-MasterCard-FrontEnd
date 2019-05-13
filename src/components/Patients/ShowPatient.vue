@@ -11,8 +11,15 @@
             <div class="row">
                     <div class="card" style="width: 100%">
                         <div class="card-body">
-                            <h5 class="card-title">Name : {{patient.person.personName.given + ' ' + (patient.person.personName.middle !== null ? patient.person.personName.middle : '') + ' ' + patient.person.personName.family }}</h5>
+                            <h5 class="card-title">
+                                Name : {{patient.person.personName.given + ' ' + 
+                                (patient.person.personName.middle !== null ? patient.person.personName.middle : '') + 
+                                ' ' + 
+                                patient.person.personName.family }}
+                                <span v-if="patient.lastStep.step === 'Died'" class="badge badge-danger">deceased</span>
+                            </h5>
                             <h5 class="card-title">ARTNo : {{patient.artNumber }}</h5>
+                            
                             <div class="row d-flex justify-content-center">
                                 <div class="alert alert-success" role="alert">
                                     Click  <router-link to="/steps"><span class="alert-link">HERE</span> </router-link> to manage Steps .
@@ -25,7 +32,7 @@
         </div>
 
     </section>
-    <section>
+    <section v-if="patient.lastStep.step !== 'Died'">
         <div class="container">
                 <h5 class="text-align-center">Patient Cards</h5>
                 <form class="form-row " v-on:submit.prevent="addNewPatientCard">

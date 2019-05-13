@@ -64,7 +64,7 @@
                         </select>
                     </td>
                 </tr>
-                <tr v-if="lastStep !== 'Died'">
+                <tr v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
                     <td>
                         <input type="date" ref="stepDate" class="form-control" v-model="stepDate" required>
                     </td>
@@ -102,7 +102,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="form-row my-4">
+        <div class="form-row my-4" v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
             <div class="col-md-12 d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
             </div>
@@ -114,7 +114,7 @@
     import authResource from './../../authResource'
     import _ from 'lodash'
     import { notificationSystem } from '../../globals'
-import { error } from 'util';
+    import { error } from 'util';
 
 
     export default {
@@ -141,7 +141,7 @@ import { error } from 'util';
                     return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else{
-
+                    
                      const payload = {
                         art_number: this.art_number,
                         date: this.stepDate,
@@ -156,6 +156,17 @@ import { error } from 'util';
                     authResource().post(url, payload)
                         .then(({data: {data}})=> {
                             this.getStages()
+
+                            if (this.patient.lastStep === null){
+                                this.patient.lastStep = {step: ''}
+                            }
+                            this.patient.lastStep.step = this.step
+                            sessionStorage.setItem('patient', JSON.stringify(this.patient))
+
+                            if (this.step === 'Died'){
+                                this.$emit('died', this.step)
+                            }
+                            
                             this.art_number = ''
                             this.stepDate = ''
                             this.site = ''
@@ -164,8 +175,8 @@ import { error } from 'util';
 
                             this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
                         })
-                        .catch(({response: {data: {errors}, data}}) => {
-                            console.log(data)
+                        .catch((response) => {
+                            return console.log(response)
 
                             return Object.values(errors).forEach(error => {
                                 this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
@@ -209,8 +220,8 @@ import { error } from 'util';
             },
 
             setMinMax(){
-                if(this.dob !== ''){
-                    console.log(this.dob)
+                if(this.dob !== '' && this.$refs.stepDate !== undefined){
+                    
                     this.$refs.stepDate.setAttribute('min', this.dob)
                     this.$refs.stepDate.setAttribute('max', this.calculateMaxStartDate())
                 }
@@ -232,6 +243,7 @@ import { error } from 'util';
                 origin_destination: '',
                 steps: [],
                 facilities: [],
+                patient: {lastStep: {step: ''}},
                 prefix: 'PRE'
             }
         },
@@ -251,7 +263,7 @@ import { error } from 'util';
             postPayload : function ()
             {
                 this.saveStages()
-            }
+            },
         }
     }
 </script>
