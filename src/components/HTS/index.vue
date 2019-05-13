@@ -75,6 +75,30 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-3">
+                            <label>Month</label>
+                            <select class="form-control" v-model="month" required>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label>Year</label>
+                            <select class="form-control" v-model="year" required>
+                                <option v-for="chaka in years" v-bind:key="chaka">{{chaka}}</option>
+                            </select>
+                        </div>
+                    </div>
                     <button class="btn btn-success mt-3" type="submit">Submit Record</button>
             </div>
             
@@ -97,7 +121,9 @@
                     age: this.age,
                     sex: this.sex,
                     status: this.status,
-                    modality: this.modality
+                    modality: this.modality,
+                    year: parseInt(this.year),
+                    month: this.month
                 }
 
                 this.show = false
@@ -141,6 +167,16 @@
                         });
                             
                     }) 
+            },
+            setYears(){
+                const today = new Date()
+                let years = []
+                for(let year = 0; year < 4; year++){
+                    let theYear = new Date(today.setFullYear(today.getFullYear() - 1))
+
+                    years.push( parseInt( theYear.getFullYear() + 1 ))
+                }
+                return this.years = years
             }
         },
         data: () => {
@@ -157,6 +193,9 @@
                 postPayload : false,
                 perPage: 8,
                 currentPage: 1,
+                month: '',
+                year: '',
+                years: []
             }
         },
         computed: {
@@ -171,6 +210,7 @@
         },
         created() {
             this.getRecords()
+            this.setYears()
         }
     }
 </script>
