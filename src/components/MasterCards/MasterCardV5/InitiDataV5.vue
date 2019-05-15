@@ -351,7 +351,6 @@
         methods: {
             updatePatient : function ()
             {
-                this.isLoading = true;
                 if (this.patient.person.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 } else{
