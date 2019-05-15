@@ -89,7 +89,19 @@
                         <div class="form-row">
                             <div class="col-md-12 mb-2">
                                 <label for="validationServer01">HIV Related Diseases</label>
-                                <input v-model="concepts.concept1" type="text" class="form-control" placeholder="HIV Related Diseases">
+                                <select v-model="concepts.concept1" class="form-control">
+                                    <option :value="null" disabled>Reasons for ART Start</option>
+                                    <option value="Pres. Sev. HIV disease age< 12m">Pres. Sev. HIV disease age &lt; 12m</option>
+                                    <option value="Infants < 12 mthns PCR+">Infants &lt; 12 mthns PCR+</option>
+                                    <option value="Children 12-59 mths">Children 12-59 mths</option>
+                                    <option value="Pregnant Woman">Pregnant Woman</option>
+                                    <option value="Breastfeeding Mother">Breastfeeding Mother</option>
+                                    <option value="CD4 below threshold">CD4 below threshold</option>
+                                    <option value="Asymptomatic/Mild">Asymptomatic/Mild</option>
+                                    <option value="WHO stage 3">WHO stage 3</option>
+                                    <option value="WHO stage 4">WHO stage 4</option>
+                                    <option value="Unknown / Reason outside guidelines">Unknown / Reason outside guidelines</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-row">
