@@ -1,7 +1,7 @@
 <template>
     <div class="card w-50">
         <div class="card-header">
-            <h5>Art Mastercard App Login</h5>
+            <h5 class="text-center">Login</h5>
         </div>
         <div class="card-body">
             <form v-on:submit.prevent="authenticate">
