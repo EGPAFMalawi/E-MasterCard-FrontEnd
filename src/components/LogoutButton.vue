@@ -9,7 +9,8 @@
         name: 'LogoutButton',
         methods: {
             logout : function ()
-            {
+            {   
+                sessionStorage.removeItem('patient')
                 sessionStorage.removeItem('auth')
                 this.$router.push('/login')
             }
