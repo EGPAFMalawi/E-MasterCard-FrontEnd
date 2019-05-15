@@ -524,7 +524,8 @@
                const age = this.concepts.concept8
                const birthYear = date.getFullYear() - age;
                const birthdate = new Date(birthYear.toString())
-               return birthdate.toLocaleDateString()
+               console.log(birthdate.toISOString().split('T')[0])
+               return birthdate.toISOString().split('T')[0]
             },
             evaluateDateBeforeARTStartDate(testDate, startDate){
                 testDate = new Date(testDate)

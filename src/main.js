@@ -14,7 +14,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueIziToast from "vue-izitoast";
-import IdleVue from 'idle-vue'
 
 
 import "izitoast/dist/css/iziToast.css";
@@ -32,10 +31,6 @@ Vue.use(VeeValidate, {
 });
 
 const eventsHub = new Vue()
-Vue.use(IdleVue, {
-    eventEmitter: eventsHub,
-    IdleTime: 600
-})
 
 Vue.use(require('vue-moment'))
 
@@ -66,9 +61,4 @@ Vue.mixin({
 new Vue({
   router,
   render: h => h(App),
-  onIdle() {
-    //this.logout()
-  },
-  onActive() {
-  }
 }).$mount('#app')
