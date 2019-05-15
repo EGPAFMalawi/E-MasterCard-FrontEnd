@@ -39,7 +39,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://localhost:8000/api/v1',
+                art : 'http://192.168.1.5:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             }
         }

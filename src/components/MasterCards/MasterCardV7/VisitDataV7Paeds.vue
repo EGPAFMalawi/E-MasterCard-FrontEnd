@@ -112,7 +112,7 @@
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept52Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept52Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="text">
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept51Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number">
@@ -206,13 +206,13 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept52" class="form-control tb-form"  type="number" min="30">
+                        <input v-model="concepts.concept52" class="form-control tb-form"  type="text" min="0">
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept51" class="form-control tb-form"  type="number" min="30">
+                        <input v-model="concepts.concept51" class="form-control tb-form"  type="number" min="0">
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30">
+                        <input v-model="concepts.concept33" class="form-control tb-form"  type="number" min="0">
                     </td>
                     <td>
                         <select v-model="concepts.concept35" class="form-control tb-form">
@@ -267,10 +267,10 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept43" class="form-control tb-form" type="number" max="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept43" class="form-control tb-form" type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form" type="number" max="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept44" class="form-control tb-form" type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
                         <select v-model="concepts.concept45" class="form-control tb-form">
@@ -288,7 +288,7 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" max="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
                         <input id="tooltip-button-1" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date" >
