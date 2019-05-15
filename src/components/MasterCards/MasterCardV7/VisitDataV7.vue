@@ -202,7 +202,7 @@
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                 </tr>
-                <tr v-if="patient.lastStep.step !== 'Died'">
+                <tr>
                     <td>
                         <input ref="visitDate" v-model="concepts.concept32" class="form-control tb-form"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
@@ -319,7 +319,7 @@
                 </tbody>
             </table>
         </div>
-            <div class="form-row my-4" v-if="patient.lastStep.step !== 'Died'">
+            <div class="form-row my-4">
                 <div class="col-md-12 d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
                 </div>
@@ -518,10 +518,15 @@
             },
             setMinMax(ref){
                 const startDate = localStorage.getItem('startDate')
+                let max = this.calculateMaxStartDate()
+                if(this.patient.lastStep.step == 'Died'){
+                    max = this.patient.lastStep.date
+                }
                 
+
                 if(startDate !== ''){
                     this.$refs[ref].setAttribute('min', startDate)
-                    this.$refs[ref].setAttribute('max', this.calculateMaxStartDate())
+                    this.$refs[ref].setAttribute('max', max)
                 }
             }
         },

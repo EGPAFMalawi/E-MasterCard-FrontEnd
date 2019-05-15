@@ -224,13 +224,12 @@
                 if(this.dob !== '' && this.$refs.stepDate !== undefined){
                     
                     this.$refs.stepDate.setAttribute('min', this.dob)
-                    this.$refs.stepDate.setAttribute('max', this.calculateMaxStartDate())
+                    this.$refs.stepDate.setAttribute('max', this.maxDate())
                 }
             },
-            calculateMaxStartDate(){
+            maxDate(){
                 const today = new Date()
-                const max = new Date(today.setDate(today.getDate() + 365))
-                return max.toISOString().split('T')[0]
+                return today.toISOString().split('T')[0]
             }
         },
         data: () => {
