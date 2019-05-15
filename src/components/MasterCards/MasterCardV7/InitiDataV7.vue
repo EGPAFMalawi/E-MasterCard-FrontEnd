@@ -109,7 +109,14 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
                             <label>WHO Stage</label>
-                            <input v-model="concepts.concept3" type="number" class="form-control" placeholder="WHO Stage" required>
+                            <select v-model="concepts.concept3" class="form-control">
+                                <option :value="null" disabled>Select WHO stage</option>
+                                <option value="WHO stage 1">WHO stage 1</option>
+                                <option value="WHO stage 2">WHO stage 2</option>
+                                <option value="WHO stage 3">WHO stage 3</option>
+                                <option value="WHO stage 4">WHO stage 4</option>
+                                <option value="PSHD">PSHD</option>
+                            </select>
                         </div>
                         <div class="col-md-6 mb-2">
                             <label>TB Status at Init</label>
