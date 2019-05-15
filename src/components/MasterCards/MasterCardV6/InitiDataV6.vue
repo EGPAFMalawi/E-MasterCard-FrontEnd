@@ -73,7 +73,7 @@
                                 <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
                             </div>
                     </div>  
-                    <button class="btn btn-success" type="submit" disabled>UPDATE</button>
+                    <button class="btn btn-success" @click="addPatient" disabled>UPDATE</button>
                 </div>
             </div>
             <!-- Patient / Guardian Details -->
@@ -342,6 +342,47 @@
         name: 'InitDataV6',
         props : ['encounterTypes', 'postPayload'],
         methods: {
+            updatePatient : function ()
+            {
+                if (this.patient.person.gender === ''){
+                    this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
+                } else{
+                    let payload = {
+                        art_number : this.patient.art_number,
+                        given_name : this.patient.person.personName.given,
+                        middle_name : this.patient.person.personName.middle,
+                        family_name : this.patient.person.personName.family,
+                        gender : this.patient.person.gender,
+                        birthdate : this.patient.person.birthdate,
+                        guardian_name : this.patient.guardianName,
+                        patient_phone : this.patient.patientPhone,
+                        guardian_phone : this.patient.guardianPhone,
+                        follow_up : this.patient.follow_up,
+                        guardian_relation : this.patient.guardianRelation,
+                        city_village :  this.patient.person.personAddress.cityVillage,
+                        region : this.region,
+                        subregion : this.subregion,
+                    };
+                    
+                    let dhisAPIEndpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
+
+                    authResource().patch(dhisAPIEndpoint, payload)
+                        .then(({data: {data}})=>{
+                            this.isLoading = false
+                            sessionStorage.setItem('patient', JSON.stringify(this.patient))
+                            this.$toast.success('Patient details updated!', 'OK', notificationSystem.options.success)
+                            
+                        })
+                        .catch(({response: {data: {errors}}, data}) => {
+
+                            return Object.values(errors).forEach(error => {
+                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            });
+                                
+                        }) 
+                }
+
+            },
             getPatientCardStatusAtInitDetails : function ()
             {
                 let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
