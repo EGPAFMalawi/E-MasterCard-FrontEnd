@@ -125,7 +125,6 @@
                     year: parseInt(this.year),
                     month: this.month
                 }
-
                 this.show = false
                 return this.postRecord(payload)
             }
@@ -151,17 +150,16 @@
                 const url = `${this.APIHosts.art}/${this.BASE_URL}`
 
                 authResource().post(url, payload)
-                    .then(({data: {data}}) => {
+                    .then((response) => {
                         this.$toast.success('Successfully added record!', 'OK', notificationSystem.options.success)
-                        const {object, ...rest} = data
-                        this.records.push(...rest)
+                        this.getRecords()
                         this.age = 0
                         this.sex = ''
                         this.status = ''
                         this.modality = ''
                     })
                     .catch(({response: {data: {errors}, data}}) => {
-
+                        
                         return Object.values(errors).forEach(error => {
                             this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                         });

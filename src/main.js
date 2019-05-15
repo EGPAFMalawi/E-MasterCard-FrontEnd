@@ -67,7 +67,7 @@ new Vue({
   router,
   render: h => h(App),
   onIdle() {
-    this.logout()
+    //this.logout()
   },
   onActive() {
   }

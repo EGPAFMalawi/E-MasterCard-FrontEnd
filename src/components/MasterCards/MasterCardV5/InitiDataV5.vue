@@ -637,6 +637,12 @@
             },
             'concepts.concept16': function(){
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+            },
+            'concepts.concept8': function(){
+                if (this.patient.person.birthdate === '' || true){
+                    this.patient.person.birthdate = this.calculatedBirthDate() 
+                    this.setMinMax()
+                }
             }
         }
     }

@@ -542,10 +542,15 @@ import { type } from 'os';
             },
             setMinMax(ref){
                 const startDate = localStorage.getItem('startDate')
-                
+                let max = this.calculateMaxStartDate()
+
+                if(this.patient.lastStep.step == 'Died'){
+                    max = this.patient.lastStep.date
+                }
+
                 if(startDate !== ''){
                     this.$refs[ref].setAttribute('min', startDate)
-                    this.$refs[ref].setAttribute('max', this.calculateMaxStartDate())
+                    this.$refs[ref].setAttribute('max', max)
                 }
             }
         },
