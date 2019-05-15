@@ -511,7 +511,7 @@
 
                 return nextApponintmentDate.toISOString().split('T')[0]
             },
-             calculateMaxStartDate(){
+            calculateMaxStartDate(){
                 const today = new Date()
                 const max = new Date(today.setDate(today.getDate() + 365))
                 return max.toISOString().split('T')[0]
@@ -519,10 +519,10 @@
             setMinMax(ref){
                 const startDate = localStorage.getItem('startDate')
                 let max = this.calculateMaxStartDate()
+
                 if(this.patient.lastStep.step == 'Died'){
                     max = this.patient.lastStep.date
                 }
-                
 
                 if(startDate !== ''){
                     this.$refs[ref].setAttribute('min', startDate)

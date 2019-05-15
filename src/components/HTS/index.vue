@@ -44,7 +44,7 @@
                     <div class="form-row">
                         <div class="col-6">
                             <label>Age</label>
-                            <input v-model="age" class="form-control"  type="number" required>
+                            <input v-model="age" class="form-control"  type="number" min="0" required>
                         </div>
                         <div class="col-6">
                             <label>Sex</label>
