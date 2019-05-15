@@ -221,8 +221,8 @@
                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                         Please make sure that the Test date is before the ART regimen start date 
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="eval">
-                                        Looks Good.
+                                    <b-form-valid-feedback :state="evalEduDate">
+                                        Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>
@@ -242,7 +242,7 @@
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="evalEduDate">
-                                        Looks Good.
+                                        Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>
@@ -286,13 +286,13 @@
                                         Please make sure that the Test date is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="eval">
-                                        Looks Good.
+                                        Looks Good. (Coming after test date)
                                     </b-form-valid-feedback>
                                     <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="evalEduDate">
-                                        Looks Good.
+                                        Looks Good. (Coming after ART education date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>

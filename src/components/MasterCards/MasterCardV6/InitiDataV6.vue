@@ -213,7 +213,7 @@
                                         Please make sure that the Test date is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="eval">
-                                        Looks Good.
+                                        Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>
@@ -233,7 +233,7 @@
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="evalEduDate">
-                                        Looks Good.
+                                        Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>
@@ -271,19 +271,19 @@
                                                 <option value="14A">14A</option>
                                                 <option value="15A">15A</option>
                                             </select>
-                                            <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
                                     </div>
+                                    <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                         Please make sure that the Test date is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="eval">
-                                        Looks Good.
+                                        Looks Good. (Coming after test date)
                                     </b-form-valid-feedback>
                                     <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
                                     <b-form-valid-feedback :state="evalEduDate">
-                                        Looks Good.
+                                        Looks Good. (Coming after ART education date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>
