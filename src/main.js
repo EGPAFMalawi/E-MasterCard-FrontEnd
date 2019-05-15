@@ -34,7 +34,7 @@ Vue.use(VeeValidate, {
 const eventsHub = new Vue()
 Vue.use(IdleVue, {
     eventEmitter: eventsHub,
-    IdleTime: 300
+    IdleTime: 600
 })
 
 Vue.use(require('vue-moment'))
@@ -67,7 +67,7 @@ new Vue({
   router,
   render: h => h(App),
   onIdle() {
-    //this.logout()
+    this.logout()
   },
   onActive() {
   }
