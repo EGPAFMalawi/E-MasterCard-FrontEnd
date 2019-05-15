@@ -1,22 +1,24 @@
 <template>
     <div>
-        <div>
-            <NavBar></NavBar>
+    <div>
+        <NavBar></NavBar>
+    </div>
+    <section class="container py-3">
+        <div class="row d-flex justify-content-center">
+            <h5>Search For Patient</h5>
         </div>
-        <div>
-
-        </div>
-            <section class="">
+    </section>
+    <section class="sticky-top bg-default">
         <div class="container">
-            <div class="row d-flex justify-content-center py-5">
-                <form v-on:submit.prevent="search" class="search-form form-inline my-2 my-lg-0 align-self-center">
-                    <input v-model="searchParam" v-on:keyup="search" class="form-control mr-sm-2 py-4" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0 py-2" type="submit">Search</button>
+            <div class="row  py-2">
+                <form v-on:submit.prevent="search" class="search-form form-inline my-2 my-lg-0 d-flex justify-content-center align-self-center w-100">
+                    <input v-model="searchParam" v-on:keyup="search" class="form-control mr-sm-2 py-4" style="width: 30% !important" type="search" placeholder="Search for Patient" aria-label="Search">
+                    <button class="btn btn-success my-2 my-sm-0 py-2" type="submit"> <font-awesome-icon icon="search" class="ml-1"/> Search</button>
                 </form>
             </div>
 
         </div>
-           
+        
     </section>
     <section class="search-results">
         <div class="container">
@@ -154,7 +156,7 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                             <label>Physical Address</label>
-                            <input type="text" class="form-control" placeholder="Physical Address" v-model="cityVillage">
+                            <input type="text" class="form-control" placeholder="Physical Address" v-model="city_village">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationServer03">District</label>

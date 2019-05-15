@@ -175,3 +175,6 @@ body {
   padding: unset !important;
   text-align: right;
 }
+
+.bg-default{
+  background: #EBF3F3; }

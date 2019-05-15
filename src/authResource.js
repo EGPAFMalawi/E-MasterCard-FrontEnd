@@ -14,6 +14,7 @@ const authResource = () => {
     return {
         get: (url, options = {}) => axios.get(url, { ...defaultOptions, ...options }),
         post: (url, data, options = {}) => axios.post(url, data, { ...defaultOptions, ...options }),
+        patch: (url, data, options = {}) => axios.patch(url, data, {...defaultOptions, ...options })
     };
 };
 
