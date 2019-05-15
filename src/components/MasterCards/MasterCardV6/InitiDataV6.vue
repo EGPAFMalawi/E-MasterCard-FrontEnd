@@ -429,7 +429,7 @@
                         console.log(error)
                     })
             },
-            processDataForPost: function ()
+            processDataForPost: function (message)
             {
                 let payloadForStatus = this.encounterTypes[1].concepts.map((item)=>{
                     return {
@@ -454,7 +454,7 @@
                     finalPayload.push(...payloadForStatus);
                     finalPayload.push(...payloadForConfirmatory);
 
-                    this.handlePost(finalPayload);
+                    this.handlePost(finalPayload, message);
                 }
                 else{
                     return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
@@ -465,7 +465,7 @@
                     finalPayload.push(...payloadForStatus);
                     finalPayload.push(...payloadForConfirmatory);
 
-                    this.handlePost(finalPayload);
+                    this.handlePost(finalPayload, message);
                 }else{
                     return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
                 }
@@ -481,7 +481,7 @@
                 else
                     return null
             },
-            handlePost: function (payload)
+            handlePost: function (payload, message)
             {
                 let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
@@ -495,7 +495,7 @@
                         this.patientCardData = [];
                         this.getPatientCardStatusAtInitDetails();
                         this.getPatientCardConfirmatoryDetails();
-                        this.$toast.success('Successfully Saved patient Details', 'OK', notificationSystem.options.success)
+                        this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
@@ -602,7 +602,7 @@
         watch : {
             postPayload : function ()
             {
-                this.processDataForPost();
+                this.processDataForPost('Initiation and Confirmatory Data Saved');
             },
             encounterTypes : function (value) {
                 if (value.length > 0)
