@@ -43,17 +43,37 @@
             <div class="container">
                     <div class="form-row">
                         <div class="col-6">
-                            <label>Age</label>
-                            <input v-model="age" class="form-control"  type="number" min="0" required>
+                            <label>HTS Record Number</label>
+                            <input v-model="inserted_hts_record_id" class="form-control"  type="text" required>
                         </div>
                         <div class="col-6">
                             <label>Sex</label>
                             <div class="input-group pt-1">
-                                <b-form-radio v-model="sex" name="sex" value="Female">Female</b-form-radio>
-                                <span style="margin: 0 0.5em"></span>
-                                <b-form-radio v-model="sex" name="sex" value="Male">Male</b-form-radio>
-                                
+                                <select class="form-control" v-model="sex" required>
+                                    <option :value="null" disabled>Select Sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="FemalePregnant">Female Pregnant(FP)</option>
+                                    <option value="FemaleNonPregnant">Female Non Pregnant(FNP)</option>
+                                </select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label>Age</label>
+                            <input v-model="age" class="form-control"  type="number" min="0" required>
+                        </div>
+                        <div class="col-6">
+                            <label>Service Delivery Point(SDP)</label>
+                            <select class="form-control" v-model="service_delivery_point" required>
+                                <option :value="null" disabled>Select Status</option>
+                                <option value="ANC">ANC</option>
+                                <option value="VCT">VCT</option>
+                                <option value="Maternity">Maternity</option>
+                                <option value="TB">TB</option>
+                                <option value="STI">STI</option>
+                                <option value="NRU">NRU</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-row">
@@ -68,10 +88,12 @@
                         <div class="col-6">
                             <label>Modality</label>
                             <select class="form-control" v-model="modality" required>
-                                <option :value="null" disabled>Select Status</option>
+                                <option :value="null" disabled>Select Modality</option>
                                 <option value="PITC - Other">PITC - Other</option>
                                 <option value="Index (FRS in HTS Register)">Index (FRS in HTS Register)</option>
                                 <option value="VCT (Co-Located & Stand Alone)">VCT (Co-Located & Stand Alone)</option>
+                                <option value="ANC">ANC</option>
+                                <option value="Maternity">Maternity</option>
                             </select>
                         </div>
                     </div>
@@ -123,7 +145,9 @@
                     status: this.status,
                     modality: this.modality,
                     year: parseInt(this.year),
-                    month: this.month
+                    month: this.month,
+                    inserted_hts_record_id: this.inserted_hts_record_id,
+                    service_delivery_point: this.service_delivery_point
                 }
                 this.show = false
                 return this.postRecord(payload)
@@ -157,6 +181,8 @@
                         this.sex = ''
                         this.status = ''
                         this.modality = ''
+                        this.inserted_hts_record_id = ''
+                        this.service_delivery_point = ''
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         
@@ -193,6 +219,8 @@
                 currentPage: 1,
                 month: '',
                 year: '',
+                inserted_hts_record_id: '',
+                service_delivery_point: '',
                 years: []
             }
         },
