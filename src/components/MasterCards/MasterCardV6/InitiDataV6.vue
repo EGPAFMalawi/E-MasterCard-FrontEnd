@@ -73,7 +73,7 @@
                                 <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
                             </div>
                     </div>  
-                    <button class="btn btn-success" @click="addPatient" disabled>UPDATE</button>
+                    <button class="btn btn-success" @click="updatePatient">UPDATE</button>
                 </div>
             </div>
             <!-- Patient / Guardian Details -->
