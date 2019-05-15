@@ -357,9 +357,9 @@
             },
             addNewVisit :function()
             {
-                this.processDataForPost(true)
+                this.processDataForPost(true, 'Visit Added')
             },
-            processDataForPost: function (isAddVisit)
+            processDataForPost: function (isAddVisit, message)
             {
                 let payload = [];
 
@@ -393,7 +393,7 @@
                     payload.push(...oldPayload);
                 }
 
-                this.handlePost(payload);
+                this.handlePost(payload, message);
             },
             getObservation: function (conceptID)
             {
@@ -406,7 +406,7 @@
                 else
                     return null
             },
-            handlePost: function (payload)
+            handlePost: function (payload, message)
             {
                 let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
@@ -419,7 +419,7 @@
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
-                        this.$toast.success('Successfully created a new visit!', 'OK', notificationSystem.options.success)
+                        this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
@@ -584,7 +584,7 @@
         watch : {
             postPayload : function ()
             {
-                this.processDataForPost(false);
+                this.processDataForPost(false, 'Saved');
             },
             encounterTypes : function (value) {
                 if (value.length > 0)

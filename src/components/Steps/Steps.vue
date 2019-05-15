@@ -17,16 +17,6 @@
         <div class="container-fluid d-flex justify-content-center">
             <StepsTable @died="patientDied" :postPayload="postPayload" :dob="patient.person.birthdate"></StepsTable>
         </div>
-        <section>
-            <div class="container">
-                    <form class="form-row " v-on:submit.prevent="initiatePost">
-                        <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">Save <font-awesome-icon icon="save" class="ml-1"/></button>
-                        </div>
-                    </form>
-            </div>
-            
-        </section>
     </div>
 </template>
 
