@@ -352,7 +352,7 @@
             updatePatient : function ()
             {
                 this.isLoading = true;
-                if (this.gender === ''){
+                if (this.patient.person.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 } else{
                     let payload = {
@@ -381,12 +381,11 @@
                             this.$toast.success('Patient details updated!', 'OK', notificationSystem.options.success)
                             
                         })
-                        .catch((response) => {
-                            console.log(response)
+                        .catch(({response: {data: {errors}}, data}) => {
 
-                            // return Object.values(errors).forEach(error => {
-                            //     this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
-                            // });
+                            return Object.values(errors).forEach(error => {
+                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            });
                                 
                         }) 
                 }
