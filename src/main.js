@@ -34,7 +34,7 @@ Vue.use(VeeValidate, {
 const eventsHub = new Vue()
 Vue.use(IdleVue, {
     eventEmitter: eventsHub,
-    IdleTime: 600
+    IdleTime: 3000
 })
 
 Vue.use(require('vue-moment'))
