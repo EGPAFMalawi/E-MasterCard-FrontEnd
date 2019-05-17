@@ -200,7 +200,7 @@
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                 </tr>
-                <tr v-if="patient.lastStep.step !== 'Died'">
+                <tr>
                     <td>
                         <input id="tooltip-button-1" v-model="concepts.concept32" ref="visitDate" class="form-control tb-form"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>

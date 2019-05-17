@@ -71,7 +71,7 @@
                     <td>
                         <select v-model="step" class="form-control">
                             <option value="singleStep.step">All The Available Step</option>
-                            <option value="Art Start">Art Start</option>
+                            <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
                             <option value="Back to facility">Back to facility</option>
@@ -130,15 +130,21 @@
                     origin_destination: this.origin_destination,
                     patient: this.patient.patientID,
                 }
-
+                
                 if ((this.step === 'Trans-in' && this.origin_destination === '') ||
                     (this.step === 'Trans-out' && this.origin_destination === '') ||
                     (this.step === 'Back to facility' && this.origin_destination === '')
                 ){
                     return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step == 'Trans-out' && this.origin_destination === this.site){
+                else if(this.step == 'Trans-in' && this.origin_destination === this.site ||
+                        this.step == 'Trans-out' && this.origin_destination === this.site ||
+                        this.step == 'Back to facility' && this.origin_destination === this.site){
                     return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
+                }
+                else if(this.step === 'ART Start' && this.origin_destination.length > 0){
+                    console.log(this.origin_destination)
+                    return this.$toast.error(`<strong>ART Start Cannot have Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else{
                     
