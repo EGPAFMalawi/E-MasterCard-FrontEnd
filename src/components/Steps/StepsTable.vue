@@ -94,7 +94,7 @@
                         </div>
                     </td>
                     <td>
-                        <select  v-model="origin_destination" class="form-control">
+                        <select  ref="originDestination" v-model="origin_destination" class="form-control">
                             <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
                         </select>
                     </td>
@@ -236,6 +236,9 @@
             maxDate(){
                 const today = new Date()
                 return today.toISOString().split('T')[0]
+            },
+            toggleIsDisabled(ref){
+                this.$refs[ref].disabled = !this.$refs[ref].disabled
             }
         },
         data: () => {
@@ -270,6 +273,14 @@
             {
                 this.saveStages()
             },
+            step: function(){
+                if (this.step === 'ART Start'){
+                    this.toggleIsDisabled('originDestination')
+                }else{
+                    this.toggleIsDisabled('originDestination')
+                }
+                    
+            }
         }
     }
 </script>
