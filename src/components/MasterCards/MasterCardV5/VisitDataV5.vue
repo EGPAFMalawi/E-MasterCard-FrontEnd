@@ -544,6 +544,24 @@
                 nextApponintmentDate.setDate(fromDate.getDate() + givenPillsInt)
 
                 return nextApponintmentDate.toISOString().split('T')[0]
+            },
+            calculateMaxStartDate(){
+                const today = new Date()
+                const max = new Date(today.setDate(today.getDate() + 365))
+                return max.toISOString().split('T')[0]
+            },
+            setMinMax(ref){
+                const startDate = localStorage.getItem('startDate')
+                let max = this.calculateMaxStartDate()
+
+                if(this.patient.lastStep.step == 'Died'){
+                    max = this.patient.lastStep.date
+                }
+
+                if(startDate !== ''){
+                    this.$refs[ref].setAttribute('min', startDate)
+                    this.$refs[ref].setAttribute('max', max)
+                }
             }
         },
         data: () => {
@@ -615,6 +633,8 @@
             },
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
+                this.setMinMax('visitDate')
+                this.setMinMax('appointmentDate')
             },
             'concepts.concept32': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')

@@ -524,7 +524,8 @@
                const age = this.concepts.concept8
                const birthYear = date.getFullYear() - age;
                const birthdate = new Date(birthYear.toString())
-               return birthdate.toLocaleDateString()
+               console.log(birthdate.toISOString().split('T')[0])
+               return birthdate.toISOString().split('T')[0]
             },
             evaluateDateBeforeARTStartDate(testDate, startDate){
                 testDate = new Date(testDate)
@@ -637,6 +638,12 @@
             },
             'concepts.concept16': function(){
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+            },
+            'concepts.concept8': function(){
+                if (this.patient.person.birthdate === '' || true){
+                    this.patient.person.birthdate = this.calculatedBirthDate() 
+                    this.setMinMax()
+                }
             }
         }
     }
