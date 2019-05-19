@@ -42,19 +42,35 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://localhost:8000/api/v1',
+                art : 'http://192.168.43.201:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             },
             messageStr: 'Hello'
         }
     },
     methods: {
-        logout : function ()
-            {   
+        logout(){   
                 sessionStorage.removeItem('patient')
                 sessionStorage.removeItem('auth')
                 this.$router.push('/login')
+        },
+        openFullscreen(elem) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
             }
+        }
+              
+    },
+    created(){
+        const elem = document.documentElement
+        this.openFullscreen(elem)
+
     }
 });
 
