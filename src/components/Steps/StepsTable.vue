@@ -34,10 +34,10 @@
                     <td>
                         <select v-model="singleStep.step" class="form-control">
                             <option>{{singleStep.step}}</option>
+                            <option value=""></option>
                             <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
-                            <option value="Back to facility">Back to facility</option>
                             <option value="ART Stop">ART Stop</option>
                             <option value="Restart">Restart</option>
                             <option value="Died">Died</option>
@@ -70,11 +70,10 @@
                     </td>
                     <td>
                         <select v-model="step" class="form-control">
-                            <option value="singleStep.step">All The Available Step</option>
+                            <option value=""></option>
                             <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
-                            <option value="Back to facility">Back to facility</option>
                             <option value="ART Stop">ART Stop</option>
                             <option value="Restart">Restart</option>
                             <option value="Died">Died</option>
@@ -82,6 +81,7 @@
                     </td>
                     <td>
                         <select  v-model="site" class="form-control" required>
+                            <option value=""></option>
                             <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
                         </select>
                     </td>
@@ -95,6 +95,7 @@
                     </td>
                     <td>
                         <select  ref="originDestination" v-model="origin_destination" class="form-control">
+                            <option value=""></option>
                             <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
                         </select>
                     </td>
@@ -132,14 +133,12 @@
                 }
                 
                 if ((this.step === 'Trans-in' && this.origin_destination === '') ||
-                    (this.step === 'Trans-out' && this.origin_destination === '') ||
-                    (this.step === 'Back to facility' && this.origin_destination === '')
+                    (this.step === 'Trans-out' && this.origin_destination === '') 
                 ){
                     return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
                 }
                 else if(this.step == 'Trans-in' && this.origin_destination === this.site ||
-                        this.step == 'Trans-out' && this.origin_destination === this.site ||
-                        this.step == 'Back to facility' && this.origin_destination === this.site){
+                        this.step == 'Trans-out' && this.origin_destination === this.site){
                     return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else if(this.step === 'ART Start' && this.origin_destination.length > 0){

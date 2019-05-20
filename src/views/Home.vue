@@ -21,10 +21,17 @@
         
     </section>
     <section class="search-results">
-        <div class="container">
+        <div class="container-fluid px-5">
             <div class="row d-flex justify-content-center py-5">
                     <div v-if="patients[0] !== undefined" class="alert alert-info" role="alert">
-                            {{patients.length}}  Patients Matching <span class="alert-link">{{this.searchParam}}</span> Search
+                             
+                            <span class="alert-link">
+                                {{patients.length}}  Patients Matching {{this.searchParam}} Search.
+                            </span> 
+                            Did not find who you were looking for? 
+                            <button type="button" class="btn btn-success btn-lg" v-b-modal.modal-1>
+                                Add New Patient
+                            </button>
                     </div>
                     <div v-if="patients[0] === undefined && searchParam != ''" class="alert text-align-center alert-warning" role="alert">
                         <h4 class="alert-heading">No Patient found  matching <strong>{{this.searchParam}}</strong> Search</h4>
