@@ -42,7 +42,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://192.168.43.201:8000/api/v1',
+                art : 'http://192.168.42.183:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             },
             messageStr: 'Hello'
