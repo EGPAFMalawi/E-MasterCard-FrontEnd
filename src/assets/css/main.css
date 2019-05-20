@@ -178,3 +178,10 @@ body {
 
 .bg-default{
   background: #EBF3F3; }
+
+@media (max-width: 1367px){
+  body{
+    zoom: 0.8;
+  }
+
+}

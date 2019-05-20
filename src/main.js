@@ -14,12 +14,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueIziToast from "vue-izitoast";
+import handleErrors from './helpers/handleErrors'
 
 
 import "izitoast/dist/css/iziToast.css";
 
 Vue.use(VueIziToast);
 
+handleErrors()
 
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 
@@ -30,19 +32,24 @@ Vue.use(VeeValidate, {
     classes:true
 });
 
-const eventsHub = new Vue()
 
 Vue.use(require('vue-moment'))
 
 
 Vue.config.productionTip = false
+Vue.config.errorHandler = function (err, vm, info) {
+    console.log('hello', vm)
+    // handle error
+    // `info` is a Vue-specific error info, e.g. which lifecycle hook
+    // the error was found in. Only available in 2.2.0+
+}
 
 Vue.mixin({
     data : function()
     {
         return {
             APIHosts : {
-                art : 'http://192.168.42.183:8000/api/v1',
+                art : 'http://192.168.1.222:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             },
             messageStr: 'Hello'
@@ -56,7 +63,7 @@ Vue.mixin({
         },
         openFullscreen(elem) {
             if (elem.requestFullscreen) {
-                elem.requestFullscreen();
+                elem.requestFullscreen().catch(err => {})
             } else if (elem.mozRequestFullScreen) { /* Firefox */
                 elem.mozRequestFullScreen();
             } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
@@ -70,7 +77,6 @@ Vue.mixin({
     created(){
         const elem = document.documentElement
         this.openFullscreen(elem)
-
     }
 });
 

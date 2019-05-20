@@ -212,9 +212,14 @@ export default {
                     this.isLoading = false;
                     this.patients = data
                 })
-                .catch((error)=>{
+                .catch(({response: {status}, response})=>{
                     this.isLoading = false;
-                    console.log(error)
+                    
+                    if(status === 401){
+                        this.logout()
+                    }
+                    else
+                        console.log(response)
                 })
             }
             
@@ -333,6 +338,12 @@ export default {
             const today = new Date()
             
             this.$refs.dob.setAttribute('max', today.toISOString().split('T')[0])
+        },
+        logout(){
+            sessionStorage.removeItem('patient')
+            sessionStorage.removeItem('auth')
+            this.$router.push('/login')
+            this.$toast.error(`Session Expired, Login again`, 'Error', notificationSystem.options.error)
         }
     },
     beforeMount(){

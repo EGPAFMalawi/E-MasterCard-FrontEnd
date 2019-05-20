@@ -51,9 +51,9 @@
 
                     <td>
                         <div class="input-group">
-                            <div class="input-group-prepend">
+                            <!-- <div class="input-group-prepend">
                                 <div class="input-group-text">{{prefix}}</div>
-                            </div>
+                            </div> -->
                             <input v-model="singleStep.artNumber" class="form-control"  type="text" required>
                         </div>
                         
@@ -87,9 +87,9 @@
                     </td>
                     <td>
                         <div class="input-group">
-                            <div class="input-group-prepend">
+                            <!-- <div class="input-group-prepend">
                                 <div class="input-group-text">{{prefix}}</div>
-                            </div>
+                            </div> -->
                             <input v-model="art_number" class="form-control"  type="text" required>
                         </div>
                     </td>
@@ -139,11 +139,13 @@
                 }
                 else if(this.step == 'Trans-in' && this.origin_destination === this.site ||
                         this.step == 'Trans-out' && this.origin_destination === this.site){
-                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
+                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else if(this.step === 'ART Start' && this.origin_destination.length > 0){
-                    console.log(this.origin_destination)
-                    return this.$toast.error(`<strong>ART Start Cannot have Origi/Destination</strong>`, 'Error', notificationSystem.options.error)
+                    return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
+                }
+                else if(this.step === 'ART Start' && this.art_number.length === 0){
+                    return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else{
                     
