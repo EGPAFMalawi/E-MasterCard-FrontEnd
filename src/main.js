@@ -38,7 +38,7 @@ Vue.use(require('vue-moment'))
 
 Vue.config.productionTip = false
 Vue.config.errorHandler = function (err, vm, info) {
-    console.log('hello', vm)
+    console.log(' ', vm)
     // handle error
     // `info` is a Vue-specific error info, e.g. which lifecycle hook
     // the error was found in. Only available in 2.2.0+
@@ -49,7 +49,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://192.168.1.222:8000/api/v1',
+                art : 'http://192.168.43.201:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             },
             messageStr: 'Hello'

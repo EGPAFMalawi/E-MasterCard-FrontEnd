@@ -59,7 +59,7 @@
                         
                     </td>
                     <td>
-                        <select  v-model="singleStep.originDestination" class="form-control">
+                        <select v-model="singleStep.originDestination" class="form-control" >
                             <option v-for="(facility, index) in facilities" :value="facility.name" v-bind:key="index">{{facility.name}}</option>
                         </select>
                     </td>
@@ -238,8 +238,8 @@
                 const today = new Date()
                 return today.toISOString().split('T')[0]
             },
-            toggleIsDisabled(ref){
-                this.$refs[ref].disabled = !this.$refs[ref].disabled
+            toggleIsDisabled(ref, isTrue){
+                this.$refs[ref].disabled = isTrue
             }
         },
         data: () => {
@@ -275,10 +275,17 @@
                 this.saveStages()
             },
             step: function(){
-                if (this.step === 'ART Start'){
-                    this.toggleIsDisabled('originDestination')
-                }else{
-                    this.toggleIsDisabled('originDestination')
+                if (this.step === 'ART Start'){ 
+                    this.toggleIsDisabled('originDestination', true)
+                }
+                else if (this.step === 'Restart'){ 
+                    this.toggleIsDisabled('originDestination', true)
+                }
+                else if (this.step === 'Died'){ 
+                    this.toggleIsDisabled('originDestination', true)
+                }
+                else{
+                    this.toggleIsDisabled('originDestination', false)
                 }
                     
             }

@@ -11,9 +11,7 @@
             return response
         },
         (error) => {
-            console.log('hello', error.response.data.me)
             if(error.response.data.message === "Unauthenticated."){
-                console.log('hie')
                 sessionStorage.removeItem('patient')
                 sessionStorage.removeItem('auth')
                 window.location.href = "login"

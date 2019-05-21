@@ -89,19 +89,7 @@
                         <div class="form-row">
                             <div class="col-md-12 mb-2">
                                 <label for="validationServer01">HIV Related Diseases</label>
-                                <select v-model="concepts.concept1" class="form-control">
-                                    <option :value="null" disabled>Reasons for ART Start</option>
-                                    <option value="Pres. Sev. HIV disease age< 12m">Pres. Sev. HIV disease age &lt; 12m</option>
-                                    <option value="Infants < 12 mthns PCR+">Infants &lt; 12 mthns PCR+</option>
-                                    <option value="Children 12-59 mths">Children 12-59 mths</option>
-                                    <option value="Pregnant Woman">Pregnant Woman</option>
-                                    <option value="Breastfeeding Mother">Breastfeeding Mother</option>
-                                    <option value="CD4 below threshold">CD4 below threshold</option>
-                                    <option value="Asymptomatic/Mild">Asymptomatic/Mild</option>
-                                    <option value="WHO stage 3">WHO stage 3</option>
-                                    <option value="WHO stage 4">WHO stage 4</option>
-                                    <option value="Unknown / Reason outside guidelines">Unknown / Reason outside guidelines</option>
-                                </select>
+                                <input v-model="concepts.concept1" type="text" class="form-control" placeholder="e.g. Oral Candida" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -113,6 +101,7 @@
                                 <label >TB Status at Init</label>
                                 <select class="form-control" v-model="concepts.concept9">
                                     <option :value="null" disabled>Select Status</option>
+                                    <option value=""></option>
                                     <option value="Never > 2yrs">Never > 2yrs</option>
                                     <option value="Last 2yrs">Last 2yrs</option>
                                     <option value="Curr">Curr</option>
@@ -129,6 +118,7 @@
                                 <label>KS</label>
                                 <select class="form-control" v-model="concepts.concept10">
                                     <option :value="null" disabled>Y for yes, N for no</option>
+                                    <option value=""></option>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
@@ -147,6 +137,7 @@
                                     <label >Pregnant/Breastfeeding</label>
                                     <select class="form-control" v-model="concepts.concept10">
                                         <option v-if="patient.person.gender === 'M'" :value="null" disabled>Not Allowed</option>
+                                        <option value=""></option>
                                         <option v-if="patient.person.gender !== 'M'" value="N">N</option>
                                         <option v-if="patient.person.gender !== 'M'" value="Preg">Preg</option>
                                         <option v-if="patient.person.gender !== 'M'" value="Bf">Bf</option>
@@ -163,6 +154,7 @@
                                         <label >Ever taken ARVs</label>
                                         <select class="form-control" v-model="concepts.concept12">
                                             <option :value="null" disabled>Y for yes, N for no</option>
+                                            <option value=""></option>
                                             <option value="N">N</option>
                                             <option value="Y">Y</option>
                                         </select>
@@ -217,6 +209,7 @@
                                             <input ref="eduDate" v-model="concepts.concept16" type="date" class="form-control">
                                             <select v-model="concepts.concept17" class="form-control" >
                                                 <option :value="null" disabled>Rapid or PCR</option>
+                                                <option value=""></option>
                                                 <option value="Rapid">Rapid</option>
                                                 <option value="PCR">PCR</option>
                                             </select>
@@ -236,6 +229,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept18" class="form-control" >
                                                 <option :value="null" disabled>Y for yes, N for no</option>
+                                                <option value=""></option>
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
@@ -266,6 +260,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept22" class="form-control">
                                                 <option :value="null" disabled>Regimen</option>
+                                                <option value=""></option>
                                                 <option value="0A">0A</option>
                                                 <option value="1A">1A</option>
                                                 <option value="2A">2A</option>
@@ -307,6 +302,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept24" class="form-control">
                                                 <option :value="null" disabled>Regimen</option>
+                                                <option value=""></option>
                                                 <option value="0A">0A</option>
                                                 <option value="1A">1A</option>
                                                 <option value="2A">2A</option>

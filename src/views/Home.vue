@@ -214,11 +214,6 @@ export default {
                 })
                 .catch(({response: {status}, response})=>{
                     this.isLoading = false;
-                    
-                    if(status === 401){
-                        this.logout()
-                    }
-                    else
                         console.log(response)
                 })
             }
