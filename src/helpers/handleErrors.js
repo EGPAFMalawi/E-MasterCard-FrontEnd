@@ -12,7 +12,6 @@ import Vue from 'vue'
             return response
         },
         (error) => {
-            console.log('hellosaj')
             if(error.response.data.message === "Unauthenticated."){
                 console.log('hellosaj')
                 sessionStorage.removeItem('patient')

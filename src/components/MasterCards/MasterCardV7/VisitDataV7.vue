@@ -310,12 +310,6 @@
                 <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
                     Visit Date must be before Appointment Date
                 </b-tooltip>
-                <b-form-invalid-feedback v-if="concepts.concept47 !== ''" :state="show">
-                    Visit Date must be before Appointment Date 
-                </b-form-invalid-feedback>
-                <b-form-valid-feedback :state="show">
-                    Looks Good.
-                </b-form-valid-feedback>
                 </tbody>
             </table>
         </div>
