@@ -138,8 +138,8 @@
                     return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
                 }
                 else if(this.step == 'Trans-in' && this.origin_destination === this.site ||
-                        this.step == 'Trans-out' && this.origin_destination === this.site){
-                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
+                    this.step == 'Trans-out' && this.origin_destination === this.site){
+                   return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else if(this.step === 'ART Start' && this.origin_destination.length > 0){
                     return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
@@ -148,8 +148,10 @@
                     return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else{
-                    
-                     const payload = {
+                    if (this.step === 'Died'){
+                        this.$toast.question(`You have selected <strong>died</strong> step, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
+                    }
+                    const payload = {
                         art_number: this.art_number,
                         date: this.stepDate,
                         site: this.site,

@@ -5,6 +5,7 @@ import VueFilterDateFormat from 'vue-filter-date-format';
  
 
 import router from './router'
+import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../src/assets/css/main.css'
@@ -12,6 +13,7 @@ import VeeValidate from 'vee-validate'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesome/free-solid-svg-icons'
+import { notificationSystem } from  './globals'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueIziToast from "vue-izitoast";
 import handleErrors from './helpers/handleErrors'
@@ -21,8 +23,8 @@ import "izitoast/dist/css/iziToast.css";
 
 Vue.use(VueIziToast);
 
-handleErrors()
 
+handleErrors()
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -33,23 +35,17 @@ Vue.use(VeeValidate, {
 });
 
 
+
 Vue.use(require('vue-moment'))
 
-
 Vue.config.productionTip = false
-Vue.config.errorHandler = function (err, vm, info) {
-    console.log(' ', vm)
-    // handle error
-    // `info` is a Vue-specific error info, e.g. which lifecycle hook
-    // the error was found in. Only available in 2.2.0+
-}
 
 Vue.mixin({
     data : function()
     {
         return {
             APIHosts : {
-                art : 'http://192.168.43.201:8000/api/v1',
+                art : 'http://localhost:8000/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             },
             messageStr: 'Hello'

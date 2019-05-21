@@ -1,3 +1,6 @@
+import { reject } from "q";
+import Vue from 'vue'
+
 export const  notificationSystem= {
     options: {
       show: {
@@ -64,22 +67,31 @@ export const  notificationSystem= {
           [
             "<button><b>YES</b></button>",
             function(instance, toast) {
-              instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+              instance.hide({ transitionOut: "fadeOut" }, toast, "yes");
             },
             true
           ],
           [
             "<button>NO</button>",
             function(instance, toast) {
-              instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+              instance.hide({ transitionOut: "fadeOut" }, toast, "no");
             }
           ]
         ],
         onClosing: function(instance, toast, closedBy) {
-          console.info("Closing | closedBy: " + closedBy);
+          console.info("Closing | closedBy: " + closedBy)
+          
         },
         onClosed: function(instance, toast, closedBy) {
-          console.info("Closed | closedBy: " + closedBy);
+          console.info("Closed | closedBy: " + closedBy)
+          Object.defineProperties(Vue.prototype, {
+            $toastResponse: {
+                get () {
+                  return closedBy
+                }
+              }
+            }
+          )
         }
       }
     }

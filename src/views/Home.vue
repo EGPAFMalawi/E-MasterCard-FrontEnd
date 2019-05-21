@@ -331,7 +331,7 @@ export default {
         },
         setDOBMax(){
             const today = new Date()
-            
+            console.log(this.$refs)
             this.$refs.dob.setAttribute('max', today.toISOString().split('T')[0])
         },
         logout(){
@@ -345,6 +345,9 @@ export default {
         this.loadRegions(),
         this.loadDistricts()
         this.loadTAs()
+    },
+    mounted(){
+        this.setDOBMax()
     },
     data: () => {
         return {
@@ -398,7 +401,7 @@ export default {
     },
     watch: {
         searchParam: function(){
-            this.setDOBMax()
+            //this.setDOBMax()
         }
     }
     
