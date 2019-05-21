@@ -554,7 +554,6 @@
                 }
             },
             getConditions(stageName){
-                console.log(stageName)
                 return this.stages.filter(({name}) => name === stageName)[0].conditions
             }
         },
