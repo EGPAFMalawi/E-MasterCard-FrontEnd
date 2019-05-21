@@ -236,7 +236,6 @@ export default {
                 if (this.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 } else{
-                    console.log(this.middle_name)
                     let payload = {
                         prefix : this.prefix,
                         art_number : this.art_number,
@@ -265,7 +264,7 @@ export default {
                         subregion : this.subregion,
                         township_division : this.township_division
                     };
-                    
+
                     let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
 
                     authResource().post(dhisAPIEndpoint, payload)
