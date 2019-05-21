@@ -19,7 +19,6 @@ import Vue from 'vue'
                 sessionStorage.removeItem('auth')
                 Vue.prototype.$router.push("/login")
                 Vue.prototype.$toast.error(`Session Expired, Login again`, 'Error', notificationSystem.options.error)
-                this.$router.push('/login')
             }
             return Promise.reject(error)
         }

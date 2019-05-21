@@ -90,16 +90,7 @@
                                 <select v-model="concepts.concept1" class="form-control">
                                     <option :value="null" disabled>Reasons for ART Start</option>
                                     <option value=""></option>
-                                    <option value="Pres. Sev. HIV disease age< 12m">Pres. Sev. HIV disease age &lt; 12m</option>
-                                    <option value="Infants < 12 mthns PCR+">Infants &lt; 12 mthns PCR+</option>
-                                    <option value="Children 12-59 mths">Children 12-59 mths</option>
-                                    <option value="Pregnant Woman">Pregnant Woman</option>
-                                    <option value="Breastfeeding Mother">Breastfeeding Mother</option>
-                                    <option value="CD4 below threshold">CD4 below threshold</option>
-                                    <option value="Asymptomatic/Mild">Asymptomatic/Mild</option>
-                                    <option value="WHO stage 3">WHO stage 3</option>
-                                    <option value="WHO stage 4">WHO stage 4</option>
-                                    <option value="Unknown / Reason outside guidelines">Unknown / Reason outside guidelines</option>
+                                    <option v-for="(condition) in conditions" v-bind:key="condition">{{condition}}</option>
                                 </select>
                             </div>
                             <div class="col-md-12 mb-2">
@@ -113,10 +104,10 @@
                             <select v-model="concepts.concept3" class="form-control">
                                 <option :value="null" disabled>Select WHO stage</option>
                                 <option value=""></option>
-                                <option value="WHO stage 1">WHO stage 1</option>
-                                <option value="WHO stage 2">WHO stage 2</option>
-                                <option value="WHO stage 3">WHO stage 3</option>
-                                <option value="WHO stage 4">WHO stage 4</option>
+                                <option value="Clinical stage 1">Clinical stage 1</option>
+                                <option value="Clinical stage 2">Clinical stage 2</option>
+                                <option value="Clinical stage 3">Clinical stage 3</option>
+                                <option value="Clinical stage 4">Clinical stage 4</option>
                                 <option value="PSHD">PSHD</option>
                             </select>
                         </div>
@@ -561,6 +552,10 @@
                     this.$refs.regimenStartDate.setAttribute('min', this.patient.person.birthdate)
                     this.$refs.regimenStartDate.setAttribute('max', this.calculateMaxStartDate())
                 }
+            },
+            getConditions(stageName){
+                console.log(stageName)
+                return this.stages.filter(({name}) => name === stageName)[0].conditions
             }
         },
         data: () => {
@@ -575,6 +570,67 @@
                 },
                 patientCardData : [
 
+                ],
+                conditions:[],
+                stages: [
+                    {
+                        name: 'Clinical stage 1',
+                        conditions: ['Asymptomatic', 'Persistent generalized lymphadenopathy']
+                    },
+                    {
+                        name: 'Clinical stage 2',
+                        conditions: [ 
+                            'Moderate unexplained weight loss (<10% ofpresumed or measured body weight)',
+                            'Recurrent respiratory tract infections (sinusitis tonsillitis, otitis media, pharyngitis)', 
+                            'Herpes zoster',
+                            'Angular cheilitis',
+                            'Recurrent oral ulceration',
+                            'Papular pruritic eruption',
+                            'Fungal nail infections',
+                            'Seborrhoeic dermatitis'
+                        ]
+                    },
+                    {
+                        name: 'Clinical stage 3',
+                        conditions: [
+                            'Unexplained severe weight loss (>10% of presumed or measured body weight)',
+                            'Unexplained chronic diarrhoea for longer than 1 month',
+                            'Unexplained persistent fever (intermittent or constant for longer than 1 month)',
+                            'Persistent oral candidiasis',
+                            'Oral hairy leukoplakia',
+                            'Pulmonary tuberculosis',
+                            'Severe bacterial infections (such as pneumonia, empyema, pyomyositis, bone or joint infection, meningitis, bacteraemia)',
+                            'Acute necrotizing ulcerative stomatitis, gingivitis or periodontitis',
+                            'Unexplained anaemia (<8 g/dl)',
+                            'neutropaenia (<0.5 x 109/l) and/or chronic thrombocytopaenia (<50 x 109/l)'
+                        ]
+                    },
+                    {
+                        name: 'Clinical stage 4',
+                        conditions: [
+                            'HIV wasting syndrome',
+                            'Pneumocystis (jirovecii) pneumonia',
+                            'Recurrent severe bacterial pneumonia',
+                            'Chronic herpes simplex infection (orolabial, genital or anorectal of more than 1 month’s duration or visceral at any site)',
+                            'Oesophageal candidiasis (or candidiasis of trachea, bronchi or lungs)',
+                            'Extrapulmonary tuberculosis',
+                            'Kaposi sarcoma',
+                            'Cytomegalovirus infection (retinitis or infection of other organs)',
+                            'Central nervous system toxoplasmosis',
+                            'HIV encephalopathy',
+                            'Extrapulmonary cryptococcosis, including meningitis',
+                            'Disseminated nontuberculous mycobacterial infection',
+                            'Progressive multifocal leukoencephalopathy',
+                            'Chronic cryptosporidiosis',
+                            'Chronic isosporiasis',
+                            'Disseminated mycosis (extrapulmonary histoplasmosis, coccidioidomycosis',
+                            'Lymphoma (cerebral or B-cell non-Hodgkin)',
+                            'Symptomatic HIV-associated nephropathy or cardiomyopathy',
+                            'Recurrent septicaemia (including nontyphoidal Salmonella)',
+                            'Invasive cervical carcinoma',
+                            'Atypical disseminated leishmaniasis'
+                        ]
+                    },
                 ],
                 masterCardWithDetails : {},
                 concepts : {
@@ -661,6 +717,10 @@
                     this.patient.person.birthdate = this.calculatedBirthDate() 
                     this.setMinMax()
                 }
+            },
+            'concepts.concept3': function(){
+                this.conditions = this.getConditions(this.concepts.concept3)
+                console.log(this.conditions)
             }
         }
     }

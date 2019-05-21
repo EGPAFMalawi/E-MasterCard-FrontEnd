@@ -216,7 +216,7 @@
             },
 
             loadFacilities(){
-                let dhisAPIEndpoint = `${this.APIHosts.art}/locations`;
+                let dhisAPIEndpoint = `${this.APIHosts.art}/facilities`;
 
 
                 authResource().get(dhisAPIEndpoint)
