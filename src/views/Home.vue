@@ -236,6 +236,7 @@ export default {
                 if (this.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 } else{
+                    console.log(this.middle_name)
                     let payload = {
                         prefix : this.prefix,
                         art_number : this.art_number,
@@ -314,9 +315,8 @@ export default {
                     console.log(error)
                 })
         },
-        loadTAs(){
-
-            let dhisAPIEndpoint = `${this.APIHosts.art}/traditional-authorities`;
+        loadTAs(districtId){
+            let dhisAPIEndpoint = `${this.APIHosts.art}/districts/${districtId}/traditional-authorities`;
 
 
             authResource().get(dhisAPIEndpoint)
@@ -344,7 +344,7 @@ export default {
     beforeMount(){
         this.loadRegions(),
         this.loadDistricts()
-        this.loadTAs()
+        
     },
     mounted(){
         this.setDOBMax()
@@ -402,6 +402,10 @@ export default {
     watch: {
         searchParam: function(){
             //this.setDOBMax()
+        },
+        county_district: function(){
+            const districtId = this.districts.filter(district => district.name === this.county_district)[0].districtID
+            this.loadTAs(districtId)
         }
     }
     
