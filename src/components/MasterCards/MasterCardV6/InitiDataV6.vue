@@ -523,15 +523,17 @@
             calculatedBirthDate(ageType){
                const date = new Date(this.concepts.concept23)
                const age = this.concepts.concept8
+               
                if (ageType === 'Years'){
-                   const birthYear = date.getFullYear() - age
-                   const birthdate = new Date(birthYear.toString())
+                    const birthYear = date.getFullYear() - age
+                    const birthdate = new Date(birthYear.toString())
+                    console.log(birthdate.toISOString(), ageType)
+                    return birthdate.toISOString().split('T')[0]
                }else if(ageType === 'Months'){
-                   const birthYear = date.getMonth() - age
-                   const birthdate = new Date(birthYear.toString())
+                    date.setMonth(date.getMonth() - age);
+                    return date.toISOString().split('T')[0]
                }
-               console.log(birthdate.toLocaleDateString())
-               return birthdate.toLocaleDateString()
+               
             },
             evaluateDateBeforeARTStartDate(testDate, startDate){
                 testDate = new Date(testDate)
@@ -694,10 +696,12 @@
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             ageType: function(){
-                if (true){
-                    console.log(this.ageType)
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
-                }
+                if (this.patient.person.birthdate==='')
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType)
+            },
+            'concepts.concept8': function(){
+                if (this.patient.person.birthdate==='')
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType)
             }
         }
     }

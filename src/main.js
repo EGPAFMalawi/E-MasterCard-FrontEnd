@@ -23,7 +23,7 @@ import "izitoast/dist/css/iziToast.css";
 
 Vue.use(VueIziToast);
 
-
+Vue.config.silent = true
 handleErrors()
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 
@@ -45,7 +45,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://localhost:8000/api/v1',
+                art : 'http://localhost/api/v1',
                 dhis : 'http://196.216.12.28:81/api'
             },
             messageStr: 'Hello'
