@@ -679,6 +679,7 @@
                 {
                     this.getPatientCardStatusAtInitDetails();
                     this.getPatientCardConfirmatoryDetails();
+                    console.log(JSON.parse(JSON.stringify(this.patientCardData)))
                 }
             },
             patientCardData : function (value) {
