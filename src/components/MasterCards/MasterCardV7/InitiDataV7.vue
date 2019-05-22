@@ -420,7 +420,7 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        this.patientCardData.push(...response.data.data)
+                        this.patientCardData = response.data.data
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -436,7 +436,7 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        this.patientCardData.push(...response.data.data)
+                        this.patientCardData = response.data.data
                     })
                     .catch((error)=>{
                         console.log(error)

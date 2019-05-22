@@ -409,7 +409,7 @@
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
-                        this.patientCardData.push(...response.data.data)
+                        this.patientCardData = response.data.data
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -426,7 +426,7 @@
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
-                        this.patientCardData.push(...response.data.data)
+                        this.patientCardData = response.data.data
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -452,25 +452,17 @@
                     }
                 });
 
-                if(this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
-                    let finalPayload = [];
-                    finalPayload.push(...payloadForStatus);
-                    finalPayload.push(...payloadForConfirmatory);
-
-                    this.handlePost(finalPayload, message);
-                }
-                else{
+                 if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
                     return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
                 }
-
-                if(this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+                else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+                    return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
+                }else{
                     let finalPayload = [];
                     finalPayload.push(...payloadForStatus);
                     finalPayload.push(...payloadForConfirmatory);
 
                     this.handlePost(finalPayload, message);
-                }else{
-                    return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
                 }
             },
             getObservation: function (conceptID)
