@@ -69,7 +69,7 @@
                         <input type="date" ref="stepDate" class="form-control" v-model="stepDate" required>
                     </td>
                     <td>
-                        <select v-model="step" class="form-control">
+                        <select v-model="step" class="form-control" required>
                             <option value=""></option>
                             <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
