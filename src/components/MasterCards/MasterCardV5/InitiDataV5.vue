@@ -232,15 +232,15 @@
                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                         Please make sure that the Test date is before the ART regimen start date 
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="evalEduDate">
-                                        Looks Good. (Coming before ART Regimen start date)
+                                    <b-form-valid-feedback :state="eval">
+                                        Looks Good. Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-md-12 mb-2">
-                                    <label >ART educatucation done</label>
+                                    <label >ART education done</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept18" class="form-control" >
                                                 <option :value="null" disabled>Y for yes, N for no</option>
@@ -264,7 +264,7 @@
                                     <label >TB treatment (Reg No. / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <input v-model="concepts.concept20" type="text" class="form-control" placeholder="Registration Number">
-                                            <input v-model="concepts.concept21" ref="regimenStartDate" type="date" class="form-control" oninput="validity.valid||(value='');">
+                                            <input v-model="concepts.concept21" ref="regimenStartDate" type="date" class="form-control">
                                     </div>
                             </div>
                         </div>
@@ -350,7 +350,7 @@
                         </div>
                     </form>
                 </div>
-            </div>  
+            </div>   
         </div>
     </div>
 </template>
@@ -720,7 +720,6 @@
             },
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)
-                console.log(this.conditions)
             }
         }
     }
