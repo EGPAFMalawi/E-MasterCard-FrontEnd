@@ -376,7 +376,15 @@ import { type } from 'os';
             },
             addNewVisit :function()
             {
-                this.processDataForPost(true, 'Visit Added')
+                if(this.concepts.concept47 <= this.concepts.concept32){
+                    this.$toast.error(
+                        `Appointment date is before or same as vist date`, 
+                        'Error', 
+                        notificationSystem.options.error)
+                }
+                else{
+                    this.processDataForPost(true, 'Visit Added')
+                }  
             },
             processDataForPost: function (isAddVisit, message)
             {
