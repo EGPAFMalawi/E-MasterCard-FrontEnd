@@ -339,7 +339,7 @@
                             <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                         </td>
                         <td>
-                            <input id="tooltip-button-1" v-model="concepts.concept47" class="form-control tb-form"  type="date" required>
+                            <input ref="appointmentDate" id="tooltip-button-1" v-model="concepts.concept47" class="form-control tb-form"  type="date" required>
                             <span>{{ errors.first('Next Visit')}}</span>
                         </td>
                     </tr>
