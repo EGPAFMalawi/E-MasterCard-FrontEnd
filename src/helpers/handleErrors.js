@@ -1,7 +1,6 @@
  import axios from 'axios'
  import { notificationSystem } from '../globals'
 import Vue from 'vue'
-import router from 'router'
 
  export default () => {
 

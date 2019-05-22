@@ -388,7 +388,7 @@
                             this.$toast.success('Patient details updated!', 'OK', notificationSystem.options.success)
                             
                         })
-                        .catch(({response: {data: {errors}}, data}) => {
+                        .catch(({response: {data: {errors}, data}}) => {
 
                             return Object.values(errors).forEach(error => {
                                 this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
