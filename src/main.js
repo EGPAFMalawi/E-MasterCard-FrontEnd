@@ -38,7 +38,7 @@ Vue.use(VeeValidate, {
 
 Vue.use(require('vue-moment'))
 
-Vue.config.productionTip = false
+//Vue.config.productionTip = false
 
 Vue.mixin({
     data : function()

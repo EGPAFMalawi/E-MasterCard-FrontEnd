@@ -100,10 +100,10 @@
                                         <select v-model="concepts.concept3" class="form-control">
                                             <option :value="null" disabled>Select WHO stage</option>
                                             <option value=""></option>
-                                            <option value="WHO stage 1">WHO stage 1</option>
-                                            <option value="WHO stage 2">WHO stage 2</option>
-                                            <option value="WHO stage 3">WHO stage 3</option>
-                                            <option value="WHO stage 4">WHO stage 4</option>
+                                            <option value="Clinical stage 1">Clinical stage 1</option>
+                                            <option value="Clinical stage 2">Clinical stage 2</option>
+                                            <option value="Clinical stage 3">Clinical stage 3</option>
+                                            <option value="Clinical stage 4">Clinical stage 4</option>
                                             <option value="PSHD">PSHD</option>
                                         </select>
                                     </div>
@@ -400,7 +400,7 @@
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
-                        this.patientCardData = response.data.data
+                        this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -417,7 +417,7 @@
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
                         console.log(response);
-                        this.patientCardData = response.data.data
+                        this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
                         console.log(error)

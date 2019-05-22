@@ -1,22 +1,19 @@
  import axios from 'axios'
  import { notificationSystem } from '../globals'
 import Vue from 'vue'
+import router from 'router'
 
  export default () => {
 
     // apply interceptor on response
     axios.interceptors.response.use(
         (response) => {
-            
-            
             return response
         },
         (error) => {
             if(error.response.data.message === "Unauthenticated."){
-                console.log('hellosaj')
-                sessionStorage.removeItem('patient')
                 sessionStorage.removeItem('auth')
-                Vue.prototype.$router.push("/login")
+                window.location.assign("/login")
                 Vue.prototype.$toast.error(`Session Expired, Login again`, 'Error', notificationSystem.options.error)
             }
             return Promise.reject(error)
