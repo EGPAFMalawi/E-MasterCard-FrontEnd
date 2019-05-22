@@ -357,6 +357,7 @@
     
     import authResource from './../../../authResource'
     import { notificationSystem } from '../../../globals'
+import { log } from 'util';
 
     export default {
         name: 'InitDataV6',
@@ -518,7 +519,6 @@
                if (ageType === 'Years'){
                     const birthYear = date.getFullYear() - age
                     const birthdate = new Date(birthYear.toString())
-                    console.log(birthdate.toISOString(), ageType)
                     return birthdate.toISOString().split('T')[0]
                }else if(ageType === 'Months'){
                     date.setMonth(date.getMonth() - age);
@@ -687,12 +687,18 @@
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             ageType: function(){
-                if (this.patient.person.birthdate==='')
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType)
+                if(this.concepts.concept8 === ''){
+                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+                }else{
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                }
             },
             'concepts.concept8': function(){
-                if (this.patient.person.birthdate==='')
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType)
+                if(this.concepts.concept8 === ''){
+                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+                }else{
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                }
             }
         }
     }

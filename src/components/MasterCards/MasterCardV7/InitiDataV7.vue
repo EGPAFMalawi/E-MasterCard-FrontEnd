@@ -175,8 +175,14 @@
                             <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                             <label >Age at Initiation</label>
-                                            <input v-model="concepts.concept8" type="number" class="form-control" placeholder="Age" min="1" step="1" oninput="validity.valid||(value='');" required>
-                                        </div>
+                                            <div class="form-inline fit-2-input-fields">
+                                            <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
+                                                <select class="form-control" v-model="ageType">
+                                                    <option value="Months">Months</option>
+                                                    <option value="Years">Years</option>
+                                                </select>
+                                            </div>
+                                    </div>
                                     <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                             <label >Last ARVs (type/date)</label>
                                             <div class="form-inline fit-2-input-fields">
@@ -517,12 +523,19 @@
                 }
                 localStorage.setItem('startDate', this.concepts.concept23)
             },
-            calculatedBirthDate(){
+            calculatedBirthDate(ageType){
                const date = new Date(this.concepts.concept23)
                const age = this.concepts.concept8
-               const birthYear = date.getFullYear() - age;
-               const birthdate = new Date(birthYear.toString())
-               return birthdate.toISOString().split('T')[0]
+               
+               if (ageType === 'Years'){
+                    const birthYear = date.getFullYear() - age
+                    const birthdate = new Date(birthYear.toString())
+                    return birthdate.toISOString().split('T')[0]
+               }else if(ageType === 'Months'){
+                    date.setMonth(date.getMonth() - age);
+                    return date.toISOString().split('T')[0]
+               }
+               
             },
             evaluateDateBeforeARTStartDate(date, startDate){
                 date = new Date(date)
@@ -654,7 +667,8 @@
                     concept27 : '',
                 },
                 eval:false,
-                evalEduDate: false
+                evalEduDate: false,
+                ageType: ''
             }
         },
         created() {
@@ -704,10 +718,18 @@
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             },
+            ageType: function(){
+                if(this.concepts.concept8 === ''){
+                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+                }else{
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                }
+            },
             'concepts.concept8': function(){
-                if (this.patient.person.birthdate === '' || true){
-                    this.patient.person.birthdate = this.calculatedBirthDate() 
-                    this.setMinMax()
+                if(this.concepts.concept8 === ''){
+                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+                }else{
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             },
             'concepts.concept3': function(){
