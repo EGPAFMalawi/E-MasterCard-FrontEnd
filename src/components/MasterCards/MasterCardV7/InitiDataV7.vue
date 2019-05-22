@@ -266,7 +266,7 @@
                                     <label >TB treatment (Reg No. / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <input v-model="concepts.concept20" type="text" class="form-control" placeholder="Registration Number">
-                                            <input v-model="concepts.concept21" ref="regimenStartDate" type="date" class="form-control" oninput="validity.valid||(value='');">
+                                            <input v-model="concepts.concept21" ref="regimenStartDate" type="date" class="form-control">
                                     </div>
                             </div>
                         </div>
@@ -494,7 +494,7 @@
                     'patient-card' : this.patientCard.patientCardID,
                     'observations' : payload
                 };
-
+                console.log(finalPayload)
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
                         this.patientCardData = [];
