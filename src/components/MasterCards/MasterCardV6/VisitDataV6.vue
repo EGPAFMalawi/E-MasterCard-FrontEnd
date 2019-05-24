@@ -203,7 +203,9 @@
                         <td>
                             <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form">
                                 <option value=""></option>
-                                <option value="Bled">Bled</option>
+                                <option value="BLED">BLED</option>
+                                <option value="NOT BLED">NOT BLED</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </td>
                         <td>
@@ -313,7 +315,9 @@
                         <td>
                             <select v-model="concepts.concept45" class="form-control tb-form">
                                 <option value=""></option>
-                                <option value="Bled">Bled</option>
+                                <option value="BLED">BLED</option>
+                                <option value="NOT BLED">NOT BLED</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </td>
                         <td>
