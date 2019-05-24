@@ -39,16 +39,18 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
+                            <label>Physical Address</label>
+                            <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
                                 <label >Guardian Name</label>
                                 <input type="text" class="form-control" placeholder="Name of guardian" v-model="patient.guardianName">
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label >Guardian Relation</label>
-                            <input type="text" class="form-control" placeholder="Guardian Relation" v-model="patient.guardianRelation">
-                        </div>
-                        
                     </div>
+                    
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label >Patient Phone Number</label>
@@ -71,10 +73,11 @@
                                 </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                                <label>Physical Address</label>
-                                <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
-                            </div>
-                    </div>  
+                            <label >Guardian Relation</label>
+                            <input type="text" class="form-control" placeholder="Guardian Relation" v-model="patient.guardianRelation">
+                        </div>
+                        
+                    </div>   
                     <button class="btn btn-success" @click="updatePatient">UPDATE</button>
                 </div>
             </div>
