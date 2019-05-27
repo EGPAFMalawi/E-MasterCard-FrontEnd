@@ -5,7 +5,7 @@
                 Click  <router-link to="/patients/show"><span class="alert-link">HERE</span> </router-link> to manage Mastercards .
             </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" style="overflow: unset !important">
             <table class="table visit-table">
                 <thead class="thead-dark">
                 <tr>
@@ -43,10 +43,11 @@
                             <option value="Died">Died</option>
                         </select>
                     </td>
-                    <td>
-                        <select  v-model="singleStep.site" class="form-control">
-                            <option  v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
-                        </select>
+                    <td width="300px">
+                        <model-select :options="facilities"
+                                v-model="singleStep.site"
+                                placeholder="select item">
+                        </model-select>
                     </td>
 
                     <td>
@@ -58,10 +59,11 @@
                         </div>
                         
                     </td>
-                    <td>
-                        <select v-model="singleStep.originDestination" class="form-control" >
-                            <option v-for="(facility, index) in facilities" :value="facility.name" v-bind:key="index">{{facility.name}}</option>
-                        </select>
+                    <td width="300px">
+                        <model-select :options="facilities"
+                                v-model="singleStep.originDestination"
+                                placeholder="select item">
+                        </model-select>
                     </td>
                 </tr>
                 <tr v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
@@ -79,11 +81,11 @@
                             <option value="Died">Died</option>
                         </select>
                     </td>
-                    <td>
-                        <select  v-model="site" class="form-control" required>
-                            <option value=""></option>
-                            <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
-                        </select>
+                    <td width="300px">
+                        <model-select :options="facilities"
+                                v-model="site"
+                                placeholder="select item">
+                        </model-select>
                     </td>
                     <td>
                         <div class="input-group">
@@ -93,11 +95,12 @@
                             <input v-model="art_number" class="form-control"  type="text" required>
                         </div>
                     </td>
-                    <td>
-                        <select  ref="originDestination" v-model="origin_destination" class="form-control">
-                            <option value=""></option>
-                            <option v-for="(facility, index) in facilities" v-bind:key="index">{{facility.name}}</option>
-                        </select>
+                    <td width="300px">
+                        <model-select :options="facilities"
+                                v-model="origin_destination"
+                                placeholder="select item"
+                                id="originDestination">
+                        </model-select>
                     </td>
                 </tr>
                 </tbody>
@@ -131,22 +134,24 @@
                 const payload = {
                     art_number: this.art_number,
                     date: this.stepDate,
-                    site: this.site,
+                    site: this.site.value,
                     step: this.step,
-                    origin_destination: this.origin_destination,
+                    origin_destination: this.origin_destination.value,
                     patient: this.patient.patientID,
                 }
+
+                console.log(payload)
                 
-                if ((this.step === 'Trans-in' && this.origin_destination === '') ||
-                    (this.step === 'Trans-out' && this.origin_destination === '') 
+                if ((this.step === 'Trans-in' && this.origin_destination.value === '') ||
+                    (this.step === 'Trans-out' && this.origin_destination.value === '') 
                 ){
                     return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step == 'Trans-in' && this.origin_destination === this.site ||
-                    this.step == 'Trans-out' && this.origin_destination === this.site){
+                else if(this.step == 'Trans-in' && this.origin_destination.value === this.site.value ||
+                    this.step == 'Trans-out' && this.origin_destination.value === this.site.value){
                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step === 'ART Start' && this.origin_destination.length > 0){
+                else if(this.step === 'ART Start' && this.origin_destination.value.length > 0){
                     return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else if(this.step === 'ART Start' && this.art_number.length === 0){
@@ -159,9 +164,9 @@
                     const payload = {
                         art_number: this.art_number,
                         date: this.stepDate,
-                        site: this.site,
+                        site: this.site.value,
                         step: this.step,
-                        origin_destination: this.origin_destination,
+                        origin_destination: this.origin_destination.value,
                         patient: this.patient.patientID,
                     }
 
@@ -184,9 +189,9 @@
                             
                             this.art_number = ''
                             this.stepDate = ''
-                            this.site = ''
+                            this.site = {value:'', text:''}
                             this.step = ''
-                            this.origin_destination = ''
+                            this.origin_destination = {value:'', text:''}
 
                             this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
                         })
@@ -227,7 +232,12 @@
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data}})=>{
                         this.isLoading = false
-                        this.facilities = JSON.parse(JSON.stringify(data))
+                        this.facilities = JSON.parse(JSON.stringify(data)).map(({name}) => {
+                            return {value: name, text: name}
+                        })
+                        if (sessionStorage.getItem('facilities') === null){
+                            sessionStorage.setItem('facilities', JSON.stringify(this.facilities))
+                        }
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -246,7 +256,8 @@
                 return today.toISOString().split('T')[0]
             },
             toggleIsDisabled(ref, isTrue){
-                this.$refs[ref].disabled = isTrue
+                const parent = document.querySelector(`#${ref}`).parentElement
+                isTrue ? parent.classList.add('disabled') : parent.classList.remove('disabled')
             }
         },
         data: () => {
@@ -272,8 +283,8 @@
             if (sessionStorage.getItem('facilities') !== null){
                 this.facilities = JSON.parse(sessionStorage.getItem('facilities'))
             }else{
+                console.log('hello')
                 this.loadFacilities()
-                
             }
         },
          created() {
@@ -291,6 +302,7 @@
                 this.saveStages()
             },
             step: function(){
+                console.log(this.step)
                 if (this.step === 'ART Start'){ 
                     this.toggleIsDisabled('originDestination', true)
                 }
