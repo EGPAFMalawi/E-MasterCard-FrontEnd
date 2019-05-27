@@ -153,7 +153,9 @@
                             <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
                                 <option value=""></option>
                                 <option value="0A">0A</option>
+                                <option value="1A">1A</option>
                                 <option value="2A">2A</option>
+                                <option value="3A">3A</option>
                                 <option value="4A">4A</option>
                                 <option value="5A">5A</option>
                                 <option value="6A">6A</option>
@@ -162,6 +164,10 @@
                                 <option value="9A">9A</option>
                                 <option value="10A">10A</option>
                                 <option value="11A">11A</option>
+                                <option value="12A">12A</option>
+                                <option value="13A">13A</option>
+                                <option value="14A">14A</option>
+                                <option value="15A">15A</option>
                                 <option value="0th">0th</option>
                             </select>
                         </td>
@@ -203,7 +209,9 @@
                         <td>
                             <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form">
                                 <option value=""></option>
-                                <option value="Bled">Bled</option>
+                                <option value="BLED">BLED</option>
+                                <option value="NOT BLED">NOT BLED</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </td>
                         <td>
@@ -263,7 +271,9 @@
                             <select v-model="concepts.concept39" class="form-control tb-form">
                                 <option value=""></option>
                                 <option value="0A">0A</option>
+                                <option value="1A">1A</option>
                                 <option value="2A">2A</option>
+                                <option value="3A">3A</option>
                                 <option value="4A">4A</option>
                                 <option value="5A">5A</option>
                                 <option value="6A">6A</option>
@@ -272,6 +282,10 @@
                                 <option value="9A">9A</option>
                                 <option value="10A">10A</option>
                                 <option value="11A">11A</option>
+                                <option value="12A">12A</option>
+                                <option value="13A">13A</option>
+                                <option value="14A">14A</option>
+                                <option value="15A">15A</option>
                                 <option value="0th">0th</option>
                             </select>
                         </td>
@@ -313,7 +327,9 @@
                         <td>
                             <select v-model="concepts.concept45" class="form-control tb-form">
                                 <option value=""></option>
-                                <option value="Bled">Bled</option>
+                                <option value="BLED">BLED</option>
+                                <option value="NOT BLED">NOT BLED</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </td>
                         <td>

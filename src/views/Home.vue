@@ -86,7 +86,7 @@
           <form name='addpatient' v-on:submit.prevent="addPatient">
               <div class="form-row">
                   <div class="col-md-4 mb-3">
-                      <label for="validationServer01">Given Name*</label>
+                      <label>Given Name*</label>
                       <input type="text" class="form-control" placeholder="First name" v-model="given_name" required>
                        
                   </div>
@@ -103,8 +103,9 @@
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                         <label class="col-form-label col-sm-2 pt-0">Sex*</label>
-                        <div class="col-sm-10">
+                        <div class="input-group pt-1">
                             <b-form-radio v-model="gender" name="sex" value="F">Female</b-form-radio>
+                            <span style="padding: 10px"></span>
                             <b-form-radio v-model="gender" name="sex" value="M">Male</b-form-radio>
                         </div>
                 </div>
@@ -113,6 +114,26 @@
                     <input ref="dob" type="date" class="form-control" v-model="birthdate" >
                 </div>
             </div>
+            <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                            <label>Physical Address</label>
+                            <input type="text" class="form-control" placeholder="Physical Address" v-model="city_village">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="validationServer03">District</label>
+                        
+                            <select v-model="county_district" class="form-control" placeholder="District" >
+                                <option v-for="(district, index) in districts" v-bind:key="index">{{district.name}}</option>
+                            </select>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <label for="validationServer03">TA</label>
+                        <select v-model="township_division" class="form-control" placeholder="TA" >
+                                <option v-for="(TA, index) in TAs" v-bind:key="index">{{TA.name}}</option>
+                            </select>
+                    </div>
+                </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                         <label for="validationServer03">Guardian Name</label>
@@ -141,6 +162,14 @@
             </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
+                        <label>Agrees to FUP</label>
+                        <div class="input-group pt-1">
+                            <b-form-radio v-model="follow_up" name="followUp" value="true">Yes</b-form-radio>
+                            <span style="padding: 10px"></span>
+                            <b-form-radio v-model="follow_up" name="followUp" value="false">No</b-form-radio>
+                        </div>
+                </div>
+                <div class="col-md-6 mb-3">
                     <label for="validationServer03">Guardian Relation</label>
                     <select class="form-control" v-model="guardian_relation">
                         <option :value="null" disabled>Select Relation</option>
@@ -150,36 +179,9 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div class="col-md-6 mb-3">
-                        <label>Agrees to FUP</label>
-                        <div class="col-sm-10">
-                            <b-form-radio v-model="follow_up" name="followUp" value="true">Yes</b-form-radio>
-                            <b-form-radio v-model="follow_up" name="followUp" value="false">No</b-form-radio>
-                        </div>
-                </div>
-                
             </div>
 
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                            <label>Physical Address</label>
-                            <input type="text" class="form-control" placeholder="Physical Address" v-model="city_village">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServer03">District</label>
-                        
-                            <select v-model="county_district" class="form-control" placeholder="District" >
-                                <option v-for="(district, index) in districts" v-bind:key="index">{{district.name}}</option>
-                            </select>
-                    </div>
-                    
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServer03">TA</label>
-                        <select v-model="township_division" class="form-control" placeholder="TA" >
-                                <option v-for="(TA, index) in TAs" v-bind:key="index">{{TA.name}}</option>
-                            </select>
-                    </div>
-                </div>
+                
                 <button class="btn btn-success" type="submit">Add Patient</button>
             </form>
         </b-modal>
