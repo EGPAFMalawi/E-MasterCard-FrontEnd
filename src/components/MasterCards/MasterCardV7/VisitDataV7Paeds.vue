@@ -434,6 +434,7 @@
                                    }
                                 });
                 
+                
                 this.observations = _.keyBy(mappedObs,(item)=>{
                                return 'concept'+item.concept+'Encounter'+item.encounter
                             });
@@ -444,6 +445,7 @@
                                     .toPairs()
                                     .map(pair => _.zipObject(['encounterID', 'data'], pair))
                                     .value()
+                console.log(JSON.parse(JSON.stringify( this.encounters )))
             },
             clearFields : function()
             {

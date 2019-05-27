@@ -176,6 +176,12 @@ body {
   text-align: right;
 }
 
+td .selection {
+  border-radius: unset !important;
+  min-height: unset !important;
+  border: 1px solid #ced4da !important;
+}
+
 .bg-default{
   background: #EBF3F3; }
 
