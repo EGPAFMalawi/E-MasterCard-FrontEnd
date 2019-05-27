@@ -109,7 +109,6 @@
                 </tbody>
             </table>
         </div>
-         
         <div class="form-row my-4" v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
             <div class="col-md-12 d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
@@ -268,7 +267,7 @@ import { stringify } from 'querystring';
                 art_number:'',
                 step:'',
                 stepDate:'',
-                site: {value:"", text:""},
+                site: {value:'', text:''},
                 origin_destination: {
                     value: '',
                     text: ''
@@ -281,10 +280,11 @@ import { stringify } from 'querystring';
         },
         beforeMount(){
             
-            if (sessionStorage.getItem('facilities') !== undefined){
+            if (sessionStorage.getItem('facilities') !== null){
                 this.facilities = JSON.parse(sessionStorage.getItem('facilities'))
             }else{
                 this.loadFacilities()
+                
             }
         },
          created() {
