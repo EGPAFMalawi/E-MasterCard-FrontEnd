@@ -256,8 +256,11 @@
                 art_number:'',
                 step:'',
                 stepDate:'',
-                site:'',
-                origin_destination: '',
+                site: {value:'', text:''},
+                origin_destination: {
+                    value: '',
+                    text: ''
+                },
                 steps: [],
                 facilities: [],
                 patient: {lastStep: {step: ''}},
@@ -265,7 +268,13 @@
             }
         },
         beforeMount(){
-            this.loadFacilities()
+            
+            if (sessionStorage.getItem('facilities') !== null){
+                this.facilities = JSON.parse(sessionStorage.getItem('facilities'))
+            }else{
+                this.loadFacilities()
+                
+            }
         },
          created() {
             this.patient = JSON.parse(sessionStorage.getItem('patient'));
