@@ -1,18 +1,18 @@
 <template>
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
             <label>Transfer-In Date</label>
-            <h3>{{ this.patient.lastVisit.date}}</h3>
+            <p>{{ patient.lastVisitDate === null ? 'No date availabe' : patient.lastVisitDate}}</p>
         </div>
         <div class="col-3">
             <label>ART Reg no</label>
-            <h3>{{ this.patient.artNumber}}</h3>
+            <p>{{ patient.artNumber}}</p>
         </div>
         <div class="col-3">
             <label>Child HCC no</label>
             <input v-model="concepts.concept30" class="form-control"  type="text">
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <label>Year</label>
             <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class="form-control"  type="text">
             <span>{{ errors.first('Year')}}</span>
@@ -22,7 +22,6 @@
 
 <script>
     import authResource from './../../../authResource'
-
     export default {
         name: 'RegistrationDataV7',
         props : ['encounterTypes', 'postPayload'],
