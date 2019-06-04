@@ -20,7 +20,7 @@ import "izitoast/dist/css/iziToast.css";
 
 Vue.use(VueIziToast);
 
-//Vue.config.silent = false // show : hide erros in console
+Vue.config.silent = true // show : hide erros in console
 handleErrors()
 library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
 
