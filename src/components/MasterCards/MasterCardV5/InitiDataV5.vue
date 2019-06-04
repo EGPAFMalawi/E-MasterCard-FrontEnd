@@ -200,6 +200,8 @@
                                                                 <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
                                                                 <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
                                                                 <option value="15A">15A</option>
+                                                                <option value="NVP">NVP</option>
+                                                                <option value="PEP">PEP</option>
                                                             </select>
                                                             <input ref="regimenStartDate" v-model="concepts.concept14" type="date" class="form-control" required>
                                                         </div>
