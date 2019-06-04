@@ -18,6 +18,16 @@
         <div class="d-flex justify-content-center">
             <InitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV7Paeds>
         </div>
+        <section>
+            <div class="container">
+                    <form class="form-row " v-on:submit.prevent="initiatePost">
+                        <div class="col-md-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success btn-lg my-4">SAVE DATA <font-awesome-icon icon="save" class="ml-1"/></button>
+                        </div>
+                    </form>
+            </div>
+            
+        </section>
         <div class="container d-flex justify-content-center">
             <VisitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7Paeds>
         </div>
