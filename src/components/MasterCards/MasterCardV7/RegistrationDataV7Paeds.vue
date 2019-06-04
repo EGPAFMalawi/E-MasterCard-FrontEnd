@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-4">
             <label>Transfer-In Date</label>
-            <h3>{{ this.patient.lastVisit.date}}</h3>
+            <p>{{ patient.lastVisitDate === null ? 'No date availabe' : patient.lastVisitDate}}</p>
         </div>
-        <div class="col-3">
+        <div class="col-4">
             <label>ART Reg no</label>
-            <h3>{{ this.patient.artNumber}}</h3>
+            <p>{{ patient.artNumber}}</p>
         </div>
-        <div class="col-2">
+        <div class="col-4">
             <label>Year</label>
             <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class="form-control"  type="text">
             <span>{{ errors.first('Year')}}</span>
@@ -106,8 +106,6 @@
             }
         },
         created() {
-
-
             let patient = JSON.parse(sessionStorage.getItem('patient'));
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
 
@@ -115,8 +113,11 @@
                 this.$router.push('/')
             }
 
+            
+
             this.patient = patient;
             this.patientCard = patientCard;
+            console.log(this.patient)
         },
 
         watch : {

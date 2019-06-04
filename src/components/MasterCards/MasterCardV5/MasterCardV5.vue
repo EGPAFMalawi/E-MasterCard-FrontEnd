@@ -1,20 +1,17 @@
 <template>
     <div>
         <button class="sticky-top btn btn-info" @click="goBack">Back</button>
-         <div class="container-fluid py-4">
-            <div class="row d-flex justify-content-center">
-                <ul class="nav ">
+         <div class="container py-4">
+            <div class="row">
+                <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <h5 class="navbar-brand">
                         ART Patient Card ARV Formulations, 
                         <span class="badge badge-warning">Version 5</span>
                     </h5>
-                        
-                </li>
-                <li class="nav-item">
-                    <RegistrationDataV5 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV5>
                 </li>
             </ul>
+            <RegistrationDataV5 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV5>
             </div>
         </div>
         <div class="d-flex justify-content-center">
