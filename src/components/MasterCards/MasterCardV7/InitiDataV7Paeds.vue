@@ -183,22 +183,13 @@
                                                 <div class="form-inline fit-2-input-fields">
                                                         <select  class="form-control" v-model="concepts.concept13">
                                                             <option value=""></option>
-                                                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                                                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                                                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                                                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                                                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                                                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                                                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                                                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                                                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                                                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                                                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                                                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                                                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
-                                                            <option value="15A">15A</option>
-                                                            <option value="NVP">NVP</option>
-                                                            <option value="PEP">PEP</option>
+                                                            <option value="0P">0P</option>
+                                                            <option value="1P">1P</option>
+                                                            <option value="2P">2P</option>
+                                                            <option value="3P">3P</option>
+                                                            <option value="4P">4P</option>
+                                                            <option value="9P">9P</option>
+                                                            <option value="0thP">0th</option>
                                                         </select>
                                                         <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control" required>
                                                 </div>
