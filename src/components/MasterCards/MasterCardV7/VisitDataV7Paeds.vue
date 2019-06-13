@@ -145,12 +145,13 @@
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
-                            <option value="0P">0</option>
-                            <option value="2P">2</option>
-                            <option value="4P">4</option>
-                            <option value="9P">9</option>
-                            <option value="11P">11</option>
-                            <option value="0thP">0th</option>
+                            <option value="0P">0P</option>
+                            <option value="1P">1P</option>
+                            <option value="2P">2P</option>
+                            <option value="3P">3P</option>
+                            <option value="4P">4P</option>
+                            <option value="9P">9P</option>
+                            <option value="Oth">Oth</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -208,7 +209,7 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept52" class="form-control tb-form"  type="text" min="0">
+                        <input v-model="concepts.concept52" class="form-control tb-form"  type="text">
                     </td>
                     <td style="width:60px">
                         <input v-model="concepts.concept51" class="form-control tb-form"  type="number" min="0">
@@ -241,12 +242,13 @@
                     <td>
                         <select v-model="concepts.concept39" class="form-control tb-form">
                             <option value=""></option>
-                            <option value="0P">0</option>
-                            <option value="2P">2</option>
-                            <option value="4P">4</option>
-                            <option value="9P">9</option>
-                            <option value="11P">11</option>
-                            <option value="0thP">0th</option>
+                            <option value="0P">0P</option>
+                            <option value="1P">1P</option>
+                            <option value="2P">2P</option>
+                            <option value="3P">3P</option>
+                            <option value="4P">4P</option>
+                            <option value="9P">9P</option>
+                            <option value="Oth">Oth</option>
                         </select>
                     </td>
                     <td style="width:60px">

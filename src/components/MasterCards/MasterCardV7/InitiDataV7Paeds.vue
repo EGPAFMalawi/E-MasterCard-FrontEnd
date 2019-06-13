@@ -189,7 +189,7 @@
                                                             <option value="3P">3P</option>
                                                             <option value="4P">4P</option>
                                                             <option value="9P">9P</option>
-                                                            <option value="0thP">0th</option>
+                                                            <option value="Oth">Oth</option>
                                                         </select>
                                                         <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control" required>
                                                 </div>
@@ -278,7 +278,7 @@
                                                 <option value="3P">3P</option>
                                                 <option value="4P">4P</option>
                                                 <option value="9P">9P</option>
-                                                <option value="0thP">0th</option>
+                                                <option value="Oth">Oth</option>
                                             </select>
                                             <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
                                     </div>
@@ -310,7 +310,7 @@
                                                 <option value="3P">3P</option>
                                                 <option value="4P">4P</option>
                                                 <option value="9P">9P</option>
-                                                <option value="0thP">0th</option>
+                                                <option value="Oth">Oth</option>
                                             </select>
                                             <input v-model="concepts.concept25" type="date" ref="regimenStartDate" class="form-control" required>
                                     </div>
