@@ -244,7 +244,7 @@
 
                         <div class="form-row">
                             <div class="col-md-12 mb-2">
-                                    <label >ART educatucation done</label>
+                                    <label >ART education done</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept18" class="form-control" >
                                                 <option :value="null" disabled>Y for yes, N for no</option>
