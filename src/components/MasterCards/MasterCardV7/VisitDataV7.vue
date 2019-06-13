@@ -14,7 +14,7 @@
                         Pregnant / Breastfeed
                     </th>
                     <th >
-                        Tb Status (Current)*
+                        TB Status (Current)*
                     </th>
                     <th>
                         Side Effects
@@ -112,7 +112,7 @@
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
-                            <option value="Br">Br</option>
+                            <option value="Bf">Bf</option>
                         </select>
                     </td>
                     <td>
@@ -217,7 +217,7 @@
                         <select v-model="concepts.concept34" class="form-control tb-form" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
-                            <option value="Br">Br</option>
+                            <option value="Bf">Bf</option>
                         </select>
                     </td>
                     <td>

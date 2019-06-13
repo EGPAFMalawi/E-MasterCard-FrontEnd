@@ -17,7 +17,7 @@
                         Weight
                     </th>
                     <th >
-                        Tb Status (Current)*
+                        TB Status (Current)*
                     </th>
                     <th>
                         Side Effects

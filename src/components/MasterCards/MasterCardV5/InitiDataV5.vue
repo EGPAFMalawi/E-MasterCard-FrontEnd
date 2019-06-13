@@ -187,6 +187,7 @@
                                                             <select  class="form-control" v-model="concepts.concept13">
                                                                 <option value=""></option>
                                                                 <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
+                                                                <option value="1A">1A</option>
                                                                 <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
                                                                 <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
                                                                 <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
