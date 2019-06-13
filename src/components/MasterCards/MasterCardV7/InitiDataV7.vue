@@ -513,6 +513,7 @@
                         this.patientCardData = [];
                         this.getPatientCardStatusAtInitDetails();
                         this.getPatientCardConfirmatoryDetails();
+                        sessionStorage.setItem('patient', JSON.stringify(this.patient))
                         this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
@@ -567,6 +568,9 @@
             },
             getConditions(stageName){
                 return this.stages.filter(({name}) => name === stageName)[0].conditions
+            },
+            getPersonDoB(){
+                return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
             }
         },
         data: () => {
@@ -712,8 +716,8 @@
                 
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
-                if (this.patient.person.birthdate === ''){
-                    this.patient.person.birthdate = this.calculatedBirthDate() 
+                if (this.getPersonDoB() === ''){
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                     this.setMinMax()
                 }
                        
@@ -729,14 +733,16 @@
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    if (this.getPersonDoB() === '')
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             },
             'concepts.concept8': function(){
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    if (this.getPersonDoB() === '')
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             },
             'concepts.concept3': function(){

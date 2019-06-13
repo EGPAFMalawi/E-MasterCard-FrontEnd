@@ -553,6 +553,9 @@ import { log } from 'util';
                     this.$refs[ref].setAttribute('min', this.patient.person.birthdate)
                     this.$refs[ref].setAttribute('max', this.calculateMaxStartDate())
                 }
+            },
+            getPersonDoB(){
+                return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
             }
         },
         data: () => {
@@ -680,7 +683,7 @@ import { log } from 'util';
             'concepts.concept23': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
-                if (this.patient.person.birthdate === ''){
+                if (this.getPersonDoB() === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                     this.setMinMax('regimenStartDate')
                     this.setMinMax('eduDate')
@@ -697,14 +700,16 @@ import { log } from 'util';
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    if (this.getPersonDoB() === '')
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             },
             'concepts.concept8': function(){
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    if (this.getPersonDoB() === '')
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             }
         }

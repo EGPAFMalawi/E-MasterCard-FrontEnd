@@ -546,6 +546,9 @@
             getConditions(stageName){
                 console.log(stageName)
                 return this.stages.filter(({name}) => name === stageName)[0].conditions
+            },
+            getPersonDoB(){
+                return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
             }
         },
         data: () => {
@@ -691,7 +694,7 @@
             'concepts.concept23': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
-                if (this.patient.person.birthdate === ''){
+                if (this.getPersonDoB() === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate() 
                     this.setMinMax()
                 }    
@@ -712,14 +715,16 @@
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    if (this.getPersonDoB() === '')
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             },
             'concepts.concept8': function(){
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    if (this.getPersonDoB() === '')
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
                 }
             }
         }
