@@ -271,24 +271,14 @@
                                     <label >ART Regimens (Regimen / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept22" class="form-control">
-                                                <option :value="null" disabled>Regimen</option>
                                                 <option value=""></option>
-                                                <option value="0A">0A</option>
-                                                <option value="1A">1A</option>
-                                                <option value="2A">2A</option>
-                                                <option value="3A">3A</option>
-                                                <option value="4A">4A</option>
-                                                <option value="5A">5A</option>
-                                                <option value="6A">6A</option>
-                                                <option value="7A">7A</option>
-                                                <option value="8A">8A</option>
-                                                <option value="9A">9A</option>
-                                                <option value="10A">10A</option>
-                                                <option value="11A">11A</option>
-                                                <option value="12A">12A</option>
-                                                <option value="13A">13A</option>
-                                                <option value="14A">14A</option>
-                                                <option value="15A">15A</option>
+                                                <option value="0P">0P</option>
+                                                <option value="1P">1P</option>
+                                                <option value="2P">2P</option>
+                                                <option value="3P">3P</option>
+                                                <option value="4P">4P</option>
+                                                <option value="9P">9P</option>
+                                                <option value="0thP">0th</option>
                                             </select>
                                             <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
                                     </div>
@@ -314,22 +304,13 @@
                                             <select v-model="concepts.concept24" class="form-control">
                                                 <option :value="null" disabled>Regimen</option>
                                                 <option value=""></option>
-                                                <option value="0A">0A</option>
-                                                <option value="1A">1A</option>
-                                                <option value="2A">2A</option>
-                                                <option value="3A">3A</option>
-                                                <option value="4A">4A</option>
-                                                <option value="5A">5A</option>
-                                                <option value="6A">6A</option>
-                                                <option value="7A">7A</option>
-                                                <option value="8A">8A</option>
-                                                <option value="9A">9A</option>
-                                                <option value="10A">10A</option>
-                                                <option value="11A">11A</option>
-                                                <option value="12A">12A</option>
-                                                <option value="13A">13A</option>
-                                                <option value="14A">14A</option>
-                                                <option value="15A">15A</option>
+                                                <option value="0P">0P</option>
+                                                <option value="1P">1P</option>
+                                                <option value="2P">2P</option>
+                                                <option value="3P">3P</option>
+                                                <option value="4P">4P</option>
+                                                <option value="9P">9P</option>
+                                                <option value="0thP">0th</option>
                                             </select>
                                             <input v-model="concepts.concept25" type="date" ref="regimenStartDate" class="form-control" required>
                                     </div>
