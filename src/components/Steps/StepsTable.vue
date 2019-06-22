@@ -180,6 +180,7 @@
                                 this.patient.lastStep = {step: ''}
                             }
                             this.patient.lastStep.step = this.step
+                            this.patient.artNumber = this.art_number
                             
                             sessionStorage.setItem('patient', JSON.stringify(this.patient))
 
