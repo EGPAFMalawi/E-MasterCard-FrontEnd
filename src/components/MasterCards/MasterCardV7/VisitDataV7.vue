@@ -106,7 +106,7 @@
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
@@ -458,6 +458,8 @@
                                     .toPairs()
                                     .map(pair => _.zipObject(['encounterID', 'data'], pair))
                                     .value()
+
+                console.log(this.encounters)
             },
             clearFields : function()
             {
@@ -616,6 +618,7 @@
                 
                 const startDate = localStorage.getItem('startDate')
                 
+
                 this.concepts.concept44 = this.calculateMonthsOnART(startDate, this.concepts.concept32)
                 
             },

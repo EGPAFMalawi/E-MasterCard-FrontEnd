@@ -160,10 +160,10 @@
 
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
-                            <label>Height / Wgt</label>
+                            <label>Height &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; Wgt</label>
                             <div class="form-inline fit-2-input-fields">
-                                    <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" step="1" oninput="validity.valid||(value='');" required>
-                                    <input v-model="concepts.concept7" type="number" min="0" class="form-control" placeholder="KG" step="1" oninput="validity.valid||(value='');" required>
+                                    <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" step="1" required>
+                                    <input v-model="concepts.conchept7" type="number" min="0" class="form-control" placeholder="KG" step="1" required>
                             </div>  
                         </div>
                         <div class="col-md-6 mb-2">
