@@ -183,7 +183,6 @@
                         <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
                             <option value="BLED">BLED</option>
-                            <option value="NOT BLED">NOT BLED</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
@@ -280,7 +279,6 @@
                         <select v-model="concepts.concept45" class="form-control tb-form">
                             <option value=""></option>
                             <option value="BLED">BLED</option>
-                            <option value="NOT BLED">NOT BLED</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
@@ -441,13 +439,28 @@
                                return 'concept'+item.concept+'Encounter'+item.encounter
                             });
 
-                this.encounters = _.chain(patientCardData).groupBy((item)=>{
+                this.encounters  = _.chain(patientCardData)
+                                    .groupBy((item)=>{
                                         return item.encounter.encounterID
                                     })
                                     .toPairs()
                                     .map(pair => _.zipObject(['encounterID', 'data'], pair))
-                                    .value()
-                console.log(JSON.parse(JSON.stringify( this.encounters )))
+                                    .value();
+
+                /*this.encounters  = _.chain(patientCardData)
+                    .groupBy((item)=>{
+                        return item.encounter.encounterID
+                    })
+                    .toPairs()
+                    .map(pair => _.zipObject(['encounterID', 'data'], pair))
+                    .sortBy((group)=>{
+                        let value =  _.find(group.data,(b)=>{
+                            return b.concept.conceptID === 32
+                        }).value;
+                        return new Date(value)
+                    })
+                    .value();*/
+                console.log(this.encounters)
             },
             clearFields : function()
             {
@@ -474,7 +487,6 @@
                     concept51 : '',
                     concept52 : '',
                     concept53 : '',
-
                 }
             },
             evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
