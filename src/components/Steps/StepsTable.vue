@@ -169,8 +169,7 @@ import { close } from 'fs';
 
                         this.$toast.success('Successfully updated step!', 'OK', notificationSystem.options.success)
                     })
-                    .catch((response) => {
-                        return console.log(response)
+                   .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
                             this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                         });
@@ -255,9 +254,7 @@ import { close } from 'fs';
 
                         this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
                     })
-                    .catch((response) => {
-                        return console.log(response)
-
+                    .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
                             this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                         });
