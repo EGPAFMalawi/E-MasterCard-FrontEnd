@@ -185,9 +185,15 @@ td .selection {
 .bg-default{
   background: #EBF3F3; }
 
+.ui.selection.dropdown[data-v-3a0c7bea] {
+  padding: 0.48571429em 2.1em 0.78571429em 1em !important;
+}
+
 @media (max-width: 1367px){
   body{
     zoom: 0.8;
   }
-
+  .ui.selection.dropdown[data-v-3a0c7bea] {
+    padding: 0.68571429em 2.1em 0.78571429em 1em !important;
+  }
 }

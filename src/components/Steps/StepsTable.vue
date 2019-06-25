@@ -1,5 +1,12 @@
 <template>
-    <form v-on:submit.prevent="handleAddStep">
+    <form v-on:submit.prevent="handleStepCRUD('create',$event,{
+                    art_number: art_number,
+                    date: stepDate,
+                    site: site.value,
+                    step: step,
+                    origin_destination: origin_destination.value,
+                    patient: patient.patientID,
+                })">
         <div v-if="steps.length > 0" class="row d-flex justify-content-center">
             <div class="alert alert-success" role="alert">
                 Click  <router-link to="/patients/show"><span class="alert-link">HERE</span> </router-link> to manage Mastercards .
@@ -23,6 +30,9 @@
                     </th>
                     <th>
                         Origin/Destination
+                    </th>
+                    <th>
+                        Action
                     </th>
                 </tr>
                 </thead>
@@ -65,9 +75,10 @@
                                 placeholder="select item">
                         </model-select>
                     </td>
+                    <td align="center"><button @click="handleStepCRUD('update',$event, singleStep)" class="btn btn-warning">Update</button></td>
                 </tr>
                 <tr v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
-                    <td>
+                    <td> 
                         <input type="date" ref="stepDate" class="form-control" v-model="stepDate" required>
                     </td>
                     <td>
@@ -102,13 +113,16 @@
                                 id="originDestination">
                         </model-select>
                     </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" style="text-align:center">Add Step</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="form-row my-4" v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
             <div class="col-md-12 d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-lg my-4">Add Step</button>
+                <button type="submit" class="btn btn-primary btn-sm my-4">Add Step</button>
             </div>
         </div>
     </form>
@@ -132,28 +146,68 @@ import { close } from 'fs';
         props: ['postPayload', 'lastStep', 'dob'],
         components: { ModelSelect },
         methods: {
-            handleAddStep(){
-                
-                if ((this.step === 'Trans-in' && this.origin_destination.value === '') ||
-                    (this.step === 'Trans-out' && this.origin_destination.value === '') 
+            update(singleStep){
+                console.log(singleStep)
+                const payload = {
+                    art_number: singleStep.artNumber,
+                    date: singleStep.date,
+                    site: singleStep.site,
+                    step: singleStep.step,
+                    origin_destination: singleStep.originDestination,
+                    patient: this.patient.patientID,
+                }
+
+                const url = `${this.APIHosts.art}/patient-steps/${singleStep.patientStepID}`
+
+                authResource().patch(url, payload)
+                    .then(({data: {data}})=> {
+                        this.getStages()
+
+                        if (data.step === 'Died'){
+                            this.$emit('died', data.step)
+                        }
+
+                        this.$toast.success('Successfully updated step!', 'OK', notificationSystem.options.success)
+                    })
+                    .catch((response) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
+                    }) 
+            },
+            handleStepCRUD(action, event, data=null){
+                console.log(action, data)
+                if (action === 'update') event.preventDefault()
+
+                if (data !== null){
+                    const {art_number, artNumber, date, origin_destination, patient, site, step} = data
+                }
+                if ((this.step === 'Trans-in' && origin_destination === '') ||
+                    (this.step === 'Trans-out' && origin_destination === '') 
                 ){
                     return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step == 'Trans-in' && this.origin_destination.value === this.site.value ||
-                    this.step == 'Trans-out' && this.origin_destination.value === this.site.value){
+                else if(this.step == 'Trans-in' && origin_destination === site ||
+                    this.step == 'Trans-out' && origin_destination === site){
                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step === 'ART Start' && this.origin_destination.value.length > 0){
+                else if(this.step === 'ART Start' && origin_destination.length > 0){
                     return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step === 'ART Start' && this.art_number.length === 0){
+                else if(this.step === 'ART Start' && art_number.length === 0 || this.step === 'ART Start' && artNumber.length === 0){
                     return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else if (this.step === 'Died'){
                         const happen = {
                             onClosing: (instance, toast, closedBy) => {
                                 if (closedBy === 'yes'){
-                                    this.addStep()
+                                    if(action === 'create'){
+                                        this.addStep(data)
+                                    }
+                                    else if(action ==='update'){
+                                        this.update(data)
+                                    }
                                 }
                             }
                         }
@@ -161,20 +215,17 @@ import { close } from 'fs';
                         Object.assign(notificationSystem.options.question, happen)
                         this.$toast.question(`You have selected <strong>died</strong> step, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
                 }else{
-                    this.addStep()
+                   if(action === 'create'){
+                        this.addStep(data)
+                    }
+                    else if(action ==='update'){
+                        this.update(data)
+                    }
                 }
                 
             },
 
-            addStep(){
-                const payload = {
-                    art_number: this.art_number,
-                    date: this.stepDate,
-                    site: this.site.value,
-                    step: this.step,
-                    origin_destination: this.origin_destination.value,
-                    patient: this.patient.patientID,
-                }
+            addStep(payload){
 
                 const url = `${this.APIHosts.art}/patient-steps`
 
@@ -321,6 +372,9 @@ import { close } from 'fs';
                     this.toggleIsDisabled('originDestination', false)
                 }
                     
+            },
+            singleStep: function(){
+                console.log('touched')
             }
         }
     }
