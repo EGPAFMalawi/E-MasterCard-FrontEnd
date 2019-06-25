@@ -162,14 +162,20 @@ import { close } from 'fs';
                 authResource().patch(url, payload)
                     .then(({data: {data}})=> {
                         this.getStages()
-
-                        if (data.step === 'Died'){
-                            this.$emit('died', data.step)
+                        if (this.patient.lastStep === null){
+                            this.patient.lastStep = {step: ''}
                         }
+                        this.patient.lastStep.step = data.step
+                        this.patient.artNumber = this.art_number
+                        
+                        sessionStorage.setItem('patient', JSON.stringify(this.patient))
+                        
+                            this.$emit('died', data.step)
 
                         this.$toast.success('Successfully updated step!', 'OK', notificationSystem.options.success)
                     })
                     .catch((response) => {
+                        return console.log(response)
                         return Object.values(errors).forEach(error => {
                             this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                         });

@@ -45,6 +45,7 @@
                     })
             },
             patientDied(died){
+                console.log('emited')
                 this.patient = this.getPatient()
             },
             getPatient(){
