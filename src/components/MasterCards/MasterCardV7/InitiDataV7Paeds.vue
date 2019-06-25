@@ -172,7 +172,7 @@
                                                 <label >Age at Initiation</label>
                                                 <div class="form-inline fit-2-input-fields">
                                                     <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
-                                                    <select class="form-control" v-model="ageType">
+                                                    <select class="form-control" v-model="concepts.concept54">
                                                         <option value="Months">Months</option>
                                                         <option value="Years">Years</option>
                                                     </select>
@@ -525,20 +525,6 @@
                 else
                     return false
             },
-            calculatedBirthDate(ageType){
-               const date = new Date(this.concepts.concept23)
-               const age = this.concepts.concept8
-               
-               if (ageType === 'Years'){
-                    const birthYear = date.getFullYear() - age
-                    const birthdate = new Date(birthYear.toString())
-                    return birthdate.toISOString().split('T')[0]
-               }else if(ageType === 'Months'){
-                    date.setMonth(date.getMonth() - age);
-                    return date.toISOString().split('T')[0]
-               }
-               
-            },
             evaluateIfTestDateBeforeARTStartDate(testDate, startDate){
                 testDate = new Date(testDate)
                 startDate = new Date(startDate)
@@ -672,10 +658,10 @@
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
+                    concept54 : '',
                 },
                 eval:false,
                 evalEduDate: false,
-                ageType: ''
             }
         },
         created() {
@@ -729,12 +715,12 @@
                 this.conditions = this.getConditions(this.concepts.concept3)
                 console.log(this.conditions)
             },
-            ageType: function(){
+            'concepts.concept54': function(){
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
                     if (this.getPersonDoB() === '')
-                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             },
             'concepts.concept8': function(){
@@ -742,7 +728,7 @@
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
                     if (this.getPersonDoB() === '')
-                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             }
         }

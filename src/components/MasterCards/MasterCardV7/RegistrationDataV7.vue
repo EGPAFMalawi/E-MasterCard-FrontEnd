@@ -1,10 +1,6 @@
 <template>
     <div class="row">
         <div class="col-3">
-            <label>Transfer-In Date</label>
-            <p>{{ patient.lastVisitDate === null ? 'No date availabe' : patient.lastVisitDate}}</p>
-        </div>
-        <div class="col-3">
             <label>ART Reg no</label>
             <p>{{ patient.artNumber}}</p>
         </div>

@@ -182,7 +182,7 @@
                                             <label >Age at Initiation</label>
                                             <div class="form-inline fit-2-input-fields">
                                             <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
-                                                <select class="form-control" v-model="ageType">
+                                                <select class="form-control" v-model="concepts.concept54">
                                                     <option value="Months">Months</option>
                                                     <option value="Years">Years</option>
                                                 </select>
@@ -434,7 +434,7 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        this.patientCardData = response.data.data
+                        this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -450,7 +450,7 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        this.patientCardData = response.data.data
+                        this.patientCardData.push(...response.data.data);
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -535,7 +535,7 @@
             calculatedBirthDate(ageType){
                const date = new Date(this.concepts.concept23)
                const age = this.concepts.concept8
-               
+
                if (ageType === 'Years'){
                     const birthYear = date.getFullYear() - age
                     const birthdate = new Date(birthYear.toString())
@@ -677,10 +677,10 @@
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
+                    concept54 : '',
                 },
                 eval:false,
                 evalEduDate: false,
-                ageType: ''
             }
         },
         created() {
@@ -697,7 +697,7 @@
         },
         watch : {
             postPayload : function ()
-            {   
+            {
                 this.processDataForPost('Initiation and Confirmatory Data Saved');
             },
             encounterTypes : function (value) {
@@ -718,7 +718,7 @@
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
                 if (this.getPersonDoB() === ''){
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                     this.setMinMax()
                 }
                        
@@ -730,12 +730,12 @@
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             },
-            ageType: function(){
+            'concepts.concept54': function(){
                 if(this.concepts.concept8 === ''){
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
                     if (this.getPersonDoB() === '')
-                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             },
             'concepts.concept8': function(){
@@ -743,7 +743,7 @@
                     this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
                 }else{
                     if (this.getPersonDoB() === '')
-                        this.patient.person.birthdate = this.calculatedBirthDate(this.ageType) 
+                        this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             },
             'concepts.concept3': function(){

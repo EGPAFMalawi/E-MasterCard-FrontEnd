@@ -88,7 +88,7 @@
                 masterCardWithDetails : {
                     encounterTypes : []
                 },
-                postPayload : false
+                postPayload : 0
             }
         },
         created() {

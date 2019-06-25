@@ -7,10 +7,10 @@
 
         </div>
         <div class="container-fluid py-4">
-            <MasterCardV5 v-if="patientCard.masterCard.version == '5'" :patientCard="patientCard"></MasterCardV5>
-            <MasterCardV6 v-else-if="patientCard.masterCard.version == '6'" :patientCard="patientCard"></MasterCardV6>
-            <MasterCardV7 v-else-if="patientCard.masterCard.version == '7'" :patientCard="patientCard"></MasterCardV7>
-            <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Paeds'" :patientCard="patientCard"></MasterCardV7Paeds>
+            <!--<MasterCardV5 v-if="patientCard.masterCard.version == '5'" :patientCard="patientCard"></MasterCardV5>-->
+            <!--<MasterCardV6 v-else-if="patientCard.masterCard.version == '6'" :patientCard="patientCard"></MasterCardV6>-->
+            <MasterCardV7 v-if="patientCard.masterCard.version == '7 Adults'" :patientCard="patientCard"></MasterCardV7>
+            <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" :patientCard="patientCard"></MasterCardV7Paeds>
             <div v-else>MasterCard Version not yet Supported</div>
         </div>
     </div>
