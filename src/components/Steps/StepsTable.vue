@@ -294,8 +294,8 @@ import { close } from 'fs';
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data}})=>{
                         this.isLoading = false
-                        this.facilities = JSON.parse(JSON.stringify(data)).map(({name}) => {
-                            return {value: name, text: name}
+                        this.facilities = JSON.parse(JSON.stringify(data)).map(({name, siteCode}) => {
+                            return {value: name, text: name, code: siteCode}
                         })
                         if (sessionStorage.getItem('facilities') === null){
                             sessionStorage.setItem('facilities', JSON.stringify(this.facilities))
