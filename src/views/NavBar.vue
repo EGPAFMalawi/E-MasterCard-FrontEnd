@@ -21,6 +21,9 @@
                 <li class="nav-item">
                     <router-link to="/hts-records"><span class="nav-link">HTS<span class="sr-only">(current)</span></span></router-link>
                 </li>
+                 <li class="nav-item">
+                    <router-link to="/settings"><span class="nav-link">Settings<span class="sr-only">(current)</span></span></router-link>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <LogoutButton></LogoutButton>
