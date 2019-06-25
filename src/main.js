@@ -14,8 +14,6 @@ import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesom
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueIziToast from "vue-izitoast";
 import handleErrors from './helpers/handleErrors'
-
-
 import "izitoast/dist/css/iziToast.css";
 
 Vue.use(VueIziToast);

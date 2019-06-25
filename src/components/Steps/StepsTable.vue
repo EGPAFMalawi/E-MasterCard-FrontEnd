@@ -120,11 +120,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="form-row my-4" v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
-            <div class="col-md-12 d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-sm my-4">Add Step</button>
-            </div>
-        </div>
     </form>
 
     
