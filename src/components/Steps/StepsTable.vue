@@ -1,6 +1,6 @@
 <template>
     <form v-on:submit.prevent="handleStepCRUD('create',$event,{
-                    art_number: art_number,
+                    art_number: preart,
                     date: stepDate,
                     site: site.value,
                     step: step,
@@ -100,9 +100,9 @@
                     </td>
                     <td>
                         <div class="input-group">
-                            <!-- <div class="input-group-prepend">
+                            <div class="input-group-prepend">
                                 <div class="input-group-text">{{prefix}}</div>
-                            </div> -->
+                            </div>
                             <input v-model="art_number" class="form-control"  type="text" required>
                         </div>
                     </td>
@@ -187,6 +187,7 @@ import { close } from 'fs';
                 if (action === 'update') event.preventDefault()
 
                 if (data !== null){
+                    console.log(data)
                     const {art_number, artNumber, date, origin_destination, patient, site, step} = data
                 }
                 if ((this.step === 'Trans-in' && origin_destination === '') ||
@@ -198,10 +199,10 @@ import { close } from 'fs';
                     this.step == 'Trans-out' && origin_destination === site){
                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step === 'ART Start' && origin_destination.length > 0){
+                else if(this.step === 'ART Start' && data.origin_destination.length > 0){
                     return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
                 }
-                else if(this.step === 'ART Start' && art_number.length === 0 || this.step === 'ART Start' && artNumber.length === 0){
+                else if(this.step === 'ART Start' && data.art_number.length === 0 || this.step === 'ART Start' && data.art_number.length === 0){
                     return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
                 }
                 else if (this.step === 'Died'){
@@ -243,7 +244,7 @@ import { close } from 'fs';
                             this.patient.lastStep = {step: ''}
                         }
                         this.patient.lastStep.step = this.step
-                        this.patient.artNumber = this.art_number
+                        this.patient.artNumber = payload.art_number
                         
                         sessionStorage.setItem('patient', JSON.stringify(this.patient))
 
@@ -337,7 +338,7 @@ import { close } from 'fs';
                 steps: [],
                 facilities: [],
                 patient: {lastStep: {step: ''}},
-                prefix: 'PRE'
+                prefix: '__'
             }
         },
         beforeMount(){
@@ -379,8 +380,14 @@ import { close } from 'fs';
                 }
                     
             },
-            singleStep: function(){
-                console.log('touched')
+            site: function(){
+                this.prefix = this.facilities.filter(({text}) => text === this.site.text)[0].code
+            }
+        },
+        computed: {
+            preart: function(){
+                
+                return `${this.prefix}${this.art_number}`
             }
         }
     }
