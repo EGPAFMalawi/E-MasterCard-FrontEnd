@@ -151,6 +151,12 @@
                             <option value="3P">3P</option>
                             <option value="4P">4P</option>
                             <option value="9P">9P</option>
+                            <option value="0P">0A</option>
+                            <option value="1A">1A</option>
+                            <option value="2A">2A</option>
+                            <option value="3A">3A</option>
+                            <option value="4A">4A</option>
+                            <option value="9A">9A</option>
                             <option value="Oth">Oth</option>
                         </select>
                     </td>
@@ -248,6 +254,12 @@
                             <option value="3P">3P</option>
                             <option value="4P">4P</option>
                             <option value="9P">9P</option>
+                            <option value="0P">0A</option>
+                            <option value="1A">1A</option>
+                            <option value="2A">2A</option>
+                            <option value="3A">3A</option>
+                            <option value="4A">4A</option>
+                            <option value="9A">9A</option>
                             <option value="Oth">Oth</option>
                         </select>
                     </td>

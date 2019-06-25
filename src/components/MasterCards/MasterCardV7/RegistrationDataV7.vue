@@ -99,6 +99,7 @@
                 patientCardData : [
 
                 ],
+                patient: {},
                 masterCardWithDetails : {},
                 concepts : {
                     concept28 : '',

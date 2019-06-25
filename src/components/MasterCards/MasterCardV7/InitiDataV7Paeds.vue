@@ -152,8 +152,8 @@
                                     <div class="col-md-6 mb-2">
                                         <label >Height / Wgt</label>
                                         <div class="form-inline fit-2-input-fields">
-                                                <input v-model="concepts.concept6" type="text" class="form-control" placeholder="CM" required>
-                                                <input v-model="concepts.concept7" type="text" class="form-control" placeholder="KG" required>
+                                                <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" required>
+                                                <input v-model="concepts.concept7" type="number" min="0" class="form-control" placeholder="KG" required>
                                         </div>  
                                     </div>
                                     <div class="col-md-6 mb-2">
@@ -189,6 +189,12 @@
                                                             <option value="3P">3P</option>
                                                             <option value="4P">4P</option>
                                                             <option value="9P">9P</option>
+                                                            <option value="0P">0A</option>
+                                                            <option value="1A">1A</option>
+                                                            <option value="2A">2A</option>
+                                                            <option value="3A">3A</option>
+                                                            <option value="4A">4A</option>
+                                                            <option value="9A">9A</option>
                                                             <option value="Oth">Oth</option>
                                                         </select>
                                                         <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control" required>
@@ -278,6 +284,12 @@
                                                 <option value="3P">3P</option>
                                                 <option value="4P">4P</option>
                                                 <option value="9P">9P</option>
+                                                <option value="0P">0A</option>
+                                                <option value="1A">1A</option>
+                                                <option value="2A">2A</option>
+                                                <option value="3A">3A</option>
+                                                <option value="4A">4A</option>
+                                                <option value="9A">9A</option>
                                                 <option value="Oth">Oth</option>
                                             </select>
                                             <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
@@ -310,6 +322,12 @@
                                                 <option value="3P">3P</option>
                                                 <option value="4P">4P</option>
                                                 <option value="9P">9P</option>
+                                                <option value="0P">0A</option>
+                                                <option value="1A">1A</option>
+                                                <option value="2A">2A</option>
+                                                <option value="3A">3A</option>
+                                                <option value="4A">4A</option>
+                                                <option value="9A">9A</option>
                                                 <option value="Oth">Oth</option>
                                             </select>
                                             <input v-model="concepts.concept25" type="date" ref="regimenStartDate" class="form-control" required>

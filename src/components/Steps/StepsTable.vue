@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="addStep">
+    <form v-on:submit.prevent="handleAddStep">
         <div v-if="steps.length > 0" class="row d-flex justify-content-center">
             <div class="alert alert-success" role="alert">
                 Click  <router-link to="/patients/show"><span class="alert-link">HERE</span> </router-link> to manage Mastercards .
@@ -118,11 +118,13 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import authResource from './../../authResource'
     import _ from 'lodash'
     import { notificationSystem } from '../../globals'
     import { error } from 'util'
     import { ModelSelect } from 'vue-search-select'
+import { close } from 'fs';
 
 
     export default {
@@ -130,17 +132,7 @@
         props: ['postPayload', 'lastStep', 'dob'],
         components: { ModelSelect },
         methods: {
-            addStep(){
-                const payload = {
-                    art_number: this.art_number,
-                    date: this.stepDate,
-                    site: this.site.value,
-                    step: this.step,
-                    origin_destination: this.origin_destination.value,
-                    patient: this.patient.patientID,
-                }
-
-                console.log(payload)
+            handleAddStep(){
                 
                 if ((this.step === 'Trans-in' && this.origin_destination.value === '') ||
                     (this.step === 'Trans-out' && this.origin_destination.value === '') 
@@ -157,54 +149,67 @@
                 else if(this.step === 'ART Start' && this.art_number.length === 0){
                     return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
                 }
-                else{
-                    if (this.step === 'Died'){
+                else if (this.step === 'Died'){
+                        const happen = {
+                            onClosing: (instance, toast, closedBy) => {
+                                if (closedBy === 'yes'){
+                                    this.addStep()
+                                }
+                            }
+                        }
+
+                        Object.assign(notificationSystem.options.question, happen)
                         this.$toast.question(`You have selected <strong>died</strong> step, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
-                    }
-                    const payload = {
-                        art_number: this.art_number,
-                        date: this.stepDate,
-                        site: this.site.value,
-                        step: this.step,
-                        origin_destination: this.origin_destination.value,
-                        patient: this.patient.patientID,
-                    }
-
-                   const url = `${this.APIHosts.art}/patient-steps`
-
-                    authResource().post(url, payload)
-                        .then(({data: {data}})=> {
-                            this.getStages()
-
-                            if (this.patient.lastStep === null){
-                                this.patient.lastStep = {step: ''}
-                            }
-                            this.patient.lastStep.step = this.step
-                            
-                            sessionStorage.setItem('patient', JSON.stringify(this.patient))
-
-                            if (this.step === 'Died'){
-                                this.$emit('died', this.step)
-                            }
-                            
-                            this.art_number = ''
-                            this.stepDate = ''
-                            this.site = {value:'', text:''}
-                            this.step = ''
-                            this.origin_destination = {value:'', text:''}
-
-                            this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
-                        })
-                        .catch((response) => {
-                            return console.log(response)
-
-                            return Object.values(errors).forEach(error => {
-                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
-                            });
-                            
-                        }) 
+                }else{
+                    this.addStep()
                 }
                 
+            },
+
+            addStep(){
+                const payload = {
+                    art_number: this.art_number,
+                    date: this.stepDate,
+                    site: this.site.value,
+                    step: this.step,
+                    origin_destination: this.origin_destination.value,
+                    patient: this.patient.patientID,
+                }
+
+                const url = `${this.APIHosts.art}/patient-steps`
+
+                authResource().post(url, payload)
+                    .then(({data: {data}})=> {
+                        this.getStages()
+
+                        if (this.patient.lastStep === null){
+                            this.patient.lastStep = {step: ''}
+                        }
+                        this.patient.lastStep.step = this.step
+                        this.patient.artNumber = this.art_number
+                        
+                        sessionStorage.setItem('patient', JSON.stringify(this.patient))
+
+                        if (this.step === 'Died'){
+                            this.$emit('died', this.step)
+                        }
+                        
+                        this.art_number = ''
+                        this.stepDate = ''
+                        this.site = {value:'', text:''}
+                        this.step = ''
+                        this.origin_destination = {value:'', text:''}
+
+                        this.$toast.success('Successfully added new step!', 'OK', notificationSystem.options.success)
+                    })
+                    .catch((response) => {
+                        return console.log(response)
+
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+                        
+                    }) 
             },
 
             getStages(){
