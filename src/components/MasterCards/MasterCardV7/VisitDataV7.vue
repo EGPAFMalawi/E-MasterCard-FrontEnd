@@ -463,6 +463,8 @@
                             return new Date(value)
                         })
                         .value();
+
+                    console.log(this.observations)
             },
             clearFields : function()
             {

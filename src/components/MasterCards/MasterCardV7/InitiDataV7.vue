@@ -266,10 +266,10 @@
                                             </select>
                                             <input ref="regimenStartDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
                                     </div>
-                                    <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
+                                    <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="evalEduDate">
+                                    <b-form-valid-feedback v-if="concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
@@ -317,10 +317,10 @@
                                     <b-form-valid-feedback :state="eval">
                                         Looks Good. (Coming after test date)
                                     </b-form-valid-feedback>
-                                    <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
+                                    <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="evalEduDate">
+                                    <b-form-valid-feedback v-if="concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Looks Good. (Coming after ART education date)
                                     </b-form-valid-feedback>
                             </div>
