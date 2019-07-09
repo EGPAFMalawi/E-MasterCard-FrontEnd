@@ -452,27 +452,19 @@
                             });
 
                 this.encounters  = _.chain(patientCardData)
-                                    .groupBy((item)=>{
-                                        return item.encounter.encounterID
-                                    })
-                                    .toPairs()
-                                    .map(pair => _.zipObject(['encounterID', 'data'], pair))
-                                    .value();
+                            .groupBy((item)=>{
+                                return item.encounter.encounterID
+                            })
+                            .toPairs()
+                            .map(pair => _.zipObject(['encounterID', 'data'], pair))
+                            .sortBy((group)=>{
+                                let value =  _.find(group.data,(b)=>{
+                                    return b.concept.conceptID === 32
+                                }).value;
+                                return new Date(value)
+                            })
+                            .value();
 
-                /*this.encounters  = _.chain(patientCardData)
-                    .groupBy((item)=>{
-                        return item.encounter.encounterID
-                    })
-                    .toPairs()
-                    .map(pair => _.zipObject(['encounterID', 'data'], pair))
-                    .sortBy((group)=>{
-                        let value =  _.find(group.data,(b)=>{
-                            return b.concept.conceptID === 32
-                        }).value;
-                        return new Date(value)
-                    })
-                    .value();*/
-                console.log(this.encounters)
             },
             clearFields : function()
             {
