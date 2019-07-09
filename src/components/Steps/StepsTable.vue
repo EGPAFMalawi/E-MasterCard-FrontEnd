@@ -181,46 +181,46 @@ import { close } from 'fs';
                 if (action === 'update') event.preventDefault()
 
                 if (data !== null){
-                    console.log(data)
                     const {art_number, artNumber, date, origin_destination, patient, site, step} = data
-                }
-                if ((this.step === 'Trans-in' && origin_destination === '') ||
-                    (this.step === 'Trans-out' && origin_destination === '') 
-                ){
-                    return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
-                }
-                else if(this.step == 'Trans-in' && origin_destination === site ||
-                    this.step == 'Trans-out' && origin_destination === site){
-                   return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
-                }
-                else if(this.step === 'ART Start' && data.origin_destination.length > 0){
-                    return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
-                }
-                else if(this.step === 'ART Start' && data.art_number.length === 0 || this.step === 'ART Start' && data.art_number.length === 0){
-                    return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
-                }
-                else if (this.step === 'Died'){
-                        const happen = {
-                            onClosing: (instance, toast, closedBy) => {
-                                if (closedBy === 'yes'){
-                                    if(action === 'create'){
-                                        this.addStep(data)
-                                    }
-                                    else if(action ==='update'){
-                                        this.update(data)
+
+                    if ((this.step === 'Trans-in' && origin_destination === '') ||
+                        (this.step === 'Trans-out' && origin_destination === '') 
+                    ){
+                        return this.$toast.error(`<strong>Origin/Destination</strong> must not be empty, failed to add step`, 'Error', notificationSystem.options.error)
+                    }
+                    else if(this.step == 'Trans-in' && origin_destination === site ||
+                        this.step == 'Trans-out' && origin_destination === site){
+                    return this.$toast.error(`<strong>Site Name</strong> must not be same as, <strong>Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
+                    }
+                    else if(this.step === 'ART Start' && origin_destination.length > 0){
+                        return this.$toast.error(`<strong>ART Start Cannot have Origin/Destination</strong>`, 'Error', notificationSystem.options.error)
+                    }
+                    else if(this.step === 'ART Start' && art_number.length === 0 || this.step === 'ART Start' && art_number.length === 0){
+                        return this.$toast.error(`<strong>Please add ART Number</strong>`, 'Error', notificationSystem.options.error)
+                    }
+                    else if (this.step === 'Died'){
+                            const happen = {
+                                onClosing: (instance, toast, closedBy) => {
+                                    if (closedBy === 'yes'){
+                                        if(action === 'create'){
+                                            this.addStep(data)
+                                        }
+                                        else if(action ==='update'){
+                                            this.update(data)
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        Object.assign(notificationSystem.options.question, happen)
-                        this.$toast.question(`You have selected <strong>died</strong> step, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
-                }else{
-                   if(action === 'create'){
-                        this.addStep(data)
-                    }
-                    else if(action ==='update'){
-                        this.update(data)
+                            Object.assign(notificationSystem.options.question, happen)
+                            this.$toast.question(`You have selected <strong>died</strong> step, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
+                    }else{
+                        if(action === 'create'){
+                            this.addStep(data)
+                        }
+                        else if(action ==='update'){
+                            this.update(data)
+                        }
                     }
                 }
                 
