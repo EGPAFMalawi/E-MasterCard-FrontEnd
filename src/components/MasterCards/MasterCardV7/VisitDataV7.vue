@@ -319,7 +319,7 @@
         </div>
             <div class="form-row my-4">
                 <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
+                    <button type="submit" class="btn btn-primary btn-lg my-4">Save Visit</button>
                 </div>
             </div>
         </form>
