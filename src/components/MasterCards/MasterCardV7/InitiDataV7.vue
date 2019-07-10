@@ -479,7 +479,10 @@
 
                 if (this.concepts.concept18 === 'Y')
                 {
-                    if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                    if(this.concepts.concept19 === ''){
+                        //accept ART education done if Y but date is null
+                    }
+                    else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
                         return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
                     }
                 }
