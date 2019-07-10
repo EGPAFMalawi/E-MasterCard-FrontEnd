@@ -330,6 +330,7 @@
     import _ from 'lodash'
     import { notificationSystem } from '../../../globals'
     import { networkInterfaces } from 'os';
+import { constants } from 'crypto';
 
     export default {
         name: 'VisitDataV7',
@@ -460,6 +461,8 @@
                             let value =  _.find(group.data,(b)=>{
                                 return b.concept.conceptID === 32
                             }).value;
+
+                            console.log(value)
                             return new Date(value)
                         })
                         .value();
