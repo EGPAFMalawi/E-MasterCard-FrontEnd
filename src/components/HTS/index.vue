@@ -20,6 +20,9 @@
                     </div>
                         <b-table
                             id="my-table"
+                            selectable
+                            :select-mode="selectMode"
+                            @row-selected="rowSelected"
                             :items="records"
                             :per-page="perPage"
                             :current-page="currentPage"
@@ -126,6 +129,95 @@
             
             </form>
         </b-modal>
+
+        <b-modal id="editRecord" title="Edit HTS Record" v-model="showUpdateModal" hide-footer>
+            <form v-on:submit.prevent="processRecord">
+            <div class="container">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label>HTS Record Number</label>
+                            <input v-model="inserted_hts_record_id" class="form-control"  type="text" required>
+                        </div>
+                        <div class="col-6">
+                            <label>Sex</label>
+                            <div class="input-group pt-1">
+                                <select class="form-control" v-model="sex" required>
+                                    <option :value="null" disabled>Select Sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="FemalePregnant">Female Pregnant(FP)</option>
+                                    <option value="FemaleNonPregnant">Female Non Pregnant(FNP)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label>Age</label>
+                            <input v-model="age" class="form-control"  type="number" min="0" required>
+                        </div>
+                        <div class="col-6">
+                            <label>Service Delivery Point(SDP)</label>
+                            <select class="form-control" v-model="service_delivery_point" required>
+                                <option :value="null" disabled>Select Status</option>
+                                <option value="ANC">ANC</option>
+                                <option value="VCT">VCT</option>
+                                <option value="Maternity">Maternity</option>
+                                <option value="TB">TB</option>
+                                <option value="STI">STI</option>
+                                <option value="NRU">NRU</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label>Status</label>
+                            <select class="form-control" v-model="status" required>
+                                <option :value="null" disabled>Select Status</option>
+                                <option value="New Positive">New Positive</option>
+                                <option value="New Negative">New Negative</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label>Modality</label>
+                            <select class="form-control" v-model="modality" required>
+                                <option :value="null" disabled>Select Modality</option>
+                                <option value="PITC - Other">PITC - Other</option>
+                                <option value="Index (FRS in HTS Register)">Index (FRS in HTS Register)</option>
+                                <option value="VCT (Co-Located & Stand Alone)">VCT (Co-Located & Stand Alone)</option>
+                                <option value="ANC">ANC</option>
+                                <option value="Maternity">Maternity</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-3">
+                            <label>Month</label>
+                            <select class="form-control" v-model="month" required>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label>Year</label>
+                            <select class="form-control" v-model="year" required>
+                                <option v-for="chaka in years" v-bind:key="chaka">{{chaka}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-3" type="submit" disabled>Update Record</button>
+            </div>
+            
+            </form>
+        </b-modal>
     </div>
 </template>
 
@@ -138,6 +230,22 @@
         name: 'HTS',
         components: { NavBar},
         methods: {
+            rowSelected(row){
+                if (row[0] !== undefined){
+
+                    this.age = row[0].age
+                    this.sex = row[0].sex
+                    this.status= row[0].status
+                    this.modality = row[0].modality
+                    this.month = row[0].month
+                    this.year = row[0].year
+                    this.service_delivery_point = row[0].serviceDeliveryPoint
+                    this.inserted_hts_record_id = row[0].HTSRecordID
+                    this.year = row[0].year
+    
+                    this.showUpdateModal = true
+                }
+            },
             processRecord(){
                 const payload = {
                     age: this.age,
@@ -208,6 +316,7 @@
                 notificationSystem,
                 isBusy: true,
                 show: false,
+                showUpdateModal: false,
                 BASE_URL : 'hts-records',
                 age: '',
                 sex: '',
@@ -221,6 +330,7 @@
                 year: '',
                 inserted_hts_record_id: '',
                 service_delivery_point: '',
+                selectMode: 'single',
                 years: []
             }
         },
