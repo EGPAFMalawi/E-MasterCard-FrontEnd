@@ -150,7 +150,7 @@
 
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
-                                        <label >Height / Wgt</label>
+                                        <label >Height(cm) / Wgt(kg)</label>
                                         <div class="form-inline fit-2-input-fields">
                                                 <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" required>
                                                 <input v-model="concepts.concept7" type="number" min="0" class="form-control" placeholder="KG" required>
@@ -445,11 +445,15 @@
                         'observation' : this.getObservation(item.conceptID)
                     }
                 });
-                
-                 if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
-                    return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+
+                if (this.concepts.concept18 === 'Y')
+                {
+                    if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                        return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+                    }
                 }
-                else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+
+                 if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
                     return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
                 }else{
                     let finalPayload = [];

@@ -160,10 +160,10 @@
 
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
-                            <label>Height &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; Wgt</label>
+                            <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(kg)</label>
                             <div class="form-inline fit-2-input-fields">
-                                    <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" step="1" required>
-                                    <input v-model="concepts.conchept7" type="number" min="0" class="form-control" placeholder="KG" step="1" required>
+                                    <input v-model="concepts.concept6" type="number" min="0" class="form-control" step="1" required>
+                                    <input v-model="concepts.conchept7" type="number" min="0" class="form-control" step="1" required>
                             </div>  
                         </div>
                         <div class="col-md-6 mb-2">
@@ -477,10 +477,15 @@
                     }
                 });
 
-                if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
-                    return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+                if (this.concepts.concept18 === 'Y')
+                {
+                    if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                        return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+                    }
                 }
-                else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+
+
+                if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
                     return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
                 }else{
                     let finalPayload = [];
