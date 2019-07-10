@@ -555,8 +555,9 @@
                 }
             },
             getConditions(stageName){
-                console.log(stageName)
-                return this.stages.filter(({name}) => name === stageName)[0].conditions
+                return (stageName !== null) ? 
+                    this.stages.filter(({name}) => name === stageName)[0].conditions :
+                    []
             },
             getPersonDoB(){
                 return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
