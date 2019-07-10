@@ -160,7 +160,7 @@
 
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
-                            <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(kg)</label>
+                            <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(Kg)</label>
                             <div class="form-inline fit-2-input-fields">
                                     <input v-model="concepts.concept6" type="number" min="0" class="form-control" step="1" required>
                                     <input v-model="concepts.conchept7" type="number" min="0" class="form-control" step="1" required>
