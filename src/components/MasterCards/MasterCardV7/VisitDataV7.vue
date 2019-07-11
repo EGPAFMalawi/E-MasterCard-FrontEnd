@@ -330,6 +330,7 @@
     import _ from 'lodash'
     import { notificationSystem } from '../../../globals'
     import { networkInterfaces } from 'os';
+import { constants } from 'crypto';
 
     export default {
         name: 'VisitDataV7',
@@ -449,7 +450,7 @@
                 this.observations = _.keyBy(mappedObs,(item)=>{
                                return 'concept'+item.concept+'Encounter'+item.encounter
                             });
-
+                
                 this.encounters  = _.chain(patientCardData)
                         .groupBy((item)=>{
                             return item.encounter.encounterID

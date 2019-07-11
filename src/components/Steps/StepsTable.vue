@@ -142,7 +142,6 @@ import { close } from 'fs';
         components: { ModelSelect },
         methods: {
             update(singleStep){
-                console.log(singleStep)
                 const payload = {
                     art_number: singleStep.artNumber,
                     date: singleStep.date,
@@ -177,7 +176,6 @@ import { close } from 'fs';
                     }) 
             },
             handleStepCRUD(action, event, data=null){
-                console.log(action, data)
                 if (action === 'update') event.preventDefault()
 
                 if (data !== null){
@@ -305,6 +303,10 @@ import { close } from 'fs';
                     this.$refs.stepDate.setAttribute('min', this.dob)
                     this.$refs.stepDate.setAttribute('max', this.maxDate())
                 }
+
+                else if(this.dob === ''){
+                    this.$refs.stepDate.setAttribute('max', this.maxDate())
+                }
             },
             maxDate(){
                 const today = new Date()
@@ -357,7 +359,6 @@ import { close } from 'fs';
                 this.saveStages()
             },
             step: function(){
-                console.log(this.step)
                 if (this.step === 'ART Start'){ 
                     this.toggleIsDisabled('originDestination', true)
                 }

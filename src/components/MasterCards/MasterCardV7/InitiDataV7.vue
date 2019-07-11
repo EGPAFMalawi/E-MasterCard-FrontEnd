@@ -160,7 +160,7 @@
 
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
-                            <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(kg)</label>
+                            <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(Kg)</label>
                             <div class="form-inline fit-2-input-fields">
                                     <input v-model="concepts.concept6" type="number" min="0" class="form-control" step="any" required>
                                     <input v-model="concepts.concept7" type="number" min="0" class="form-control" step="any" required>
@@ -479,7 +479,10 @@
 
                 if (this.concepts.concept18 === 'Y')
                 {
-                    if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                    if(this.concepts.concept19 === ''){
+                        //accept ART education done if Y but date is null
+                    }
+                    else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
                         return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
                     }
                 }
@@ -572,7 +575,9 @@
                 }
             },
             getConditions(stageName){
-                return this.stages.filter(({name}) => name === stageName)[0].conditions
+                return (stageName !== null) ? 
+                    this.stages.filter(({name}) => name === stageName)[0].conditions :
+                    []
             },
             getPersonDoB(){
                 return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
@@ -752,7 +757,6 @@
             },
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)
-                console.log(this.conditions)
             }
         }
     }
