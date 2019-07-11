@@ -450,7 +450,7 @@ import { constants } from 'crypto';
                 this.observations = _.keyBy(mappedObs,(item)=>{
                                return 'concept'+item.concept+'Encounter'+item.encounter
                             });
-
+                
                 this.encounters  = _.chain(patientCardData)
                         .groupBy((item)=>{
                             return item.encounter.encounterID
@@ -461,8 +461,6 @@ import { constants } from 'crypto';
                             let value =  _.find(group.data,(b)=>{
                                 return b.concept.conceptID === 32
                             }).value;
-
-                            console.log(value)
                             return new Date(value)
                         })
                         .value();

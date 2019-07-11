@@ -42,7 +42,7 @@
          
 
         <b-modal id="addNewRecord" title="Add New HTS Record" v-model="show" hide-footer>
-            <form v-on:submit.prevent="processRecord">
+            <form v-on:submit.prevent="processRecord('create')">
             <div class="container">
                     <div class="form-row">
                         <div class="col-6">
@@ -131,7 +131,7 @@
         </b-modal>
 
         <b-modal id="editRecord" title="Edit HTS Record" v-model="showUpdateModal" hide-footer>
-            <form v-on:submit.prevent="processRecord">
+            <form v-on:submit.prevent="processRecord('update')">
             <div class="container">
                     <div class="form-row">
                         <div class="col-6">
@@ -213,7 +213,7 @@
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-success mt-3" type="submit" disabled>Update Record</button>
+                    <button class="btn btn-success mt-3" type="submit">Update Record</button>
             </div>
             
             </form>
@@ -240,13 +240,13 @@
                     this.month = row[0].month
                     this.year = row[0].year
                     this.service_delivery_point = row[0].serviceDeliveryPoint
-                    this.inserted_hts_record_id = row[0].HTSRecordID
+                    this.inserted_hts_record_id = row[0].insertedHTSRecordID
                     this.year = row[0].year
-    
+                    this.htsID = row[0].HTSRecordID
                     this.showUpdateModal = true
                 }
             },
-            processRecord(){
+            processRecord(type){
                 const payload = {
                     age: this.age,
                     sex: this.sex,
@@ -257,8 +257,16 @@
                     inserted_hts_record_id: this.inserted_hts_record_id,
                     service_delivery_point: this.service_delivery_point
                 }
-                this.show = false
-                return this.postRecord(payload)
+                
+                if (type === 'create'){
+                    this.show = false
+                    return this.postRecord(payload)                    
+                }
+                else if(type === 'update'){
+                    this.showUpdateModal = false
+                    return this.updateRecord(payload) 
+                }
+                
             }
             ,            
             getRecords(){
@@ -266,6 +274,7 @@
 
                 authResource().get(url)
                     .then(({data: {data}})=> {
+                        console.log(data)
                         this.records = JSON.parse(JSON.stringify(data)).map((record) => {
                             const {object, ...rest} = record
                             return rest
@@ -293,11 +302,32 @@
                         this.service_delivery_point = ''
                     })
                     .catch(({response: {data: {errors}, data}}) => {
-                        
                         return Object.values(errors).forEach(error => {
                             this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                         });
                             
+                    }) 
+            },
+            updateRecord(payload){
+                const url = `${this.APIHosts.art}/${this.BASE_URL}/${this.htsID}`
+
+                authResource().patch(url, payload)
+                    .then((response) => {
+                        this.$toast.success('Successfully Updated Record!', 'OK', notificationSystem.options.success)
+                        this.getRecords()
+                        this.age = 0
+                        this.sex = ''
+                        this.status = ''
+                        this.modality = ''
+                        this.year = ''
+                        this.inserted_hts_record_id = ''
+                        this.service_delivery_point = ''
+                        this.htsID = null
+                    })
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        }); 
                     }) 
             },
             setYears(){
@@ -331,7 +361,8 @@
                 inserted_hts_record_id: '',
                 service_delivery_point: '',
                 selectMode: 'single',
-                years: []
+                years: [],
+                htsID: null
             }
         },
         computed: {

@@ -464,7 +464,6 @@
                                 return new Date(value)
                             })
                             .value();
-
             },
             clearFields : function()
             {
