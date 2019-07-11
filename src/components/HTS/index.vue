@@ -21,6 +21,7 @@
                         <b-table
                             id="my-table"
                             selectable
+                            :fields="fields"
                             :select-mode="selectMode"
                             @row-selected="rowSelected"
                             :items="records"
@@ -362,7 +363,17 @@
                 service_delivery_point: '',
                 selectMode: 'single',
                 years: [],
-                htsID: null
+                htsID: null,
+                fields : [
+                    {   key : 'insertedHTSRecordID', label : 'Record ID' },
+                    'age',
+                    'sex',
+                    'status',
+                    'modality',
+                    'month',
+                    'year',
+                    'serviceDeliveryPoint',
+                ]
             }
         },
         computed: {

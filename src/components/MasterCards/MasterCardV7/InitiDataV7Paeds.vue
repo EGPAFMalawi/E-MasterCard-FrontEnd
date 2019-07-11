@@ -561,6 +561,23 @@
             },
             getPersonDoB(){
                 return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
+            },
+            handleAgeEstimation()
+            {
+                if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
+                    && this.patient.person.birthdate !== null
+                    && this.concepts.concept23 !== null
+                )
+                {
+                    let startDateObj = new Date(this.concepts.concept23)
+                    let birthDateObj = new Date(this.patient.person.birthdate)
+
+                    const monthDiff = startDateObj.getMonth() - birthDateObj.getMonth()
+                    const yearDiff = startDateObj.getFullYear() - birthDateObj.getFullYear()
+
+                    this.concepts.concept8 =  monthDiff + (12 * yearDiff)
+                    this.concepts.concept54 = 'Months'
+                }
             }
         },
         data: () => {
@@ -709,7 +726,9 @@
                 if (this.getPersonDoB() === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate() 
                     this.setMinMax()
-                }    
+                }
+
+                this.handleAgeEstimation()
 
                 this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },

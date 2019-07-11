@@ -540,6 +540,7 @@
                 localStorage.setItem('startDate', this.concepts.concept23)
             },
             calculatedBirthDate(ageType){
+
                const date = new Date(this.concepts.concept23)
                const age = this.concepts.concept8
 
@@ -552,6 +553,21 @@
                     return date.toISOString().split('T')[0]
                }
                
+            },
+            calculatedAgeAtInit(ageType){
+
+                const date = new Date(this.concepts.concept23)
+                const age = this.concepts.concept8
+
+                if (ageType === 'Years'){
+                    const birthYear = date.getFullYear() - age
+                    const birthdate = new Date(birthYear.toString())
+                    return birthdate.toISOString().split('T')[0]
+                }else if(ageType === 'Months'){
+                    date.setMonth(date.getMonth() - age);
+                    return date.toISOString().split('T')[0]
+                }
+
             },
             evaluateDateBeforeARTStartDate(date, startDate){
                 date = new Date(date)
@@ -581,6 +597,22 @@
             },
             getPersonDoB(){
                 return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
+            },
+            handleAgeEstimation()
+            {
+                if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
+                    && this.patient.person.birthdate !== null
+                    && this.concepts.concept23 !== null
+                    )
+                {
+                    let startDateObj = new Date(this.concepts.concept23)
+                    let birthDateObj = new Date(this.patient.person.birthdate)
+
+                    const startYear = startDateObj.getFullYear()
+                    const birthYear = birthDateObj.getFullYear()
+                    this.concepts.concept8 =  startYear - birthYear
+                    this.concepts.concept54 = 'Years'
+                }
             }
         },
         data: () => {
@@ -730,6 +762,8 @@
                     this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                     this.setMinMax()
                 }
+
+                this.handleAgeEstimation();
                        
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
@@ -747,17 +781,19 @@
                         this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             },
-            'concepts.concept8': function(){
-                if(this.concepts.concept8 === ''){
-                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+            'concepts.concept8': function(value){
+                let DOB = this.getPersonDoB()
+
+                if(value === ''){
+                    this.patient.person.birthdate = DOB;
                 }else{
-                    if (this.getPersonDoB() === '')
+                    if (DOB === '')
                         this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             },
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)
-            }
+            },
         }
     }
 </script>
