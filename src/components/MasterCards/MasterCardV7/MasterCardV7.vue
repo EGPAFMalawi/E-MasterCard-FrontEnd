@@ -22,7 +22,7 @@
             <div class="container">
                     <form class="form-row " v-on:submit.prevent="initiatePost">
                         <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">SAVE DATA<font-awesome-icon icon="save" class="ml-1"/></button>
+                                <button type="submit" class="btn btn-success btn-lg my-4">Update Data<font-awesome-icon icon="save" class="ml-1"/></button>
                         </div>
                     </form>
             </div>
@@ -41,7 +41,7 @@
             <div class="container">
                     <form class="form-row " v-on:submit.prevent="initiatePost">
                         <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">SAVE DATA<font-awesome-icon icon="save" class="ml-1"/></button>
+                                <button type="submit" class="btn btn-success btn-lg my-4">Update Data<font-awesome-icon icon="save" class="ml-1"/></button>
                         </div>
                     </form>
             </div>

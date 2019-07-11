@@ -106,7 +106,7 @@
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
@@ -210,7 +210,7 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30" step="1">
+                        <input v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30" step="any">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" class="form-control tb-form" >
@@ -319,7 +319,7 @@
         </div>
             <div class="form-row my-4">
                 <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Add New Visit</button>
+                    <button type="submit" class="btn btn-primary btn-lg my-4">Save Visit</button>
                 </div>
             </div>
         </form>

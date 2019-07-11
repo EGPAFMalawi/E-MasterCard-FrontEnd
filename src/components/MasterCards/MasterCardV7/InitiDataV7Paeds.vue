@@ -152,8 +152,8 @@
                                     <div class="col-md-6 mb-2">
                                         <label >Height(cm) / Wgt(kg)</label>
                                         <div class="form-inline fit-2-input-fields">
-                                                <input v-model="concepts.concept6" type="number" min="0" class="form-control" placeholder="CM" required>
-                                                <input v-model="concepts.concept7" type="number" min="0" class="form-control" placeholder="KG" required>
+                                                <input v-model="concepts.concept6" type="number" min="0" step="any" class="form-control" placeholder="CM" required>
+                                                <input v-model="concepts.concept7" type="number" min="0" step="any" class="form-control" placeholder="KG" required>
                                         </div>  
                                     </div>
                                     <div class="col-md-6 mb-2">
