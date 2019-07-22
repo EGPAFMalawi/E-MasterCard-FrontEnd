@@ -101,35 +101,35 @@
                 <h3>Steps Reports</h3>
                 <div class="row">
                     <div class="card-deck">
-                        <div class="card" v-on:click="loadPatientsDue6MonthsData" v-b-modal.modal-1>
+                        <div class="card" v-on:click="loadARTStop" v-b-modal.modal-1>
                             <div class="card-body">
                                 <h5 class="card-title">ART Stop</h5>
                                 
                             </div>
                             <div class="card-footer"><h1 class="display-4">{{ARTStop.counts}}</h1></div>
                         </div>
-                        <div class="card" v-on:click="loadPatientsDueTwelveMonthsData" v-b-modal.modal-1>
+                        <div class="card" v-on:click="loadRestart" v-b-modal.modal-1>
                             <div class="card-body">
                                 <h5 class="card-title">Restart</h5>
                                 
                             </div>
                             <div class="card-footer"><h1 class="display-4">{{restart.counts}}</h1></div>
                         </div>
-                        <div class="card" v-on:click="loadPatientsDueAfterYearData" v-b-modal.modal-1>
+                        <div class="card" v-on:click="loadTransIn" v-b-modal.modal-1>
                             <div class="card-body">
                                 <h5 class="card-title">Tranfer In</h5>
                                 
                             </div>
                             <div class="card-footer"><h1 class="display-4">{{transIn.counts}}</h1></div>
                         </div>
-                        <div class="card" v-on:click="loadTomorrowAppointmentData" v-b-modal.modal-1>
+                        <div class="card" v-on:click="loadTransOut" v-b-modal.modal-1>
                             <div class="card-body">
                                 <h5 class="card-title">Transfer Out</h5>
                                 
                             </div>
                             <div class="card-footer"><h1 class="display-4">{{transOut.counts}}</h1></div>
                         </div>
-                        <div class="card" v-on:click="loadLastViralLoadGT1000Data" v-b-modal.modal-1>
+                        <div class="card" v-on:click="loadDied" v-b-modal.modal-1>
                             <div class="card-body">
                                 <h5 class="card-title">Died</h5>
                                 
@@ -187,7 +187,7 @@
 
 import NavBar from "./NavBar";
 import authResource from './../authResource'
-import { countAll } from './reports.utils'
+import { countAll, loadAll } from './reports.utils'
 
 
 export default {
@@ -701,6 +701,20 @@ export default {
                 .catch(error => console.log(error))
             },
 
+            loadARTStop(){
+                this.payload = {
+                    code: 10,
+                    type: 'ARTStop'
+                }
+
+                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.patients = result
+                })
+                .catch(error => console.log(error))
+            },
+
              countRestart(){
                 this.payload = {
                     code: 10,
@@ -713,6 +727,20 @@ export default {
                     this.restart = result
                 })
                 .catch(error => console.warn(error))
+            },
+
+            loadRestart(){
+                this.payload = {
+                    code: 10,
+                    type: 'Restart'
+                }
+
+                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.patients = result
+                })
+                .catch(error => console.log(error))
             },
 
             countTransIn(){
@@ -729,6 +757,20 @@ export default {
                 .catch(error => console.warn(error))
             },
 
+            loadTransIn(){
+                this.payload = {
+                    code: 10,
+                    type: 'Trans-in'
+                }
+
+                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.patients = result
+                })
+                .catch(error => console.log(error))
+            },
+
             countTransOut(){
                 this.payload = {
                     code: 10,
@@ -743,6 +785,20 @@ export default {
                 .catch(error => console.warn(error))
             },
 
+            loadTransOut(){
+                this.payload = {
+                    code: 10,
+                    type: 'Trans-out'
+                }
+
+                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.patients = result
+                })
+                .catch(error => console.log(error))
+            },
+
             countDied(){
                 this.payload = {
                     code: 10,
@@ -755,6 +811,20 @@ export default {
                     this.died = result
                 })
                 .catch(error => console.warn(error))
+            },
+
+            loadDied(){
+                this.payload = {
+                    code: 10,
+                    type: 'Died'
+                }
+
+                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.patients = result
+                })
+                .catch(error => console.log(error))
             },
 
             downloadCDCDefaultersCount ()
