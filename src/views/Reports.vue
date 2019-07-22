@@ -7,94 +7,139 @@
 
         </div>
         <section>
-        <div class="container my-5">
-            <div class="row">
-                <div class="card-deck">
-                    <div class="card" v-on:click="loadPatientsDue6MonthsData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients Due Viral Load (6 Months)</h5>
-                            
+            <div class="container my-5">
+                <div class="row">
+                    <div class="card-deck">
+                        <div class="card" v-on:click="loadPatientsDue6MonthsData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients Due Viral Load (6 Months)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{dueSixMonths.counts}}</h1></div>
                         </div>
-                        <div class="card-footer"><h1 class="display-4">{{dueSixMonths.counts}}</h1></div>
+                        <div class="card" v-on:click="loadPatientsDueTwelveMonthsData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients Due Viral Load (12 Months)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{dueTwelveMonths.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadPatientsDueAfterYearData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients Due Viral Load (After 1 Year)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{dueAfterYear.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadTomorrowAppointmentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients with Appointments Tomorrow</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{appointmentsTomorrow.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadLastViralLoadGT1000Data" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients with Last Viral Load Greater than 1000</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{lastViralLoadGT1000.counts}}</h1></div>
+                        </div> 
                     </div>
-                    <div class="card" v-on:click="loadPatientsDueTwelveMonthsData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients Due Viral Load (12 Months)</h5>
-                            
+                    <div class="card-deck my-3">
+                        <div class="card" v-on:click="loadMissedAppointmentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients with Missed Appointments </h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{appointmentMissers.counts}}</h1></div>
                         </div>
-                        <div class="card-footer"><h1 class="display-4">{{dueTwelveMonths.counts}}</h1></div>
+                        <div class="card" v-on:click="loadPatientsOnDTGData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Patients on DTG</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
+                        </div> 
+                        <div class="card" v-on:click="loadCDCDefaultersData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Defaulters (CDC) </h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{defaultersCDC.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Defaulters (MOH)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadCDCTXCurrentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">TX Current (CDC)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
+                        </div>
                     </div>
-                    <div class="card" v-on:click="loadPatientsDueAfterYearData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients Due Viral Load (After 1 Year)</h5>
-                            
+                    <div class="card-deck">
+                        <div class="card" v-on:click="loadMOHTXCurrentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">TX Current (MOH)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
                         </div>
-                        <div class="card-footer"><h1 class="display-4">{{dueAfterYear.counts}}</h1></div>
-                    </div>
-                    <div class="card" v-on:click="loadTomorrowAppointmentData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients with Appointments Tomorrow</h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{appointmentsTomorrow.counts}}</h1></div>
-                    </div>
-                    <div class="card" v-on:click="loadLastViralLoadGT1000Data" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients with Last Viral Load Greater than 1000</h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{lastViralLoadGT1000.counts}}</h1></div>
-                    </div> 
-                </div>
-                <div class="card-deck my-3">
-                    <div class="card" v-on:click="loadMissedAppointmentData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients with Missed Appointments </h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{appointmentMissers.counts}}</h1></div>
-                    </div>
-                    <div class="card" v-on:click="loadPatientsOnDTGData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Patients on DTG</h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
-                    </div> 
-                    <div class="card" v-on:click="loadCDCDefaultersData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Defaulters (CDC) </h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{defaultersCDC.counts}}</h1></div>
-                    </div>
-                    <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Defaulters (MOH)</h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
-                    </div>
-                    <div class="card" v-on:click="loadCDCTXCurrentData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">TX Current (CDC)</h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
-                    </div>
-                </div>
-                <div class="card-deck">
-                    <div class="card" v-on:click="loadMOHTXCurrentData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">TX Current (MOH)</h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section>
+            <div class="container my-5">
+                <h3>Steps Reports</h3>
+                <div class="row">
+                    <div class="card-deck">
+                        <div class="card" v-on:click="loadPatientsDue6MonthsData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">ART Stop</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{ARTStop.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadPatientsDueTwelveMonthsData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Restart</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{restart.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadPatientsDueAfterYearData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Tranfer In</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{transIn.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadTomorrowAppointmentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Transfer Out</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{transOut.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadLastViralLoadGT1000Data" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Died</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{died.counts}}</h1></div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <b-modal id="modal-1" title="Patients Reports" hide-footer	 size="xl">
             <div class="container">
@@ -142,6 +187,7 @@
 
 import NavBar from "./NavBar";
 import authResource from './../authResource'
+import { countAll } from './reports.utils'
 
 
 export default {
@@ -641,6 +687,76 @@ export default {
                     })
             },
 
+            countARTStop(){
+                this.payload = {
+                    code: 10,
+                    type: 'ARTStop'
+                }
+
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.ARTStop = result
+                })
+                .catch(error => console.log(error))
+            },
+
+             countRestart(){
+                this.payload = {
+                    code: 10,
+                    type: 'Restart'
+                }
+
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.restart = result
+                })
+                .catch(error => console.warn(error))
+            },
+
+            countTransIn(){
+                this.payload = {
+                    code: 10,
+                    type: 'Trans-in'
+                }
+
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.transIn = result
+                })
+                .catch(error => console.warn(error))
+            },
+
+            countTransOut(){
+                this.payload = {
+                    code: 10,
+                    type: 'Trans-out'
+                }
+
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.transOut = result
+                })
+                .catch(error => console.warn(error))
+            },
+
+            countDied(){
+                this.payload = {
+                    code: 10,
+                    type: 'Died'
+                }
+
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
+                .then(result => {
+                    this.isLoading = false
+                    this.died = result
+                })
+                .catch(error => console.warn(error))
+            },
+
             downloadCDCDefaultersCount ()
             {
                 this.isLoading = true;
@@ -660,7 +776,7 @@ export default {
                         const url = window.URL.createObjectURL(blob)
                         const a = document.createElement('a')
                         a.href = url
-                        a.download = "filename.xlsx"
+                        a.download = "report.xlsx"
                         document.body.appendChild(a)
                         a.click()    
                         a.remove()
@@ -681,6 +797,12 @@ export default {
         this.loadMissedAppointmentsCount()
         this.loadCDCTXCurrentCount()
         this.loadMOHTXCurrentCount()
+
+        this.countARTStop()
+        this.countRestart()
+        this.countTransIn()
+        this.countTransOut()
+        this.countDied()
     },
     data: () => {
         return {
@@ -699,7 +821,12 @@ export default {
             cdctxcurrent: {},
             mohctxcurrent: {},
             patients: [],
-            payload:{}
+            payload:{},
+            ARTStop: {},
+            restart: {},
+            transIn: {},
+            transOut: {},
+            died: {}
         }
     }
 
