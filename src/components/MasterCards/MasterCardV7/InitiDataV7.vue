@@ -34,6 +34,7 @@
                     <div class="col-md-6 mb-3">
                         <label >Date of Birth</label>
                         <input type="date" ref="regimenStartDate" class="form-control" v-model="patient.person.birthdate">
+                        <button v-on:click="estimateDOB" class="btn btn-primary my-1">Estimate</button>
                     </div>
                 </div>
                 <div class="form-row">
@@ -187,6 +188,7 @@
                                                     <option value="Years">Years</option>
                                                 </select>
                                             </div>
+                                            <button v-on:click="estimateAgeAtInitiation" class="btn btn-primary my-1">Estimate</button>
                                     </div>
                                     <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                             <label >Last ARVs (type/date)</label>
@@ -613,6 +615,16 @@
                     this.concepts.concept8 =  startYear - birthYear
                     this.concepts.concept54 = 'Years'
                 }
+            },
+            estimateAgeAtInitiation(){
+                this.handleAgeEstimation();
+            },
+            estimateDOB(){
+                if(this.concepts.concept8 === ''){
+                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+                }else{
+                    this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
+                }
             }
         },
         data: () => {
@@ -759,11 +771,8 @@
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
                 if (this.getPersonDoB() === ''){
-                    this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                     this.setMinMax()
                 }
-
-                this.handleAgeEstimation();
                        
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
@@ -772,24 +781,6 @@
             },
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
-            },
-            'concepts.concept54': function(){
-                if(this.concepts.concept8 === ''){
-                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
-                }else{
-                    if (this.getPersonDoB() === '')
-                        this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
-                }
-            },
-            'concepts.concept8': function(value){
-                let DOB = this.getPersonDoB()
-
-                if(value === ''){
-                    this.patient.person.birthdate = DOB;
-                }else{
-                    if (DOB === '')
-                        this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
-                }
             },
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)

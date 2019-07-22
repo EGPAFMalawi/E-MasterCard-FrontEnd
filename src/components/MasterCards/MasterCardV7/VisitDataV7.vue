@@ -45,6 +45,9 @@
                     <th>
                         Next Appointment
                     </th>
+                    <th>
+                        Void Status
+                    </th>
                 </tr>
                 <tr>
                     <th width="5">
@@ -94,6 +97,9 @@
                     </th>
                     <th>
                         Result
+                    </th>
+                    <th>
+
                     </th>
                     <th>
 
@@ -203,6 +209,9 @@
                     <td>
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
+                    <td>
+                        <button v-on:click="voidVisit(observations['concept32Encounter'+encounter.encounterID])" :class="`btn btn-${observations['concept32Encounter'+encounter.encounterID].encounterVoided?'danger':'success'}`">{{observations['concept32Encounter'+encounter.encounterID].encounterVoided?'    Void':'Not Void'}}</button>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -309,6 +318,9 @@
                     <td>
                         <input id="tooltip-button-1" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date" required>
                         <span>{{ errors.first('Next Visit')}}</span>
+                    </td>
+                    <td>
+                        <input  class="form-control tb-form"  type="text" disabled>
                     </td>
                 </tr>
                 <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
@@ -443,6 +455,7 @@ import { constants } from 'crypto';
                                        observation : item.observationID,
                                        concept : item.concept.conceptID,
                                        encounter : item.encounter.encounterID,
+                                       encounterVoided : item.encounter.voided,
                                        value : item.value
                                    }
                                 });
@@ -544,6 +557,31 @@ import { constants } from 'crypto';
                     this.$refs[ref].setAttribute('min', startDate)
                     this.$refs[ref].setAttribute('max', max)
                 }
+            },
+            voidVisit(visitObservation){
+                let action = true
+                if (visitObservation.encounterVoided)
+                    action = false
+
+                let dhisAPIEndpoint = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
+                let payload = {
+                    'void' : action,
+                };
+
+                authResource().patch(dhisAPIEndpoint, payload)
+                    .then((response)=>{
+                        this.clearFields();
+                        this.patientCardData = [];
+                        this.getPatientCardDetails();
+                        this.$toast.success(`Success! Visit Void Toggled`, 'OK', notificationSystem.options.success)
+                    })
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+
+                    })
+
             }
         },
         data: () => {

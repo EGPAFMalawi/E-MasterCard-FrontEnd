@@ -68,28 +68,25 @@
                             </div>
                             <div class="card-footer"><h1 class="display-4">{{defaultersCDC.counts}}</h1></div>
                         </div>
-                        <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Defaulters (MOH)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
+                        <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
+                    </div> 
+                    <div class="card" v-on:click="loadPEPFARDefaultersData" v-b-modal.modal-1>
+                        <div class="card-body">
+                            <h5 class="card-title">Defaulters (PEPFAR) </h5>
+                            
                         </div>
-                        <div class="card" v-on:click="loadCDCTXCurrentData" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">TX Current (CDC)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
+                        <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
+                    </div>
+                    <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
+                        <div class="card-body">
+                            <h5 class="card-title">Defaulters (MOH)</h5>
+                            
                         </div>
                     </div>
-                    <div class="card-deck">
-                        <div class="card" v-on:click="loadMOHTXCurrentData" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">TX Current (MOH)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
+                    <div class="card" v-on:click="loadPEPFARTXCurrentData" v-b-modal.modal-1>
+                        <div class="card-body">
+                            <h5 class="card-title">TX Current (PEPFAR)</h5>
+                            
                         </div>
                     </div>
                 </div>
@@ -148,7 +145,7 @@
                         No Records Available here
                     </div>
                     <div class="alert alert-primary" role="alert" v-if="patients[0] !== undefined">
-                        Download the excel sheet  <span v-on:click="downloadCDCDefaultersCount" class="alert-link">HERE</span>
+                        Download the excel sheet  <span v-on:click="downloadPEPFARDefaultersCount" class="alert-link">HERE</span>
                     </div>
                     <table class="table" v-if="patients[0] !== undefined">
                         <thead class="thead-dark">
@@ -328,13 +325,13 @@ export default {
                     })
             },
 
-        loadCDCDefaultersCount ()
+        loadPEPFARDefaultersCount ()
             {
                 this.isLoading = true;
 
                 const count = {
                     code: 6,
-                    type:'CDCDefaulters'
+                    type:'PEPFARDefaulters'
 
                 };
                 
@@ -343,7 +340,7 @@ export default {
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
-                        this.defaultersCDC = JSON.parse(JSON.stringify({counts}))
+                        this.defaultersPEPFAR = JSON.parse(JSON.stringify({counts}))
                         
                     })
                     .catch((error)=>{
@@ -402,13 +399,13 @@ export default {
 
             },
 
-            loadCDCTXCurrentCount ()
+            loadPEPFARTXCurrentCount ()
             {
                 this.isLoading = true;
 
                 const count = {
                     code: 7,
-                    type:'CDCTXCurrent'
+                    type:'PEPFARTXCurrent'
 
                 };
                 
@@ -607,10 +604,10 @@ export default {
                     })
             },
 
-            loadCDCDefaultersData(){
+            loadPEPFARDefaultersData(){
                 this.payload = {
                     code: 6,
-                    type:'CDCDefaulters'
+                    type:'PEPFARDefaulters'
                 };
                 
                 let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
@@ -646,10 +643,10 @@ export default {
                     })
             },
 
-            loadCDCTXCurrentData(){
+            loadPEPFARTXCurrentData(){
                 this.dataPayload = {
                     code: 7,
-                    type:'CDCTXCurrent'
+                    type:'PEPFARTXCurrent'
 
                 };
                 
@@ -827,7 +824,7 @@ export default {
                 .catch(error => console.log(error))
             },
 
-            downloadCDCDefaultersCount ()
+            downloadPEPFARDefaultersCount ()
             {
                 this.isLoading = true;
                 
@@ -862,10 +859,10 @@ export default {
         this.loadTomorrowAppointmentsCount()
         this.loadLastViralLoadGT1000Count()
         this.loadPatientsOnDTGCount()
-        this.loadCDCDefaultersCount()
+        this.loadPEPFARDefaultersCount()
         this.loadMOHDefaultersCount()
         this.loadMissedAppointmentsCount()
-        this.loadCDCTXCurrentCount()
+        this.loadPEPFARTXCurrentCount()
         this.loadMOHTXCurrentCount()
 
         this.countARTStop()
@@ -883,7 +880,7 @@ export default {
             dueAfterYear: {},
             dueTwelveMonths: {},
             appointmentsTomorrow: {},
-            defaultersCDC: {},
+            defaultersPEPFAR: {},
             defaultersMOH: {},
             patientsOnDTG: {},
             appointmentMissers: {},
