@@ -32,6 +32,9 @@
                         Origin/Destination
                     </th>
                     <th>
+                        Void Status
+                    </th>
+                    <th>
                         Action
                     </th>
                 </tr>
@@ -75,6 +78,9 @@
                                 placeholder="select item">
                         </model-select>
                     </td>
+                    <td align="center">
+                        <button @click="voidVisit(singleStep)" :class="`btn btn-${singleStep.voided?'danger':'success'}`">{{singleStep.voided?'    Void':'Not Void'}}</button>
+                    </td>
                     <td align="center"><button @click="handleStepCRUD('update',$event, singleStep)" class="btn btn-warning">Update</button></td>
                 </tr>
                 <tr v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
@@ -112,6 +118,9 @@
                                 placeholder="select item"
                                 id="originDestination">
                         </model-select>
+                    </td>
+                    <td>
+
                     </td>
                     <td>
                         <button type="submit" class="btn btn-primary" style="text-align:center">Add Step</button>
@@ -315,6 +324,29 @@ import { close } from 'fs';
             toggleIsDisabled(ref, isTrue){
                 const parent = document.querySelector(`#${ref}`).parentElement
                 isTrue ? parent.classList.add('disabled') : parent.classList.remove('disabled')
+            },
+            voidVisit(step){
+                let action = true
+                if (step.voided)
+                    action = false
+
+                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-steps/`+step.patientStepID+'/toggle-void';
+                let payload = {
+                    'void' : action,
+                };
+
+                authResource().patch(dhisAPIEndpoint, payload)
+                    .then((response)=>{
+                        this.getStages();
+                        this.$toast.success(`Success! Visit Void Toggled`, 'OK', notificationSystem.options.success)
+                    })
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                        });
+
+                    })
+
             }
         },
         data: () => {
