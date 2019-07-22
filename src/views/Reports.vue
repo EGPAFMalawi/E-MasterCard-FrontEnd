@@ -61,13 +61,6 @@
                             </div>
                             <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
                         </div> 
-                        <div class="card" v-on:click="loadCDCDefaultersData" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Defaulters (CDC) </h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
-                        </div>
                         <div class="card" v-on:click="loadPEPFARDefaultersData" v-b-modal.modal-1>
                             <div class="card-body">
                                 <h5 class="card-title">Defaulters (PEPFAR) </h5>
@@ -77,18 +70,28 @@
                         </div>
                         <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
                             <div class="card-body">
-                                <h5 class="card-title">Defaulters (MOH)</h5>
+                                <h5 class="card-title">Defaulters (MOH) </h5>
                                 
                             </div>
-                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
+                            <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadPEPFARTXCurrentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">TX Current (PEPFAR)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
                         </div>
                     </div> 
-                    <div class="card" v-on:click="loadPEPFARTXCurrentData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">TX Current (PEPFAR)</h5>
-                            
+                    
+                     <div class="card-deck">
+                        <div class="card" v-on:click="loadMOHTXCurrentData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">TX Current (MOH)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
                         </div>
-                        <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
                     </div>
                 </div>
             </div>
@@ -854,17 +857,17 @@ export default {
 
     },
      created(){
-        // this.loadPatientDueViralCount()
-        // this.loadPatientDueViralCountTwelve()
-        // this.loadPatientDueViralCountYear()
-        // this.loadTomorrowAppointmentsCount()
-        // this.loadLastViralLoadGT1000Count()
-        // this.loadPatientsOnDTGCount()
-        // this.loadPEPFARDefaultersCount()
-        // this.loadMOHDefaultersCount()
-        // this.loadMissedAppointmentsCount()
-        // this.loadPEPFARTXCurrentCount()
-        // this.loadMOHTXCurrentCount()
+        this.loadPatientDueViralCount()
+        this.loadPatientDueViralCountTwelve()
+        this.loadPatientDueViralCountYear()
+        this.loadTomorrowAppointmentsCount()
+        this.loadLastViralLoadGT1000Count()
+        this.loadPatientsOnDTGCount()
+        this.loadPEPFARDefaultersCount()
+        this.loadMOHDefaultersCount()
+        this.loadMissedAppointmentsCount()
+        this.loadPEPFARTXCurrentCount()
+        this.loadMOHTXCurrentCount()
 
         this.countARTStop()
         this.countRestart()
