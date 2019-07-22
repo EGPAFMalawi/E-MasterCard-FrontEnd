@@ -195,7 +195,7 @@ export default {
     name: 'Reports',
     components: {NavBar},
     methods: {
-        setPatient : function (patient)
+        setPatient(patient)
         {
             
             sessionStorage.setItem('patient',JSON.stringify(patient));
@@ -204,665 +204,237 @@ export default {
         loadPatientDueViralCount(){
                 this.isLoading = true;
 
-                let count = {
-                    code: 1,
-                    type:'due6Months'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.dueSixMonths = JSON.parse(JSON.stringify({counts}))  
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                    this.payloads.dueSixMonths
+                )
+                .then(result => {
+                    this.isLoading = false
+                    this.dueSixMonths = result
+                })
+                .catch(error => console.warn(error))
 
         },
 
         loadPatientDueViralCountTwelve(){
                 this.isLoading = true;
 
-                let count = {
-                    code: 1,
-                    type:'due12Months'
-
-                };
-                
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.dueTwelveMonths = JSON.parse(JSON.stringify({counts}))
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
+                countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                    this.payloads.dueTwelveMonths
+                )
+                .then(result => {
+                    this.isLoading = false
+                    this.dueTwelveMonths = result
+                })
+                .catch(error => console.warn(error))
         },
         loadPatientDueViralCountYear(){
-                this.isLoading = true;
+            this.isLoading = true;
 
-                const count = {
-                    code: 1,
-                    type:'dueAfter12Months'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.dueAfterYear = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.dueAfterYear
+            )
+            .then(result => {
+                this.isLoading = false
+                this.dueAfterYear = result
+            })
+            .catch(error => console.warn(error))
 
         },
-        loadPatientsDueAfterYearData(){
-                this.payload = {
-                    code: 1,
-                    type:'dueAfter12Months'
 
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
+        loadPEPFARDefaultersCount (){
+            this.isLoading = true;
+            
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.defaultersPEPFAR
+            )
+            .then(result => {
+                this.isLoading = false
+                this.defaultersPEPFAR = result
+            })
+            .catch(error => console.warn(error))
 
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-        },
-        loadPatientsDueTwelveMonthsData(){
-                this.payload = {
-                    code: 1,
-                    type:'due12Months'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
         },
 
-            loadPatientsDue6MonthsData(){
-                this.payload = {
-                    code: 1,
-                    type:'due6Months'
+        loadMOHDefaultersCount (){
+            this.isLoading = true;
 
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.defaultersMOH
+            )
+            .then(result => {
+                this.isLoading = false
+                this.defaultersMOH = result
+            })
+            .catch(error => console.warn(error))
+        },
 
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
+        loadPatientsOnDTGCount (){
+            this.isLoading = true;
+
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.patientsOnDTG
+            )
+            .then(result => {
+                this.isLoading = false
+                this.patientsOnDTG = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        loadPEPFARTXCurrentCount (){
+            this.isLoading = true;
+
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.cdctxcurrent
+            )
+            .then(result => {
+                this.isLoading = false
+                this.cdctxcurrent = result
+            })
+            .catch(error => console.warn(error))
+        },
+        loadMOHTXCurrentCount (){
+            this.isLoading = true;
+
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.mohctxcurrent
+            )
+            .then(result => {
+                this.isLoading = false
+                this.mohctxcurrent = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        loadTomorrowAppointmentsCount (){
+            this.isLoading = true;
+
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.appointmentsTomorrow
+            )
+            .then(result => {
+                this.isLoading = false
+                this.appointmentsTomorrow = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        loadMissedAppointmentsCount (){
+            this.isLoading = true
+
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.appointmentMissers
+            )
+            .then(result => {
+                this.isLoading = false
+                this.appointmentMissers = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        loadLastViralLoadGT1000Count (){
+            this.isLoading = true;
+
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
+                this.payloads.lastViralLoadGT1000
+            )
+            .then(result => {
+                this.isLoading = false
+                this.lastViralLoadGT1000 = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        countARTStop(){
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`, 
+                this.payloads.ARTStop
+            )
+            .then(result => {
+                this.isLoading = false
+                this.ARTStop = result
+            })
+            .catch(error => console.log(error))
+        },
+
+        countRestart(){
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`, 
+                this.payloads.restart)
+            .then(result => {
+                this.isLoading = false
+                this.restart = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        countTransIn(){
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`, 
+                this.payloads.transIn
+            )
+            .then(result => {
+                this.isLoading = false
+                this.transIn = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        countTransOut(){
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`, 
+                this.payloads.transOut
+            )
+            .then(result => {
+                this.isLoading = false
+                this.transOut = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        countDied(){
+            countAll(`${this.APIHosts.art}/${this.BASE_URL}`, 
+                this.payloads.died
+            )
+            .then(result => {
+                this.isLoading = false
+                this.died = result
+            })
+            .catch(error => console.warn(error))
+        },
+
+        loadData(payload){
+            this.payload = payload
+            loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, payload)
+            .then(result => {
+                this.isLoading = false
+                this.patients = result
+            })
+            .catch(error => console.log(error))
+        },
+
+        downloadPEPFARDefaultersCount ()
+        {
+            this.isLoading = true;
+            
+            let endpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code}&type=${this.payload.type}`;
+
+            const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
+
+            fetch(endpoint, {
+                    method: 'GET',
+                    headers: new Headers({
+                        "Authorization": "Bearer " + token
                     })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-        loadPEPFARDefaultersCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 6,
-                    type:'PEPFARDefaulters'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.defaultersPEPFAR = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
-            },
-
-            loadMOHDefaultersCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 6,
-                    type:'MOHDefaulters'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.defaultersMOH = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                    })
-
-            },
-
-            loadPatientsOnDTGCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 5,
-                    type: null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.patientsOnDTG = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
-            },
-
-            loadPEPFARTXCurrentCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 7,
-                    type:'PEPFARTXCurrent'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.cdctxcurrent = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
-            },
-            loadMOHTXCurrentCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 7,
-                    type:'MOHTXCurrent'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.mohctxcurrent = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
-            },
-
-            loadTomorrowAppointmentsCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 2,
-                    type: null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.appointmentsTomorrow = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                    })
-
-            },
-
-            loadTomorrowAppointmentData(){
-                this.payload = {
-                    code: 2,
-                    type:null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                    })
-            },
-
-            loadMissedAppointmentsCount ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 3,
-                    type:null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.appointmentMissers = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
-            },
-
-            loadLastViralLoadGT1000Count ()
-            {
-                this.isLoading = true;
-
-                const count = {
-                    code: 4,
-                    type:null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {counts}}})=>{
-                        this.isLoading = false;
-                        this.lastViralLoadGT1000 = JSON.parse(JSON.stringify({counts}))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-
-            },
-
-            loadLastViralLoadGT1000Data(){
-                this.payload = {
-                    code: 4,
-                    type:null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-            loadMissedAppointmentData(){
-                this.payload = {
-                    code: 3,
-                    type:null
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-            loadPatientsOnDTGData(){
-                this.payload = {
-                    code: 5,
-                    type:null
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-            loadPEPFARDefaultersData(){
-                this.payload = {
-                    code: 6,
-                    type:'PEPFARDefaulters'
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-            loadMOHDefaultersData(){
-                this.payload = {
-                    code: 6,
-                    type:'MOHDefaulters'
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                    })
-            },
-
-            loadPEPFARTXCurrentData(){
-                this.dataPayload = {
-                    code: 7,
-                    type:'PEPFARTXCurrent'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.dataPayload.code}&type=${this.dataPayload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                        
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-            loadMOHTXCurrentData(){
-                this.payload = {
-                    code: 7,
-                    type:'MOHTXCurrent'
-
-                };
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/patients?code=${this.payload.code}&type=${this.payload.type}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then(({data: {data: {patients}}})=>{
-                        this.isLoading = false;
-                        this.patients = JSON.parse(JSON.stringify(patients))
-                    })
-                    .catch((error)=>{
-                        this.isLoading = false;
-                        console.log(error)
-                    })
-            },
-
-            countARTStop(){
-                this.payload = {
-                    code: 10,
-                    type: 'ARTStop'
-                }
-
-                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.ARTStop = result
                 })
-                .catch(error => console.log(error))
-            },
-
-            loadARTStop(){
-                this.payload = {
-                    code: 10,
-                    type: 'ARTStop'
-                }
-
-                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.patients = result
+                .then((res) => res.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = "report.xlsx"
+                    document.body.appendChild(a)
+                    a.click()    
+                    a.remove()
                 })
-                .catch(error => console.log(error))
-            },
 
-             countRestart(){
-                this.payload = {
-                    code: 10,
-                    type: 'Restart'
-                }
-
-                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.restart = result
-                })
-                .catch(error => console.warn(error))
-            },
-
-            loadRestart(){
-                this.payload = {
-                    code: 10,
-                    type: 'Restart'
-                }
-
-                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.patients = result
-                })
-                .catch(error => console.log(error))
-            },
-
-            countTransIn(){
-                this.payload = {
-                    code: 10,
-                    type: 'Trans-in'
-                }
-
-                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.transIn = result
-                })
-                .catch(error => console.warn(error))
-            },
-
-            loadTransIn(){
-                this.payload = {
-                    code: 10,
-                    type: 'Trans-in'
-                }
-
-                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.patients = result
-                })
-                .catch(error => console.log(error))
-            },
-
-            countTransOut(){
-                this.payload = {
-                    code: 10,
-                    type: 'Trans-out'
-                }
-
-                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.transOut = result
-                })
-                .catch(error => console.warn(error))
-            },
-
-            loadTransOut(){
-                this.payload = {
-                    code: 10,
-                    type: 'Trans-out'
-                }
-
-                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.patients = result
-                })
-                .catch(error => console.log(error))
-            },
-
-            countDied(){
-                this.payload = {
-                    code: 10,
-                    type: 'Died'
-                }
-
-                countAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.died = result
-                })
-                .catch(error => console.warn(error))
-            },
-
-            loadDied(){
-                this.payload = {
-                    code: 10,
-                    type: 'Died'
-                }
-
-                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, this.payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.patients = result
-                })
-                .catch(error => console.log(error))
-            },
-
-            loadData(payload){
-                loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, payload)
-                .then(result => {
-                    this.isLoading = false
-                    this.patients = result
-                })
-                .catch(error => console.log(error))
-            },
-
-            downloadPEPFARDefaultersCount ()
-            {
-                this.isLoading = true;
-                
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code}&type=${this.payload.type}`;
-
-                const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
-
-                fetch(dhisAPIEndpoint, {
-                        method: 'GET',
-                        headers: new Headers({
-                            "Authorization": "Bearer " + token
-                        })
-                    })
-                    .then((res) => res.blob())
-                    .then(blob => {
-                        const url = window.URL.createObjectURL(blob)
-                        const a = document.createElement('a')
-                        a.href = url
-                        a.download = "report.xlsx"
-                        document.body.appendChild(a)
-                        a.click()    
-                        a.remove()
-                    })
-
-            },
+        },
 
     },
      created(){
