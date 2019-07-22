@@ -189,6 +189,13 @@ td .selection {
   padding: 0.48571429em 2.1em 0.78571429em 1em !important;
 }
 
+.tab-pane {
+  outline: 0 !important;
+}
+
+.nav-pills .nav-link {
+  border-radius: unset !important
+}
 @media (max-width: 1367px){
   body{
     zoom: 0.8;

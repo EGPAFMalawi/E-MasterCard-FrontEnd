@@ -4,143 +4,149 @@
             <NavBar></NavBar>
         </div>
         <div>
-
+            <div class="my-3">
+                <b-tabs content-class="d-flex justify-content-center" align="center" pills>
+                    <b-tab title="Main Reports" active>
+                        <section>
+                            <div class="container my-3">
+                                <div class="row">
+                                    <div class="card-deck">
+                                        <div class="card" v-on:click="loadData(payloads.dueSixMonths)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients Due Viral Load (6 Months)</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{dueSixMonths.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.dueTwelveMonths)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients Due Viral Load (12 Months)</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{dueTwelveMonths.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.dueAfterYear)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients Due Viral Load (After 1 Year)</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{dueAfterYear.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.appointmentsTomorrow)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients with Appointments Tomorrow</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{appointmentsTomorrow.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.lastViralLoadGT1000)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients with Last Viral Load Greater than 1000</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{lastViralLoadGT1000.counts}}</h1></div>
+                                        </div> 
+                                    </div>
+                                    <div class="card-deck my-3">
+                                        <div class="card" v-on:click="loadData(payloads.appointmentMissers)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients with Missed Appointments </h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{appointmentMissers.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.patientsOnDTG)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Patients on DTG</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
+                                        </div> 
+                                        <div class="card" v-on:click="loadData(payloads.defaultersPEPFAR)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Defaulters (PEPFAR) </h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.defaultersMOH)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Defaulters (MOH) </h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.cdctxcurrent)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">TX Current (PEPFAR)</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div class="card-deck">
+                                        <div class="card" v-on:click="loadData(payloads.mohctxcurrent)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">TX Current (MOH)</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </b-tab>
+                    <b-tab title="Steps Reports">
+                        <section>
+                            <div class="container my-3">
+                                <div class="row">
+                                    <div class="card-deck">
+                                        <div class="card" v-on:click="loadData(payloads.ARTStop)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">ART Stop</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{ARTStop.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.restart)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Restart</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{restart.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.transIn)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Transifer In</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{transIn.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.transOut)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Transifer Out</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{transOut.counts}}</h1></div>
+                                        </div>
+                                        <div class="card" v-on:click="loadData(payloads.died)" v-b-modal.modal-1>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Died</h5>
+                                                
+                                            </div>
+                                            <div class="card-footer"><h1 class="display-4">{{died.counts}}</h1></div>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </b-tab>
+                </b-tabs>
+            </div>
         </div>
-        <section>
-            <div class="container my-5">
-                <div class="row">
-                    <div class="card-deck">
-                        <div class="card" v-on:click="loadData(payloads.dueSixMonths)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients Due Viral Load (6 Months)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{dueSixMonths.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.dueTwelveMonths)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients Due Viral Load (12 Months)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{dueTwelveMonths.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.dueAfterYear)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients Due Viral Load (After 1 Year)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{dueAfterYear.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.appointmentsTomorrow)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients with Appointments Tomorrow</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{appointmentsTomorrow.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.lastViralLoadGT1000)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients with Last Viral Load Greater than 1000</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{lastViralLoadGT1000.counts}}</h1></div>
-                        </div> 
-                    </div>
-                    <div class="card-deck my-3">
-                        <div class="card" v-on:click="loadData(payloads.appointmentMissers)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients with Missed Appointments </h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{appointmentMissers.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.patientsOnDTG)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Patients on DTG</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
-                        </div> 
-                        <div class="card" v-on:click="loadData(payloads.defaultersPEPFAR)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Defaulters (PEPFAR) </h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.defaultersMOH)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Defaulters (MOH) </h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.cdctxcurrent)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">TX Current (PEPFAR)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
-                        </div>
-                    </div> 
-                    
-                     <div class="card-deck">
-                        <div class="card" v-on:click="loadData(payloads.mohctxcurrent)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">TX Current (MOH)</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section>
-            <div class="container my-5">
-                <h3>Steps Reports</h3>
-                <div class="row">
-                    <div class="card-deck">
-                        <div class="card" v-on:click="loadData(payloads.ARTStop)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">ART Stop</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{ARTStop.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.restart)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Restart</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{restart.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.transIn)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Transifer In</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{transIn.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.transOut)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Transifer Out</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{transOut.counts}}</h1></div>
-                        </div>
-                        <div class="card" v-on:click="loadData(payloads.died)" v-b-modal.modal-1>
-                            <div class="card-body">
-                                <h5 class="card-title">Died</h5>
-                                
-                            </div>
-                            <div class="card-footer"><h1 class="display-4">{{died.counts}}</h1></div>
-                        </div> 
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <b-modal id="modal-1" title="Patients Reports" hide-footer	 size="xl">
             <div class="container">
@@ -409,8 +415,7 @@ export default {
             .catch(error => console.log(error))
         },
 
-        downloadPEPFARDefaultersCount ()
-        {
+        downloadPEPFARDefaultersCount (){
             this.isLoading = true;
             
             let endpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code}&type=${this.payload.type}`;
