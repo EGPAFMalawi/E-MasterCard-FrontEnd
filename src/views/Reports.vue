@@ -66,28 +66,29 @@
                                 <h5 class="card-title">Defaulters (CDC) </h5>
                                 
                             </div>
-                            <div class="card-footer"><h1 class="display-4">{{defaultersCDC.counts}}</h1></div>
+                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
                         </div>
-                        <div class="card-footer"><h1 class="display-4">{{patientsOnDTG.counts}}</h1></div>
+                        <div class="card" v-on:click="loadPEPFARDefaultersData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Defaulters (PEPFAR) </h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
+                        </div>
+                        <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
+                            <div class="card-body">
+                                <h5 class="card-title">Defaulters (MOH)</h5>
+                                
+                            </div>
+                            <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
+                        </div>
                     </div> 
-                    <div class="card" v-on:click="loadPEPFARDefaultersData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Defaulters (PEPFAR) </h5>
-                            
-                        </div>
-                        <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
-                    </div>
-                    <div class="card" v-on:click="loadMOHDefaultersData" v-b-modal.modal-1>
-                        <div class="card-body">
-                            <h5 class="card-title">Defaulters (MOH)</h5>
-                            
-                        </div>
-                    </div>
                     <div class="card" v-on:click="loadPEPFARTXCurrentData" v-b-modal.modal-1>
                         <div class="card-body">
                             <h5 class="card-title">TX Current (PEPFAR)</h5>
                             
                         </div>
+                        <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
                     </div>
                 </div>
             </div>
@@ -229,13 +230,13 @@ export default {
 
                 };
                 
+                
                 let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}/counts?code=${count.code}&type=${count.type}`;
 
                 authResource().get(dhisAPIEndpoint)
                     .then(({data: {data: {counts}}})=>{
                         this.isLoading = false;
                         this.dueTwelveMonths = JSON.parse(JSON.stringify({counts}))
-                        
                     })
                     .catch((error)=>{
                         this.isLoading = false;
@@ -852,18 +853,18 @@ export default {
             },
 
     },
-     beforeMount(){
-        this.loadPatientDueViralCount()
-        this.loadPatientDueViralCountTwelve()
-        this.loadPatientDueViralCountYear()
-        this.loadTomorrowAppointmentsCount()
-        this.loadLastViralLoadGT1000Count()
-        this.loadPatientsOnDTGCount()
-        this.loadPEPFARDefaultersCount()
-        this.loadMOHDefaultersCount()
-        this.loadMissedAppointmentsCount()
-        this.loadPEPFARTXCurrentCount()
-        this.loadMOHTXCurrentCount()
+     created(){
+        // this.loadPatientDueViralCount()
+        // this.loadPatientDueViralCountTwelve()
+        // this.loadPatientDueViralCountYear()
+        // this.loadTomorrowAppointmentsCount()
+        // this.loadLastViralLoadGT1000Count()
+        // this.loadPatientsOnDTGCount()
+        // this.loadPEPFARDefaultersCount()
+        // this.loadMOHDefaultersCount()
+        // this.loadMissedAppointmentsCount()
+        // this.loadPEPFARTXCurrentCount()
+        // this.loadMOHTXCurrentCount()
 
         this.countARTStop()
         this.countRestart()
