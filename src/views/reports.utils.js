@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import authResource from './../authResource'
 
 export const countAll = (url, payload) => {
