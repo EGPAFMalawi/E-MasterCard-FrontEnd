@@ -183,11 +183,12 @@
                             <label>Modality</label>
                             <select class="form-control" v-model="modality" required>
                                 <option :value="null" disabled>Select Modality</option>
-                                <option value="PITC - Other">PITC - Other</option>
                                 <option value="Index (FRS in HTS Register)">Index (FRS in HTS Register)</option>
                                 <option value="VCT (Co-Located & Stand Alone)">VCT (Co-Located & Stand Alone)</option>
-                                <option value="ANC">ANC</option>
-                                <option value="Maternity">Maternity</option>
+                                <option value="PITC - Inpatient">PITC - Inpatient</option>
+                                <option value="PITC - Malnutrition">PITC - Malnutrition</option>
+                                <option value="PITC < 5">PITC < 5</option>
+                                <option value="PITC - Other">PITC - Other</option>
                             </select>
                         </div>
                     </div>
