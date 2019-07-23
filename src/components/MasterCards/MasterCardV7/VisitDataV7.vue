@@ -209,8 +209,13 @@
                     <td>
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
-                    <td>
-                        <button v-on:click="voidVisit(observations['concept32Encounter'+encounter.encounterID])" :class="`btn btn-${observations['concept32Encounter'+encounter.encounterID].encounterVoided?'danger':'success'}`">{{observations['concept32Encounter'+encounter.encounterID].encounterVoided?'    Void':'Not Void'}}</button>
+                    <td align="center">
+                        <span class="mt-2">
+                            VOID
+                            <b-form-checkbox v-model="observations['concept32Encounter'+encounter.encounterID].encounterVoided" name="check-button" @change="voidVisit(observations['concept32Encounter'+encounter.encounterID])" switch>
+                                
+                            </b-form-checkbox>
+                        </span>
                     </td>
                 </tr>
                 <tr>
@@ -320,7 +325,7 @@
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
-                        <input  class="form-control tb-form"  type="text" disabled>
+                        
                     </td>
                 </tr>
                 <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">

@@ -330,7 +330,6 @@ import { close } from 'fs';
                 isTrue ? parent.classList.add('disabled') : parent.classList.remove('disabled')
             },
             voidVisit(step){
-                debugger
                 let action = true
                 if (step.voided)
                     action = false
