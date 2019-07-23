@@ -416,28 +416,26 @@ export default {
         },
 
         downloadPEPFARDefaultersCount (){
-            this.isLoading = true;
+            this.isLoading = true
             
             let endpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code}&type=${this.payload.type}`;
 
             const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
 
             fetch(endpoint, {
-                    method: 'GET',
-                    headers: new Headers({
-                        "Authorization": "Bearer " + token
-                    })
-                })
-                .then((res) => res.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = "report.xlsx"
-                    document.body.appendChild(a)
-                    a.click()    
-                    a.remove()
-                })
+                method: 'GET',
+                headers: new Headers({"Authorization": `Bearer ${token}`})
+            })
+            .then((res) => res.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = "report.xlsx"
+                document.body.appendChild(a)
+                a.click()    
+                a.remove()
+            })
 
         },
 

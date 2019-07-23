@@ -196,6 +196,45 @@ td .selection {
 .nav-pills .nav-link {
   border-radius: unset !important
 }
+
+.nav-start, .nav-end{
+  width: 20%;
+}
+
+.nav-end{
+  text-align: right
+}
+
+.sidenav {
+  height: 100%;
+  width: 275px;
+  position: fixed;
+  z-index: 1021;
+  top: 0;
+  right: 0;
+  background: #f8f9fa;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  box-shadow: 0px 0px 2px 1px #8ec5f2; }
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #343a40;
+  display: block;
+  transition: 0.3s; }
+
+.sidenav a:hover {
+  font-weight: 600; }
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px; }
 @media (max-width: 1367px){
   body{
     zoom: 0.8;

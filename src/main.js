@@ -10,7 +10,7 @@ import '../src/assets/css/main.css'
 import VeeValidate from 'vee-validate'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave} from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave, faCog} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueIziToast from "vue-izitoast";
 import handleErrors from './helpers/handleErrors'
@@ -20,7 +20,7 @@ Vue.use(VueIziToast);
 
 Vue.config.silent = true // show : hide erros in console
 handleErrors()
-library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave)
+library.add(faSpinner, faLock, faCheck, faSearch, faPlus, faSave, faCog)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue)
