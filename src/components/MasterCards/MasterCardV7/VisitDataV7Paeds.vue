@@ -213,8 +213,12 @@
                     <td>
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
-                    <td>
-                        <button v-on:click="voidVisit(observations['concept32Encounter'+encounter.encounterID])" :class="`btn btn-${observations['concept32Encounter'+encounter.encounterID].encounterVoided?'danger':'success'}`">{{observations['concept32Encounter'+encounter.encounterID].encounterVoided?'    Void':'Not Void'}}</button>
+                    <td align="center">
+                        <div class="mt-2">
+                            <b-form-checkbox v-model="observations['concept32Encounter'+encounter.encounterID].encounterVoided" name="check-button" @change="voidVisit(observations['concept32Encounter'+encounter.encounterID])" switch>
+                                {{observations['concept32Encounter'+encounter.encounterID].encounterVoided ? 'VOID' : 'NOT VOID'}}
+                            </b-form-checkbox>
+                        </div>
                     </td>
                 </tr>
                 <tr>

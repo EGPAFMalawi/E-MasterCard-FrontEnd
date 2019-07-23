@@ -39,7 +39,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://localhost/api/v1'
+                art : 'http://localhost:8000/api/v1'
             },
             messageStr: 'Hello'
         }

@@ -2,14 +2,13 @@
     <div>
         <button class="sticky-top btn btn-info" @click="goBack">Back</button>
         <div class="container py-4">
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <h5 class="navbar-brand">
                             ART Patient Card ARV Formulations, 
                             <span class="badge badge-info">Version 7 Paeds</span>
-                        </h5>
-                            
+                        </h5>  
                     </li>
                 </ul>
                 <RegistrationDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV7Paeds>
@@ -28,7 +27,7 @@
             </div>
             
         </section>
-        <div class="container d-flex justify-content-center">
+        <div class="container-fluid d-flex justify-content-center">
             <VisitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7Paeds>
         </div>
         <section>

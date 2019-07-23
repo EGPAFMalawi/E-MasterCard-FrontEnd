@@ -81,7 +81,7 @@
                     <td align="center">
                         <div class="mt-2">
                             <b-form-checkbox v-model="singleStep.voided" name="check-button" @change="voidVisit(singleStep)" switch>
-                                Void
+                                {{singleStep.voided ? 'VOID' : 'NOT VOID'}}
                             </b-form-checkbox>
                         </div>
                     </td>
@@ -329,7 +329,7 @@ import { close } from 'fs';
                 const parent = document.querySelector(`#${ref}`).parentElement
                 isTrue ? parent.classList.add('disabled') : parent.classList.remove('disabled')
             },
-            voidVisit(step){
+            voidVisit(step){    
                 let action = true
                 if (step.voided)
                     action = false

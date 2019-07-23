@@ -210,12 +210,11 @@
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                     <td align="center">
-                        <span class="mt-2">
-                            VOID
+                        <div class="mt-2">
                             <b-form-checkbox v-model="observations['concept32Encounter'+encounter.encounterID].encounterVoided" name="check-button" @change="voidVisit(observations['concept32Encounter'+encounter.encounterID])" switch>
-                                
+                                {{observations['concept32Encounter'+encounter.encounterID].encounterVoided ? 'VOID' : 'NOT VOID'}}
                             </b-form-checkbox>
-                        </span>
+                        </div>
                     </td>
                 </tr>
                 <tr>

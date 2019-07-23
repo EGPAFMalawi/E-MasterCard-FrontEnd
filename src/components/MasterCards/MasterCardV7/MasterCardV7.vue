@@ -9,7 +9,6 @@
                             ART Patient Card ARV Formulations, 
                             <span class="badge badge-warning">Version 7</span>
                         </h5>
-                            
                     </li>
                 </ul>
                 <RegistrationDataV7 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV7>
