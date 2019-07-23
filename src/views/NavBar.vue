@@ -22,14 +22,6 @@
                     <li class="nav-item">
                         <router-link to="/hts-records"><span class="nav-link">HTS<span class="sr-only">(current)</span></span></router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link to="/settings"><span class="nav-link">Settings<span class="sr-only">(current)</span></span></router-link>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <LogoutButton></LogoutButton>
-                        </a>
-                    </li>
                 </ul>
                 <div class="nav-end">
 
@@ -43,10 +35,10 @@
 
         <div id="mySidenav" class="sidenav" v-if="showSidebar" v-on-clickaway="clickeAway">
             <a href="javascript:void(0)" class="closebtn" @click="toggleSidebar()">&times;</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
+            <router-link to="/settings"><span>Manage Users<span class="sr-only">(current)</span></span></router-link>
+            <a href="#">
+                <LogoutButton></LogoutButton>
+            </a>
         </div>
     </header>
 </template>

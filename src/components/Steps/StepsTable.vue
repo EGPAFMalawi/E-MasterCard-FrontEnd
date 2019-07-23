@@ -79,7 +79,11 @@
                         </model-select>
                     </td>
                     <td align="center">
-                        <button @click="voidVisit(singleStep)" :class="`btn btn-${singleStep.voided?'danger':'success'}`">{{singleStep.voided?'    Void':'Not Void'}}</button>
+                        <div class="mt-2">
+                            <b-form-checkbox v-model="singleStep.voided" name="check-button" @change="voidVisit(singleStep)" switch>
+                                Void
+                            </b-form-checkbox>
+                        </div>
                     </td>
                     <td align="center"><button @click="handleStepCRUD('update',$event, singleStep)" class="btn btn-warning">Update</button></td>
                 </tr>
@@ -326,6 +330,7 @@ import { close } from 'fs';
                 isTrue ? parent.classList.add('disabled') : parent.classList.remove('disabled')
             },
             voidVisit(step){
+                debugger
                 let action = true
                 if (step.voided)
                     action = false
