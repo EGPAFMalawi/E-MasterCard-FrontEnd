@@ -6,7 +6,7 @@
         <div>
             <div class="my-3">
                 <b-tabs content-class="d-flex justify-content-center" align="center" pills>
-                    <b-tab title="Main Reports" active>
+                    <b-tab title="MasterCards Reports" active>
                         <section>
                             <div class="container my-3">
                                 <div class="row">

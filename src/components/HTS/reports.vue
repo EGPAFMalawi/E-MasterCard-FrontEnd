@@ -2,7 +2,7 @@
     <div>
         <b-card no-body class="mb-2 w-100">
             <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-' + payload.code" variant="info">{{payload.title}}</b-button>
+                <b-button block v-b-toggle="'accordion-' + payload.code" variant="info"><h4>{{payload.title}}</h4></b-button>
             </b-card-header>
             <b-collapse v-bind:id="'accordion-'+payload.code" visible accordion="my-accordion" role="tabpanel">
                 <b-card-body>

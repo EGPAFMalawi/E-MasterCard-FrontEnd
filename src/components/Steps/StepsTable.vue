@@ -16,25 +16,25 @@
             <table class="table visit-table">
                 <thead class="thead-dark">
                 <tr>
-                    <th>
+                    <th scope="col">
                         Step Date
                     </th>
-                    <th >
+                    <th scope="col" >
                         Step/Outcome
                     </th>
-                    <th >
+                    <th scope="col" >
                         Site
                     </th>
-                    <th>
+                    <th scope="col">
                         ART Number
                     </th>
-                    <th>
+                    <th scope="col">
                         Origin/Destination
                     </th>
-                    <th>
+                    <th scope="col">
                         Void Status
                     </th>
-                    <th>
+                    <th scope="col">
                         Action
                     </th>
                 </tr>
@@ -85,7 +85,9 @@
                             </b-form-checkbox>
                         </div>
                     </td>
-                    <td align="center"><button @click="handleStepCRUD('update',$event, singleStep)" class="btn btn-warning">Update</button></td>
+                    <td align="center">
+                        <button @click="handleStepCRUD('update',$event, singleStep)" class="btn btn-warning">Update</button>
+                    </td>
                 </tr>
                 <tr v-if="patient.lastStep === null || patient.lastStep.step !== 'Died'">
                     <td> 
@@ -142,12 +144,8 @@
 <script>
     import Vue from 'vue'
     import authResource from './../../authResource'
-    import _ from 'lodash'
     import { notificationSystem } from '../../globals'
-    import { error } from 'util'
     import { ModelSelect } from 'vue-search-select'
-import { close } from 'fs';
-
 
     export default {
         name: 'Steps',
