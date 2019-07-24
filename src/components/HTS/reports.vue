@@ -2,7 +2,7 @@
     <div>
         <b-card no-body class="mb-2 w-100">
             <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-' + payload.code" variant="info">{{payload.title}}</b-button>
+                <b-button block v-b-toggle="'accordion-' + payload.code" variant="info"><h4>{{payload.title}}</h4></b-button>
             </b-card-header>
             <b-collapse v-bind:id="'accordion-'+payload.code" visible accordion="my-accordion" role="tabpanel">
                 <b-card-body>
@@ -29,32 +29,19 @@
                             </tr>
                             <tr>
                                 <th scope="row">Contacts Tested</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
-                                <th>M</th>
-                                <th>F</th>
+                                <th>M</th><th>F</th>    <!--Unknown-->
+                                <th>M</th><th>F</th>    <!--<1-->
+                                <th>M</th><th>F</th>    <!--1-4-->
+                                <th>M</th><th>F</th>    <!--5-9-->
+                                <th>M</th><th>F</th>    <!--10-14-->
+                                <th>M</th><th>F</th>    <!--15-19-->
+                                <th>M</th><th>F</th>    <!--20-24-->
+                                <th>M</th><th>F</th>    <!--25-29-->
+                                <th>M</th><th>F</th>    <!--30-34-->
+                                <th>M</th><th>F</th>    <!--35-39-->
+                                <th>M</th><th>F</th>    <!--40-44-->
+                                <th>M</th><th>F</th>    <!--45-49-->
+                                <th>M</th><th>F</th>    <!--50+-->
                                 <th>Total Male</th>
                                 <th>Total Female</th>
                                 <th>Total</th>
@@ -63,8 +50,7 @@
                         <tbody>
                             <tr>
                                 <td align="center">New Negative</td>
-                                <td align="center">0</td>
-                                <td align="center">0</td>
+                                <td align="center">0</td><td align="center">0</td>  <!--Unknown-->
                                 <td align="center">{{newNegative.disaggregatedByAge[lt1].male}}</td>
                                 <td align="center">{{newNegative.disaggregatedByAge[lt1].female}}</td>
                                 <td align="center">{{newNegative.disaggregatedByAge['1-4'].male}}</td>
@@ -160,69 +146,37 @@
                         </tbody>
                     </table>
                     <div class="alert alert-primary" role="alert">
-                        Download the excel sheet  <span v-on:click="downloadPEPFARDefaultersCount" class="alert-link">HERE</span>
+                        Download the excel sheet  <span v-on:click="downloadReport" class="alert-link">HERE</span>
                     </div>
                 </b-card-body>
             </b-collapse>
         </b-card>
-</div>
+    </div>
 </template>
 
 <script>
 
 import NavBar from "../../views/NavBar";
 import authResource from '../../authResource'
-import { countAll, loadAll } from '../../views/reports.utils'
-
 
 export default {
     name: 'Report',
     props: ['payload', 'title'],
     methods: {
-        setPatient(patient)
-        {
-            
-            sessionStorage.setItem('patient',JSON.stringify(patient));
-            this.$router.push('/patients/show')
-        },
-        loadPatientDueViralCount(){
-                this.isLoading = true;
-
-                countAll(`${this.APIHosts.art}/${this.BASE_URL}`,
-                    this.payloads.dueSixMonths
-                )
-                .then(result => {
-                    this.isLoading = false
-                    this.dueSixMonths = result
-                })
-                .catch(error => console.warn(error))
-
-        },
-
         loadData(payload){
-            console.log(payload)
             const endpoint = `${this.APIHosts.art}/${this.BASE_URL}/hts?code=${payload.code}`
-             authResource().get(endpoint)
+
+            authResource().get(endpoint)
             .then(({data: {data: {hts: {newNegative, newPositive, totalTested}, hts}}})=>{
-                
-                console.log(newNegative, hts)
                this.newNegative = newNegative
                this.newPositive = newPositive
                this.totalTested = totalTested
             })
             .catch((error)=> console.warn(error))
-
-            // loadAll(`${this.APIHosts.art}/${this.BASE_URL}`, payload)
-            // .then(result => {
-            //     this.isLoading = false
-            //     this.patients = result
-            // })
-            // .catch(error => console.log(error))
         },
 
-        downloadPEPFARDefaultersCount (){
-            let endpoint = `${this.APIHosts.art}/${this.BASE_URL}/hts/export?code=10`;
-
+        downloadReport (){
+            const endpoint = `${this.APIHosts.art}/${this.BASE_URL}/hts/export?code=${this.payload.code}`
             const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
 
             fetch(endpoint, {
@@ -231,10 +185,11 @@ export default {
             })
             .then((res) => res.blob())
             .then(blob => {
+                const date = new Date()
                 const url = window.URL.createObjectURL(blob)
                 const a = document.createElement('a')
                 a.href = url
-                a.download = "report.xlsx"
+                a.download = `${this.payload.title}_${date.toISOString()}.xlsx`
                 document.body.appendChild(a)
                 a.click()    
                 a.remove()
@@ -243,16 +198,13 @@ export default {
         },
 
     },
-     created(){
+    created(){
         this.loadData(this.payload)
     },
     data: () => {
         return {
             BASE_URL : 'reports',
-            reports : [],
             lt1: '<1',
-            index: {},
-            patients: [],
             newNegative: {},
             newPositive: {},
             totalTested: {},

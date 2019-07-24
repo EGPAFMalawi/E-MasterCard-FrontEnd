@@ -14,7 +14,7 @@
                 <div class="nav-start"></div>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <router-link to="/"><span class="nav-link">Home <span class="sr-only">(current)</span></span></router-link>
+                        <router-link to="/"><span class="nav-link">MasterCards<span class="sr-only">(current)</span></span></router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/reports"><span class="nav-link">Reports<span class="sr-only">(current)</span></span></router-link>
@@ -24,7 +24,6 @@
                     </li>
                 </ul>
                 <div class="nav-end">
-
                     <span style="font-size:20px;cursor:pointer" @click="toggleSidebar()">
                         <font-awesome-icon icon="cog"/>
                         Settings
