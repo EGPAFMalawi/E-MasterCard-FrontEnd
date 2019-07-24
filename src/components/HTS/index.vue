@@ -40,6 +40,14 @@
                 </div>
             </div>
         </section>
+        <section>
+            <div class="container-fluid w-75 p-3 my-3">
+                <div role="tablist">
+                    <Report v-for="report in reports" v-bind:key="report.code" :payload="report" ></Report>
+                </div>
+                
+            </div>
+        </section>
          
 
         <b-modal id="addNewRecord" title="Add New HTS Record" v-model="show" hide-footer>
@@ -228,10 +236,11 @@
     import authResource from './../../authResource'
     import NavBar from '../../views/NavBar'
     import { notificationSystem } from '../../globals'
+    import Report from './reports'
 
     export default {
         name: 'HTS',
-        components: { NavBar},
+        components: { NavBar, Report},
         methods: {
             rowSelected(row){
                 if (row[0] !== undefined){
@@ -366,6 +375,9 @@
                 selectMode: 'single',
                 years: [],
                 htsID: null,
+                reportsPayload: {
+                    code: 1
+                },
                 fields : [
                     {   key : 'insertedHTSRecordID', label : 'Record ID' },
                     'age',
@@ -375,6 +387,32 @@
                     'month',
                     'year',
                     'serviceDeliveryPoint',
+                ],
+                reports: [
+                    {
+                        code: 1,
+                        title: "Index (FRS in HTS Register)"
+                    },
+                    {
+                        code: 2,
+                        title: "VCT (Co-Located & Stand Alone)"
+                    },
+                    {
+                        code: 3,
+                        title: "PITC - Inpatient"
+                    },
+                    {
+                        code: 4,
+                        title: "PITC - Malnutrition"
+                    },
+                    {
+                        code: 5,
+                        title: "PITC < 5"
+                    },
+                    {
+                        code: 6,
+                        title: "PITC - Other"
+                    },
                 ]
             }
         },
