@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card no-body class="mb-2">
+        <b-card no-body class="mb-2 w-100">
             <b-card-header header-tag="header" class="p-1" role="tab">
                 <b-button block v-b-toggle="'accordion-' + payload.code" variant="info">{{payload.title}}</b-button>
             </b-card-header>
@@ -256,11 +256,6 @@ export default {
             newNegative: {},
             newPositive: {},
             totalTested: {},
-            payloads: {
-                index: {
-                    code: 1
-                }
-            }
         }
     }
 

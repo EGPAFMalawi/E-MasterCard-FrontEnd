@@ -3,52 +3,56 @@
         <div>
             <NavBar></NavBar>
         </div>
-        <section class="mt-5">
-            <div class="container d-flex justify-content-center">
-            <div class="row">
-                <button type="button" class="btn btn-success btn-lg" v-b-modal.addNewRecord>Add a New Record</button>
-               
-            </div>
+        <div class="my-3">
+            <b-tabs content-class="d-flex justify-content-center w-100" align="center" pills>
+                <b-tab content-class="w-75" title="Records" active>
+                    <section class="mt-5">
+                        <div class="container d-flex justify-content-center">
+                            <div class="row">
+                                <button type="button" class="btn btn-success btn-lg" v-b-modal.addNewRecord>Add a New Record</button>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mt-5">
+                        <div class="container">
+                            <div class="row d-flex justify-content-center">
+                                <div class="alert alert-warning" role="alert" v-if="records[0] === undefined">
+                                    No Records Available here
+                                </div>
+                                    <b-table
+                                        id="my-table"
+                                        selectable
+                                        :fields="fields"
+                                        :select-mode="selectMode"
+                                        @row-selected="rowSelected"
+                                        :items="records"
+                                        :per-page="perPage"
+                                        :current-page="currentPage"
+                                        striped hover responsive>
+                                    </b-table>
+                                    <b-pagination
+                                    v-if="records[0] !== undefined"
+                                    v-model="currentPage"
+                                    :total-rows="rows"
+                                    :per-page="perPage"
+                                    aria-controls="my-table"
+                                    ></b-pagination>
+                                
+                            </div>
+                        </div>
+                    </section>
+                </b-tab>
+                <b-tab  class="w-75" title="Reports" >
+                    <section>
+                        <div class="container-fluid p-3 my-3">
+                            <div class="w-100" role="tablist">
+                                <Report v-for="report in reports" v-bind:key="report.code" :payload="report" ></Report>
+                            </div>
+                        </div>
+                    </section>
+                </b-tab>
+            </b-tabs>
         </div>
-        </section>
-        
-        <section class="mt-5">
-            <div class="container">
-                <div class="row d-flex justify-content-center">
-                    <div class="alert alert-warning" role="alert" v-if="records[0] === undefined">
-                        No Records Available here
-                    </div>
-                        <b-table
-                            id="my-table"
-                            selectable
-                            :fields="fields"
-                            :select-mode="selectMode"
-                            @row-selected="rowSelected"
-                            :items="records"
-                            :per-page="perPage"
-                            :current-page="currentPage"
-                            striped hover responsive>
-                        </b-table>
-                        <b-pagination
-                        v-if="records[0] !== undefined"
-                        v-model="currentPage"
-                        :total-rows="rows"
-                        :per-page="perPage"
-                        aria-controls="my-table"
-                        ></b-pagination>
-                    
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="container-fluid w-75 p-3 my-3">
-                <div role="tablist">
-                    <Report v-for="report in reports" v-bind:key="report.code" :payload="report" ></Report>
-                </div>
-                
-            </div>
-        </section>
-         
 
         <b-modal id="addNewRecord" title="Add New HTS Record" v-model="show" hide-footer>
             <form v-on:submit.prevent="processRecord('create')">
@@ -102,10 +106,10 @@
                             <select class="form-control" v-model="modality" required>
                                 <option :value="null" disabled>Select Modality</option>
                                 <option value="Index (FRS in HTS Register)">Index (FRS in HTS Register)</option>
-                                <option value="VCT (Co-Located & Stand Alone)">VCT (Co-Located & Stand Alone)</option>
+                                <option value="VCT (Co-Located &amp; Stand Alone)">VCT (Co-Located &amp;Stand Alone)</option>
                                 <option value="PITC - Inpatient">PITC - Inpatient</option>
                                 <option value="PITC - Malnutrition">PITC - Malnutrition</option>
-                                <option value="PITC < 5">PITC < 5</option>
+                                <option value="PITC < 5">PITC &lt; 5</option>
                                 <option value="PITC - Other">PITC - Other</option>
                             </select>
                         </div>
@@ -192,10 +196,10 @@
                             <select class="form-control" v-model="modality" required>
                                 <option :value="null" disabled>Select Modality</option>
                                 <option value="Index (FRS in HTS Register)">Index (FRS in HTS Register)</option>
-                                <option value="VCT (Co-Located & Stand Alone)">VCT (Co-Located & Stand Alone)</option>
+                                <option value="VCT (Co-Located &amp; Stand Alone)">VCT (Co-Located &amp; Stand Alone)</option>
                                 <option value="PITC - Inpatient">PITC - Inpatient</option>
                                 <option value="PITC - Malnutrition">PITC - Malnutrition</option>
-                                <option value="PITC < 5">PITC < 5</option>
+                                <option value="PITC < 5">PITC &lt; 5</option>
                                 <option value="PITC - Other">PITC - Other</option>
                             </select>
                         </div>
