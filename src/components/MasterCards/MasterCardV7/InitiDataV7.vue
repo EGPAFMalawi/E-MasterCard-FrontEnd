@@ -384,10 +384,10 @@
 
     export default {
         name: 'InitDataV7',
-        props : ['encounterTypes', 'postPayload'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            updatePatient : function ()
-            {
+            ...mapActions(['selectPatient', 'patchPatient']),
+            updatePatient (){
                 if (this.patient.person.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 } else{
@@ -408,19 +408,20 @@
                         subregion : this.subregion,
                     };
                     
-                    let dhisAPIEndpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
-
-                    authResource().patch(dhisAPIEndpoint, payload)
-                        .then(({data: {data}})=>{
+                    let endpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
+                    this.patchPatient({endpoint, payload})
+                        .then((message)=>{
                             this.isLoading = false
-                            sessionStorage.setItem('patient', JSON.stringify(this.patient))
-                            this.$toast.success('Patient details updated!', 'OK', notificationSystem.options.success)
-                            
+                            this.$toast.success(message, 'OK', notificationSystem.options.success)
                         })
                         .catch(({response: {data: {errors}, data}}) => {
-
                             return Object.values(errors).forEach(error => {
-                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                                this.$toast.error(
+                                    `${data.message}, 
+                                    ${error[0]}`, 
+                                    'Error', 
+                                    notificationSystem.options.error
+                                    )
                             });
                                 
                         }) 
@@ -518,13 +519,12 @@
                     'patient-card' : this.patientCard.patientCardID,
                     'observations' : payload
                 };
-                console.log(finalPayload)
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
                         this.patientCardData = [];
                         this.getPatientCardStatusAtInitDetails();
                         this.getPatientCardConfirmatoryDetails();
-                        sessionStorage.setItem('patient', JSON.stringify(this.patient))
+                        this.selectPatient(this.patient)
                         this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
@@ -598,9 +598,6 @@
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
             },
-            getPersonDoB(){
-                return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
-            },
             handleAgeEstimation()
             {
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
@@ -621,9 +618,8 @@
                 this.handleAgeEstimation();
             },
             estimateDOB(){
-                if(this.concepts.concept8 === ''){
-                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
-                }else{
+                if((this.concepts.concept8 !== '' || this.concept.concept8 !== null )
+                    && this.patient.person.birthYear === null){
                     this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             }
@@ -730,12 +726,6 @@
             }
         },
         created() {
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!this.patient || !patientCard){
-                this.$router.push('/')
-            }
-            this.patientCard = patientCard;
             this.concepts = this.concepts
         },
         watch : {
@@ -748,7 +738,6 @@
                 {
                     this.getPatientCardStatusAtInitDetails();
                     this.getPatientCardConfirmatoryDetails();
-                    console.log(JSON.parse(JSON.stringify(this.patientCardData)))
                 }
             },
             patientCardData : function (value) {
@@ -760,7 +749,7 @@
                 
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
-                if (this.getPersonDoB() === ''){
+                if (this.patient.person.birthdate === ''){
                     this.setMinMax()
                 }
                        
@@ -776,8 +765,6 @@
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
         },
-        computed: {
-            ...mapGetters(['patient'])
-        }
+        computed: {}
     }
 </script>

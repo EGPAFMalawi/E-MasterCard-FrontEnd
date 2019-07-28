@@ -1,4 +1,5 @@
 import {authResource}  from '../../authResource'
+import { resolve } from 'any-promise';
 
 const state = {
     patients: [],
@@ -26,8 +27,19 @@ const actions = {
         }
     },
     async selectPatient({commit}, patient){
-        console.log(patient)
         commit('setPatient', patient)
+    },
+    patchPatient({commit}, {endpoint, payload}){
+        return new Promise(async (resolve, reject) => {
+            try {
+                const {data: {data}} = await authResource().patch(endpoint, payload)
+                commit('setPatient', data)
+                resolve('Patient details updated!')
+            }
+            catch(error){
+                reject(error)
+            }
+        })
     }
 }
 

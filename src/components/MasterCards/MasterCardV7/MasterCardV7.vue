@@ -11,11 +11,21 @@
                         </h5>
                     </li>
                 </ul>
-                <RegistrationDataV7 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV7>
+                <RegistrationDataV7 
+                    :encounterTypes="masterCardWithDetails.encounterTypes" 
+                    :postPayload="postPayload"
+                    :patient='patient'
+                    :patientCard='patientCard'>
+                </RegistrationDataV7>
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <InitDataV7 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV7>
+            <InitDataV7 
+                :encounterTypes="masterCardWithDetails.encounterTypes" 
+                :postPayload="postPayload"
+                :patient='patient'
+                :patientCard='patientCard'>
+            </InitDataV7>
         </div>
         <section>
             <div class="container">
@@ -34,7 +44,12 @@
             
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <VisitDataV7 :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7>
+            <VisitDataV7 
+                :encounterTypes="masterCardWithDetails.encounterTypes" 
+                :postPayload="postPayload"
+                :patient='patient'
+                :patientCard='patientCard'>
+            </VisitDataV7>
         </div>
         <section>
             <div class="container">
@@ -57,6 +72,7 @@
 
     export default {
         name: 'MasterCardV7',
+        props: ['patient'],
         components: {RegistrationDataV7, VisitDataV7, InitDataV7},
         methods: {
             goBack(){
@@ -98,9 +114,6 @@
             this.patientCard = patientCard;
 
             this.getMasterCardDetails();
-        },
-        computed: {
-            ...mapGetters(['patient'])
         }
     }
 </script>

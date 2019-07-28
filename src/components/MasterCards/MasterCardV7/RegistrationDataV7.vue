@@ -22,7 +22,7 @@
 
     export default {
         name: 'RegistrationDataV7',
-        props : ['encounterTypes', 'postPayload'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
             getPatientCardDetails : function ()
             {
@@ -34,7 +34,6 @@
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
@@ -75,7 +74,6 @@
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData = [];
                         this.getPatientCardDetails()
                     })
@@ -94,9 +92,7 @@
         data: () => {
             return {
                 BASE_URL : 'patients',
-                patientCardData : [
-
-                ],
+                patientCardData : [],
                 masterCardWithDetails : {},
                 concepts : {
                     concept28 : '',
@@ -106,14 +102,7 @@
                 }
             }
         },
-        created() {
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!this.patient || !patientCard){
-                this.$router.push('/')
-            }
-            this.patientCard = patientCard;
-        },
+        created() {},
 
         watch : {
             postPayload : function ()
@@ -131,7 +120,6 @@
             }
         },
         computed: {
-            ...mapGetters(['patient'])
         }
     }
 </script>

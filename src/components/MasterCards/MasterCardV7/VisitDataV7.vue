@@ -351,7 +351,7 @@
 
     export default {
         name: 'VisitDataV7',
-        props: ['encounterTypes', 'postPayload'],
+        props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
             getPatientCardDetails : function ()
             {
@@ -625,15 +625,7 @@
                 }
             }
         },
-        created() {
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!this.patient || !patientCard){
-                this.$router.push('/')
-            }
-            this.patientCard = patientCard;
-
-        },
+        created() {},
         watch : {
             postPayload : function ()
             {
@@ -666,7 +658,6 @@
             }
         },
         computed: {
-            ...mapGetters(['patient'])
         }
     }
 </script>
