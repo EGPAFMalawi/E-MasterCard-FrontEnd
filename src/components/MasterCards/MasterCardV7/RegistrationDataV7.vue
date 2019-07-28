@@ -17,7 +17,9 @@
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
+    import { mapGetters, mapActions } from 'vuex' 
+
     export default {
         name: 'RegistrationDataV7',
         props : ['encounterTypes', 'postPayload'],
@@ -95,7 +97,6 @@
                 patientCardData : [
 
                 ],
-                patient: {},
                 masterCardWithDetails : {},
                 concepts : {
                     concept28 : '',
@@ -106,16 +107,11 @@
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
 
-            if (!patient || !patientCard){
+            if (!this.patient || !patientCard){
                 this.$router.push('/')
             }
-
-            this.patient = patient;
             this.patientCard = patientCard;
         },
 
@@ -133,6 +129,9 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
             }
+        },
+        computed: {
+            ...mapGetters(['patient'])
         }
     }
 </script>

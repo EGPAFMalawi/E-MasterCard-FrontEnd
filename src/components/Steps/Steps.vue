@@ -21,16 +21,17 @@
 </template>
 
 <script>
-    import authResource from './../../authResource'
+    import {authResource} from './../../authResource'
     import StepsTable from "./StepsTable";
     import NavBar from "../../views/NavBar"
     import { notificationSystem } from '../../globals'
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'Steps',
         components: {StepsTable, NavBar},
         methods: {
-            getStages(){
+            getSteps(){
                 const url = `${this.APIHosts.art}/patients/${this.patient.patientID}/steps`
 
                 authResource().get(url)
@@ -56,25 +57,18 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person: {
-                        personName: {},
-                        lastStep: {}
-                    }
-                },
                 steps: [],
                 postPayload : false
             }
         },
         computed: {
+            ...mapGetters(['patient']),
             personName: ()=>{
                 return `${this.patient.person.personName.given} ${this.patient.person.personName.family}`
             }
         },
         created() {
-
-            this.patient = this.getPatient()
-            this.getStages()
+            this.getSteps()
         }
     }
 </script>

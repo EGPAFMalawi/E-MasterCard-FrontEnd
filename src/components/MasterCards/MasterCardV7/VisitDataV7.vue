@@ -342,11 +342,12 @@
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
     import _ from 'lodash'
     import { notificationSystem } from '../../../globals'
     import { networkInterfaces } from 'os';
-import { constants } from 'crypto';
+    import { constants } from 'crypto';
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'VisitDataV7',
@@ -592,12 +593,6 @@ import { constants } from 'crypto';
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
                 encounters : [],
                 observations : {},
                 patientCardData : [
@@ -631,16 +626,11 @@ import { constants } from 'crypto';
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
 
-            if (!patient || !patientCard){
+            if (!this.patient || !patientCard){
                 this.$router.push('/')
             }
-
-            this.patient = patient;
             this.patientCard = patientCard;
 
         },
@@ -674,6 +664,9 @@ import { constants } from 'crypto';
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
+        },
+        computed: {
+            ...mapGetters(['patient'])
         }
     }
 </script>

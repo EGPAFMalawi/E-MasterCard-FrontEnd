@@ -86,10 +86,11 @@
 <script>
 
     import NavBar from "../../views/NavBar"
-    import authResource from './../../authResource'
+    import {authResource} from './../../authResource'
     import { version } from 'punycode'
     import { notificationSystem } from '../../globals'
-import { async } from 'q';
+    import { async } from 'q';
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'ShowPatient',
@@ -118,7 +119,6 @@ import { async } from 'q';
 
                 authResource().post(dhisAPIEndpoint, payload)
                     .then((response)=>{
-                        console.log(response)
                         sessionStorage.setItem('patientCard', JSON.stringify(response.data.data))
                         this.$toast.success('Successfully created new card!', 'OK', notificationSystem.options.success)
                         this.$router.push('/patients/show/card')
@@ -142,13 +142,6 @@ import { async } from 'q';
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-
                 art_number:'',
                 step:'',
                 stepDate:'',
@@ -162,13 +155,10 @@ import { async } from 'q';
         },
         created() {
             this.getMasterCards()
-            let patient = JSON.parse(sessionStorage.getItem('patient'))
             
-            if (!patient){
+            if (!this.patient){
                 this.$router.push('/')
             }
-
-            this.patient = patient
         },
 
         watch : {
@@ -194,6 +184,9 @@ import { async } from 'q';
                         return name
                 })
             }
+        },
+        computed: {
+            ...mapGetters(['patient'])
         }
     }
 </script>

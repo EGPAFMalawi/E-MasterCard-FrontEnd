@@ -376,10 +376,11 @@
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
     import { log } from 'util'
     import { type } from 'os'
     import { notificationSystem } from '../../../globals'
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'InitDataV7',
@@ -631,15 +632,7 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-                patientCardData : [
-
-                ],
+                patientCardData : [],
                 conditions:[],
                 stages: [
                     {
@@ -737,14 +730,11 @@
             }
         },
         created() {
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
 
-            if (!patient || !patientCard){
+            if (!this.patient || !patientCard){
                 this.$router.push('/')
             }
-
-            this.patient = patient;
             this.patientCard = patientCard;
             this.concepts = this.concepts
         },
@@ -785,6 +775,9 @@
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
+        },
+        computed: {
+            ...mapGetters(['patient'])
         }
     }
 </script>

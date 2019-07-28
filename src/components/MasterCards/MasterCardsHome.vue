@@ -22,6 +22,7 @@
     import MasterCardV7 from "./MasterCardV7/MasterCardV7";
     import MasterCardV7Paeds from "./MasterCardV7/MasterCardV7Paeds";
     import NavBar from "../../views/NavBar";
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'MasterCardsHome',
@@ -31,28 +32,21 @@
         data: () => {
             return {
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
                 patientCard : {
                     masterCard : {}
                 }
             }
         },
         created() {
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'))
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'))
 
-            if (!patient || !patientCard){
+            if (!this.patient || !patientCard){
                 this.$router.push('/')
             }
-
-            this.patient = patient
             this.patientCard = patientCard
+        },
+        computed: {
+             ...mapGetters(['patient'])
         }
     }
 </script>

@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import store from './store'
+
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
  
@@ -39,7 +41,7 @@ Vue.mixin({
     {
         return {
             APIHosts : {
-                art : 'http://localhost/api/v1'
+                art : 'http://localhost:8000/api/v1'
             },
             messageStr: 'Hello'
         }
@@ -71,5 +73,6 @@ Vue.mixin({
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

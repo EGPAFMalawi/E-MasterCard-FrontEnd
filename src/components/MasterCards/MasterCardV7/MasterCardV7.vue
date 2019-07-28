@@ -44,16 +44,16 @@
                         </div>
                     </form>
             </div>
-            
         </section>
     </div>
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
     import InitDataV7 from "./InitiDataV7";
     import VisitDataV7 from "./VisitDataV7";
-    import RegistrationDataV7 from "./RegistrationDataV7";
+    import RegistrationDataV7 from "./RegistrationDataV7"
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'MasterCardV7',
@@ -83,12 +83,6 @@
         data: () => {
             return {
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
                 masterCardWithDetails : {
                     encounterTypes : []
                 },
@@ -96,19 +90,17 @@
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
             let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
 
-            if (!patient || !patientCard){
+            if (!this.patient || !patientCard){
                 this.$router.push('/')
             }
-
-            this.patient = patient;
             this.patientCard = patientCard;
 
             this.getMasterCardDetails();
+        },
+        computed: {
+            ...mapGetters(['patient'])
         }
     }
 </script>

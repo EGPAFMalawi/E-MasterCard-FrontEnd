@@ -143,9 +143,11 @@
 
 <script>
     import Vue from 'vue'
-    import authResource from './../../authResource'
+    import {authResource} from './../../authResource'
     import { notificationSystem } from '../../globals'
     import { ModelSelect } from 'vue-search-select'
+    import { mapActions, mapGetters } from 'vuex'
+
 
     export default {
         name: 'Steps',
@@ -277,7 +279,7 @@
                 authResource().get(url)
                     .then(({data: {data}})=> {
                         this.steps = data
-                        
+                        console.log(data)
                     })
                     .catch(err => console.error(err))
             },
@@ -365,7 +367,7 @@
                 },
                 steps: [],
                 facilities: [],
-                patient: {lastStep: {step: ''}},
+                // patient: {lastStep: {step: ''}},
                 prefix: '__'
             }
         },
@@ -374,14 +376,12 @@
             if (sessionStorage.getItem('facilities') !== null){
                 this.facilities = JSON.parse(sessionStorage.getItem('facilities'))
             }else{
-                console.log('hello')
                 this.loadFacilities()
             }
         },
          created() {
-            this.patient = JSON.parse(sessionStorage.getItem('patient'));
-            this.getStages()
-            
+            if (this.patient !== undefined)
+                this.getStages()
         },
         watch : {
             steps(value){
@@ -412,6 +412,7 @@
             }
         },
         computed: {
+            ...mapGetters(['patient']),
             preart: function(){
                 
                 return `${this.prefix}${this.art_number}`
