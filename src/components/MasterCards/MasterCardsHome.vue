@@ -31,22 +31,16 @@
             MasterCardV7, MasterCardV6, MasterCardV5, MasterCardV7Paeds},
         data: () => {
             return {
-                BASE_URL : 'patients',
-                patientCard : {
-                    masterCard : {}
-                }
+                BASE_URL : 'patients'
             }
         },
         created() {
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'))
-
-            if (!this.patient || !patientCard){
+            if (!this.patient || !this.patientCard){
                 this.$router.push('/')
             }
-            this.patientCard = patientCard
         },
         computed: {
-             ...mapGetters(['patient'])
+             ...mapGetters(['patient', 'patientCard'])
         }
     }
 </script>

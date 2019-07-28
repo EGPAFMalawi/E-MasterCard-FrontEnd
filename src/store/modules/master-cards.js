@@ -18,7 +18,8 @@ const state = {
 const getters = {
     patients: state => state.patients,
     patient: state => state.patient,
-    patientCardData: state => state.patientCardData
+    patientCardData: state => state.patientCardData,
+    patientCard: state => state.patientCard
 }
 
 const actions = {
@@ -61,18 +62,22 @@ const actions = {
     },
     resetPatientCardData({commit}){
         commit('resetCardData', [])
+    },
+    async createPatientCard({commit}, {url, payload}) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const {data: {data}} = await authResource().post(url, payload)
+                commit('setPatientCard', data)
+                resolve('Successfully created new card!')
+            }
+            catch(error){
+               reject(error)
+            }
+        })
+    },
+    mutatePatientCard ({commit}, data){
+        commit('setPatientCard', data)
     }
-    // async createPatientCardData({commit}, {endpoint, payload}) {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const {data: {data}} = await authResource().post(endpoint, payload)
-    //             commit('setPatients', data)
-    //         }
-    //         catch(error){
-    //             console.error(error)
-    //         }
-    //     }
-    // }
 }
 
 const mutations = {
@@ -84,6 +89,9 @@ const mutations = {
     ),
     resetCardData: (state, patientCardData) => (
         state.patientCardData = patientCardData
+    ),
+    setPatientCard: (state, patientCard) => (
+        state.patientCard = patientCard
     )
 }
 

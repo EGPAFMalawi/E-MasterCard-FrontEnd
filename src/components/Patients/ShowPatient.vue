@@ -96,8 +96,8 @@
         name: 'ShowPatient',
         components: {NavBar},
         methods: {
-            getMasterCards : function ()
-            {
+            ...mapActions(['createPatientCard', 'mutatePatientCard']),
+            getMasterCards(){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards`;
 
                 authResource().get(dhisAPIEndpoint)
@@ -108,21 +108,17 @@
                         console.log(error)
                     })
             },
-            addNewPatientCard : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards`;
+            addNewPatientCard (){
+                let url = `${this.APIHosts.art}/patient-cards`;
 
                 let payload = {
                     'master-card' : this.selectedMasterCardVersion,
                     patient : this.patient.patientID
                 };
-
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        sessionStorage.setItem('patientCard', JSON.stringify(response.data.data))
-                        this.$toast.success('Successfully created new card!', 'OK', notificationSystem.options.success)
+                createPatientCard({url, payload})
+                    .then(message => {
+                        this.$toast.success(message, 'OK', notificationSystem.options.success)
                         this.$router.push('/patients/show/card')
-                        
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
@@ -131,9 +127,8 @@
                         
                     })
             },
-            setPatientCard : function (patientCard)
-            {
-                sessionStorage.setItem('patientCard', JSON.stringify(patientCard))
+            setPatientCard (patientCard){
+                this.mutatePatientCard(patientCard)
 
                 this.$router.push('/patients/show/card')
             },
@@ -186,7 +181,7 @@
             }
         },
         computed: {
-            ...mapGetters(['patient'])
+            ...mapGetters(['patient', 'patientCard'])
         }
     }
 </script>
