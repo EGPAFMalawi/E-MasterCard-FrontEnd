@@ -386,7 +386,12 @@
         name: 'InitDataV7',
         props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            ...mapActions(['selectPatient', 'patchPatient']),
+            ...mapActions([
+                'selectPatient', 
+                'patchPatient', 
+                'loadPatientCardData',
+                'resetPatientCardData'
+            ]),
             updatePatient (){
                 if (this.patient.person.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
@@ -428,40 +433,26 @@
                 }
 
             },
-            getPatientCardStatusAtInitDetails : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
-                let payload = {
+            getPatientCardStatusAtInitDetails (){
+                const url= `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                const payload = {
                     'encounter-type' : this.encounterTypes[1].encounterTypeID,
                     'consider-version' : false
                 };
-
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        this.patientCardData.push(...response.data.data)
-                    })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+                
+                this.loadPatientCardData({url, payload})
+                    .catch(error => console.error(error))
             },
-            getPatientCardConfirmatoryDetails : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
-                let payload = {
+            getPatientCardConfirmatoryDetails (){
+                const url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                const payload = {
                     'encounter-type' : this.encounterTypes[2].encounterTypeID,
                     'consider-version' : false
                 };
-
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        this.patientCardData.push(...response.data.data);
-                    })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+                this.loadPatientCardData({url, payload})
+                    .catch(error => console.error(error))
             },
-            processDataForPost: function (message)
-            {   
+            processDataForPost(message){   
 
                 let payloadForStatus = this.encounterTypes[1].concepts.map((item)=>{
                     return {
@@ -521,7 +512,7 @@
                 };
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
-                        this.patientCardData = [];
+                        this.resetPatientCardData()
                         this.getPatientCardStatusAtInitDetails();
                         this.getPatientCardConfirmatoryDetails();
                         this.selectPatient(this.patient)
@@ -534,8 +525,8 @@
                         
                     })
             },
-            fillConceptObservations: function (patientCardData)
-            {
+            fillConceptObservations(patientCardData){
+                console.log(patientCardData)
                 for (var i = 0; i < patientCardData.length; i++)
                 {
                     this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
@@ -628,7 +619,6 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patientCardData : [],
                 conditions:[],
                 stages: [
                     {
@@ -765,6 +755,8 @@
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
         },
-        computed: {}
+        computed: {
+            ...mapGetters(['patientCardData'])
+        }
     }
 </script>
