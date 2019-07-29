@@ -115,7 +115,7 @@
                     'master-card' : this.selectedMasterCardVersion,
                     patient : this.patient.patientID
                 };
-                createPatientCard({url, payload})
+                this.createPatientCard({url, payload})
                     .then(message => {
                         this.$toast.success(message, 'OK', notificationSystem.options.success)
                         this.$router.push('/patients/show/card')
