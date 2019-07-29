@@ -390,7 +390,9 @@
                 'selectPatient', 
                 'patchPatient', 
                 'loadPatientCardData',
-                'resetPatientCardData'
+                'resetPatientCardData',
+                'loadConcepts',
+                'loadARTstartDate'
             ]),
             updatePatient (){
                 if (this.patient.person.gender === ''){
@@ -526,14 +528,15 @@
                     })
             },
             fillConceptObservations(patientCardData){
-                for (var i = 0; i < patientCardData.length; i++)
-                {
-                    this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
-                }
-                localStorage.setItem('startDate', this.concepts.concept23)
+                const concepts = [] 
+                patientCardData.map(({concept: {conceptID}, value}, key) => {
+                    concepts[`concept${conceptID}`] = value
+                })
+
+                this.loadConcepts(concepts)
+                this.loadARTstartDate(concepts.concept23)
             },
             calculatedBirthDate(ageType){
-
                const date = new Date(this.concepts.concept23)
                const age = this.concepts.concept8
 
@@ -680,42 +683,9 @@
                     },
                 ],
                 masterCardWithDetails : {},
-                concepts : {
-                    concept1 : '',
-                    concept2 : '',
-                    concept3 : '',
-                    concept4 : '',
-                    concept5 : '',
-                    concept6 : '',
-                    concept7 : '',
-                    concept8 : '',
-                    concept9 : '',
-                    concept10 : '',
-                    concept11 : '',
-                    concept12 : '',
-                    concept13 : '',
-                    concept14 : '',
-                    concept15 : '',
-                    concept16 : '',
-                    concept17 : '',
-                    concept18 : '',
-                    concept19 : '',
-                    concept20 : '',
-                    concept21 : '',
-                    concept22 : '',
-                    concept23 : '',
-                    concept24 : '',
-                    concept25 : '',
-                    concept26 : '',
-                    concept27 : '',
-                    concept54 : '',
-                },
                 eval:false,
                 evalEduDate: false,
             }
-        },
-        created() {
-            this.concepts = this.concepts
         },
         watch : {
             postPayload : function ()
@@ -755,7 +725,7 @@
             },
         },
         computed: {
-            ...mapGetters(['patientCardData'])
+            ...mapGetters(['patientCardData', 'concepts'])
         }
     }
 </script>

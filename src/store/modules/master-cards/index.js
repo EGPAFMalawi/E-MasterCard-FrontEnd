@@ -1,4 +1,5 @@
-import {authResource}  from '../../authResource'
+import {authResource}  from '../../../authResource'
+import initiationConfirmatory from './initiation-confirmatory'
 
 const state = {
     patients: [],
@@ -10,7 +11,6 @@ const state = {
     registrationData: {},
     steps: [],
     step: {},
-    concepts: [],
     masterCardDetails: {}
 }
 
@@ -112,9 +112,13 @@ const mutations = {
     )
 }
 
+const modules = {
+    initiationConfirmatory
+}
 export default {
     state,
     getters,
     actions,
-    mutations
+    mutations,
+    modules
 }

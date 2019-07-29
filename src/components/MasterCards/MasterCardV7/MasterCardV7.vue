@@ -67,7 +67,6 @@
 </template>
 
 <script>
-    import {authResource} from './../../../authResource'
     import InitDataV7 from "./InitiDataV7";
     import VisitDataV7 from "./VisitDataV7";
     import RegistrationDataV7 from "./RegistrationDataV7"
