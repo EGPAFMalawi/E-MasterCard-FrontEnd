@@ -1,6 +1,4 @@
 import {authResource}  from '../../authResource'
-import { resolve } from 'any-promise';
-import { async } from 'q';
 
 const state = {
     patients: [],
@@ -12,14 +10,17 @@ const state = {
     registrationData: {},
     steps: [],
     step: {},
-    concepts: []
+    concepts: [],
+    masterCardDetails: {}
 }
 
 const getters = {
     patients: state => state.patients,
     patient: state => state.patient,
     patientCardData: state => state.patientCardData,
-    patientCard: state => state.patientCard
+    patientCard: state => state.patientCard,
+
+    masterCardDetails: state => state.masterCardDetails
 }
 
 const actions = {
@@ -77,6 +78,19 @@ const actions = {
     },
     mutatePatientCard ({commit}, data){
         commit('setPatientCard', data)
+    },
+
+    loadMasterCardDetails({commit}, {url}){
+        return new Promise(async (resolve, reject) => {
+            try {
+                const {data: {data}} = await authResource().get(url)
+                commit('setMasterCardDetails', data)
+                resolve('MasterCard Details Loaded!')
+            }
+            catch(error){
+               reject(error)
+            }
+        })
     }
 }
 
@@ -92,6 +106,9 @@ const mutations = {
     ),
     setPatientCard: (state, patientCard) => (
         state.patientCard = patientCard
+    ),
+    setMasterCardDetails: (state, masterCardDetails) => (
+        state.masterCardDetails = masterCardDetails
     )
 }
 

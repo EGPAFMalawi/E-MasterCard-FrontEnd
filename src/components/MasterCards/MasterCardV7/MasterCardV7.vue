@@ -12,7 +12,7 @@
                     </li>
                 </ul>
                 <RegistrationDataV7 
-                    :encounterTypes="masterCardWithDetails.encounterTypes" 
+                    :encounterTypes="masterCardDetails.encounterTypes" 
                     :postPayload="postPayload"
                     :patient='patient'
                     :patientCard='patientCard'>
@@ -21,7 +21,7 @@
         </div>
         <div class="d-flex justify-content-center">
             <InitDataV7 
-                :encounterTypes="masterCardWithDetails.encounterTypes" 
+                :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
                 :patientCard='patientCard'>
@@ -29,11 +29,14 @@
         </div>
         <section>
             <div class="container">
-                    <form class="form-row " v-on:submit.prevent="initiatePost">
-                        <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">Update Data<font-awesome-icon icon="save" class="ml-1"/></button>
-                        </div>
-                    </form>
+                <form class="form-row " v-on:submit.prevent="initiatePost">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success btn-lg my-4">
+                            Update Data
+                            <font-awesome-icon icon="save" class="ml-1"/>
+                        </button>
+                    </div>
+                </form>
             </div>
             
         </section>
@@ -45,7 +48,7 @@
         </div>
         <div class="container-fluid d-flex justify-content-center">
             <VisitDataV7 
-                :encounterTypes="masterCardWithDetails.encounterTypes" 
+                :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
                 :patientCard='patientCard'>
@@ -72,48 +75,35 @@
 
     export default {
         name: 'MasterCardV7',
-        props: ['patient'],
+        props: ['patient', 'patientCard'],
         components: {RegistrationDataV7, VisitDataV7, InitDataV7},
         methods: {
+            ...mapActions(['loadMasterCardDetails']),
             goBack(){
                  this.$router.go(-1)
             },
 
-            getMasterCardDetails : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then((response)=>{
-                        this.masterCardWithDetails = response.data.data
-                    })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+            getMasterCardDetails(){
+                const url = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
+                this.loadMasterCardDetails({url})
+                    .then( message => console.info(message) )
+                    .catch(err => console.error(err))
             },
-            initiatePost : function ()
-            {
+            initiatePost(){
                 this.postPayload++;
             }
         },
         data: () => {
             return {
                 BASE_URL : 'patients',
-                masterCardWithDetails : {
-                    encounterTypes : []
-                },
                 postPayload : 0
             }
         },
         created() {
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!this.patient || !patientCard){
-                this.$router.push('/')
-            }
-            this.patientCard = patientCard;
-
             this.getMasterCardDetails();
+        },
+        computed: {
+            ...mapGetters(['masterCardDetails'])
         }
     }
 </script>

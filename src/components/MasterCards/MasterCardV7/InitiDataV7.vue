@@ -526,7 +526,6 @@
                     })
             },
             fillConceptObservations(patientCardData){
-                console.log(patientCardData)
                 for (var i = 0; i < patientCardData.length; i++)
                 {
                     this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
