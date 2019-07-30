@@ -396,7 +396,11 @@
             ]),
             updatePatient (){
                 if (this.patient.person.gender === ''){
-                    this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
+                    this.$toast.error(
+                        `Missing information, sex is required`, 
+                        'Error', 
+                        notificationSystem.options.error
+                    )
                 } else{
                     let payload = {
                         art_number : this.patient.art_number,
@@ -485,7 +489,11 @@
                 }
 
                 if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
-                    return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
+                    return this.$toast.error(
+                        `<strong>ART start date</strong> must not be after ART test date`, 
+                        'Error', 
+                        notificationSystem.options.error
+                    )
                 }else{
                     let finalPayload = [];
                     finalPayload.push(...payloadForStatus);
@@ -591,8 +599,7 @@
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
             },
-            handleAgeEstimation()
-            {
+            handleAgeEstimation(){
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
                     && this.patient.person.birthdate !== null
                     && this.concepts.concept23 !== null
@@ -682,7 +689,6 @@
                         ]
                     },
                 ],
-                masterCardWithDetails : {},
                 eval:false,
                 evalEduDate: false,
             }

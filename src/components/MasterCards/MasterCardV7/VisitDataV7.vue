@@ -353,8 +353,7 @@
         name: 'VisitDataV7',
         props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            getPatientCardDetails : function ()
-            {
+            getPatientCardDetails(){
 
                 let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
@@ -371,8 +370,7 @@
                         console.log(error)
                     })
             },
-            addNewVisit :function()
-            {
+            addNewVisit(){
                 if(this.concepts.concept47 <= this.concepts.concept32){
                     this.$toast.error(
                         `Appointment date is before or same as vist date`, 
@@ -383,12 +381,10 @@
                     this.processDataForPost(true, 'Visit Added')
                 }  
             },
-            processDataForPost: function (isAddVisit, message)
-            {
+            processDataForPost (isAddVisit, message){
                 let payload = [];
 
-                if (isAddVisit)
-                {
+                if (isAddVisit){
                     let newPayload = this.encounterTypes[3].concepts.map((item)=>{
                         return {
                             'concept' : item.conceptID,
@@ -419,8 +415,7 @@
 
                 this.handlePost(payload, message);
             },
-            getObservation: function (conceptID)
-            {
+            getObservation (conceptID){
                 let obs = this.patientCardData.filter((item)=>{
                     return item.concept.conceptID === conceptID
                 });
@@ -430,8 +425,7 @@
                 else
                     return null
             },
-            handlePost: function (payload, message)
-            {
+            handlePost (payload, message){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
                     'patient-card' : this.patientCard.patientCardID,
@@ -452,25 +446,32 @@
                         
                     })
             },
-            fillConceptObservations: function (patientCardData)
-            {
-                
-                let mappedObs = patientCardData.map((item)=>{
-                                   return {
-                                       observation : item.observationID,
-                                       concept : item.concept.conceptID,
-                                       encounter : item.encounter.encounterID,
-                                       encounterVoided : item.encounter.voided,
-                                       value : item.value
-                                   }
-                                });
-                
-                this.observations = _.keyBy(mappedObs,(item)=>{
-                               return 'concept'+item.concept+'Encounter'+item.encounter
-                            });
+            fillConceptObservations (patientCardData){
+                const observations = [], mappedObs = []
+                patientCardData.forEach((item, key)=>{
+                    const observation = {
+                        observation : item.observationID,
+                        concept : item.concept.conceptID,
+                        encounter : item.encounter.encounterID,
+                        encounterVoided : item.encounter.voided,
+                        value : item.value
+                    }
+                    const newkey = 'concept'+observation.concept+'Encounter'+observation.encounter
+                    this.observations[newkey] = observation
+                });
+                // mappedObs.forEach((item, key) => {
+                //     const newkey = 'concept'+item.concept+'Encounter'+item.encounter
+                //     mappedObs[newkey] = item
+                //     delete mappedObs[key]
+                // })
+                console.log(patientCardData)
+                // this.observations = _.keyBy(mappedObs,(item)=>{
+                //     return 'concept'+item.concept+'Encounter'+item.encounter
+                // });
                 
                 this.encounters  = _.chain(patientCardData)
                         .groupBy((item)=>{
+                            console.log(item)
                             return item.encounter.encounterID
                         })
                         .toPairs()
@@ -483,10 +484,10 @@
                         })
                         .value();
 
-                    console.log(this.observations)
+                console.log(this.encounters)
+                console.log(this.observations)
             },
-            clearFields : function()
-            {
+            clearFields(){
                 this.concepts = {
                     concept32 : '',
                     concept33 : '',
@@ -510,7 +511,6 @@
                     concept51 : '',
                     concept52: '',
                     concept53 : '',
-
                 }
             },
              evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
