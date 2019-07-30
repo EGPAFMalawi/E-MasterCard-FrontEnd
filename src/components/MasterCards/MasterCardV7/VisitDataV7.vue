@@ -355,13 +355,13 @@
         methods: {
             getPatientCardDetails(){
 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,
                     'consider-version' : true
                 };
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().post(url, payload)
                     .then((response)=>{
                         console.log(response);
                         this.patientCardData.push(...response.data.data)
@@ -448,6 +448,7 @@
             },
             fillConceptObservations (patientCardData){
                 const observations = [], mappedObs = []
+                console.log(patientCardData)
                 patientCardData.forEach((item, key)=>{
                     const observation = {
                         observation : item.observationID,
@@ -459,32 +460,21 @@
                     const newkey = 'concept'+observation.concept+'Encounter'+observation.encounter
                     this.observations[newkey] = observation
                 });
-                // mappedObs.forEach((item, key) => {
-                //     const newkey = 'concept'+item.concept+'Encounter'+item.encounter
-                //     mappedObs[newkey] = item
-                //     delete mappedObs[key]
-                // })
-                console.log(patientCardData)
-                // this.observations = _.keyBy(mappedObs,(item)=>{
-                //     return 'concept'+item.concept+'Encounter'+item.encounter
-                // });
                 
                 this.encounters  = _.chain(patientCardData)
-                        .groupBy((item)=>{
-                            console.log(item)
-                            return item.encounter.encounterID
-                        })
-                        .toPairs()
-                        .map(pair => _.zipObject(['encounterID', 'data'], pair))
-                        .sortBy((group)=>{
-                            let value =  _.find(group.data,(b)=>{
-                                return b.concept.conceptID === 32
-                            }).value;
-                            return new Date(value)
-                        })
-                        .value();
+                    .groupBy((item)=> {
+                        return item.encounter.encounterID
+                    })
+                    .toPairs()
+                    .map(pair => _.zipObject(['encounterID', 'data'], pair))
+                    .sortBy((group)=>{
+                        let value =  _.find(group.data,(b)=>{
+                            return b.concept.conceptID === 32
+                        }).value;
+                        return new Date(value)
+                    })
+                    .value();
 
-                console.log(this.encounters)
                 console.log(this.observations)
             },
             clearFields(){
@@ -595,9 +585,7 @@
                 BASE_URL : 'patients',
                 encounters : [],
                 observations : {},
-                patientCardData : [
-
-                ],
+                patientCardData : [],
                 show: false,
                 concepts : {
                     concept32 : '',
@@ -625,7 +613,9 @@
                 }
             }
         },
-        created() {},
+        created() {
+            this.getPatientCardDetails()
+        },
         watch : {
             postPayload : function ()
             {

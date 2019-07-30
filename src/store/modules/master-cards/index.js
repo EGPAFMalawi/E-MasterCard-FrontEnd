@@ -48,13 +48,13 @@ const actions = {
             }
         })
     },
-    async loadPatientCardData({commit}, {url, payload}) {
+    loadPatientCardData({commit}, {url, payload}) {
+        console.log(url)
         return new Promise( async (resolve, reject) => {
-
             try {
                 const {data: {data}} = await authResource().post(url, payload)
                 commit('setPatientCardData', data)
-
+                resolve(data)
             }
             catch(error){
                 reject(error)
@@ -64,7 +64,7 @@ const actions = {
     resetPatientCardData({commit}){
         commit('resetCardData', [])
     },
-    async createPatientCard({commit}, {url, payload}) {
+    createPatientCard({commit}, {url, payload}) {
         return new Promise(async (resolve, reject) => {
             try {
                 const {data: {data}} = await authResource().post(url, payload)
@@ -99,7 +99,6 @@ const mutations = {
     setPatient: (state, patient) => (state.patient = patient),
     setPatientCardData: (state, patientCardData) => (
         state.patientCardData.push(...patientCardData)
-        
     ),
     resetCardData: (state, patientCardData) => (
         state.patientCardData = patientCardData

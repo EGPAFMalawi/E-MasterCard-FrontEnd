@@ -23,18 +23,23 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                             <label>Sex*</label>
                             <div class="input-group pt-1">
                                 <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
-                                <span style="padding: 10px"></span>
+                                <span style="padding: 5px"></span>
                                 <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
                             </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label >Date of Birth</label>
                         <input type="date" ref="regimenStartDate" class="form-control" v-model="patient.person.birthdate">
-                        <button v-on:click="estimateDOB" class="btn btn-primary my-1">Estimate</button>
+                    </div>
+                     <div class="col-md-4 mb-3">
+                         <label></label>
+                        <div class="input-group pt-1">
+                            <button v-on:click="estimateDOB" class="btn btn-primary my-1 btn-sm">Estimate</button>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -445,9 +450,14 @@
                     'encounter-type' : this.encounterTypes[1].encounterTypeID,
                     'consider-version' : false
                 };
-                
                 this.loadPatientCardData({url, payload})
+                    .then(data => {
+                        if (data.length < 1){
+                            this.resetPatientCardData()
+                        }
+                    })
                     .catch(error => console.error(error))
+
             },
             getPatientCardConfirmatoryDetails (){
                 const url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
@@ -456,6 +466,7 @@
                     'consider-version' : false
                 };
                 this.loadPatientCardData({url, payload})
+                    .then(data => console.log(data))
                     .catch(error => console.error(error))
             },
             processDataForPost(message){   
@@ -502,8 +513,7 @@
                     this.handlePost(finalPayload, message);
                 }
             },
-            getObservation: function (conceptID)
-            {
+            getObservation (conceptID){
                 let obs = this.patientCardData.filter((item)=>{
                     return item.concept.conceptID === conceptID
                 });
@@ -629,69 +639,12 @@
                 notificationSystem,
                 BASE_URL : 'patients',
                 conditions:[],
-                stages: [
-                    {
-                        name: 'Clinical stage 1',
-                        conditions: ['Asymptomatic', 'Persistent generalized lymphadenopathy']
-                    },
-                    {
-                        name: 'Clinical stage 2',
-                        conditions: [ 
-                            'Moderate unexplained weight loss (<10% ofpresumed or measured body weight)',
-                            'Recurrent respiratory tract infections (sinusitis tonsillitis, otitis media, pharyngitis)', 
-                            'Herpes zoster',
-                            'Angular cheilitis',
-                            'Recurrent oral ulceration',
-                            'Papular pruritic eruption',
-                            'Fungal nail infections',
-                            'Seborrhoeic dermatitis'
-                        ]
-                    },
-                    {
-                        name: 'Clinical stage 3',
-                        conditions: [
-                            'Unexplained severe weight loss (>10% of presumed or measured body weight)',
-                            'Unexplained chronic diarrhoea for longer than 1 month',
-                            'Unexplained persistent fever (intermittent or constant for longer than 1 month)',
-                            'Persistent oral candidiasis',
-                            'Oral hairy leukoplakia',
-                            'Pulmonary tuberculosis',
-                            'Severe bacterial infections (such as pneumonia, empyema, pyomyositis, bone or joint infection, meningitis, bacteraemia)',
-                            'Acute necrotizing ulcerative stomatitis, gingivitis or periodontitis',
-                            'Unexplained anaemia (<8 g/dl)',
-                            'neutropaenia (<0.5 x 109/l) and/or chronic thrombocytopaenia (<50 x 109/l)'
-                        ]
-                    },
-                    {
-                        name: 'Clinical stage 4',
-                        conditions: [
-                            'HIV wasting syndrome',
-                            'Pneumocystis (jirovecii) pneumonia',
-                            'Recurrent severe bacterial pneumonia',
-                            'Chronic herpes simplex infection (orolabial, genital or anorectal of more than 1 month’s duration or visceral at any site)',
-                            'Oesophageal candidiasis (or candidiasis of trachea, bronchi or lungs)',
-                            'Extrapulmonary tuberculosis',
-                            'Kaposi sarcoma',
-                            'Cytomegalovirus infection (retinitis or infection of other organs)',
-                            'Central nervous system toxoplasmosis',
-                            'HIV encephalopathy',
-                            'Extrapulmonary cryptococcosis, including meningitis',
-                            'Disseminated nontuberculous mycobacterial infection',
-                            'Progressive multifocal leukoencephalopathy',
-                            'Chronic cryptosporidiosis',
-                            'Chronic isosporiasis',
-                            'Disseminated mycosis (extrapulmonary histoplasmosis, coccidioidomycosis',
-                            'Lymphoma (cerebral or B-cell non-Hodgkin)',
-                            'Symptomatic HIV-associated nephropathy or cardiomyopathy',
-                            'Recurrent septicaemia (including nontyphoidal Salmonella)',
-                            'Invasive cervical carcinoma',
-                            'Atypical disseminated leishmaniasis'
-                        ]
-                    },
-                ],
                 eval:false,
                 evalEduDate: false,
             }
+        },
+        created(){
+            this.fillConceptObservations(this.patientCardData)
         },
         watch : {
             postPayload : function ()
@@ -711,6 +664,8 @@
                 this.setMinMax()
             },
             'concepts.concept23': function(){
+                console.log(this.concepts.concept23)
+
                 
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
@@ -727,11 +682,12 @@
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             },
             'concepts.concept3': function(){
+                console.log(this.concepts.concept1)
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
         },
         computed: {
-            ...mapGetters(['patientCardData', 'concepts'])
+            ...mapGetters(['patientCardData', 'concepts', 'stages'])
         }
     }
 </script>
