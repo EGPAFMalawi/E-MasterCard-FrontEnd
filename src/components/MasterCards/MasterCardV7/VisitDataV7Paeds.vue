@@ -524,7 +524,6 @@
                     currentVisitDate = new Date(currentVisitDate)
 
                     const months = currentVisitDate.getMonth() - artStartDate.getMonth() + (12 * (currentVisitDate.getFullYear() - artStartDate.getFullYear()))
-                    console.log(currentVisitDate, JSON.parse(JSON.stringify(this.patient)))
                     return months
                 }
                 else{
@@ -554,12 +553,12 @@
                 if (visitObservation.encounterVoided)
                     action = false
 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
+                let url = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
                 let payload = {
                     'void' : action,
                 };
 
-                authResource().patch(dhisAPIEndpoint, payload)
+                authResource().patch(url, payload)
                     .then((response)=>{
                         this.clearFields();
                         this.patientCardData = [];

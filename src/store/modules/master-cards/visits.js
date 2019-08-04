@@ -2,9 +2,9 @@ import { authResource } from '../../../authResource'
 import { start } from 'pretty-error';
 
 const state = {
-    concepts: [],
+    concepts: {},
     encounters:[],
-    observations: {}
+    observations: {},
 }
 
 const getters = {

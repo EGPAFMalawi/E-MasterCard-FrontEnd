@@ -523,8 +523,7 @@
                 else
                     return null
             },
-            handlePost: function (payload, message)
-            {
+            handlePost (payload, message){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
                     'patient-card' : this.patientCard.patientCardID,
@@ -540,13 +539,18 @@
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
-                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            this.$toast.error(
+                                `${data.message}, 
+                                ${error[0]}`, 
+                                'Error', 
+                                notificationSystem.options.error
+                            )
                         });
                         
                     })
             },
             fillConceptObservations(patientCardData){
-                const concepts = [] 
+                const concepts = {} 
                 patientCardData.map(({concept: {conceptID}, value}, key) => {
                     concepts[`concept${conceptID}`] = value
                 })
@@ -569,7 +573,6 @@
                
             },
             calculatedAgeAtInit(ageType){
-
                 const date = new Date(this.concepts.concept23)
                 const age = this.concepts.concept8
 
@@ -624,10 +627,12 @@
                     this.concepts.concept54 = 'Years'
                 }
             },
-            estimateAgeAtInitiation(){
+            estimateAgeAtInitiation(e){
+                e.preventDefault()
                 this.handleAgeEstimation();
             },
-            estimateDOB(){
+            estimateDOB(e){
+                e.preventDefault()
                 if((this.concepts.concept8 !== '' || this.concept.concept8 !== null )
                     && this.patient.person.birthYear === null){
                     this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
@@ -639,16 +644,18 @@
                 notificationSystem,
                 BASE_URL : 'patients',
                 conditions:[],
-                eval:false,
-                evalEduDate: false,
+                eval:null, //turns to boolean when evaluating 
+                evalEduDate: null, // turns to boolean when evaluating
             }
         },
         created(){
             this.fillConceptObservations(this.patientCardData)
+            if (this.concepts.concept3 && this.concepts.concept1){
+                this.conditions = this.getConditions(this.concepts.concept3)
+            }
         },
         watch : {
-            postPayload : function ()
-            {
+            postPayload : function (){
                 this.processDataForPost('Initiation and Confirmatory Data Saved');
             },
             encounterTypes : function (value) {
@@ -663,10 +670,7 @@
 
                 this.setMinMax()
             },
-            'concepts.concept23': function(){
-                console.log(this.concepts.concept23)
-
-                
+            'concepts.concept23': function(value){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
                 if (this.patient.person.birthdate === ''){
@@ -675,14 +679,13 @@
                        
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
-            'concepts.concept16': function(){
+            'concepts.concept16': function (value){
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             },
             'concepts.concept3': function(){
-                console.log(this.concepts.concept1)
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
         },

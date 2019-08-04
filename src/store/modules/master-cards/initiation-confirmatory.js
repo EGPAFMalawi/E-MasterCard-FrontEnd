@@ -1,7 +1,7 @@
 import { start } from 'pretty-error';
 
 const state = {
-    concepts: [],
+    concepts: {},
     startDate: null,
     stages: [
         {

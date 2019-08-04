@@ -90,7 +90,7 @@
             },
             initiatePost(){
                 this.postPayload++;
-            }
+            },
         },
         data: () => {
             return {

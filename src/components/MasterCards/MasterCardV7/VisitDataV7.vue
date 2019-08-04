@@ -441,14 +441,19 @@
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
-                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            this.$toast.error(
+                                `${data.message}, 
+                                ${error[0]}`, 
+                                'Error', 
+                                notificationSystem.options.error
+                            )
                         });
                         
                     })
             },
             fillConceptObservations (patientCardData){
-                const observations = [], mappedObs = []
-                console.log(patientCardData)
+                const observations = []
+
                 patientCardData.forEach((item, key)=>{
                     const observation = {
                         observation : item.observationID,
@@ -474,8 +479,6 @@
                         return new Date(value)
                     })
                     .value();
-
-                console.log(this.observations)
             },
             clearFields(){
                 this.concepts = {
@@ -518,7 +521,6 @@
                     currentVisitDate = new Date(currentVisitDate)
 
                     const months = currentVisitDate.getMonth() - artStartDate.getMonth() + (12 * (currentVisitDate.getFullYear() - artStartDate.getFullYear()))
-                    console.log(currentVisitDate, JSON.parse(JSON.stringify(this.patient)))
                     return months
                 }
                 else{

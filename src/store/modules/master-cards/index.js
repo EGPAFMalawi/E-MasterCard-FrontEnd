@@ -49,7 +49,6 @@ const actions = {
         })
     },
     loadPatientCardData({commit}, {url, payload}) {
-        console.log(url)
         return new Promise( async (resolve, reject) => {
             try {
                 const {data: {data}} = await authResource().post(url, payload)
