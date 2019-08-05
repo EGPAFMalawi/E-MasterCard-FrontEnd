@@ -470,6 +470,7 @@
                     .catch(error => console.error(error))
             },
             processDataForPost(message){   
+                console.log(this.concepts)
 
                 let payloadForStatus = this.encounterTypes[1].concepts.map((item)=>{
                     return {
@@ -551,13 +552,12 @@
                     })
             },
             fillConceptObservations(patientCardData){
-                const concepts = {} 
                 patientCardData.map(({concept: {conceptID}, value}, key) => {
-                    concepts[`concept${conceptID}`] = value
+                    this.concepts[`concept${conceptID}`] = value
                 })
 
-                this.loadConcepts(concepts)
-                this.loadARTstartDate(concepts.concept23)
+                this.loadConcepts(this.concepts)
+                this.loadARTstartDate(this.concepts.concept23)
             },
             calculatedBirthDate(ageType){
                const date = new Date(this.concepts.concept23)
@@ -609,7 +609,6 @@
                 }
             },
             getConditions(stageName){
-                console.log(stageName)
                 return (stageName !== null) ? 
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
