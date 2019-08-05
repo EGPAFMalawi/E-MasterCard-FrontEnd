@@ -510,6 +510,7 @@
                     finalPayload.push(...payloadForStatus);
                     finalPayload.push(...payloadForConfirmatory);
 
+                    debugger
                     this.handlePost(finalPayload, message);
                 }
             },
