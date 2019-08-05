@@ -27,26 +27,13 @@
                 :patientCard='patientCard'>
             </InitDataV7>
         </div>
-        <section>
-            <div class="container">
-                <form class="form-row " v-on:submit.prevent="initiatePost">
-                    <div class="col-md-12 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success btn-lg my-4">
-                            Update Data
-                            <font-awesome-icon icon="save" class="ml-1"/>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            
-        </section>
+        
         <div class="container">
             <div class="row justify-content-center">
                 <h5 class="text-align-center">Visit Data</h5>
             </div>
-            
         </div>
-        <div class="container-fluid d-flex justify-content-center">
+        <div class="container-fluid d-flex justify-content-center pt-4" style="background: #fff">
             <VisitDataV7 
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
@@ -54,15 +41,6 @@
                 :patientCard='patientCard'>
             </VisitDataV7>
         </div>
-        <section>
-            <div class="container">
-                    <form class="form-row " v-on:submit.prevent="initiatePost">
-                        <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">Update Data<font-awesome-icon icon="save" class="ml-1"/></button>
-                        </div>
-                    </form>
-            </div>
-        </section>
     </div>
 </template>
 

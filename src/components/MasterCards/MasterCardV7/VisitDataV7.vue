@@ -114,7 +114,7 @@
                     <td style="width:60px">
                         <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any">
                     </td>
-                    <td v-if="patient.person.gender === 'F'">
+                    <td style="width:50px" v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
@@ -130,7 +130,7 @@
                             <option value="Rx">Rx (Confirmed Rx)</option>
                         </select>
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
                             <option value="N">N</option>
@@ -194,7 +194,7 @@
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
                             <option value=">"> &gt; </option>
@@ -203,10 +203,10 @@
                             <option value="LDL">LDL</option>
                         </select>
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                     <td align="center">
@@ -332,12 +332,17 @@
                 </b-tooltip>
                 </tbody>
             </table>
-        </div>
-            <div class="form-row my-4">
-                <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Save Visit</button>
-                </div>
+            <div class="d-flex justify-content-end pl-0">
+                <button @click="updateVisitData" class="btn btn-success btn-lg my-4">
+                    Update Visit Data
+                    <font-awesome-icon icon="save" class="ml-1"/>
+                </button>
+                <button type="submit" class="btn btn-primary btn-lg my-4">
+                    Save Visit
+                </button>
             </div>
+        </div>
+            
         </form>
 </template>
 
@@ -353,6 +358,7 @@
         name: 'VisitDataV7',
         props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
+            ...mapActions(['visits/loadPatientCardData']),
             getPatientCardDetails(){
 
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
@@ -380,6 +386,10 @@
                 else{
                     this.processDataForPost(true, 'Visit Added')
                 }  
+            },
+            updateVisitData(e){
+                e.preventDefault()
+                this.processDataForPost(false, 'Visit Data Saved')
             },
             processDataForPost (isAddVisit, message){
                 let payload = [];
@@ -587,7 +597,6 @@
                 BASE_URL : 'patients',
                 encounters : [],
                 observations : {},
-                patientCardData : [],
                 show: false,
                 concepts : {
                     concept32 : '',
@@ -612,17 +621,14 @@
                     concept51 : '',
                     concept52: '',
                     concept53 : '',
-                }
+                },
+                patientCardData: []
             }
         },
         created() {
             this.getPatientCardDetails()
         },
         watch : {
-            postPayload : function ()
-            {
-                this.processDataForPost(false, 'Saved');
-            },
             encounterTypes : function (value) {
                 if (value.length > 0)
                 {
@@ -650,6 +656,10 @@
             }
         },
         computed: {
+            ...mapGetters([
+                'visits/concepts',
+                'visits/patientCardData'
+                ])
         }
     }
 </script>

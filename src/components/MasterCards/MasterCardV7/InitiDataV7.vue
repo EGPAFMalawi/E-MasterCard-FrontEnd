@@ -1,7 +1,8 @@
 <template>
+<div>
     <div class="row">
         <div class="card-group">
-        <div class="card my-4">
+            <div class="card my-4">
             <div class="card-header">
                 <h5 class="text-align-center">Patient / Guardian Details</h5>
             </div>
@@ -373,11 +374,17 @@
                         </div>
                     </form>
                 </div>
-            </div>  
-    
+            </div> 
+            
         </div>
-
     </div>
+    <div class="d-flex justify-content-end pl-0">
+        <button @click="updateInitConfData" class="btn btn-success btn-lg my-4">
+            Update Data
+            <font-awesome-icon icon="save" class="ml-1"/>
+        </button>
+    </div>
+</div>
 </template>
 
 <script>
@@ -469,8 +476,11 @@
                     .then(data => console.log(data))
                     .catch(error => console.error(error))
             },
+            updateInitConfData(e){
+                e.preventDefault()
+                this.processDataForPost('Initiation and Confirmatory Data Saved');
+            },
             processDataForPost(message){   
-                console.log(this.concepts)
 
                 let payloadForStatus = this.encounterTypes[1].concepts.map((item)=>{
                     return {
@@ -655,10 +665,7 @@
                 this.conditions = this.getConditions(this.concepts.concept3)
             }
         },
-        watch : {
-            postPayload : function (){
-                this.processDataForPost('Initiation and Confirmatory Data Saved');
-            },
+        watch: {
             encounterTypes : function (value) {
                 if (value.length > 0)
                 {
