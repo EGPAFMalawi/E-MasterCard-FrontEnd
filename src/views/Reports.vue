@@ -154,9 +154,6 @@
                     <div class="alert alert-warning" role="alert" v-if="patients[0] === undefined">
                         No Records Available here
                     </div>
-                    <div class="alert alert-primary" role="alert" v-if="patients[0] !== undefined">
-                        Download the excel sheet  <span v-on:click="downloadPEPFARDefaultersCount" class="alert-link">HERE</span>
-                    </div>
                     <table class="table" v-if="patients[0] !== undefined">
                         <thead class="thead-dark">
                             <tr>
@@ -203,7 +200,6 @@ export default {
     methods: {
         setPatient(patient)
         {
-            
             sessionStorage.setItem('patient',JSON.stringify(patient));
             this.$router.push('/patients/show')
         },
@@ -413,31 +409,7 @@ export default {
                 this.patients = result
             })
             .catch(error => console.log(error))
-        },
-
-        downloadPEPFARDefaultersCount (){
-            this.isLoading = true
-            
-            let endpoint = `${this.APIHosts.art}/${this.BASE_URL}/export?code=${this.payload.code}&type=${this.payload.type}`;
-
-            const token = JSON.parse(sessionStorage.getItem('auth')).accessToken;
-
-            fetch(endpoint, {
-                method: 'GET',
-                headers: new Headers({"Authorization": `Bearer ${token}`})
-            })
-            .then((res) => res.blob())
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob)
-                const a = document.createElement('a')
-                a.href = url
-                a.download = "report.xlsx"
-                document.body.appendChild(a)
-                a.click()    
-                a.remove()
-            })
-
-        },
+        }
 
     },
      created(){
@@ -526,7 +498,7 @@ export default {
                 },
                 mohctxcurrent: {
                     code: 7,
-                    type:'PEPFARTXCurrent'
+                    type:'MOHXCurrent'
                 },
                 ARTStop: {
                     code: 10,
