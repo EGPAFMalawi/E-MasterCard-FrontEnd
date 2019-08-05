@@ -358,7 +358,6 @@
         name: 'VisitDataV7',
         props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            ...mapActions(['visits/loadPatientCardData']),
             getPatientCardDetails(){
 
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
@@ -642,12 +641,9 @@
             },
             'concepts.concept32': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
-                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
-                
-                const startDate = localStorage.getItem('startDate')
-                
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)    
 
-                this.concepts.concept44 = this.calculateMonthsOnART(startDate, this.concepts.concept32)
+                this.concepts.concept44 = this.calculateMonthsOnART(this.startDate, this.concepts.concept32)
                 
             },
             'concepts.concept47': function(){
@@ -656,10 +652,7 @@
             }
         },
         computed: {
-            ...mapGetters([
-                'visits/concepts',
-                'visits/patientCardData'
-                ])
+            ...mapGetters(['startDate'])
         }
     }
 </script>

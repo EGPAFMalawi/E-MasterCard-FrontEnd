@@ -1,6 +1,5 @@
 import {authResource}  from '../../../authResource'
 import initiationConfirmatory from './initiation-confirmatory'
-import visits from './visits'
 
 const state = {
     patients: [],
@@ -54,7 +53,6 @@ const actions = {
                 const {data: {data}} = await authResource().post(url, payload)
                 commit('setPatientCardData', data)
                 resolve(data)
-                console.log(state)
             }
             catch(error){
                 reject(error)
@@ -112,8 +110,7 @@ const mutations = {
 }
 
 const modules = {
-    initiationConfirmatory,
-    visits
+    initiationConfirmatory
 }
 export default {
     state,
