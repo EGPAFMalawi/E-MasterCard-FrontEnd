@@ -1,17 +1,28 @@
 <template>
     <div class="row">
-        <div class="col-3">
-            <label>ART Reg no</label>
-            <p>{{ patient.artNumber}}</p>
+        <div class="col-4 pr-0 pl-0">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">ART Reg no</span>
+                </div>
+                <input type="text" class="form-control" v-model="patient.artNumber" disabled>
+            </div>
         </div>
-        <div class="col-3">
-            <label>Child HCC no</label>
-            <input v-model="concepts.concept30" class="form-control"  type="text">
+        <div class="col-4 pr-0">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Child HCC no</span>
+                </div>
+                <input type="text" class="form-control" v-model="concepts.concept30">
+            </div>
         </div>
-        <div class="col-3">
-            <label>Year</label>
-            <input v-model="concepts.concept31" name="Year" v-validate="'numeric'" class="form-control"  type="text">
-            <span>{{ errors.first('Year')}}</span>
+         <div class="col-4 pr-0">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Year</span>
+                </div>
+                <input type="number" class="form-control" v-model="concepts.concept31">
+            </div>
         </div>
     </div>
 </template>

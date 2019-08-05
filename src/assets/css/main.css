@@ -235,6 +235,12 @@ td .selection {
   right: 25px;
   font-size: 36px;
   margin-left: 50px; }
+
+
+.input-group-text {
+  border-radius: unset !important
+}
+
 @media (max-width: 1367px){
   body{
     zoom: 0.8;
