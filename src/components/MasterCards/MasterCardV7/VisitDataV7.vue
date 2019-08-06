@@ -146,20 +146,9 @@
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="1A">1A</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                            <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
+                                {{regimen.title}}
+                            </option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -258,21 +247,9 @@
                     <td>
                         <select v-model="concepts.concept39" class="form-control tb-form">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="1A">1A</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
-                            <option value="15A">15A</option>
+                            <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
+                                {{regimen.title}}
+                            </option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -652,7 +629,7 @@
             }
         },
         computed: {
-            ...mapGetters(['startDate'])
+            ...mapGetters(['startDate', 'regimens'])
         }
     }
 </script>

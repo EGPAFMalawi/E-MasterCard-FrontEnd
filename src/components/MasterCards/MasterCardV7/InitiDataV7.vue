@@ -38,8 +38,8 @@
                     </div>
                      <div class="col-md-4 mb-3">
                          <label></label>
-                        <div class="input-group pt-1">
-                            <button v-on:click="estimateDOB" class="btn btn-primary my-1 btn-sm">Estimate</button>
+                        <div class="input-group pt-1" v-if="showEstimateButton">
+                            <button @click="estimateDOB" class="btn btn-outline-primary my-1 btn-sm">Estimate DoB</button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                     </div>
                     
                 </div>  
-                <button class="btn btn-success" @click="updatePatient">UPDATE</button>
+                <button class="btn btn-outline-success" @click="updatePatient">UPDATE</button>
                 
             </div>
         </div>
@@ -186,15 +186,15 @@
 
                             <div class="form-row">
                                     <div class="col-md-6 mb-2">
-                                            <label >Age at Initiation</label>
-                                            <div class="form-inline fit-2-input-fields">
-                                            <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
-                                                <select class="form-control" v-model="concepts.concept54">
-                                                    <option value="Months">Months</option>
-                                                    <option value="Years">Years</option>
-                                                </select>
-                                            </div>
-                                            <button v-on:click="estimateAgeAtInitiation" class="btn btn-primary my-1">Estimate</button>
+                                        <label >Age at Initiation</label>
+                                        <div class="form-inline fit-2-input-fields">
+                                        <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
+                                            <select class="form-control" v-model="concepts.concept54">
+                                                <option value="Months">Months</option>
+                                                <option value="Years">Years</option>
+                                            </select>
+                                        </div>
+                                            <!-- <button v-on:click="estimateAgeAtInitiation" class="btn btn-outline-primary my-1">Estimate</button> -->
                                     </div>
                                     <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                             <label >Last ARVs (type/date)</label>
@@ -403,7 +403,6 @@
                 'patchPatient', 
                 'loadPatientCardData',
                 'resetPatientCardData',
-                'loadConcepts',
                 'loadARTstartDate'
             ]),
             updatePatient (){
@@ -566,7 +565,6 @@
                     this.concepts[`concept${conceptID}`] = value
                 })
 
-                this.loadConcepts(this.concepts)
                 this.loadARTstartDate(this.concepts.concept23)
             },
             calculatedBirthDate(ageType){
@@ -645,7 +643,7 @@
             estimateDOB(e){
                 e.preventDefault()
                 if((this.concepts.concept8 !== '' || this.concept.concept8 !== null )
-                    && this.patient.person.birthYear === null){
+                    && this.patient.person.birthdate === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
             }
@@ -657,6 +655,37 @@
                 conditions:[],
                 eval:null, //turns to boolean when evaluating 
                 evalEduDate: null, // turns to boolean when evaluating
+                showEstimateButton: false,
+                concepts : {
+                    concept1 : '',
+                    concept2 : '',
+                    concept3 : '',
+                    concept4 : '',
+                    concept5 : '',
+                    concept6 : '',
+                    concept7 : '',
+                    concept8 : '',
+                    concept9 : '',
+                    concept10 : '',
+                    concept11 : '',
+                    concept12 : '',
+                    concept13 : '',
+                    concept14 : '',
+                    concept15 : '',
+                    concept16 : '',
+                    concept17 : '',
+                    concept18 : '',
+                    concept19 : '',
+                    concept20 : '',
+                    concept21 : '',
+                    concept22 : '',
+                    concept23 : '',
+                    concept24 : '',
+                    concept25 : '',
+                    concept26 : '',
+                    concept27 : '',
+                    concept54 : ''
+                },
             }
         },
         created(){
@@ -696,9 +725,15 @@
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
+            'concepts.concept8': function(){
+                if (this.patient.person.birthdate === '' && this.concepts.concept8 !== '')
+                    this.showEstimateButton = true
+                else
+                    this.showEstimateButton = false
+            }
         },
         computed: {
-            ...mapGetters(['patientCardData', 'concepts', 'stages'])
+            ...mapGetters(['patientCardData', 'stages'])
         }
     }
 </script>
