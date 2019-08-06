@@ -47,7 +47,7 @@ Vue.mixin({
         }
     },
     methods: {
-        logout(){   
+        logout(){
                 sessionStorage.removeItem('patient')
                 sessionStorage.removeItem('auth')
                 this.$router.push('/login')

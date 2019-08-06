@@ -8,10 +8,9 @@
     export default {
         name: 'LogoutButton',
         methods: {
-            logout : function ()
-            {   
-                sessionStorage.removeItem('patient')
+            logout (){   
                 sessionStorage.removeItem('auth')
+                localStorage.removeItem('vuex')
                 this.$router.push('/login')
             }
         }
