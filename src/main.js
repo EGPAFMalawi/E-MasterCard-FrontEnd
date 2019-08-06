@@ -48,9 +48,9 @@ Vue.mixin({
     },
     methods: {
         logout(){
-                sessionStorage.removeItem('patient')
-                sessionStorage.removeItem('auth')
-                this.$router.push('/login')
+            localStorage.removeItem('vuex')
+            sessionStorage.removeItem('auth')
+            this.$router.push('/login')
         },
         openFullscreen(elem) {
             if (elem.requestFullscreen) {

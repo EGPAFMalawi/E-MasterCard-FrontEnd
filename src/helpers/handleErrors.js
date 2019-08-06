@@ -12,6 +12,7 @@ import Vue from 'vue'
         (error) => {
             if(error.response.data.message === "Unauthenticated."){
                 sessionStorage.removeItem('auth')
+                localStorage.removeItem('vuex')
                 window.location.assign("/login")
                 Vue.prototype.$toast.error(`Session Expired, Login again`, 'Error', notificationSystem.options.error)
             }

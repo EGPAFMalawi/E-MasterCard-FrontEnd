@@ -646,6 +646,16 @@
                     && this.patient.person.birthdate === ''){
                     this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
+            },
+            toggleAgeEstimateButton(){
+                if ((this.patient.person.birthdate === '' || this.patient.person.birthdate === null) 
+                    && (this.concepts.concept8.length > 0))
+                {
+                    console.log(('' === null))
+                    this.showEstimateButton = true
+                }
+                else
+                    this.showEstimateButton = false
             }
         },
         data: () => {
@@ -693,6 +703,7 @@
             if (this.concepts.concept3 && this.concepts.concept1){
                 this.conditions = this.getConditions(this.concepts.concept3)
             }
+            this.toggleAgeEstimateButton()
         },
         watch: {
             encounterTypes : function (value) {
@@ -726,10 +737,7 @@
                 this.conditions = this.getConditions(this.concepts.concept3)
             },
             'concepts.concept8': function(){
-                if (this.patient.person.birthdate === '' && this.concepts.concept8 !== '')
-                    this.showEstimateButton = true
-                else
-                    this.showEstimateButton = false
+                this.toggleAgeEstimateButton()
             }
         },
         computed: {
