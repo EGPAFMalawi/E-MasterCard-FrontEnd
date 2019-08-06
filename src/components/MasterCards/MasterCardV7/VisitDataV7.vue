@@ -345,7 +345,6 @@
 
                 authResource().post(url, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
@@ -512,16 +511,6 @@
                 else{
                     return 0
                 }
-            },
-
-            assignNextAppointment(currentVisitDate, givenPills){
-                const givenPillsInt = parseInt(givenPills)
-                const fromDate = new Date(currentVisitDate)
-
-                const nextApponintmentDate = new Date(currentVisitDate) 
-                nextApponintmentDate.setDate(fromDate.getDate() + givenPillsInt)
-
-                return nextApponintmentDate.toISOString().split('T')[0]
             },
             calculateMaxStartDate(){
                 const today = new Date()

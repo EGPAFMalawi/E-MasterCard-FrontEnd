@@ -13,28 +13,25 @@
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
 
     export default {
         name: 'RegistrationDataV7Paeds',
-        props : ['encounterTypes', 'postPayload'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
             getPatientCardDetails : function ()
             {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[0].encounterTypeID,
                     'consider-version' : true
                 };
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().post(url, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+                    .catch((error)=> console.warn(error))
             },
             processDataForPost: function ()
             {
@@ -100,18 +97,6 @@
                     concept31 : '',
                 }
             }
-        },
-        created() {
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!patient || !patientCard){
-                this.$router.push('/')
-            }
-
-            this.patient = patient;
-            this.patientCard = patientCard;
-            console.log(this.patient)
         },
 
         watch : {

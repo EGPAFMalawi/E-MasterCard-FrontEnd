@@ -26,13 +26,13 @@
         methods: {
             getPatientCardDetails : function ()
             {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[0].encounterTypeID,
                     'consider-version' : true
                 };
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().post(url, payload)
                     .then((response)=>{
                         this.patientCardData.push(...response.data.data)
                     })
@@ -102,8 +102,6 @@
                 }
             }
         },
-        created() {},
-
         watch : {
             postPayload : function ()
             {
@@ -118,8 +116,6 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
             }
-        },
-        computed: {
         }
     }
 </script>

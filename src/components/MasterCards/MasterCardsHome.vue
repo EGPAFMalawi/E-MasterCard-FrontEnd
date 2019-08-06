@@ -7,8 +7,14 @@
 
         </div>
         <div class="container-fluid py-4">
-            <MasterCardV7 v-if="patientCard.masterCard.version == '7 Adults'" :patientCard="patientCard" :patient='patient'></MasterCardV7>
-            <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" :patientCard="patientCard"></MasterCardV7Paeds>
+            <MasterCardV7 v-if="patientCard.masterCard.version == '7 Adults'" 
+                :patientCard="patientCard" 
+                :patient='patient'>
+            </MasterCardV7>
+            <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" 
+                :patientCard="patientCard"
+                :patient='patient'>
+            </MasterCardV7Paeds>
             <div v-else>MasterCard Version not yet Supported</div>
         </div>
     </div>

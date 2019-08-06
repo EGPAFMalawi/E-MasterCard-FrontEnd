@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="row">
         <div class="card-group">
                     <div class="card my-4">
@@ -23,18 +24,23 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-6 mb-3">
-                                        <label>Sex*</label>
-                                        <div class="input-group pt-1">
-                                            <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
-                                            <span style="padding: 10px"></span>
-                                            <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
-                                        </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Sex*</label>
+                                    <div class="input-group pt-1">
+                                        <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
+                                        <span style="padding: 5px"></span>
+                                        <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label >Date of Birth</label>
                                     <input type="date" ref="regimenStartDate" class="form-control" v-model="patient.person.birthdate">
-                                    <button v-on:click="estimateDOB" class="btn btn-primary my-1">Estimate</button>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label></label>
+                                    <div class="input-group pt-1" v-if="showEstimateButton">
+                                        <button @click="estimateDOB" class="btn btn-outline-primary my-1 btn-sm">Estimate DoB</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -77,9 +83,12 @@
                                 </div>
                                 
                             </div>  
-                            <button class="btn btn-success" @click="updatePatient">UPDATE</button>
+                             <button class="btn btn-outline-success" @click="updatePatient">UPDATE</button>
                         </div>
                     </div>
+                    <!-- Patient Details end here -->
+
+                    <!-- Status at ART Initiation starts -->
                     <div class="card my-4">
                         <div class="card-header">
                             <h5 class="text-align-center">Status at ART Initiation</h5>
@@ -178,7 +187,7 @@
                                                         <option value="Years">Years</option>
                                                     </select>
                                                 </div>
-                                                <button v-on:click="estimateAgeAtInitiation" class="btn btn-primary my-1">Estimate</button>
+                                                <!-- <button v-on:click="estimateAgeAtInitiation" class="btn btn-primary my-1">Estimate</button> -->
                                         </div>
                                         <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
                                                 <label >Last ARVs (type/date)</label>
@@ -254,10 +263,10 @@
                                             </select>
                                             <input v-model="concepts.concept19" type="date" ref="regimenStartDate" class="form-control" required>
                                     </div>
-                                    <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
+                                    <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="evalEduDate">
+                                    <b-form-valid-feedback v-if="concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Looks Good. (Coming before ART Regimen start date)
                                     </b-form-valid-feedback>
                             </div>
@@ -302,38 +311,12 @@
                                     <b-form-valid-feedback :state="eval">
                                         Looks Good. (Coming after ART education date)
                                     </b-form-valid-feedback>
-                                        <b-form-invalid-feedback v-if="concepts.concept19 !== ''" :state="evalEduDate">
+                                        <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="evalEduDate">
+                                    <b-form-valid-feedback v-if="concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Looks Good. (Coming after ART education date)
                                     </b-form-valid-feedback>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="col-md-12 mb-2">
-                                    <label >Current Regimens</label>
-                                    <div class="form-inline fit-2-input-fields">
-                                            <select v-model="concepts.concept24" class="form-control">
-                                                <option :value="null" disabled>Regimen</option>
-                                                <option value=""></option>
-                                                <option value="0P">0P</option>
-                                                <option value="1P">1P</option>
-                                                <option value="2P">2P</option>
-                                                <option value="3P">3P</option>
-                                                <option value="4P">4P</option>
-                                                <option value="9P">9P</option>
-                                                <option value="0P">0A</option>
-                                                <option value="1A">1A</option>
-                                                <option value="2A">2A</option>
-                                                <option value="3A">3A</option>
-                                                <option value="4A">4A</option>
-                                                <option value="9A">9A</option>
-                                                <option value="Oth">Oth</option>
-                                            </select>
-                                            <input v-model="concepts.concept25" type="date" ref="regimenStartDate" class="form-control" required>
-                                    </div>
                             </div>
                         </div>
                     </form>
@@ -341,20 +324,33 @@
             </div>  
 
         </div>
-
     </div>
+    <div class="d-flex justify-content-end pl-0">
+        <button @click="updateInitConfData" class="btn btn-success btn-lg my-4">
+            Update Data
+            <font-awesome-icon icon="save" class="ml-1"/>
+        </button>
+    </div>
+</div>
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
     import { notificationSystem } from '../../../globals'
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'InitDataV7Paeds',
-        props : ['encounterTypes', 'postPayload'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            updatePatient : function ()
-            {
+            ...mapActions([
+                'selectPatient', 
+                'patchPatient', 
+                'loadPatientCardData',
+                'resetPatientCardData',
+                'loadARTstartDate'
+            ]),
+            updatePatient (){
                 if (this.patient.person.gender === ''){
                     this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 } else{
@@ -374,20 +370,21 @@
                         region : this.region,
                         subregion : this.subregion,
                     };
-                    
-                    let dhisAPIEndpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
 
-                    authResource().patch(dhisAPIEndpoint, payload)
-                        .then(({data: {data}})=>{
+                    let endpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
+                    this.patchPatient({endpoint, payload})
+                        .then((message)=>{
                             this.isLoading = false
-                            sessionStorage.setItem('patient', JSON.stringify(this.patient))
-                            this.$toast.success('Patient details updated!', 'OK', notificationSystem.options.success)
-                            
+                            this.$toast.success(message, 'OK', notificationSystem.options.success)
                         })
                         .catch(({response: {data: {errors}, data}}) => {
-
                             return Object.values(errors).forEach(error => {
-                                this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                                this.$toast.error(
+                                    `${data.message}, 
+                                    ${error[0]}`, 
+                                    'Error', 
+                                    notificationSystem.options.error
+                                    )
                             });
                                 
                         }) 
@@ -396,37 +393,34 @@
             },
             getPatientCardStatusAtInitDetails : function ()
             {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[1].encounterTypeID,
                     'consider-version' : false
                 };
 
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        console.log(response);
-                        this.patientCardData.push(...response.data.data)
+                this.loadPatientCardData({url, payload})
+                    .then(data => {
+                        if (data.length < 1){
+                            this.resetPatientCardData()
+                        }
                     })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+                    .catch(error => console.error(error))
             },
             getPatientCardConfirmatoryDetails : function ()
             {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[2].encounterTypeID,
                     'consider-version' : false
                 };
-
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        console.log(response);
-                        this.patientCardData.push(...response.data.data)
-                    })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+                this.loadPatientCardData({url, payload})
+                    .then(data => console.log(data))
+                    .catch(error => console.error(error))
+            },
+            updateInitConfData(e){
+                e.preventDefault()
+                this.processDataForPost('Initiation and Confirmatory Data Saved');
             },
             processDataForPost: function (message)
             {
@@ -482,7 +476,7 @@
             },
             handlePost: function (payload, message)
             {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
+                let url = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
                     'patient-card' : this.patientCard.patientCardID,
                     'observations' : payload
@@ -490,26 +484,30 @@
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
-                        console.log(response);
-                        this.patientCardData = [];
+                        this.resetPatientCardData()
                         this.getPatientCardStatusAtInitDetails();
                         this.getPatientCardConfirmatoryDetails();
+                        this.selectPatient(this.patient)
                         this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
-                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            this.$toast.error(
+                                `${data.message}, 
+                                ${error[0]}`, 
+                                'Error', 
+                                notificationSystem.options.error
+                            )
                         });
                         
                     })
             },
-            fillConceptObservations: function (patientCardData)
-            {
-                for (var i = 0; i < patientCardData.length; i++)
-                {
-                    this.concepts['concept'+patientCardData[i].concept.conceptID] = patientCardData[i].value
-                }
-                localStorage.setItem('startDate', this.concepts.concept23)
+            fillConceptObservations(patientCardData){
+                patientCardData.map(({concept: {conceptID}, value}, key) => {
+                    this.concepts[`concept${conceptID}`] = value
+                })
+
+                this.loadARTstartDate(this.concepts.concept23)
             },
              calculatedBirthDate(ageType){
                const date = new Date(this.concepts.concept23)
@@ -561,9 +559,6 @@
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
             },
-            getPersonDoB(){
-                return JSON.parse(sessionStorage.getItem('patient')).person.birthdate
-            },
             handleAgeEstimation()
             {
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
@@ -581,92 +576,33 @@
                     this.concepts.concept54 = 'Months'
                 }
             },
-            estimateAgeAtInitiation(){
-                this.handleAgeEstimation();
-            },
             estimateDOB(){
+                e.preventDefault()
                 if(this.concepts.concept8 === ''){
-                    this.patient.person.birthdate = JSON.parse(sessionStorage.getItem('patient')).person.birthdate;
+                    this.patient.person.birthdate = ''
                 }else{
                     this.patient.person.birthdate = this.calculatedBirthDate(this.concepts.concept54)
                 }
+            },
+            toggleAgeEstimateButton(){
+                if ((this.patient.person.birthdate === '' || this.patient.person.birthdate === null) 
+                    && (this.concepts.concept8.length > 0))
+                {
+                    console.log(('' === null))
+                    this.showEstimateButton = true
+                }
+                else
+                    this.showEstimateButton = false
             }
         },
         data: () => {
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-                patientCardData : [
-
-                ],
-                masterCardWithDetails : {},
                 conditions:[],
-                stages: [
-                    {
-                        name: 'Clinical stage 1',
-                        conditions: ['Asymptomatic', 'Persistent generalized lymphadenopathy']
-                    },
-                    {
-                        name: 'Clinical stage 2',
-                        conditions: [ 
-                            'Moderate unexplained weight loss (<10% ofpresumed or measured body weight)',
-                            'Recurrent respiratory tract infections (sinusitis tonsillitis, otitis media, pharyngitis)', 
-                            'Herpes zoster',
-                            'Angular cheilitis',
-                            'Recurrent oral ulceration',
-                            'Papular pruritic eruption',
-                            'Fungal nail infections',
-                            'Seborrhoeic dermatitis'
-                        ]
-                    },
-                    {
-                        name: 'Clinical stage 3',
-                        conditions: [
-                            'Unexplained severe weight loss (>10% of presumed or measured body weight)',
-                            'Unexplained chronic diarrhoea for longer than 1 month',
-                            'Unexplained persistent fever (intermittent or constant for longer than 1 month)',
-                            'Persistent oral candidiasis',
-                            'Oral hairy leukoplakia',
-                            'Pulmonary tuberculosis',
-                            'Severe bacterial infections (such as pneumonia, empyema, pyomyositis, bone or joint infection, meningitis, bacteraemia)',
-                            'Acute necrotizing ulcerative stomatitis, gingivitis or periodontitis',
-                            'Unexplained anaemia (<8 g/dl)',
-                            'neutropaenia (<0.5 x 109/l) and/or chronic thrombocytopaenia (<50 x 109/l)'
-                        ]
-                    },
-                    {
-                        name: 'Clinical stage 4',
-                        conditions: [
-                            'HIV wasting syndrome',
-                            'Pneumocystis (jirovecii) pneumonia',
-                            'Recurrent severe bacterial pneumonia',
-                            'Chronic herpes simplex infection (orolabial, genital or anorectal of more than 1 month’s duration or visceral at any site)',
-                            'Oesophageal candidiasis (or candidiasis of trachea, bronchi or lungs)',
-                            'Extrapulmonary tuberculosis',
-                            'Kaposi sarcoma',
-                            'Cytomegalovirus infection (retinitis or infection of other organs)',
-                            'Central nervous system toxoplasmosis',
-                            'HIV encephalopathy',
-                            'Extrapulmonary cryptococcosis, including meningitis',
-                            'Disseminated nontuberculous mycobacterial infection',
-                            'Progressive multifocal leukoencephalopathy',
-                            'Chronic cryptosporidiosis',
-                            'Chronic isosporiasis',
-                            'Disseminated mycosis (extrapulmonary histoplasmosis, coccidioidomycosis',
-                            'Lymphoma (cerebral or B-cell non-Hodgkin)',
-                            'Symptomatic HIV-associated nephropathy or cardiomyopathy',
-                            'Recurrent septicaemia (including nontyphoidal Salmonella)',
-                            'Invasive cervical carcinoma',
-                            'Atypical disseminated leishmaniasis'
-                        ]
-                    },
-                ],
+                eval:null, //turns to boolean when evaluating 
+                evalEduDate: null, // turns to boolean when evaluating
+                showEstimateButton: false,
                 concepts : {
                     concept1 : '',
                     concept2 : '',
@@ -697,29 +633,17 @@
                     concept27 : '',
                     concept54 : '',
                 },
-                eval:false,
-                evalEduDate: false,
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!patient || !patientCard){
-                this.$router.push('/')
+            this.fillConceptObservations(this.patientCardData)
+            if (this.concepts.concept3 && this.concepts.concept1){
+                this.conditions = this.getConditions(this.concepts.concept3)
             }
-
-            this.patient = patient;
-            this.patientCard = patientCard;
+            this.toggleAgeEstimateButton()
         },
 
         watch : {
-            postPayload : function ()
-            {
-                this.processDataForPost('Initiation and Confirmatory Data Saved');
-            },
             encounterTypes : function (value) {
                 if (value.length > 0)
                 {
@@ -735,7 +659,7 @@
             'concepts.concept23': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
                 
-                if (this.getPersonDoB() === ''){
+                if (this.patient.person.birthdate === ''){
                     this.setMinMax()
                 }
 
@@ -749,8 +673,13 @@
             },
             'concepts.concept3': function(){
                 this.conditions = this.getConditions(this.concepts.concept3)
-                console.log(this.conditions)
             },
+            'concepts.concept8': function(){
+                this.toggleAgeEstimateButton()
+            }
+        },
+        computed: {
+            ...mapGetters(['patientCardData', 'stages'])
         }
     }
 </script>
