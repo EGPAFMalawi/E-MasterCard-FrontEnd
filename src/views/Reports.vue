@@ -193,7 +193,7 @@
 <script>
 
 import NavBar from "./NavBar";
-import authResource from './../authResource'
+import {authResource} from './../authResource'
 import { countAll, loadAll } from './reports.utils'
 
 
