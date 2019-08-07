@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import store from './store'
+
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
  
@@ -45,10 +47,10 @@ Vue.mixin({
         }
     },
     methods: {
-        logout(){   
-                sessionStorage.removeItem('patient')
-                sessionStorage.removeItem('auth')
-                this.$router.push('/login')
+        logout(){
+            localStorage.removeItem('vuex')
+            sessionStorage.removeItem('auth')
+            this.$router.push('/login')
         },
         openFullscreen(elem) {
             if (elem.requestFullscreen) {
@@ -71,5 +73,6 @@ Vue.mixin({
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

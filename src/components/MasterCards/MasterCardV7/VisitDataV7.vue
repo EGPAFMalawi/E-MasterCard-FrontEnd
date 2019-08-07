@@ -114,7 +114,7 @@
                     <td style="width:60px">
                         <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any">
                     </td>
-                    <td v-if="patient.person.gender === 'F'">
+                    <td style="width:50px" v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
@@ -130,7 +130,7 @@
                             <option value="Rx">Rx (Confirmed Rx)</option>
                         </select>
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
                             <option value="N">N</option>
@@ -146,20 +146,9 @@
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="1A">1A</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
+                            <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
+                                {{regimen.title}}
+                            </option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -194,7 +183,7 @@
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form">
                             <option value=""></option>
                             <option value=">"> &gt; </option>
@@ -203,10 +192,10 @@
                             <option value="LDL">LDL</option>
                         </select>
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
-                    <td>
+                    <td style="width:60px">
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
                     </td>
                     <td align="center">
@@ -258,21 +247,9 @@
                     <td>
                         <select v-model="concepts.concept39" class="form-control tb-form">
                             <option value=""></option>
-                            <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                            <option value="1A">1A</option>
-                            <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                            <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                            <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                            <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                            <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                            <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                            <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                            <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                            <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                            <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                            <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                            <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
-                            <option value="15A">15A</option>
+                            <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
+                                {{regimen.title}}
+                            </option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -332,46 +309,49 @@
                 </b-tooltip>
                 </tbody>
             </table>
-        </div>
-            <div class="form-row my-4">
-                <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Save Visit</button>
-                </div>
+            <div class="d-flex justify-content-end pl-0">
+                <button @click="updateVisitData" class="btn btn-success btn-lg my-4">
+                    Update Visit Data
+                    <font-awesome-icon icon="save" class="ml-1"/>
+                </button>
+                <button type="submit" class="btn btn-primary btn-lg my-4">
+                    Save Visit
+                </button>
             </div>
+        </div>
+            
         </form>
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
     import _ from 'lodash'
     import { notificationSystem } from '../../../globals'
     import { networkInterfaces } from 'os';
-import { constants } from 'crypto';
+    import { constants } from 'crypto';
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'VisitDataV7',
-        props: ['encounterTypes', 'postPayload'],
+        props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            getPatientCardDetails : function ()
-            {
+            getPatientCardDetails(){
 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,
                     'consider-version' : true
                 };
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().post(url, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
                         console.log(error)
                     })
             },
-            addNewVisit :function()
-            {
+            addNewVisit(){
                 if(this.concepts.concept47 <= this.concepts.concept32){
                     this.$toast.error(
                         `Appointment date is before or same as vist date`, 
@@ -382,12 +362,14 @@ import { constants } from 'crypto';
                     this.processDataForPost(true, 'Visit Added')
                 }  
             },
-            processDataForPost: function (isAddVisit, message)
-            {
+            updateVisitData(e){
+                e.preventDefault()
+                this.processDataForPost(false, 'Visit Data Saved')
+            },
+            processDataForPost (isAddVisit, message){
                 let payload = [];
 
-                if (isAddVisit)
-                {
+                if (isAddVisit){
                     let newPayload = this.encounterTypes[3].concepts.map((item)=>{
                         return {
                             'concept' : item.conceptID,
@@ -418,8 +400,7 @@ import { constants } from 'crypto';
 
                 this.handlePost(payload, message);
             },
-            getObservation: function (conceptID)
-            {
+            getObservation (conceptID){
                 let obs = this.patientCardData.filter((item)=>{
                     return item.concept.conceptID === conceptID
                 });
@@ -429,8 +410,7 @@ import { constants } from 'crypto';
                 else
                     return null
             },
-            handlePost: function (payload, message)
-            {
+            handlePost (payload, message){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
                     'patient-card' : this.patientCard.patientCardID,
@@ -446,46 +426,46 @@ import { constants } from 'crypto';
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
-                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            this.$toast.error(
+                                `${data.message}, 
+                                ${error[0]}`, 
+                                'Error', 
+                                notificationSystem.options.error
+                            )
                         });
                         
                     })
             },
-            fillConceptObservations: function (patientCardData)
-            {
-                
-                let mappedObs = patientCardData.map((item)=>{
-                                   return {
-                                       observation : item.observationID,
-                                       concept : item.concept.conceptID,
-                                       encounter : item.encounter.encounterID,
-                                       encounterVoided : item.encounter.voided,
-                                       value : item.value
-                                   }
-                                });
-                
-                this.observations = _.keyBy(mappedObs,(item)=>{
-                               return 'concept'+item.concept+'Encounter'+item.encounter
-                            });
+            fillConceptObservations (patientCardData){
+                const observations = []
+
+                patientCardData.forEach((item, key)=>{
+                    const observation = {
+                        observation : item.observationID,
+                        concept : item.concept.conceptID,
+                        encounter : item.encounter.encounterID,
+                        encounterVoided : item.encounter.voided,
+                        value : item.value
+                    }
+                    const newkey = 'concept'+observation.concept+'Encounter'+observation.encounter
+                    this.observations[newkey] = observation
+                });
                 
                 this.encounters  = _.chain(patientCardData)
-                        .groupBy((item)=>{
-                            return item.encounter.encounterID
-                        })
-                        .toPairs()
-                        .map(pair => _.zipObject(['encounterID', 'data'], pair))
-                        .sortBy((group)=>{
-                            let value =  _.find(group.data,(b)=>{
-                                return b.concept.conceptID === 32
-                            }).value;
-                            return new Date(value)
-                        })
-                        .value();
-
-                    console.log(this.observations)
+                    .groupBy((item)=> {
+                        return item.encounter.encounterID
+                    })
+                    .toPairs()
+                    .map(pair => _.zipObject(['encounterID', 'data'], pair))
+                    .sortBy((group)=>{
+                        let value =  _.find(group.data,(b)=>{
+                            return b.concept.conceptID === 32
+                        }).value;
+                        return new Date(value)
+                    })
+                    .value();
             },
-            clearFields : function()
-            {
+            clearFields(){
                 this.concepts = {
                     concept32 : '',
                     concept33 : '',
@@ -509,7 +489,6 @@ import { constants } from 'crypto';
                     concept51 : '',
                     concept52: '',
                     concept53 : '',
-
                 }
             },
              evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
@@ -527,22 +506,11 @@ import { constants } from 'crypto';
                     currentVisitDate = new Date(currentVisitDate)
 
                     const months = currentVisitDate.getMonth() - artStartDate.getMonth() + (12 * (currentVisitDate.getFullYear() - artStartDate.getFullYear()))
-                    console.log(currentVisitDate, JSON.parse(JSON.stringify(this.patient)))
                     return months
                 }
                 else{
                     return 0
                 }
-            },
-
-            assignNextAppointment(currentVisitDate, givenPills){
-                const givenPillsInt = parseInt(givenPills)
-                const fromDate = new Date(currentVisitDate)
-
-                const nextApponintmentDate = new Date(currentVisitDate) 
-                nextApponintmentDate.setDate(fromDate.getDate() + givenPillsInt)
-
-                return nextApponintmentDate.toISOString().split('T')[0]
             },
             calculateMaxStartDate(){
                 const today = new Date()
@@ -592,17 +560,8 @@ import { constants } from 'crypto';
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
                 encounters : [],
                 observations : {},
-                patientCardData : [
-
-                ],
                 show: false,
                 concepts : {
                     concept32 : '',
@@ -627,28 +586,14 @@ import { constants } from 'crypto';
                     concept51 : '',
                     concept52: '',
                     concept53 : '',
-                }
+                },
+                patientCardData: []
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!patient || !patientCard){
-                this.$router.push('/')
-            }
-
-            this.patient = patient;
-            this.patientCard = patientCard;
-
+            this.getPatientCardDetails()
         },
         watch : {
-            postPayload : function ()
-            {
-                this.processDataForPost(false, 'Saved');
-            },
             encounterTypes : function (value) {
                 if (value.length > 0)
                 {
@@ -662,18 +607,18 @@ import { constants } from 'crypto';
             },
             'concepts.concept32': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
-                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
-                
-                const startDate = localStorage.getItem('startDate')
-                
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)    
 
-                this.concepts.concept44 = this.calculateMonthsOnART(startDate, this.concepts.concept32)
+                this.concepts.concept44 = this.calculateMonthsOnART(this.startDate, this.concepts.concept32)
                 
             },
             'concepts.concept47': function(){
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
+        },
+        computed: {
+            ...mapGetters(['startDate', 'regimens'])
         }
     }
 </script>

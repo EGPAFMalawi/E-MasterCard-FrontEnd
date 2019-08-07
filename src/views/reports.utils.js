@@ -1,4 +1,4 @@
-import authResource from './../authResource'
+import {authResource} from './../authResource'
 
 export const countAll = (url, payload) => {
    let endpoint = `${url}/counts?code=${payload.code}&type=${payload.type}`

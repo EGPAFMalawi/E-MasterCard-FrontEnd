@@ -11,35 +11,37 @@
                         </h5>  
                     </li>
                 </ul>
-                <RegistrationDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></RegistrationDataV7Paeds>
+                <RegistrationDataV7Paeds 
+                    :encounterTypes="masterCardDetails.encounterTypes" 
+                    :postPayload="postPayload"
+                    :patient='patient'
+                    :patientCard='patientCard'>
+                </RegistrationDataV7Paeds>
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <InitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></InitDataV7Paeds>
+            <InitDataV7Paeds 
+                :encounterTypes="masterCardDetails.encounterTypes" 
+                :postPayload="postPayload"
+                :patient='patient'
+                :patientCard='patientCard'>
+            </InitDataV7Paeds>
         </div>
-        <section>
-            <div class="container">
-                    <form class="form-row " v-on:submit.prevent="initiatePost">
-                        <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">Update Data <font-awesome-icon icon="save" class="ml-1"/></button>
-                        </div>
-                    </form>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <h5 class="text-align-center">Visit Data</h5>
             </div>
-            
-        </section>
-        <div class="container-fluid d-flex justify-content-center">
-            <VisitDataV7Paeds :encounterTypes="masterCardWithDetails.encounterTypes" :postPayload="postPayload"></VisitDataV7Paeds>
         </div>
-        <section>
-            <div class="container">
-                    <form class="form-row " v-on:submit.prevent="initiatePost">
-                        <div class="col-md-12 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-lg my-4">Update Data <font-awesome-icon icon="save" class="ml-1"/></button>
-                        </div>
-                    </form>
-            </div>
-            
-        </section>
+
+        <div class="container-fluid d-flex justify-content-center pt-4" style="background: #fff">
+            <VisitDataV7Paeds 
+                :encounterTypes="masterCardDetails.encounterTypes" 
+                :postPayload="postPayload"
+                :patient='patient'
+                :patientCard='patientCard'>
+            </VisitDataV7Paeds>
+        </div>
     </div>
 </template>
 
@@ -48,27 +50,23 @@
     import InitDataV7Paeds from "./InitiDataV7Paeds";
     import VisitDataV7Paeds from "./VisitDataV7Paeds";
     import RegistrationDataV7Paeds from "./RegistrationDataV7Paeds";
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'MasterCardV7Paeds',
+        props: ['patient', 'patientCard'],
         components: {RegistrationDataV7Paeds, VisitDataV7Paeds, InitDataV7Paeds},
         methods: {
+            ...mapActions(['loadMasterCardDetails']),
             goBack(){
                  this.$router.go(-1)
             },
             
-            getMasterCardDetails : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
-
-                authResource().get(dhisAPIEndpoint)
-                    .then((response)=>{
-                        console.log(JSON.parse(JSON.stringify(response.data.data)))
-                        this.masterCardWithDetails = response.data.data
-                    })
-                    .catch((error)=>{
-                        console.log(error)
-                    })
+            getMasterCardDetails(){
+                const url = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
+                this.loadMasterCardDetails({url})
+                    .then( message => console.info(message) )
+                    .catch(err => console.error(err))
             },
             initiatePost : function ()
             {
@@ -78,32 +76,14 @@
         data: () => {
             return {
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-                masterCardWithDetails : {
-                    encounterTypes : []
-                },
                 postPayload : 0
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!patient || !patientCard){
-                this.$router.push('/')
-            }
-
-            this.patient = patient;
-            this.patientCard = patientCard;
-
             this.getMasterCardDetails();
+        },
+        computed: {
+            ...mapGetters(['masterCardDetails'])
         }
     }
 </script>

@@ -3,51 +3,47 @@
         <div>
             <NavBar></NavBar>
         </div>
-        <div class="container-fluid py-2">
-            <MasterCardV7 v-if="patientCard.masterCard.version == '7 Adults'" :patientCard="patientCard"></MasterCardV7>
-            <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" :patientCard="patientCard"></MasterCardV7Paeds>
+        <div>
+
+        </div>
+        <div class="container-fluid py-4">
+            <MasterCardV7 v-if="patientCard.masterCard.version == '7 Adults'" 
+                :patientCard="patientCard" 
+                :patient='patient'>
+            </MasterCardV7>
+            <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" 
+                :patientCard="patientCard"
+                :patient='patient'>
+            </MasterCardV7Paeds>
             <div v-else>MasterCard Version not yet Supported</div>
         </div>
     </div>
 </template>
 
 <script>
-    import MasterCardV5 from "./MasterCardV5/MasterCardV5";
-    import MasterCardV6 from "./MasterCardV6/MasterCardV6";
-    import MasterCardV7 from "./MasterCardV7/MasterCardV7";
-    import MasterCardV7Paeds from "./MasterCardV7/MasterCardV7Paeds";
+    import MasterCardV7 from "./MasterCardV7/MasterCardV7"
+    import MasterCardV7Paeds from "./MasterCardV7/MasterCardV7Paeds"
     import NavBar from "../../views/NavBar";
+    import { mapGetters } from 'vuex' 
 
     export default {
         name: 'MasterCardsHome',
         components: {
             NavBar,
-            MasterCardV7, MasterCardV6, MasterCardV5, MasterCardV7Paeds},
+            MasterCardV7, MasterCardV7Paeds
+        },
         data: () => {
             return {
-                BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-                patientCard : {
-                    masterCard : {}
-                }
+                BASE_URL : 'patients'
             }
         },
         created() {
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'))
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'))
-
-            if (!patient || !patientCard){
+            if (!this.patient || !this.patientCard){
                 this.$router.push('/')
             }
-
-            this.patient = patient
-            this.patientCard = patientCard
+        },
+        computed: {
+             ...mapGetters(['patient', 'patientCard'])
         }
     }
 </script>

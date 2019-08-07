@@ -86,17 +86,18 @@
 <script>
 
     import NavBar from "../../views/NavBar"
-    import authResource from './../../authResource'
+    import {authResource} from './../../authResource'
     import { version } from 'punycode'
     import { notificationSystem } from '../../globals'
-import { async } from 'q';
+    import { async } from 'q';
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'ShowPatient',
         components: {NavBar},
         methods: {
-            getMasterCards : function ()
-            {
+            ...mapActions(['createPatientCard', 'mutatePatientCard']),
+            getMasterCards(){
                 let dhisAPIEndpoint = `${this.APIHosts.art}/master-cards`;
 
                 authResource().get(dhisAPIEndpoint)
@@ -107,22 +108,17 @@ import { async } from 'q';
                         console.log(error)
                     })
             },
-            addNewPatientCard : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards`;
+            addNewPatientCard (){
+                let url = `${this.APIHosts.art}/patient-cards`;
 
                 let payload = {
                     'master-card' : this.selectedMasterCardVersion,
                     patient : this.patient.patientID
                 };
-
-                authResource().post(dhisAPIEndpoint, payload)
-                    .then((response)=>{
-                        console.log(response)
-                        sessionStorage.setItem('patientCard', JSON.stringify(response.data.data))
-                        this.$toast.success('Successfully created new card!', 'OK', notificationSystem.options.success)
+                this.createPatientCard({url, payload})
+                    .then(message => {
+                        this.$toast.success(message, 'OK', notificationSystem.options.success)
                         this.$router.push('/patients/show/card')
-                        
                     })
                     .catch(({response: {data: {errors}, data}}) => {
                         return Object.values(errors).forEach(error => {
@@ -131,9 +127,8 @@ import { async } from 'q';
                         
                     })
             },
-            setPatientCard : function (patientCard)
-            {
-                sessionStorage.setItem('patientCard', JSON.stringify(patientCard))
+            setPatientCard (patientCard){
+                this.mutatePatientCard(patientCard)
 
                 this.$router.push('/patients/show/card')
             },
@@ -142,13 +137,6 @@ import { async } from 'q';
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
-
                 art_number:'',
                 step:'',
                 stepDate:'',
@@ -162,13 +150,10 @@ import { async } from 'q';
         },
         created() {
             this.getMasterCards()
-            let patient = JSON.parse(sessionStorage.getItem('patient'))
             
-            if (!patient){
+            if (!this.patient){
                 this.$router.push('/')
             }
-
-            this.patient = patient
         },
 
         watch : {
@@ -194,6 +179,9 @@ import { async } from 'q';
                         return name
                 })
             }
+        },
+        computed: {
+            ...mapGetters(['patient', 'patientCard'])
         }
     }
 </script>

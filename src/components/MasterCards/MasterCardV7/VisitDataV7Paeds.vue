@@ -332,43 +332,45 @@
                     Visit Date must be before Appointment Date
                 </b-tooltip>
             </table>
-        </div>
-            <div class="form-row my-4" v-if="patient.lastStep.step !== 'Died'">
-                <div class="col-md-12 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-lg my-4">Save Visit</button>
-                </div>
+            <div class="d-flex justify-content-end pl-0">
+                <button @click="updateVisitData" class="btn btn-success btn-lg my-4">
+                    Update Visit Data
+                    <font-awesome-icon icon="save" class="ml-1"/>
+                </button>
+                <button type="submit" class="btn btn-primary btn-lg my-4">
+                    Save Visit
+                </button>
             </div>
+        </div>
         </form>
 </template>
 
 <script>
-    import authResource from './../../../authResource'
+    import {authResource} from './../../../authResource'
     import { notificationSystem } from '../../../globals'
     import _ from 'lodash'
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'VisitDataV7Paeds',
-        props: ['encounterTypes', 'postPayload'],
+        props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
-            getPatientCardDetails : function ()
-            {
-                let dhisAPIEndpoint = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
+            getPatientCardDetails (){
+                let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,
                     'consider-version' : true
                 };
 
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().post(url, payload)
                     .then((response)=>{
-                        console.log(response);
                         this.patientCardData.push(...response.data.data)
                     })
                     .catch((error)=>{
                         console.log(error)
                     })
             },
-            addNewVisit :function()
-            {
+            addNewVisit(){
                 if(this.concepts.concept47 <= this.concepts.concept32){
                     this.$toast.error(
                         `Appointment date before or same as vist date`, 
@@ -379,8 +381,11 @@
                     this.processDataForPost(true, 'Visit Added')
                 }  
             },
-            processDataForPost: function (isAddVisit, message)
-            {
+            updateVisitData(e){
+                e.preventDefault()
+                this.processDataForPost(false, 'Visit Data Saved')
+            },
+            processDataForPost (isAddVisit, message){
                 let payload = [];
 
                 if (isAddVisit)
@@ -415,8 +420,7 @@
 
                 this.handlePost(payload, message);
             },
-            getObservation: function (conceptID)
-            {
+            getObservation (conceptID){
                 let obs = this.patientCardData.filter((item)=>{
                     return item.concept.conceptID === conceptID
                 });
@@ -442,48 +446,47 @@
                         this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
-                        console.log(data)
-
                         return Object.values(errors).forEach(error => {
-                            this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                            this.$toast.error(
+                                `${data.message}, 
+                                ${error[0]}`, 
+                                'Error', 
+                                notificationSystem.options.error
+                            )
                         });
                         
                     })
             },
-            fillConceptObservations: function (patientCardData)
-            {
-                
-                let mappedObs = patientCardData.map((item)=>{
-                                   return {
-                                       observation : item.observationID,
-                                       concept : item.concept.conceptID,
-                                       encounter : item.encounter.encounterID,
-                                       encounterVoided : item.encounter.voided,
-                                       value : item.value
-                                   }
-                                });
-                
-                
-                this.observations = _.keyBy(mappedObs,(item)=>{
-                               return 'concept'+item.concept+'Encounter'+item.encounter
-                            });
+            fillConceptObservations (patientCardData){
+                const observations = []
+
+                patientCardData.forEach((item, key)=>{
+                    const observation = {
+                        observation : item.observationID,
+                        concept : item.concept.conceptID,
+                        encounter : item.encounter.encounterID,
+                        encounterVoided : item.encounter.voided,
+                        value : item.value
+                    }
+                    const newkey = 'concept'+observation.concept+'Encounter'+observation.encounter
+                    this.observations[newkey] = observation
+                });
 
                 this.encounters  = _.chain(patientCardData)
-                            .groupBy((item)=>{
-                                return item.encounter.encounterID
-                            })
-                            .toPairs()
-                            .map(pair => _.zipObject(['encounterID', 'data'], pair))
-                            .sortBy((group)=>{
-                                let value =  _.find(group.data,(b)=>{
-                                    return b.concept.conceptID === 32
-                                }).value;
-                                return new Date(value)
-                            })
-                            .value();
+                    .groupBy((item)=>{
+                        return item.encounter.encounterID
+                    })
+                    .toPairs()
+                    .map(pair => _.zipObject(['encounterID', 'data'], pair))
+                    .sortBy((group)=>{
+                        let value =  _.find(group.data,(b)=>{
+                            return b.concept.conceptID === 32
+                        }).value;
+                        return new Date(value)
+                    })
+                    .value();
             },
-            clearFields : function()
-            {
+            clearFields(){
                 this.concepts = {
                     concept32 : '',
                     concept33 : '',
@@ -524,7 +527,6 @@
                     currentVisitDate = new Date(currentVisitDate)
 
                     const months = currentVisitDate.getMonth() - artStartDate.getMonth() + (12 * (currentVisitDate.getFullYear() - artStartDate.getFullYear()))
-                    console.log(currentVisitDate, JSON.parse(JSON.stringify(this.patient)))
                     return months
                 }
                 else{
@@ -554,12 +556,12 @@
                 if (visitObservation.encounterVoided)
                     action = false
 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
+                let url = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
                 let payload = {
                     'void' : action,
                 };
 
-                authResource().patch(dhisAPIEndpoint, payload)
+                authResource().patch(url, payload)
                     .then((response)=>{
                         this.clearFields();
                         this.patientCardData = [];
@@ -579,17 +581,10 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                patient : {
-                    person : {
-                        personName : {},
-                        personAddress : {}
-                    }
-                },
                 encounters : [],
                 observations : {},
-                patientCardData : [
-
-                ],
+                patientCardData : [],
+                show: false,
                 concepts : {
                     concept32 : '',
                     concept33 : '',
@@ -617,24 +612,9 @@
             }
         },
         created() {
-
-
-            let patient = JSON.parse(sessionStorage.getItem('patient'));
-            let patientCard = JSON.parse(sessionStorage.getItem('patientCard'));
-
-            if (!patient || !patientCard){
-                this.$router.push('/')
-            }
-
-            this.patient = patient;
-            this.patientCard = patientCard;
-
+            this.getPatientCardDetails()
         },
         watch : {
-            postPayload : function ()
-            {
-                this.processDataForPost(false, 'Saved');
-            },
             encounterTypes : function (value) {
                 if (value.length > 0)
                 {
@@ -650,9 +630,6 @@
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
                 
-                const startDate = localStorage.getItem('startDate')
-                
-                
                 this.concepts.concept44 = this.calculateMonthsOnART(startDate, this.concepts.concept32)
                 
             },
@@ -660,6 +637,9 @@
                 if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
             }
+        },
+        computed: {
+            ...mapGetters(['startDate', 'regimens'])
         }
     }
 </script>

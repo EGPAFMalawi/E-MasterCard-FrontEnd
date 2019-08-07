@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Date of Birth</label>
-                    <input ref="dob" type="date" class="form-control" v-model="birthdate" >
+                    <input id="dob" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" v-model="birthdate" >
                 </div>
             </div>
             <div class="form-row">
@@ -191,45 +191,40 @@
 <script>
 import { notificationSystem } from '../globals'
 import NavBar from "./NavBar";
-import authResource from './../authResource'
+import { authResource } from './../authResource'
 import { constants } from 'crypto';
+import { mapGetters, mapActions } from 'vuex' 
 
 export default {
     name: 'Home',
     components: {NavBar},
     methods: {
-        search ()
-        {
+        ...mapActions(['searchPatients', 'selectPatient', 'setSearchParam', 'clearPatients']),
+        search (e){
+            
+            this.setSearchParam(e.target.value)
             this.isLoading = true;
             this.patients = [];
 
             let payload = {
                 search : this.searchParam,
             };
-            let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
+            let endpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
 
             if(this.searchParam !== '' && this.searchParam !== undefined){
-                authResource().post(dhisAPIEndpoint, payload)
-                .then(({data: {data}})=>{
-                    this.isLoading = false;
-                    this.patients = data
-                })
-                .catch(({response: {status}, response})=>{
-                    this.isLoading = false;
-                        console.log(response)
-                })
+                this.searchPatients({endpoint, payload})
+            }
+            else{
+                this.clearPatients()
             }
             
-
         },
-        setPatient : function (patient, route){
-
-            if(patient.person.birthdate !== ''){
+        setPatient (patient, route){
+            if(patient.person.birthdate && patient.person.birthdate !== ''){
                 const dob = new Date(patient.person.birthdate)
                 patient.person.birthdate = dob.toISOString().split('T')[0]
             }
-
-            sessionStorage.setItem('patient', JSON.stringify(patient));
+            this.selectPatient(patient)
             this.$router.push(route)
         },
         addPatient : function ()
@@ -330,10 +325,10 @@ export default {
                     console.log(error)
                 })
         },
-        setDOBMax(){
+        setDOBMax(e){
+            const target = e.target
             const today = new Date()
-            console.log(this.$refs)
-            this.$refs.dob.setAttribute('max', today.toISOString().split('T')[0])
+            Object.assign(target, {max: today.toISOString().split('T')[0]})
         },
         logout(){
             sessionStorage.removeItem('patient')
@@ -347,9 +342,6 @@ export default {
         this.loadDistricts()
         
     },
-    mounted(){
-        this.setDOBMax()
-    },
     data: () => {
         return {
             notificationSystem,
@@ -358,8 +350,7 @@ export default {
 
             BASE_URL : 'patients/search',
             BASE_URL_POST: 'patients',
-            searchParam : '',
-            patients : [],
+            //patients : [],
 
             regions: [],
             districts: [],
@@ -398,12 +389,10 @@ export default {
         },
         guardianPhoneValidation() {
             return this.guardian_phone !== '' && this.guardian_phone.length === 10 
-        }
+        },
+        ...mapGetters(['patients', 'patient', 'searchParam'])
     },
     watch: {
-        searchParam: function(){
-            //this.setDOBMax()
-        },
         county_district: function(){
             const districtId = this.districts.filter(district => district.name === this.county_district)[0].districtID
             this.loadTAs(districtId)

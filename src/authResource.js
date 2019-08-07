@@ -1,9 +1,8 @@
 import axios from 'axios'
+import { async } from 'q';
 
-const authResource = () => {
-
-    let auth = JSON.parse(sessionStorage.getItem('auth'));
-
+export const authResource = () => {
+    const auth = JSON.parse(sessionStorage.getItem('auth'));
 
     const defaultOptions = {
         headers: {
@@ -16,6 +15,4 @@ const authResource = () => {
         post: (url, data, options = {}) => axios.post(url, data, { ...defaultOptions, ...options }),
         patch: (url, data, options = {}) => axios.patch(url, data, {...defaultOptions, ...options })
     };
-};
-
-export default authResource;
+}
