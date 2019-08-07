@@ -130,7 +130,7 @@ const actions = {
             try {
                 const {data: {data}} = await authResource().post(url, payload)
                 commit('setPatientCardData', data)
-                resolve(data)
+                resolve('Patient Data loaded')
             }
             catch(error){
                 reject(error)

@@ -443,7 +443,7 @@
                     'consider-version' : false
                 };
                 this.loadPatientCardData({url, payload})
-                    .then(data => console.log(data))
+                    .then(data => console.info(data))
                     .catch(error => console.error(error))
             },
             updateInitConfData(e){
@@ -615,9 +615,8 @@
             },
             toggleAgeEstimateButton(){
                 if ((this.patient.person.birthdate === '' || this.patient.person.birthdate === null) 
-                    && (this.concepts.concept8.length > 0))
+                    && (this.concepts.concept8  && this.concepts.concept8.length > 0))
                 {
-                    console.log(('' === null))
                     this.showEstimateButton = true
                 }
                 else

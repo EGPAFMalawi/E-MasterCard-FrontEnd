@@ -586,7 +586,7 @@
             },
             toggleAgeEstimateButton(){
                 if ((this.patient.person.birthdate === '' || this.patient.person.birthdate === null) 
-                    && (this.concepts.concept8.length > 0))
+                    && (this.concepts.concept8 && this.concepts.concept8.length > 0))
                 {
                     console.log(('' === null))
                     this.showEstimateButton = true
