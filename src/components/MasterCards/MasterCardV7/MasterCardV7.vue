@@ -1,7 +1,7 @@
 <template>
     <div>
         <button class="sticky-top btn btn-info" @click="goBack">Back</button>
-        <div class="container py-4">
+        <div class="container py-2">
             <div class="row d-flex justify-content-center">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
@@ -19,7 +19,7 @@
                 </RegistrationDataV7>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="container-fluid d-flex justify-content-center">
             <InitDataV7 
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"

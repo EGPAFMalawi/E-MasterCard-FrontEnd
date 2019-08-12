@@ -70,7 +70,7 @@
                         <tr v-for="(patientCard, index) in patientCards" v-bind:key="index">
                         <th scope="row">{{ index+1}}</th>
                         <td>{{ patientCard.masterCard.name}}</td>
-                        <td> {{ patientCard.dateCreated}}</td>
+                        <td> {{ patientCard.dateCreated | moment("dddd, MMMM Do, YYYY, h:mm A")}}</td>
                         <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatientCard(patientCard)">View MasterCards</button></td>
                         </tr>
                     </tbody>

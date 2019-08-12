@@ -68,12 +68,16 @@
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
                                 <td>{{ patient.person.gender}}</td>
-                                <td>{{ patient.person.birthdate}}</td>
+                                <td>{{ patient.person.birthdate | moment("MMMM Do, YYYY")}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.person.personAddress.cityVillage }}</td>
                                 <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient, 'steps')">View Steps</button></td>
-                                <td><button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient,'/patients/show')">View MasterCards</button></td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient,'/patients/show')">
+                                        View Patient
+                                    </button
+                                ></td>
                                 
                               </tr>
                             </tbody>

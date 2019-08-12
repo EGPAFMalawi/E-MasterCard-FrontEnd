@@ -15,10 +15,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave, faCog} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueIziToast from "vue-izitoast";
+import VueMoment from 'vue-moment'
 import handleErrors from './helpers/handleErrors'
 import "izitoast/dist/css/iziToast.css";
 
 Vue.use(VueIziToast);
+
+Vue.use(VueMoment)
 
 Vue.config.silent = true // show : hide erros in console
 handleErrors()
@@ -32,7 +35,7 @@ Vue.use(VeeValidate, {
 
 
 
-Vue.use(require('vue-moment'))
+// Vue.use(require('vue-moment'))
 
 //Vue.config.productionTip = false
 

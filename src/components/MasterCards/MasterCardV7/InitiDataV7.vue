@@ -99,11 +99,16 @@
                     <div class="form-row">
                             <div class="col-md-12 mb-2">
                                 <label>HIV Related Diseases</label>
-                                <select v-model="concepts.concept1" class="form-control">
+                                <!-- <select v-model="concepts.concept1" class="form-control">
                                     <option :value="null" disabled>Reasons for ART Start</option>
                                     <option value=""></option>
                                     <option v-for="(condition) in conditions" v-bind:key="condition">{{condition}}</option>
-                                </select>
+                                </select> -->
+                                <multi-select :options="conditions"
+                                        :selected-options="selectedConditions"
+                                        placeholder="select items"
+                                        @select="onSelect">
+                                </multi-select>
                             </div>
                             <div class="col-md-12 mb-2">
                                 <label>Urine LAM / CrAg Result</label>
@@ -350,7 +355,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-end pl-0">
-        <button @click="updateInitConfData" class="btn btn-success btn-lg my-4">
+        <button @click="updateInitConfData" class="btn btn-success btn-lg my-4 ml-2">
             Update Data
             <font-awesome-icon icon="save" class="ml-1"/>
         </button>
@@ -360,14 +365,14 @@
 
 <script>
     import {authResource} from './../../../authResource'
-    import { log } from 'util'
-    import { type } from 'os'
+    import { MultiSelect } from 'vue-search-select'
     import { notificationSystem } from '../../../globals'
     import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'InitDataV7',
         props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
+        components: { MultiSelect },
         methods: {
             ...mapActions([
                 'selectPatient', 
@@ -591,6 +596,10 @@
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
             },
+            onSelect(conditions, lastSelectCondition){
+                this.selectedConditions = conditions
+                this.lastSelectCondition = lastSelectCondition
+            },
             handleAgeEstimation(){
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
                     && this.patient.person.birthdate !== null
@@ -627,10 +636,11 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                conditions:[],
                 eval:null, //turns to boolean when evaluating 
                 evalEduDate: null, // turns to boolean when evaluating
                 showEstimateButton: false,
+                selectedConditions: [],
+                lastSelectCondition: {},
                 concepts : {
                     concept1 : '',
                     concept2 : '',
@@ -665,9 +675,9 @@
         },
         created(){
             this.fillConceptObservations(this.patientCardData)
-            if (this.concepts.concept3 && this.concepts.concept1){
-                this.conditions = this.getConditions(this.concepts.concept3)
-            }
+            // if (this.concepts.concept3 && this.concepts.concept1){
+            //     this.conditions = this.getConditions(this.concepts.concept3)
+            // }
             this.toggleAgeEstimateButton()
         },
         watch: {
@@ -699,14 +709,14 @@
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             },
             'concepts.concept3': function(){
-                this.conditions = this.getConditions(this.concepts.concept3)
+                //this.conditions = this.getConditions(this.concepts.concept3)
             },
             'concepts.concept8': function(){
                 this.toggleAgeEstimateButton()
             }
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages'])
+            ...mapGetters(['patientCardData', 'stages', 'conditions'])
         }
     }
 </script>
