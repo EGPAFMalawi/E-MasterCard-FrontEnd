@@ -14,6 +14,7 @@ import VeeValidate from 'vee-validate'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave, faCog} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { notificationSystem } from './globals'
 import VueIziToast from "vue-izitoast";
 import VueMoment from 'vue-moment'
 import handleErrors from './helpers/handleErrors'
@@ -40,13 +41,13 @@ Vue.use(VeeValidate, {
 //Vue.config.productionTip = false
 
 Vue.mixin({
-    data : function()
-    {
+    data(){
         return {
             APIHosts : {
                 art : 'http://localhost:8000/api/v1'
             },
-            messageStr: 'Hello'
+            messageStr: 'Hello',
+
         }
     },
     methods: {
@@ -71,6 +72,7 @@ Vue.mixin({
     created(){
         const elem = document.documentElement
         this.openFullscreen(elem)
+        
     }
 });
 

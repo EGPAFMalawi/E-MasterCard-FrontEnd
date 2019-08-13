@@ -5,11 +5,108 @@
 </template>
 
 <script>
+import {notificationSystem} from './globals'
 export default {
   name: "App",
   data() {
     return {
+      warningTimeout: 12000,
+      timoutNow: 6000,
+      warningTimerID: null,
+      timeoutTimerID: null,
+      notificationSystem
     };
+  },
+  methods: {
+    startTimer() {
+        // window.setTimeout returns an Id that can be used to start and stop a timer
+        
+      this.warningTimerID = window.setTimeout(this.warningInactive, this.warningTimeout);
+            
+    },
+    
+    warningInactive() {
+        window.clearTimeout(this.warningTimerID);
+        
+            this.timeoutTimerID = window.setTimeout(this.idleTimeout, this.timoutNow);
+
+        //display warning here
+        const happen = {
+            onClosing: (instance, toast, closedBy) => {
+                if (closedBy === 'in'){
+                    this.resetTimer()
+                }
+
+                if (closedBy === 'out'){
+                  window.clearTimeout(this.timeoutTimerID);
+                  window.clearTimeout(this.warningTimerID);
+                  this.idleTimeout()
+                }
+            },
+          }
+          
+          const buttons = {
+            buttons: [
+              [
+                "<button><b>LOG ME OUT</b></button>",
+                function(instance, toast) {
+                  instance.hide({ transitionOut: "fadeOut" }, toast, "out");
+                },
+                true
+              ],
+              [
+                "<button>DO NOT LOG ME OUT</button>",
+                function(instance, toast) {
+                  instance.hide({ transitionOut: "fadeOut" }, toast, "in");
+                }
+              ]
+            ]
+        }
+
+        Object.assign(notificationSystem.options.question, buttons, happen)
+        this.$toast.question(`You are about to be logged out`, 'Warning', notificationSystem.options.question)
+    },
+    
+    resetTimer(e) {
+        window.clearTimeout(this.timeoutTimerID);
+        window.clearTimeout(this.warningTimerID);
+        this.startTimer();
+    },
+    
+    // Logout the user.
+    idleTimeout() {
+        sessionStorage.removeItem('auth')
+        localStorage.removeItem('vuex')
+        this.$router.push('/login')
+    },
+    
+    setupTimers () {
+       
+      
+        this.startTimer();
+    }
+  },
+  created(){
+    
+  },
+  watch: {
+    '$route' (to, from) {
+      // react to route changes...
+      console.log(to)
+      if (to.name !== 'login'){
+        document.addEventListener("mousemove", this.resetTimer, false);
+        document.addEventListener("mousedown", this.resetTimer, false);
+        document.addEventListener("keypress", this.resetTimer, false);
+        document.addEventListener("touchmove", this.resetTimer, false);
+        document.addEventListener("onscroll", this.resetTimer, false);
+        this.setupTimers()
+      }
+      else if(to.name === 'login'){
+        console.log('logout')
+        window.clearTimeout(this.timeoutTimerID);
+        window.clearTimeout(this.warningTimerID);
+      }
+    }
   }
 };
 </script>
@@ -20,5 +117,8 @@ export default {
   font-family: 'Abel', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.iziToast-overlay{
+  z-index: 1014 !important
 }
 </style>
