@@ -10,8 +10,8 @@ export default {
   name: "App",
   data() {
     return {
-      warningTimeout: 12000,
-      timoutNow: 6000,
+      warningTimeout: 120000,
+      timoutNow: 20000,
       warningTimerID: null,
       timeoutTimerID: null,
       notificationSystem
@@ -48,7 +48,7 @@ export default {
           const buttons = {
             buttons: [
               [
-                "<button><b>LOG ME OUT</b></button>",
+                "<button class='btn btn-warning'><b>LOG ME OUT</b></button>",
                 function(instance, toast) {
                   instance.hide({ transitionOut: "fadeOut" }, toast, "out");
                 },
@@ -81,9 +81,18 @@ export default {
     },
     
     setupTimers () {
-       
-      
         this.startTimer();
+    },
+
+    removeListeners(){
+        window.clearTimeout(this.timeoutTimerID);
+        window.clearTimeout(this.warningTimerID);
+        document.removeEventListener("mousemove", this.resetTimer, false);
+        document.removeEventListener("mousedown", this.resetTimer, false);
+        document.removeEventListener("keypress", this.resetTimer, false);
+        document.removeEventListener("touchmove", this.resetTimer, false);
+        document.removeEventListener("onscroll", this.resetTimer, false);
+        return "removed"
     }
   },
   created(){
@@ -92,17 +101,22 @@ export default {
   watch: {
     '$route' (to, from) {
       // react to route changes...
-      console.log(to)
       if (to.name !== 'login'){
-        document.addEventListener("mousemove", this.resetTimer, false);
-        document.addEventListener("mousedown", this.resetTimer, false);
-        document.addEventListener("keypress", this.resetTimer, false);
-        document.addEventListener("touchmove", this.resetTimer, false);
-        document.addEventListener("onscroll", this.resetTimer, false);
+        if (this.removeListeners() === 'removed'){
+          document.addEventListener("mousemove", this.resetTimer, false);
+          document.addEventListener("mousedown", this.resetTimer, false);
+          document.addEventListener("keypress", this.resetTimer, false);
+          document.addEventListener("touchmove", this.resetTimer, false);
+          document.addEventListener("onscroll", this.resetTimer, false);
+        }
         this.setupTimers()
       }
       else if(to.name === 'login'){
-        console.log('logout')
+        document.removeEventListener("mousemove", this.resetTimer, false);
+        document.removeEventListener("mousedown", this.resetTimer, false);
+        document.removeEventListener("keypress", this.resetTimer, false);
+        document.removeEventListener("touchmove", this.resetTimer, false);
+        document.removeEventListener("onscroll", this.resetTimer, false);
         window.clearTimeout(this.timeoutTimerID);
         window.clearTimeout(this.warningTimerID);
       }
@@ -117,8 +131,5 @@ export default {
   font-family: 'Abel', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-.iziToast-overlay{
-  z-index: 1014 !important
 }
 </style>
