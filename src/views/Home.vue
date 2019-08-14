@@ -29,7 +29,7 @@
                                 {{patients.length}}  Patients Matching {{this.searchParam}} Search.
                             </span> 
                             Did not find who you were looking for? 
-                            <button type="button" class="btn btn-success btn-lg" v-b-modal.modal-1>
+                            <button type="button" class="btn btn-success btn-lg" @click="activatePatientForm" v-b-modal.modal-1>
                                 Add New Patient
                             </button>
                     </div>
@@ -57,13 +57,12 @@
                                 <th scope="col">Guardian</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
-                                <th scope="col">Steps</th>
                                 <th scope="col">Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr v-for="(patient, index) in patients" v-bind:key="index">
-                                <th scope="row">{{ patient.artNumber}}</th>
+                                <th scope="row">{{ patient.artNumber === null ? 'Unregistered' : patient.artNumber}}</th>
                                 <td>{{ patient.person.personName.given}}</td>
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
@@ -73,12 +72,10 @@
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.person.personAddress.cityVillage }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient, 'steps')">
-                                        View Steps
+                                    <button v-if="patient.artNumber === null" type="button" class="btn btn-warning btn-sm" @click="continueRegistration(patient)" v-b-modal.modal-1>
+                                        Continue Registeration
                                     </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-success btn-sm" v-on:click="setPatient(patient,'/patients/show')">
+                                    <button v-if="patient.artNumber !== null" type="button" class="btn btn-success btn-sm" @click.prevent="setPatient(patient,'/patients/show')">
                                         View Patient
                                     </button>
                                 </td>
@@ -96,7 +93,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <b-tab title="Enter Patient Details" :active="patientFormIsActive" @click="patientFormIsActive = true">
+            <b-tab title="Enter Patient Details" v-if="showPatientForm" :active="patientFormIsActive" @click="patientFormIsActive = true">
                 <form name='addpatient' v-on:submit.prevent="addPatient">
                     <div class="form-row">
                         <div class="col-md-4 mb-3">
@@ -219,12 +216,17 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label>ART Status at Registration*</label>
-                            <input type="text" class="form-control" placeholder="Drop Down" required>
+                            <select class="form-control" v-model="concepts.concept55">
+                                <option :value="null" disabled>Select Status</option>
+                                <option value="First Time Initiation">First Time Initiation</option>
+                                <option value="Reinitiation">Reinitiation</option>
+                                <option value="Transfer In">Transfer In</option>
+                            </select>
                             
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Registration Date</label>
-                            <input ref="registrationDate" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}">
+                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}">
                              <b-form-invalid-feedback :state="!invalidRegDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -233,7 +235,7 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label>Date of First Starting ART</label>
-                            <input ref="artStartDate" @keyup="validateARTFirstStartDate"  type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
+                            <input v-model="concepts.concept57" ref="artStartDate" @keyup="validateARTFirstStartDate"  type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
                              <b-form-invalid-feedback :state="!invalidARTFirstStartDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -242,8 +244,8 @@
                         <div class="col-md-3 mb-3">
                             <label>Age at Initiation</label>
                             <div class="form-inline fit-2-input-fields">
-                                <input type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
-                                <select class="form-control">
+                                <input v-model="concepts.concept58" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
+                                <select v-model="concepts.concept59" class="form-control">
                                     <option value="Months">Months</option>
                                     <option value="Years">Years</option>
                                 </select>
@@ -251,7 +253,7 @@
                         </div>
                         <div class="col-md-3 mb-3" v-if="birthdate === ''">
                             <label>Estimated DOB</label>
-                            <input ref="estimatedDoB" id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" >
+                            <input v-model="estimatedDoB" ref="estimatedDoB" id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" >
                         </div>
                     </div>
                     <div class="form-row">
@@ -261,14 +263,25 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">CODE</span>
                                 </div>
-                                <input type="number" class="form-control">
+                                <input type="number" v-model="identifier" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label>Select MasterCard Version</label>
+                                <select class="form-control" v-model="selectedMasterCardVersion" required>
+                                    <option :value="null" disabled>Pick from the Available Versions</option>
+                                    <option v-for="(masterCard,index) in availableMasterCards" v-bind:key="index" :value="masterCard.masterCardID">{{masterCard.name}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <button 
                         class="btn btn-success" 
                         type="submit" 
-                        @click="patientFormIsActive = !patientFormIsActive">
+                        @click.prevent="handlePatientRegistration">
                         Register Patient
                     </button>
                 </form>
@@ -286,12 +299,20 @@ import { authResource } from './../authResource'
 import { constants } from 'crypto';
 import { mapGetters, mapActions } from 'vuex' 
 import { match } from 'minimatch';
+import { debuglog } from 'util';
 
 export default {
     name: 'Home',
     components: {NavBar},
     methods: {
-        ...mapActions(['searchPatients', 'selectPatient', 'setSearchParam', 'clearPatients']),
+        ...mapActions([
+            'searchPatients', 
+            'selectPatient', 
+            'setSearchParam', 
+            'clearPatients', 
+            'createPatientCard', 
+            'mutatePatientCard',
+            'loadMasterCardDetails']),
         search (e){
             
             this.setSearchParam(e.target.value)
@@ -321,12 +342,10 @@ export default {
         },
         addPatient(){
             this.isLoading = true;
-            this.isPatientAdded = true
-            this.gender = ''
-            //this.tabIndex++
-            console.log(this.patientFormIsActive)
+
             if (this.gender === ''){
                 this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
+                this.patientFormIsActive = true
             } else{
                 let payload = {
                     prefix : this.prefix,
@@ -363,12 +382,14 @@ export default {
                 .then(({data: {data}})=>{
                     this.isLoading = false
                     
-                    this.setPatient(data, 'steps')
+                    this.selectPatient(data)
                     this.$toast.success('Successfully added patient!', 'OK', notificationSystem.options.success)
+                    this.isPatientAdded = true
                     
                 })
                 .catch(({response: {data: {errors}, data}}) => {
                     this.isLoading = false
+                    this.patientFormIsActive = true
 
                     return Object.values(errors).forEach(error => {
                         this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
@@ -377,6 +398,39 @@ export default {
                 }) 
             }
 
+        },
+        addClinicalRegistrationDetails(){
+            const payload = {
+                id: 1,
+                name: 'Registration Details',
+
+            }
+        },
+        addARTNumber(){
+            const payload = {
+                identifier: this.identifier,
+                patient: this.patient.patientID
+            }
+            const url = `${this.APIHosts.art}/patient-identifiers`
+            authResource().post(url, payload)
+            .then(response => {
+                    this.$toast.success(
+                        `Success! ART Number Added!`, 
+                        'OK', 
+                        notificationSystem.options.success
+                    )
+                    this.addNewPatientCard()
+                })
+                .catch(({response: {data: {errors}, data}}) => {
+                    return Object.values(errors).forEach(error => {
+                        this.$toast.error(
+                            `${data.message}, 
+                            ${error[0]}`, 
+                            'Error', 
+                            notificationSystem.options.error
+                        )
+                    });
+                })
         },
         loadRegions(){
             let dhisAPIEndpoint = `${this.APIHosts.art}/regions`;
@@ -474,11 +528,115 @@ export default {
             else{
                 this.invalidRegDate = !e.target.validity.valid
             }
-        }
+        },
+        continueRegistration(patient){
+            this.isPatientAdded = true
+            this.patientFormIsActive = false
+            this.showPatientForm = false
+            this.selectPatient(patient)
+        },
+
+        activatePatientForm(){
+            this.isPatientAdded = false
+            this.patientFormIsActive = true
+            this.showPatientForm = true
+        },
+        getMasterCards(){
+            const url = `${this.APIHosts.art}/master-cards`;
+
+            authResource().get(url)
+            .then(async (response)=>{
+                this.availableMasterCards = await response.data.data
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+        },
+        addNewPatientCard (){
+            let url = `${this.APIHosts.art}/patient-cards`;
+
+            let payload = {
+                'master-card' : this.selectedMasterCardVersion,
+                patient : this.patient.patientID
+            };
+            
+            this.createPatientCard({url, payload})
+                .then(message => {
+                    this.$toast.success(`Success! Patient Card Added!`, 'OK', notificationSystem.options.success)
+                    
+                    this.getMasterCardDetails()
+                    
+                })
+                .catch(({response: {data: {errors}, data}, response}) => {
+                    console.log(response)
+                    return Object.values(errors).forEach(error => {
+                        this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
+                    });
+                    
+                })
+        },
+        handlePatientRegistration(){
+            this.patientFormIsActive = !this.patientFormIsActive
+            this.addARTNumber()
+        },
+        getMasterCardDetails(){
+            const url = `${this.APIHosts.art}/master-cards/${this.patientCard.masterCard.masterCardID}`;
+            this.loadMasterCardDetails({url})
+                .then( message => this.processDataForRegPost())
+                .catch(err => console.error(err))
+        },
+        processDataForRegPost (){
+            const payload = this.masterCardDetails.encounterTypes[0].concepts.map((item)=>{
+                return {
+                    'concept' : item.conceptID,
+                    'encounter-type' : 1,
+                    'value' : null,
+                    'observation' : null
+                }
+            });
+            const finalPayload = [...payload]
+            Object.entries(this.concepts).forEach(([key, concept]) => {
+                finalPayload.push({
+                    'concept' : key.match(/\d+/)[0],
+                    'encounter-type' : 1,
+                    'value' : concept,
+                    'observation' : null
+                })
+            })
+            this.handleRegPost(finalPayload);
+
+        },
+        handleRegPost (payload){
+            let url = `${this.APIHosts.art}/observations`;
+            let finalPayload = {
+                'patient-card' : this.patientCard.patientCardID,
+                'observations' : payload
+            };
+            
+            authResource().post(url, finalPayload)
+                .then((response)=>{
+                    this.$toast.success(`Success! Patient Details Saved!`, 'OK', notificationSystem.options.success)
+                    this.$router.push('/patients/show/card')
+                })
+                .catch((error)=>{
+                    console.log(error)
+                })
+        },
+        getObservation (conceptID){
+            let obs = this.patientCardData.filter((item)=>{
+                return item.concept.conceptID === conceptID
+            });
+
+            if (obs.length > 0)
+                return obs[0].observationID;
+            else
+                return null
+        },
     },
-    beforeMount(){
+    created(){
         this.loadRegions(),
-        this.loadDistricts()
+        this.loadDistricts(),
+        this.getMasterCards()
     },
     data: () => {
         return {
@@ -523,11 +681,24 @@ export default {
             township_division : '',
             invalidDoBDate: false,
             invalidARTFirstStartDate: false,
-            invalidRegDate: false
+            invalidRegDate: false,
+            showPatientForm: true,
+
+            estimatedDoB: null,
+            identifier: null, //ART number
+            concepts: {
+                concept55: null, //Clinic Registration Type (ConceptID:55, DataType : Text)
+                concept56: null, //Clinic Registration Date (ConceptID:56, DataType : Date)
+                concept57: null, //Clinic Registration ART Start Date (ConceptID:57, DataType : Date)
+                concept58: null, //Clinic Registration Age at Initiation (ConceptID:58, DataType : Number)
+                concept59: null, //}Clinic Registration Age at Init Units(Months/year) (ConceptID:59, DataType : Text)
+            },
+            availableMasterCards: [],
+            selectedMasterCardVersion: null
         }
     },
     computed: {
-        ...mapGetters(['patients', 'patient', 'searchParam']),
+        ...mapGetters(['patients', 'patient', 'searchParam', 'patientCard', 'masterCardDetails']),
         patientPhoneValidation() {
             return this.patient_phone !== '' && this.patient_phone.length === 10 
         },
@@ -548,7 +719,7 @@ export default {
         county_district: function(){
             const districtId = this.districts.filter(district => district.name === this.county_district)[0].districtID
             this.loadTAs(districtId)
-        }
+        },
     }
     
 }

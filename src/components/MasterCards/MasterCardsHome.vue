@@ -38,6 +38,7 @@
             }
         },
         created() {
+            console.log(this.patient)
             if (!this.patient || !this.patientCard){
                 this.$router.push('/')
             }
