@@ -724,9 +724,7 @@
             },
             'startDate': function() { 
                 if (Object.values(this.observations).length < 1){
-                    console.log('ask')
                     const autodate = new Date(this.startDate)
-                    console.log(autodate.toISOString().split('T')[0])
                     this.encounterDatetime = autodate.toISOString().split('T')[0]
                 }
 
