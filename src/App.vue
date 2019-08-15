@@ -6,6 +6,8 @@
 
 <script>
 import {notificationSystem} from './globals'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: "App",
   data() {
@@ -18,6 +20,14 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'setAgeAtARTInit',
+      'setDateOfFirstStartingART',
+      'clearPatients',
+      'resetPatientCardData',
+      'selectPatient',
+      'setSearchParam'
+      ]),
     startTimer() {
         // window.setTimeout returns an Id that can be used to start and stop a timer
         
@@ -93,6 +103,15 @@ export default {
         document.removeEventListener("touchmove", this.resetTimer, false);
         document.removeEventListener("onscroll", this.resetTimer, false);
         return "removed"
+    },
+
+    clearMasterCardData(){
+      this.setAgeAtARTInit(null)
+      this.setDateOfFirstStartingART(null)
+      this.clearPatients()
+      this.resetPatientCardData()
+      this.selectPatient({})
+      this.setSearchParam('')
     }
   },
   created(){
@@ -120,10 +139,18 @@ export default {
         document.removeEventListener("onscroll", this.resetTimer, false);
         window.clearTimeout(this.timeoutTimerID);
         window.clearTimeout(this.warningTimerID);
+        this.clearMasterCardData()
+      }
+      
+      if(to.name === 'home' || to.name === 'reports' || to.name === 'hts-records' || to.name === 'settings'){
+        this.clearMasterCardData()
       }
     }
+  },
+  computed: {
+
   }
-};
+}
 </script>
 
 
