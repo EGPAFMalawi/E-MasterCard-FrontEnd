@@ -212,7 +212,7 @@
                 </form>
             </b-tab>
             <b-tab title="Enter Registration Details" v-if="isPatientAdded" :active="!patientFormIsActive">
-                <form>
+                <form @submit.prevent="handlePatientRegistration">
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label>ART Status at Registration*</label>
@@ -226,7 +226,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Registration Date</label>
-                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}">
+                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}" required>
                              <b-form-invalid-feedback :state="!invalidRegDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -235,7 +235,7 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label>Date of First Starting ART</label>
-                            <input v-model="concepts.concept57" ref="artStartDate" @keyup="validateARTFirstStartDate"  type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
+                            <input v-model="concepts.concept57" ref="artStartDate" @keyup="validateARTFirstStartDate" @change="validateARTFirstStartDate"  type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
                              <b-form-invalid-feedback :state="!invalidARTFirstStartDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -263,7 +263,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">CODE</span>
                                 </div>
-                                <input type="number" v-model="identifier" class="form-control">
+                                <input type="number" v-model="identifier" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -281,7 +281,7 @@
                     <button 
                         class="btn btn-success" 
                         type="submit" 
-                        @click.prevent="handlePatientRegistration">
+                        >
                         Save Registration
                     </button>
                 </form>
@@ -646,18 +646,25 @@ export default {
             })
         },
         handleAgeEstimation(ageType){
-            if ((this.concepts.concept58 == null || this.concepts.concept58 == '')
-                && this.patient.person.birthdate !== null
+            if (
+                this.patient.person.birthdate !== null
                 && this.concepts.concept57 !== null
                 )
             {
-                let startDateObj = new Date(this.concepts.concept57)
-                let birthDateObj = new Date(this.patient.person.birthdate)
+                // let startDateObj = new Date(this.concepts.concept57)
+                // let birthDateObj = new Date(this.patient.person.birthdate)
 
-                const startYear = startDateObj.getFullYear()
-                const birthYear = birthDateObj.getFullYear()
-                this.concepts.concept58 =  startYear - birthYear
-                this.concepts.concept59 = 'Years'
+                // const startYear = startDateObj.getFullYear()
+                // const birthYear = birthDateObj.getFullYear()
+                // this.concepts.concept58 =  startYear - birthYear
+                // this.concepts.concept59 = 'Years'
+                console.log(this.patient.person.birthdate, this.concepts.concept57)
+                    let birthDateObj = new Date(this.patient.person.birthdate)
+                    let diff_ms = new Date(this.concepts.concept57) - birthDateObj.getTime();
+                    let age_dt = new Date(diff_ms); 
+                
+                    this.concepts.concept58 = Math.abs(age_dt.getUTCFullYear() - 1970)
+                    this.concepts.concept59 = 'Years'
             }
         }
     },
