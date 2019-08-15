@@ -11,8 +11,6 @@ const state = {
     patientCardData: [],
     initiationData: {},
     registrationData: {},
-    steps: [],
-    step: {},
     masterCardDetails: {},
     regimens: [
         {
@@ -104,9 +102,6 @@ const actions = {
     },
     setDateOfFirstStartingART({commit}, param){
         commit('setDOFSA', param)
-    },
-    setFormDoB({commit}, param){
-        commit('setFDoB', param)
     },
     setSearchParam({commit}, param){
         commit('setParam', param)

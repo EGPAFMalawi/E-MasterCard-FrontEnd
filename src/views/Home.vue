@@ -140,7 +140,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Date of Birth</label>
-                            <input id="dob" min='1900-01-01' type="date" @keyup="validateDoBDate" @click="setDOBMax" @focus="setDOBMax" class="form-control" v-model="birthdate" :class="{'is-invalid': invalidDoBDate}">
+                            <input id="dob" min='1910-01-01' type="date" @keyup="validateDoBDate" @click="setDOBMax" @focus="setDOBMax" class="form-control" v-model="birthdate" :class="{'is-invalid': invalidDoBDate}">
                             <b-form-invalid-feedback :state="!invalidDoBDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -665,7 +665,6 @@ export default {
         this.loadRegions()
         this.loadDistricts()
         this.getMasterCards()
-        console.log(this.patient.person.birthdate)
     },
     data: () => {
         return {

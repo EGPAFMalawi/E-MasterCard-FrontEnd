@@ -568,19 +568,19 @@
                 const max = new Date(today.setDate(today.getDate() + 365))
                 return max.toISOString().split('T')[0]
             },
-            setMinMax(ref){
-                const startDate = localStorage.getItem('startDate')
-                let max = this.calculateMaxStartDate()
+            // setMinMax(ref){
+            //     const startDate = localStorage.getItem('startDate')
+            //     let max = this.calculateMaxStartDate()
 
-                if(this.patient.lastStep.step == 'Died'){
-                    max = this.patient.lastStep.date
-                }
+            //     if(this.patient.lastStep.step == 'Died'){
+            //         max = this.patient.lastStep.date
+            //     }
 
-                if(startDate !== ''){
-                    this.$refs[ref].setAttribute('min', startDate)
-                    this.$refs[ref].setAttribute('max', max)
-                }
-            },
+            //     if(startDate !== ''){
+            //         this.$refs[ref].setAttribute('min', startDate)
+            //         this.$refs[ref].setAttribute('max', max)
+            //     }
+            // },
             voidVisit(visitObservation){
                 let action = true
                 if (visitObservation.encounterVoided)
@@ -688,8 +688,8 @@
             },
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
-                this.setMinMax('visitDate')
-                this.setMinMax('appointmentDate')
+                // this.setMinMax('visitDate')
+                // this.setMinMax('appointmentDate')
             },
             'encounterDatetime': function(){
                 if(this.encounterDatetime!=='' && this.concepts.concept47!=='')

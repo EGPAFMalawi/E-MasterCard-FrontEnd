@@ -1,7 +1,7 @@
 import { reject } from "q";
 import Vue from 'vue'
 
-export const  notificationSystem= {
+export const  notificationSystem = {
     options: {
       show: {
         theme: "dark",
@@ -96,3 +96,32 @@ export const  notificationSystem= {
       }
     }
   }
+
+export const setMinDate = (e, date) => {
+    const target = e.target
+    const min = new Date(date)
+    Object.assign(target, {min: min.toISOString().split('T')[0]})
+}
+
+export const setMaxDate = (e) => {
+  const target = e.target
+  const max = new Date()
+  Object.assign(target, {max: max.toISOString().split('T')[0]})
+}
+
+export const validateDate = (e) => {
+  if (e.target.validity.valid){
+      e.target.vale = ''
+      return  !e.target.validity.valid
+  }
+  else{
+      return !e.target.validity.valid
+  }
+}
+
+export const matchString = (word) => {
+  if (word === null) return true
+  const pattern = /^[a-zA-Z']+$/
+  const match = word.match(pattern)
+  return (match && word !== '') ? true : false
+}

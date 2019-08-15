@@ -7,83 +7,116 @@
                 <h5 class="text-align-center">Patient / Guardian Details</h5>
             </div>
             <div class="card-body reduce-margin-p">
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServer01">Given Name*</label>
-                        <input type="text" class="form-control" placeholder="First name" v-model="patient.person.personName.given" required>
-                        
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServer02">Middle Name</label>
-                        <input type="text" class="form-control" placeholder="Middle name" v-model="patient.person.personName.middle">
+                <form v-on:submit.prevent="updatePatient">
 
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServer02">Family Name*</label>
-                        <input type="text" class="form-control" placeholder="Last name" v-model="patient.person.personName.family" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                            <label>Sex*</label>
-                            <div class="input-group pt-1">
-                                <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
-                                <span style="padding: 5px"></span>
-                                <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
-                            </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label >Date of Birth</label>
-                        <input type="date" ref="regimenStartDate" class="form-control" v-model="patient.person.birthdate">
-                    </div>
-                     <div class="col-md-4 mb-3">
-                         <label></label>
-                        <div class="input-group pt-1" v-if="showEstimateButton">
-                            <button @click="estimateDOB" class="btn btn-outline-primary my-1 btn-sm">Estimate DoB</button>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="validationServer01">Given Name*</label>
+                            <input type="text" class="form-control" placeholder="First name" 
+                                pattern="^[a-zA-Z']+$" title="Name cannot have numbers." 
+                                :class="{'is-invalid':!gnameAlphanumericValidation && patient.person.personName.given !== ''}"
+                            v-model="patient.person.personName.given" required>
+                            <b-form-invalid-feedback v-if="patient.person.personName.given !== ''" :state="gnameAlphanumericValidation">
+                                Name cannot have numbers.
+                            </b-form-invalid-feedback>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="validationServer02">Middle Name</label>
+                            <input type="text" class="form-control" placeholder="Middle name"
+                            pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                            :class="{'is-invalid':!mnameAlphanumericValidation && patient.person.personName.middle !== ''}"
+                            v-model="patient.person.personName.middle">
+                            <b-form-invalid-feedback v-if="patient.person.personName.middle !== ''" :state="mnameAlphanumericValidation">
+                                Name cannot have numbers.
+                            </b-form-invalid-feedback>
+
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="validationServer02">Family Name*</label>
+                            <input type="text" class="form-control" placeholder="Last name" 
+                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                                :class="{'is-invalid':!fnameAlphanumericValidation && patient.person.personName.family !== ''}"
+                                v-model="patient.person.personName.family">
+                            <b-form-invalid-feedback v-if="patient.person.personName.family !== ''" :state="fnameAlphanumericValidation">
+                                Name cannot have numbers.
+                            </b-form-invalid-feedback>
                         </div>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <label>Physical Address</label>
-                        <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                                <label>Sex*</label>
+                                <div class="input-group pt-1">
+                                    <b-form-radio v-model="patient.person.gender" name="sex" value="F">Female</b-form-radio>
+                                    <span style="padding: 5px"></span>
+                                    <b-form-radio v-model="patient.person.gender" name="sex" value="M">Male</b-form-radio>
+                                </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label >Date of Birth</label>
+                            <input type="date" ref="regimenStartDate" class="form-control" v-model="patient.person.birthdate">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label></label>
+                            <div class="input-group pt-1" v-if="showEstimateButton">
+                                <button @click="estimateDOB" class="btn btn-outline-primary my-1 btn-sm">Estimate DoB</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                            <label >Guardian Name</label>
-                            <input type="text" class="form-control" placeholder="Name of guardian" v-model="patient.guardianName">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label>Physical Address</label>
+                            <input type="text" class="form-control" placeholder="Physical Address" v-model="patient.person.personAddress.cityVillage">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                        <label >Patient Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Patient" v-model="patient.patientPhone">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                                <label >Guardian Name</label>
+                                <input type="text" class="form-control" placeholder="Name of guardian" 
+                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers."
+                                :class="{'is-invalid':!guardnameAlphanumericValidation && patient.guardianName !== ''}"
+                                    v-model="patient.guardianName">
+                                <b-form-invalid-feedback v-if="patient.guardianName !== ''" :state="guardnameAlphanumericValidation">
+                                    Name cannot have numbers.
+                                </b-form-invalid-feedback>
+                                
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label >Patient Phone Number</label>
+                            <input type="text" class="form-control" placeholder="Patient" v-model="patient.patientPhone">
+                            
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label >Guardian Phone Number</label>
+                            <input type="text" class="form-control" placeholder="Guardian" v-model="patient.guardianPhone">
+                        </div>
                         
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label >Guardian Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Guardian" v-model="patient.guardianPhone">
-                    </div>
-                    
-                </div>
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                            <label>Agrees to FUP</label>
-                            <div class="input-group pt-1">
-                                <b-form-radio v-model="patient.followUp" name="followUp" value="true">Yes</b-form-radio>
-                                <span style="padding: 10px"></span>
-                                <b-form-radio v-model="patient.followUp" name="followUp" value="false">No</b-form-radio>
-                            </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label >Guardian Relation</label>
-                        <input type="text" class="form-control" placeholder="Guardian Relation" v-model="patient.guardianRelation">
-                    </div>
-                    
-                </div>  
-                <button class="btn btn-outline-success" @click="updatePatient">UPDATE</button>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                                <label>Agrees to FUP</label>
+                                <div class="input-group pt-1">
+                                    <b-form-radio v-model="patient.followUp" name="followUp" value="true">Yes</b-form-radio>
+                                    <span style="padding: 10px"></span>
+                                    <b-form-radio v-model="patient.followUp" name="followUp" value="false">No</b-form-radio>
+                                </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label >Guardian Relation</label>
+                            <select class="form-control" v-model="patient.guardianRelation">
+                                <option :value="null" disabled>Select Relation</option>
+                                <option value="Parent">Parent</option>
+                                <option value="Spouse">Spouse</option>
+                                <option value="Relative">Relative</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                    </div>  
+                    <button class="btn btn-outline-success" type="submit" >UPDATE</button>
+                </form>
                 
             </div>
         </div>
@@ -142,7 +175,7 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
                             <label>CD4</label>
-                            <input v-model="concepts.concept4" type="text" class="form-control" placeholder="CD4" required>
+                            <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" required>
                         </div>
                         <div class="col-md-6 mb-2">
                             <label>KS</label>
@@ -250,20 +283,23 @@
                             <div class="col-md-12 mb-2">
                                     <label >Test Date</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <input ref="regimenStartDate" v-model="concepts.concept16" type="date" class="form-control">
+                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}">
                                             <select v-model="concepts.concept17" class="form-control" >
                                                 <option :value="null" disabled>Rapid or PCR</option>
                                                 <option value=""></option>
                                                 <option value="Rapid">Rapid</option>
                                                 <option value="PCR">PCR</option>
                                             </select>
+                                            <b-form-invalid-feedback :state="!isTestDateValid || eval">
+                                                INVALID DATE! the Test date must be before the ART regimen start date
+                                            </b-form-invalid-feedback>
+                                            <!-- <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
+                                                Please make sure that the Test date is before the ART regimen start date 
+                                            </b-form-invalid-feedback> -->
                                     </div>
-                                    <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
-                                        Please make sure that the Test date is before the ART regimen start date 
-                                    </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="eval">
-                                        Looks Good. Looks Good. (Coming before ART Regimen start date)
-                                    </b-form-valid-feedback>
+                                    <!-- <b-form-valid-feedback :state="eval">
+                                        Looks Good. (Coming before ART Regimen start date)
+                                    </b-form-valid-feedback> -->
                             </div>
                         </div>
 
@@ -277,7 +313,7 @@
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
-                                            <input ref="regimenStartDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" required>
+                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax"  @keyup="validateEduDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" :class="{'is-invalid': isEduDateValid}">
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
@@ -322,7 +358,7 @@
                                                 <option value="14A">14A</option>
                                                 <option value="15A">15A</option>
                                             </select>
-                                            <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
+                                            <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                         Please make sure that the Test date is before the ART regimen start date 
@@ -366,7 +402,7 @@
 <script>
     import {authResource} from './../../../authResource'
     import { MultiSelect } from 'vue-search-select'
-    import { notificationSystem } from '../../../globals'
+    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString } from '../../../globals'
     import { mapGetters, mapActions } from 'vuex' 
 
     export default {
@@ -630,7 +666,25 @@
                 }
                 else
                     this.showEstimateButton = false
+            },
+            setTestDateMinMax(e){
+                setMinDate(e, this.patient.person.birthdate)
+                setMaxDate(e)
+            },
+            setStartDateMinMax(e){
+                setMinDate(e, this.patient.person.birthdate)
+                setMaxDate(e)
+            },
+            validateTestDate(e){
+                this.isTestDateValid = validateDate(e)
+            },
+            validateEduDate(e){
+                this.isEduDateValid = validateDate(e)
+            },
+            validateStartDate(e){
+                this.isStartDateValid = validateDate(e)
             }
+
         },
         data: () => {
             return {
@@ -671,6 +725,9 @@
                     concept27 : '',
                     concept54 : ''
                 },
+                isTestDateValid: false,
+                isEduDateValid: false,
+                isStartDateValid: false
             }
         },
         created(){
@@ -720,7 +777,25 @@
             }
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages', 'conditions'])
+            ...mapGetters(['patientCardData', 'stages', 'conditions']),
+            patientPhoneValidation() {
+                return this.patient.patientPhone !== '' && this.patient.patientPhone.length === 10 
+            },
+            guardianPhoneValidation() {
+                return this.patient.guardianPhone !== '' && this.patient.guardianPhone.length === 10 
+            },
+            gnameAlphanumericValidation(){
+                return matchString(this.patient.person.personName.given)
+            },
+            fnameAlphanumericValidation(){
+                return matchString(this.patient.person.personName.family)
+            },
+            mnameAlphanumericValidation(){
+                return matchString(this.patient.person.personName.middle)
+            },
+            guardnameAlphanumericValidation(){
+                return matchString(this.patient.guardianName)
+            },
         }
     }
 </script>
