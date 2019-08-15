@@ -12,6 +12,9 @@ const state = {
     initiationData: {},
     registrationData: {},
     masterCardDetails: {},
+    testDate: null,
+    startDate: null,
+    regStartDate: null,
     regimens: [
         {
             title: '0A (ABC600 / 3TC300 + NVP200)',
@@ -94,9 +97,21 @@ const getters = {
     masterCardDetails: state => state.masterCardDetails,
     dateOfFirstStartingART: ({dateOfFirstStartingART}) => dateOfFirstStartingART, //maps to ART StartDate concept
     ageAtARTInit: ({ageAtARTInit}) => ageAtARTInit, //maps to ageAtInit concept
+    testDate: ({testDate}) => testDate,
+    startDate: ({startDate}) => startDate,
+    regStartDate: ({regStartDate}) => regStartDate,
 }
 
 const actions = {
+    setTestDate({commit}, param){
+        commit('setTestDate', param)
+    },
+    setStartDate({commit}, param){
+        commit('setStartDate', param)
+    },
+    setRegStartDate({commit}, param){
+        commit('setRegStartDate', param)
+    },
     setAgeAtARTInit({commit}, param){
         commit('setARTInitAge', param)
     },
@@ -201,7 +216,16 @@ const mutations = {
     },
     setARTInitAge: (state, ageAtARTInit) => {
         state.ageAtARTInit = ageAtARTInit
-    }
+    },
+    setTestDate: (state, testDate) => {
+        state.testDate = testDate
+    },
+    setStartDate: (state, startDate) => {
+        state.startDate = startDate
+    },
+    setRegStartDate: (state, regStartDate) => {
+        state.regStartDate = regStartDate
+    },
 }
 
 const modules = {

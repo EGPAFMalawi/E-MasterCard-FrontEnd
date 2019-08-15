@@ -415,7 +415,10 @@
                 'patchPatient', 
                 'loadPatientCardData',
                 'resetPatientCardData',
-                'loadARTstartDate'
+                'loadARTstartDate',
+                'setTestDate',
+                'setStartDate',
+                'setRegStartDate'
             ]),
             updatePatient (){
                 if (this.patient.person.gender === ''){
@@ -635,7 +638,7 @@
             onSelect(conditions, lastSelectCondition){
                 this.selectedConditions = conditions
                 this.lastSelectCondition = lastSelectCondition
-                this.concepts.concept1 = JSON.stringify(this.selectedConditions)
+                this.concepts.concept1 = this.selectedConditions
             },
             handleAgeEstimation(){
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
@@ -712,7 +715,7 @@
                     concept13 : '',
                     concept14 : '',
                     concept15 : '',
-                    concept16 : '',
+                    concept16 : '', //test date
                     concept17 : '',
                     concept18 : '',
                     concept19 : '',
@@ -764,11 +767,12 @@
                 if (this.patient.person.birthdate === ''){
                     this.setMinMax()
                 }
-                       
+                this.setStartDate(this.concepts.concept23)      
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             'concepts.concept16': function (value){
                 this.eval = this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.setTestDate(value)
             },
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
@@ -778,7 +782,8 @@
             },
             'concepts.concept8': function(){
                 this.toggleAgeEstimateButton()
-            }
+            },
+            
         },
         computed: {
             ...mapGetters(['patientCardData', 'stages', 'conditions']),

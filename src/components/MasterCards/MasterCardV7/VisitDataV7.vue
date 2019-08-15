@@ -125,7 +125,9 @@
                         </select>
                     </td>
                     <td>
-                       <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" class="form-control tb-form"  type="date" >
+                       <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" 
+                        @keyup="validateDate"  @click="setDateMinMax" @focus="setDateMinMax"
+                        class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -238,7 +240,9 @@
                         </select>
                     </td>
                     <td>
-                        <input ref="visitDate" v-model="encounterDatetime" class="form-control tb-form"  type="date" required>
+                        <input ref="visitDate" v-model="encounterDatetime" 
+                        @click="setEventDateMinMax" @focus="setEventDateMinMax"
+                        class="form-control tb-form"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
@@ -361,7 +365,7 @@
 <script>
     import {authResource} from './../../../authResource'
     import _ from 'lodash'
-    import { notificationSystem } from '../../../globals'
+    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString } from '../../../globals'
     import { networkInterfaces } from 'os';
     import { constants } from 'crypto';
     import { mapGetters, mapActions } from 'vuex' 
@@ -607,11 +611,9 @@
 
             },
             disableVisitFields(e){
-                console.log('dlakjnslkj')
                 if (e.target.value === "Outcome"){
 
                     const tds = Array.from(e.target.parentNode.parentNode.children)
-                    console.log(tds)
                     
                     tds.forEach((td, key) => {
                         if (key > 1 && key < 17){
@@ -637,6 +639,10 @@
 
                     })
                 }
+            },
+            setEventDateMinMax(e){
+                setMinDate(e, this.startDate ? this.startDate : this.patient.person.birthdate)
+                setMaxDate(e)
             },
         },
         data: () => {
@@ -715,10 +721,19 @@
                     this.isVisit = false
                     this.concepts.concept44 = ''
                 }
+            },
+            'startDate': function() { 
+                if (Object.values(this.observations).length < 1){
+                    console.log('ask')
+                    const autodate = new Date(this.startDate)
+                    console.log(autodate.toISOString().split('T')[0])
+                    this.encounterDatetime = autodate.toISOString().split('T')[0]
+                }
+
             }
         },
         computed: {
-            ...mapGetters(['startDate', 'regimens'])
+            ...mapGetters(['startDate', 'regimens', 'testDate'])
         }
     }
 </script>

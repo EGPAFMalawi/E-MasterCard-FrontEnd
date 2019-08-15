@@ -26,7 +26,8 @@ export default {
       'clearPatients',
       'resetPatientCardData',
       'selectPatient',
-      'setSearchParam'
+      'setSearchParam',
+      'setStartDate'
       ]),
     startTimer() {
         // window.setTimeout returns an Id that can be used to start and stop a timer
@@ -112,6 +113,7 @@ export default {
       this.resetPatientCardData()
       this.selectPatient({})
       this.setSearchParam('')
+      this.setStartDate(null)
     }
   },
   created(){
@@ -144,6 +146,7 @@ export default {
       
       if(to.name === 'home' || to.name === 'reports' || to.name === 'hts-records' || to.name === 'settings'){
         this.clearMasterCardData()
+        
       }
     }
   },
