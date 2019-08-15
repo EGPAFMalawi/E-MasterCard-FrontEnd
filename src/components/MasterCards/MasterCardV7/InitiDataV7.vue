@@ -635,6 +635,7 @@
             onSelect(conditions, lastSelectCondition){
                 this.selectedConditions = conditions
                 this.lastSelectCondition = lastSelectCondition
+                this.concepts.concept1 = JSON.stringify(this.selectedConditions)
             },
             handleAgeEstimation(){
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
@@ -696,7 +697,7 @@
                 selectedConditions: [],
                 lastSelectCondition: {},
                 concepts : {
-                    concept1 : '',
+                    concept1 : [],
                     concept2 : '',
                     concept3 : '',
                     concept4 : '',
@@ -739,7 +740,10 @@
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
-            console.log(this.concepts.concept23)
+            console.log(this.concepts.concept1)
+            if (this.concepts.concept1 !== null) 
+                this.selectedConditions = JSON.parse(this.concepts.concept1)
+
         },
         watch: {
             encounterTypes : function (value) {
