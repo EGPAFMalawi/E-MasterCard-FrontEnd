@@ -251,7 +251,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3" v-if="birthdate === ''">
+                        <div class="col-md-3 mb-3" v-if="birthdate === '' && patient.person.birthdate === ''">
                             <label>Estimated DOB</label>
                             <input v-model="estimatedDoB" ref="estimatedDoB" id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" >
                         </div>
@@ -282,7 +282,7 @@
                         class="btn btn-success" 
                         type="submit" 
                         @click.prevent="handlePatientRegistration">
-                        Register Patient
+                        Save Registration
                     </button>
                 </form>
             </b-tab>
@@ -312,9 +312,11 @@ export default {
             'clearPatients', 
             'createPatientCard', 
             'mutatePatientCard',
-            'loadMasterCardDetails']),
-        search (e){
-            
+            'loadMasterCardDetails',
+            'setAgeAtARTInit',
+            'setDateOfFirstStartingART',
+        ]),
+        search(e){
             this.setSearchParam(e.target.value)
             this.isLoading = true;
             this.patients = [];
@@ -568,7 +570,6 @@ export default {
                     
                 })
                 .catch(({response: {data: {errors}, data}, response}) => {
-                    console.log(response)
                     return Object.values(errors).forEach(error => {
                         this.$toast.error(`${data.message}, ${error[0]}`, 'Error', notificationSystem.options.error)
                     });
@@ -576,7 +577,7 @@ export default {
                 })
         },
         handlePatientRegistration(){
-            this.patientFormIsActive = !this.patientFormIsActive
+            this.patientFormIsActive = false
             this.addARTNumber()
         },
         getMasterCardDetails(){
@@ -616,6 +617,10 @@ export default {
             authResource().post(url, finalPayload)
                 .then((response)=>{
                     this.$toast.success(`Success! Patient Details Saved!`, 'OK', notificationSystem.options.success)
+                    this.pullPatient(this.patient.patientID)
+                    this.setAgeAtARTInit(this.concepts.concept58)
+                    this.setDateOfFirstStartingART(this.concepts.concept57)
+                    
                     this.$router.push('/patients/show/card')
                 })
                 .catch((error)=>{
@@ -632,11 +637,35 @@ export default {
             else
                 return null
         },
+        pullPatient(id){
+            const url = `${this.APIHosts.art}/patients/${id}`
+            authResource().get(url)
+            .then(({data: {data}}) => {
+                console.log(data)
+                this.selectPatient(data)
+            })
+        },
+        handleAgeEstimation(ageType){
+            if ((this.concepts.concept58 == null || this.concepts.concept58 == '')
+                && this.patient.person.birthdate !== null
+                && this.concepts.concept57 !== null
+                )
+            {
+                let startDateObj = new Date(this.concepts.concept57)
+                let birthDateObj = new Date(this.patient.person.birthdate)
+
+                const startYear = startDateObj.getFullYear()
+                const birthYear = birthDateObj.getFullYear()
+                this.concepts.concept58 =  startYear - birthYear
+                this.concepts.concept59 = 'Years'
+            }
+        }
     },
     created(){
-        this.loadRegions(),
-        this.loadDistricts(),
+        this.loadRegions()
+        this.loadDistricts()
         this.getMasterCards()
+        console.log(this.patient.person.birthdate)
     },
     data: () => {
         return {
@@ -694,11 +723,20 @@ export default {
                 concept59: null, //}Clinic Registration Age at Init Units(Months/year) (ConceptID:59, DataType : Text)
             },
             availableMasterCards: [],
-            selectedMasterCardVersion: null
+            selectedMasterCardVersion: null,
+            watchRegStart: false
         }
     },
     computed: {
-        ...mapGetters(['patients', 'patient', 'searchParam', 'patientCard', 'masterCardDetails']),
+        ...mapGetters([
+            'patients', 
+            'patient', 
+            'searchParam', 
+            'patientCard', 
+            'masterCardDetails',
+            'dateOfFirstStartingART',
+            'ageAtARTInit'
+        ]),
         patientPhoneValidation() {
             return this.patient_phone !== '' && this.patient_phone.length === 10 
         },
@@ -720,6 +758,25 @@ export default {
             const districtId = this.districts.filter(district => district.name === this.county_district)[0].districtID
             this.loadTAs(districtId)
         },
+        'concepts.concept57': function(){
+            this.handleAgeEstimation()
+             if (this.watchRegStart === true && (this.concepts.concept56 !== this.concepts.concept57)){
+                this.concepts.concept56 = this.concepts.concept57
+            }
+        },
+        'concepts.concept56': function(){
+            if (this.watchRegStart === true && (this.concepts.concept56 !== this.concepts.concept57)){
+                this.concepts.concept57 = this.concepts.concept56
+            }
+        },
+        'concepts.concept55': function(){
+            if (this.concepts.concept55 === "First Time Initiation"){
+                this.watchRegStart = true
+            }
+            else{
+                this.watchRegStart = false
+            }
+        }
     }
     
 }

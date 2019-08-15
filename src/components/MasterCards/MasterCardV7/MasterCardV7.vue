@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="sticky-top btn btn-info" @click="goBack">Back</button>
+        <button class="sticky-top btn btn-info" @click.prevent="goBack">Back</button>
         <div class="container py-2">
             <div class="row d-flex justify-content-center">
                 <ul class="navbar-nav mr-auto">
@@ -24,13 +24,14 @@
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
-                :patientCard='patientCard'>
+                :patientCard='patientCard'
+                :autofill="autofill">
             </InitDataV7>
         </div>
         
         <div class="container">
             <div class="row justify-content-center">
-                <h5 class="text-align-center">Visit Data</h5>
+                <h5 class="text-align-center">Visit / Outcomes Data</h5>
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center pt-4" style="background: #fff">
@@ -52,7 +53,7 @@
 
     export default {
         name: 'MasterCardV7',
-        props: ['patient', 'patientCard'],
+        props: ['autofill', 'patient', 'patientCard'],
         components: {RegistrationDataV7, VisitDataV7, InitDataV7},
         methods: {
             ...mapActions(['loadMasterCardDetails']),

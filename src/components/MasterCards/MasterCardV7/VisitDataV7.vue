@@ -5,7 +5,10 @@
                 <thead class="thead-dark">
                 <tr>
                     <th>
-                        Visit Date
+                        Event Type
+                    </th>
+                    <th>
+                        Visit / Outcome Date
                     </th>
                     <th >
                         Weight
@@ -46,10 +49,14 @@
                         Next Appointment
                     </th>
                     <th>
+                        Outcome
+                    </th>
+                    <th>
                         Void Status
                     </th>
                 </tr>
                 <tr>
+                    <th></th>
                     <th width="5">
                         DD/MM/YYYY
                     </th>
@@ -104,25 +111,34 @@
                     <th>
 
                     </th>
+                    <th>
+
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="(encounter, key) in encounters" v-bind:key="key">
                     <td>
-                       <input v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
+                        <select v-on:change="disableVisitFields" v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                            <option value="Clinical Visit">Clinical Visit</option>
+                            <option value="Outcome">Outcome</option>
+                        </select>
+                    </td>
+                    <td>
+                       <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:50px" v-if="patient.person.gender === 'F'">
-                        <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
+                        <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option value="Preg">Preg</option>
                             <option value="Bf">Bf</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
@@ -131,20 +147,20 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
-                            <option value="N">N</option>
+                            <option value="N">N</option> 
                             <option value="Y">Y</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="">
+                        <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control tb-form" min="0" step="1" oninput="validity.valid||(value='');" value="">
+                        <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control tb-form" min="0" step="1" oninput="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td>
-                        <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
                                 {{regimen.title}}
@@ -152,10 +168,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="">
+                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
-                        <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -163,7 +179,7 @@
                     </td>
 
                     <td>
-                        <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
@@ -171,20 +187,20 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td>
-                        <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option value="BLED">BLED</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value=""></option>
                             <option value=">"> &gt; </option>
                             <option value="<"> &lt; </option>
@@ -193,10 +209,18 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" >
+                        <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome" >
+                    </td>
+                    <td style="width:60px">
+                        <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                            <option value="D">Died</option>
+                            <option value="Def"> Defaulted</option>
+                            <option value="Stop"> Stop </option>
+                            <option value="TO">Trans Out</option>
+                        </select>
                     </td>
                     <td align="center">
                         <div class="mt-2">
@@ -208,21 +232,27 @@
                 </tr>
                 <tr>
                     <td>
-                        <input ref="visitDate" v-model="concepts.concept32" class="form-control tb-form"  type="date" required>
+                         <select v-on:change="disableVisitFields" v-model="concepts.concept32" class="form-control tb-form">
+                            <option value="Clinical Visit">Clinical Visit</option>
+                            <option value="Outcome">Outcome</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input ref="visitDate" v-model="encounterDatetime" class="form-control tb-form"  type="date" required>
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30" step="any">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30" step="any">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
-                        <select v-model="concepts.concept34" class="form-control tb-form" >
+                        <select v-model="concepts.concept34" :disabled="!isVisit && isOutcome" class="form-control tb-form" >
                             <option value=""></option>
                             <option value="Preg">Preg</option>
                             <option value="Bf">Bf</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept35" class="form-control tb-form">
+                        <select v-model="concepts.concept35" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
@@ -231,21 +261,20 @@
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept36" class="form-control tb-form"
-                        >
+                        <select v-model="concepts.concept36" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
                             <option value="N">N</option>
                             <option value="Y">Y</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept37" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
+                        <input v-model="concepts.concept37" :disabled="!isVisit && isOutcome" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept38" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" >
+                        <input v-model="concepts.concept38" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <select v-model="concepts.concept39" class="form-control tb-form">
+                        <select v-model="concepts.concept39" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
                             <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
                                 {{regimen.title}}
@@ -253,10 +282,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td style="width:30px">
-                        <select v-model="concepts.concept41" class="form-control tb-form" >
+                        <select v-model="concepts.concept41" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
                             <option value="P">P</option>
                             <option value="G">G</option>
@@ -264,28 +293,28 @@
                     </td>
 
                     <td>
-                        <select v-model="concepts.concept42" class="form-control tb-form">
+                        <select v-model="concepts.concept42" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
-                            <option value="C">C (CPT Only)</option>
+                            <option value="C">C (CPT Only)</option> 
                             <option value="I">I (IPT Only)</option>
                             <option value="CI">CI (CPT + IPT)</option>
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <select v-model="concepts.concept45" class="form-control tb-form">
+                        <select v-model="concepts.concept45" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
                             <option value="BLED">BLED</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
                     <td>
-                        <select v-model="concepts.concept53" class="form-control tb-form">
+                        <select v-model="concepts.concept53" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value=""></option>
                             <option value=">"> &gt; </option>
                             <option value="<"> &lt; </option>
@@ -294,15 +323,21 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input id="tooltip-button-1" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date" required>
+                        <input id="tooltip-button-1" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date" required :disabled="!isVisit && isOutcome">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
-                        
+                       <select v-model="concepts.concept48" class="form-control tb-form">
+                            <option value="D">Died</option>
+                            <option value="Def"> Defaulted</option>
+                            <option value="Stop"> Stop </option>
+                            <option value="TO">Trans Out</option>
+                        </select> 
                     </td>
+                    <td></td>
                 </tr>
                 <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
                     Visit Date must be before Appointment Date
@@ -352,11 +387,13 @@
                     })
             },
             addNewVisit(){
-                if(this.concepts.concept47 <= this.concepts.concept32){
+                if(this.concepts.concept47 <= this.encounterDatetime && this.isVisit){
                     this.$toast.error(
                         `Appointment date is before or same as vist date`, 
                         'Error', 
                         notificationSystem.options.error)
+                }else if(this.isOutcome){
+                    this.processDataForPost(true, 'Visit Added')
                 }
                 else{
                     this.processDataForPost(true, 'Visit Added')
@@ -380,6 +417,7 @@
                     });
 
                     payload.push(...newPayload);
+                    this.handlePost(payload, message);
                 }else {
 
                     let oldPayload = this.patientCardData.map((item)=>{
@@ -390,15 +428,24 @@
                         return {
                             'concept' : obj.concept,
                             'encounter-type' : item.encounter.encounterType,
+                            'encounterID': item.encounter.encounterID,
+                            'encounter-datetime': obj.encounterDatetime,
                             'value' : obj.value,
                             'observation' : obj.observation
                         }
                     });
 
-                    payload.push(...oldPayload);
+                    const grouped = _.chain(oldPayload)
+                        .groupBy((item)=> {
+                            return item.encounterID
+                        }).value()
+
+                    Object.entries(grouped).forEach(group => {
+                        
+                        this.handlePost(group[1], message);
+                    })
                 }
 
-                this.handlePost(payload, message);
             },
             getObservation (conceptID){
                 let obs = this.patientCardData.filter((item)=>{
@@ -414,7 +461,10 @@
                 let dhisAPIEndpoint = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
                     'patient-card' : this.patientCard.patientCardID,
-                    'observations' : payload
+                    'observations' : payload,
+                    'encounter-datetime': (
+                        message === "Visit Added" ? 
+                        this.encounterDatetime : payload.filter(item => item.concept == 32 )[0]['encounter-datetime'])
                 };
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
@@ -445,7 +495,9 @@
                         concept : item.concept.conceptID,
                         encounter : item.encounter.encounterID,
                         encounterVoided : item.encounter.voided,
-                        value : item.value
+                        encounterDatetime: item.encounter.encounterDatetime,
+                        value : item.value,
+                        isOutcome: (item.value === "Outcome")
                     }
                     const newkey = 'concept'+observation.concept+'Encounter'+observation.encounter
                     this.observations[newkey] = observation
@@ -458,10 +510,7 @@
                     .toPairs()
                     .map(pair => _.zipObject(['encounterID', 'data'], pair))
                     .sortBy((group)=>{
-                        let value =  _.find(group.data,(b)=>{
-                            return b.concept.conceptID === 32
-                        }).value;
-                        return new Date(value)
+                        return new Date(group.data[0].encounter.encounterDatetime)
                     })
                     .value();
             },
@@ -490,6 +539,8 @@
                     concept52: '',
                     concept53 : '',
                 }
+                this.encounterDatetime = null
+                this.concepts.concept44 = ''
             },
              evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
                 visitDate = new Date(visitDate)
@@ -554,7 +605,39 @@
 
                     })
 
-            }
+            },
+            disableVisitFields(e){
+                console.log('dlakjnslkj')
+                if (e.target.value === "Outcome"){
+
+                    const tds = Array.from(e.target.parentNode.parentNode.children)
+                    console.log(tds)
+                    
+                    tds.forEach((td, key) => {
+                        if (key > 1 && key < 17){
+                            td.children[0].disabled = true
+                            td.children[0].value = null
+                        }
+
+                        if (key === 16){
+                            td.children[0].required = false
+                        }
+                    })
+                }else if(e.target.value === "Clinical Visit") {
+                    const tds = Array.from(e.target.parentNode.parentNode.children)
+                    
+                    tds.forEach((td, key) => {
+                        if (key > 1 && key < 17){
+                            td.children[0].disabled = false
+                        }
+
+                        if (key === 16){
+                            td.children[0].required = true
+                        }
+
+                    })
+                }
+            },
         },
         data: () => {
             return {
@@ -564,8 +647,8 @@
                 observations : {},
                 show: false,
                 concepts : {
-                    concept32 : '',
-                    concept33 : '',
+                    concept32 : '', //Event Type
+                    concept33 : '', 
                     concept34 : '',
                     concept35 : '',
                     concept36 : '',
@@ -587,7 +670,10 @@
                     concept52: '',
                     concept53 : '',
                 },
-                patientCardData: []
+                encounterDatetime: null,
+                patientCardData: [],
+                isOutcome: false,
+                isVisit: false
             }
         },
         created() {
@@ -605,16 +691,30 @@
                 this.setMinMax('visitDate')
                 this.setMinMax('appointmentDate')
             },
-            'concepts.concept32': function(){
-                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
-                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)    
-
-                this.concepts.concept44 = this.calculateMonthsOnART(this.startDate, this.concepts.concept32)
+            'encounterDatetime': function(){
+                if(this.encounterDatetime!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.encounterDatetime, this.concepts.concept47)    
+                
+                    this.concepts.concept44 = (
+                        this.calculateMonthsOnART(this.startDate, this.encounterDatetime) > 0 && this.isVisit === true 
+                        ? this.calculateMonthsOnART(this.startDate, this.encounterDatetime) : ''
+                    )
                 
             },
             'concepts.concept47': function(){
-                if(this.concepts.concept32!=='' && this.concepts.concept47!=='')
-                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.concepts.concept32, this.concepts.concept47)
+                if(this.encounterDatetime!=='' && this.concepts.concept47!=='')
+                    this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.encounterDatetime, this.concepts.concept47)
+            },
+            'concepts.concept32': function(e){
+                if (this.concepts.concept32 === "Clinical Visit"){
+                    this.isOutcome = false
+                    this.isVisit = true
+                }
+                else if(this.concepts.concept32 === "Outcome"){
+                    this.isOutcome = true
+                    this.isVisit = false
+                    this.concepts.concept44 = ''
+                }
             }
         },
         computed: {

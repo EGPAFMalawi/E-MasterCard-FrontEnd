@@ -9,7 +9,8 @@
         <div class="container-fluid py-4">
             <MasterCardV7 v-if="patientCard.masterCard.version == '7 Adults'" 
                 :patientCard="patientCard" 
-                :patient='patient'>
+                :patient='patient'
+                :autofill='autofill'>
             </MasterCardV7>
             <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" 
                 :patientCard="patientCard"
@@ -24,7 +25,7 @@
     import MasterCardV7 from "./MasterCardV7/MasterCardV7"
     import MasterCardV7Paeds from "./MasterCardV7/MasterCardV7Paeds"
     import NavBar from "../../views/NavBar";
-    import { mapGetters } from 'vuex' 
+    import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'MasterCardsHome',
@@ -34,17 +35,42 @@
         },
         data: () => {
             return {
-                BASE_URL : 'patients'
+                BASE_URL : 'patients',
+                autofill: {}
             }
+        },
+        methods: {
+            ...mapActions(['setDateOfFirstStartingART', 'setFormDoB','setAgeAtARTInit'])
         },
         created() {
             console.log(this.patient)
             if (!this.patient || !this.patientCard){
                 this.$router.push('/')
             }
+
+            Object.assign(
+                this.autofill, 
+                this.dateOfFirstStartingART !== null ? {
+                    dateOfFirstStartingART: this.dateOfFirstStartingART
+                } : {},
+                this.ageAtARTInit !== null ? {
+                    ageAtARTInit: this.ageAtARTInit
+                } : {})
+
+            console.log(this.autofill)
+            
+            this.setDateOfFirstStartingART(null)
+            this.setAgeAtARTInit(null)
+
         },
-        computed: {
-             ...mapGetters(['patient', 'patientCard'])
+        computed: { 
+             ...mapGetters([
+                'patient', 
+                'patientCard', 
+                'dateOfFirstStartingART', 
+                'formDoB', 
+                'ageAtARTInit'
+            ])
         }
     }
 </script>

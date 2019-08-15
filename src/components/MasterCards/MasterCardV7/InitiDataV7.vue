@@ -371,7 +371,7 @@
 
     export default {
         name: 'InitDataV7',
-        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard', 'autofill'],
         components: { MultiSelect },
         methods: {
             ...mapActions([
@@ -475,29 +475,29 @@
                     }
                 });
 
-                if (this.concepts.concept18 === 'Y')
-                {
-                    if(this.concepts.concept19 === ''){
-                        //accept ART education done if Y but date is null
-                    }
-                    else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
-                        return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
-                    }
-                }
+                // if (this.concepts.concept18 === 'Y')
+                // {
+                //     if(this.concepts.concept19 === ''){
+                //         //accept ART education done if Y but date is null
+                //     }
+                //     else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                //         return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+                //     }
+                // }
 
-                if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
-                    return this.$toast.error(
-                        `<strong>ART start date</strong> must not be after ART test date`, 
-                        'Error', 
-                        notificationSystem.options.error
-                    )
-                }else{
+                // if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+                //     return this.$toast.error(
+                //         `<strong>ART start date</strong> must not be after ART test date`, 
+                //         'Error', 
+                //         notificationSystem.options.error
+                //     )
+                // }else{
                     let finalPayload = [];
                     finalPayload.push(...payloadForStatus);
                     finalPayload.push(...payloadForConfirmatory);
 
                     this.handlePost(finalPayload, message);
-                }
+                // }
             },
             getObservation (conceptID){
                 let obs = this.patientCardData.filter((item)=>{
@@ -649,7 +649,7 @@
                     concept5 : '',
                     concept6 : '',
                     concept7 : '',
-                    concept8 : '',
+                    concept8 : '', // age at initiation
                     concept9 : '',
                     concept10 : '',
                     concept11 : '',
@@ -663,8 +663,8 @@
                     concept19 : '',
                     concept20 : '',
                     concept21 : '',
-                    concept22 : '',
-                    concept23 : '',
+                    concept22 : '', 
+                    concept23 : '', // ART start date
                     concept24 : '',
                     concept25 : '',
                     concept26 : '',
@@ -679,6 +679,10 @@
             //     this.conditions = this.getConditions(this.concepts.concept3)
             // }
             this.toggleAgeEstimateButton()
+
+            this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
+            this.concepts.concept8 = this.autofill.ageAtARTInit || ''
+            console.log(this.concepts.concept23)
         },
         watch: {
             encounterTypes : function (value) {

@@ -16,15 +16,9 @@
                                 (patient.person.personName.middle !== null ? patient.person.personName.middle : '') + 
                                 ' ' + 
                                 patient.person.personName.family }}
-                                <span v-if="patient.lastStep.step === 'Died'" class="badge badge-danger">deceased</span>
+                                <!-- <span v-if="patient.lastStep.step === 'Died'" class="badge badge-danger">deceased</span> -->
                             </h5>
                             <h5 class="card-title">ARTNo : {{patient.artNumber }}</h5>
-                            
-                            <div class="row d-flex justify-content-center">
-                                <div class="alert alert-success" role="alert">
-                                    Click  <router-link to="/steps"><span class="alert-link">HERE</span> </router-link> to manage Steps .
-                                </div>
-                            </div>
                         </div>
                     </div>
             </div>
@@ -32,7 +26,7 @@
         </div>
 
     </section>
-    <section v-if="patient.lastStep.step !== 'Died'">
+    <section>
         <div class="container">
                 <h5 class="text-align-center">Patient Cards</h5>
                 <form class="form-row " v-on:submit.prevent="addNewPatientCard">

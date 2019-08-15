@@ -3,6 +3,8 @@ import initiationConfirmatory from './initiation-confirmatory'
 
 const state = {
     searchParam: '',
+    dateOfFirstStartingART: null, //maps to ART StartDate concept
+    ageAtARTInit: null, //maps to ageAtInit concept
     patients: [],
     patient: [],
     patientCard: {},
@@ -91,10 +93,21 @@ const getters = {
     patientCardData: state => state.patientCardData,
     patientCard: state => state.patientCard,
     regimens: ({regimens}) => regimens,
-    masterCardDetails: state => state.masterCardDetails
+    masterCardDetails: state => state.masterCardDetails,
+    dateOfFirstStartingART: ({dateOfFirstStartingART}) => dateOfFirstStartingART, //maps to ART StartDate concept
+    ageAtARTInit: ({ageAtARTInit}) => ageAtARTInit, //maps to ageAtInit concept
 }
 
 const actions = {
+    setAgeAtARTInit({commit}, param){
+        commit('setARTInitAge', param)
+    },
+    setDateOfFirstStartingART({commit}, param){
+        commit('setDOFSA', param)
+    },
+    setFormDoB({commit}, param){
+        commit('setFDoB', param)
+    },
     setSearchParam({commit}, param){
         commit('setParam', param)
     },
@@ -187,7 +200,13 @@ const mutations = {
     ),
     setMasterCardDetails: (state, masterCardDetails) => (
         state.masterCardDetails = masterCardDetails
-    )
+    ),
+    setDOFSA: (state, dateOfFirstStartingART) => {
+        state.dateOfFirstStartingART = dateOfFirstStartingART
+    },
+    setARTInitAge: (state, ageAtARTInit) => {
+        state.ageAtARTInit = ageAtARTInit
+    }
 }
 
 const modules = {
