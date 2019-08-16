@@ -208,7 +208,7 @@
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-success" type="submit" @click="patientFormIsActive = !patientFormIsActive">Add Patient</button>
+                    <button class="btn btn-success" type="submit" @click="patientFormIsActive = !patientFormIsActive" :disabled="!showButton">Add Patient</button>
                 </form>
             </b-tab>
             <b-tab title="Enter Registration Details" v-if="isPatientAdded" :active="!patientFormIsActive">
@@ -384,7 +384,7 @@ export default {
                 authResource().post(dhisAPIEndpoint, payload)
                 .then(({data: {data}})=>{
                     this.isLoading = false
-                    
+                    this.showButton = false
                     this.selectPatient(data)
                     this.$toast.success('Successfully added patient!', 'OK', notificationSystem.options.success)
                     this.isPatientAdded = true
@@ -536,6 +536,7 @@ export default {
             this.isPatientAdded = true
             this.patientFormIsActive = false
             this.showPatientForm = false
+            this.showButton = true
             this.selectPatient(patient)
         },
 
@@ -543,6 +544,7 @@ export default {
             this.isPatientAdded = false
             this.patientFormIsActive = true
             this.showPatientForm = true
+            this.showButton = true
         },
         getMasterCards(){
             const url = `${this.APIHosts.art}/master-cards`;
@@ -681,6 +683,7 @@ export default {
         this.loadRegions()
         this.loadDistricts()
         this.getMasterCards()
+        
     },
     data: () => {
         return {
@@ -727,7 +730,7 @@ export default {
             invalidARTFirstStartDate: false,
             invalidRegDate: false,
             showPatientForm: true,
-
+            showButton: true,
             estimatedDoB: null,
             identifier: null, //ART number
             concepts: {
