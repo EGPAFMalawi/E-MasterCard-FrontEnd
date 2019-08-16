@@ -777,7 +777,6 @@
                     const autodate = new Date(this.startDate)
                     this.encounterDatetime = autodate.toISOString().split('T')[0]
                 }
-
             }
         },
         computed: {

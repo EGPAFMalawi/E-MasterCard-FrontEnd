@@ -1,7 +1,7 @@
 <template>
     <div>
         <button class="sticky-top btn btn-info" @click="goBack">Back</button>
-        <div class="container py-4">
+        <div class="container py-2">
             <div class="row d-flex justify-content-center">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
@@ -19,7 +19,7 @@
                 </RegistrationDataV7Paeds>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="container-fluid d-flex justify-content-center">
             <InitDataV7Paeds 
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
@@ -31,7 +31,7 @@
 
         <div class="container">
             <div class="row justify-content-center">
-                <h5 class="text-align-center">Visit Data</h5>
+                <h5 class="text-align-center">Visit / Outcomes Data</h5>
             </div>
         </div>
 
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-    import authResource from './../../../authResource'
     import InitDataV7Paeds from "./InitiDataV7Paeds";
     import VisitDataV7Paeds from "./VisitDataV7Paeds";
     import RegistrationDataV7Paeds from "./RegistrationDataV7Paeds";
@@ -69,8 +68,7 @@
                     .then( message => console.info(message) )
                     .catch(err => console.error(err))
             },
-            initiatePost : function ()
-            {
+            initiatePost(){
                 this.postPayload++;
             }
         },

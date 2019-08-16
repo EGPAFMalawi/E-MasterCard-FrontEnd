@@ -424,8 +424,7 @@
                 }
 
             },
-            getPatientCardStatusAtInitDetails : function ()
-            {
+            getPatientCardStatusAtInitDetails (){
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[1].encounterTypeID,
@@ -440,7 +439,7 @@
                     })
                     .catch(error => console.error(error))
             },
-            getPatientCardConfirmatoryDetails : function ()
+            getPatientCardConfirmatoryDetails ()
             {
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
@@ -455,7 +454,7 @@
                 e.preventDefault()
                 this.processDataForPost('Initiation and Confirmatory Data Saved');
             },
-            processDataForPost: function (message)
+            processDataForPost (message)
             {
                 let payloadForStatus = this.encounterTypes[1].concepts.map((item)=>{
                     return {
@@ -496,7 +495,7 @@
                 // }
                 
             },
-            getObservation: function (conceptID)
+            getObservation (conceptID)
             {
                 let obs = this.patientCardData.filter((item)=>{
                     return item.concept.conceptID === conceptID
@@ -507,7 +506,7 @@
                 else
                     return null
             },
-            handlePost: function (payload, message)
+            handlePost (payload, message)
             {
                 let url = `${this.APIHosts.art}/observations`;
                 let finalPayload = {
@@ -595,7 +594,7 @@
             onSelect(conditions, lastSelectCondition){
                 this.selectedConditions = conditions
                 this.lastSelectCondition = lastSelectCondition
-                this.concepts.concept1 = JSON.stringify(this.selectedConditions)
+                //this.concepts.concept1 = JSON.stringify(this.selectedConditions)
             },
             handleAgeEstimation()
             {
@@ -654,14 +653,13 @@
             return {
                 notificationSystem,
                 BASE_URL : 'patients',
-                conditions:[],
                 eval:null, //turns to boolean when evaluating 
                 evalEduDate: null, // turns to boolean when evaluating
                 showEstimateButton: false,
                 selectedConditions: [],
                 lastSelectCondition: {},
                 concepts : {
-                    concept1 : [],
+                    concept1 : '',
                     concept2 : '',
                     concept3 : '',
                     concept4 : '',
@@ -707,8 +705,8 @@
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
             console.log(this.concepts.concept1)
-            if (this.concepts.concept1 !== null) 
-                this.selectedConditions = JSON.parse(this.concepts.concept1)
+            // if (this.concepts.concept1 !== null) 
+            //     this.selectedConditions = JSON.parse(this.concepts.concept1)
         },
 
         watch : {
