@@ -64,21 +64,21 @@
                                         </div> 
                                         <div class="card" v-on:click="loadData(payloads.defaultersPEPFAR)" v-b-modal.modal-1>
                                             <div class="card-body">
-                                                <h5 class="card-title">Defaulters (PEPFAR) </h5>
+                                                <h5 class="card-title">Defaulters (30 Days) </h5>
                                                 
                                             </div>
                                             <div class="card-footer"><h1 class="display-4">{{defaultersPEPFAR.counts}}</h1></div>
                                         </div>
                                         <div class="card" v-on:click="loadData(payloads.defaultersMOH)" v-b-modal.modal-1>
                                             <div class="card-body">
-                                                <h5 class="card-title">Defaulters (MOH) </h5>
+                                                <h5 class="card-title">Defaulters (60 Days) </h5>
                                                 
                                             </div>
                                             <div class="card-footer"><h1 class="display-4">{{defaultersMOH.counts}}</h1></div>
                                         </div>
                                         <div class="card" v-on:click="loadData(payloads.cdctxcurrent)" v-b-modal.modal-1>
                                             <div class="card-body">
-                                                <h5 class="card-title">TX Current (PEPFAR)</h5>
+                                                <h5 class="card-title">TX Current (30 Days)</h5>
                                                 
                                             </div>
                                             <div class="card-footer"><h1 class="display-4">{{cdctxcurrent.counts}}</h1></div>
@@ -88,7 +88,7 @@
                                     <div class="card-deck">
                                         <div class="card" v-on:click="loadData(payloads.mohctxcurrent)" v-b-modal.modal-1>
                                             <div class="card-body">
-                                                <h5 class="card-title">TX Current (MOH)</h5>
+                                                <h5 class="card-title">TX Current (60 Days)</h5>
                                                 
                                             </div>
                                             <div class="card-footer"><h1 class="display-4">{{mohctxcurrent.counts}}</h1></div>

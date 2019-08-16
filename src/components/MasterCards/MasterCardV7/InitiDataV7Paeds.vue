@@ -686,7 +686,7 @@
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
-                    concept54 : '',
+                    concept54 : 'Months',
                 },
                 isTestDateValid: false,
                 isEduDateValid: false,

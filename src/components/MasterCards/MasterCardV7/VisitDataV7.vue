@@ -331,11 +331,12 @@
                         <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input id="tooltip-button-1" v-model="concepts.concept47" @click="setAppointmentMinMax" @focus="setAppointmentMinMax" class="form-control tb-form"  type="date" required :disabled="!isVisit && isOutcome">
+                        <input :required="!isVisitOutcome" id="nad" v-model="concepts.concept47" @click="setAppointmentMinMax" @focus="setAppointmentMinMax" class="form-control tb-form"  type="date" :disabled="!isVisit && isOutcome">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
                        <select v-model="concepts.concept48" class="form-control tb-form">
+                           <option value=""></option>
                             <option value="D">Died</option>
                             <option value="Def"> Defaulted</option>
                             <option value="Stop"> Stop </option>
@@ -392,15 +393,10 @@
                     })
             },
             addNewVisit(){
-                if(this.concepts.concept47 <= this.encounterDatetime && this.isVisit){
-                    this.$toast.error(
-                        `Appointment date is before or same as vist date`, 
-                        'Error', 
-                        notificationSystem.options.error)
-                }else if(this.isOutcome){
-                    this.processDataForPost(true, 'Visit Added')
+                if(this.isOutcome){
+                    this.processDataForPost(true, 'Outcome Added')
                 }
-                else{
+                else if(this.isVisit){
                     this.processDataForPost(true, 'Visit Added')
                 }  
             },
@@ -468,7 +464,7 @@
                     'patient-card' : this.patientCard.patientCardID,
                     'observations' : payload,
                     'encounter-datetime': (
-                        message === "Visit Added" ? 
+                        message === "Visit Added" || message === 'Outcome Added' ? 
                         this.encounterDatetime : payload.filter(item => item.concept == 32 )[0]['encounter-datetime'])
                 };
 
@@ -729,7 +725,8 @@
                 encounterDatetime: null,
                 patientCardData: [],
                 isOutcome: false,
-                isVisit: false
+                isVisit: false,
+                isVisitOutcome: false
             }
         },
         created() {
@@ -776,6 +773,21 @@
                 if (Object.values(this.observations).length < 1){
                     const autodate = new Date(this.startDate)
                     this.encounterDatetime = autodate.toISOString().split('T')[0]
+                }
+            },
+            'concepts.concept48': function () {
+                if (this.concepts.concept48 !== ''){
+                    this.isVisitOutcome = true
+                    this.concepts.concept47 = ''
+                    const nad = document.querySelector("#nad")
+                    nad.disabled = true
+                }
+                else{
+                    if(this.isVisit){
+                        this.isVisitOutcome = false
+                        const nad = document.querySelector("#nad")
+                        nad.disabled = false
+                    }
                 }
             }
         },

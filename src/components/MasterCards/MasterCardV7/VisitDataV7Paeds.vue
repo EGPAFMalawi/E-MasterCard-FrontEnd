@@ -356,11 +356,12 @@
                         <input :disabled="!isVisit && isOutcome"  v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input :disabled="!isVisit && isOutcome" @click="setAppointmentMinMax" @focus="setAppointmentMinMax" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date" required>
+                        <input id="nad" :disabled="!isVisit && isOutcome" :required="!isVisitOutcome"  @click="setAppointmentMinMax" @focus="setAppointmentMinMax" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
                        <select v-model="concepts.concept48" class="form-control tb-form">
+                           <option value=""></option>
                             <option value="D">Died</option>
                             <option value="Def"> Defaulted</option>
                             <option value="Stop"> Stop </option>
@@ -746,7 +747,8 @@
                 encounterDatetime: null,
                 patientCardData: [],
                 isOutcome: false,
-                isVisit: false
+                isVisit: false,
+                isVisitOutcome: false
             }
         },
         created() {
@@ -793,6 +795,21 @@
                 if (Object.values(this.observations).length < 1){
                     const autodate = new Date(this.startDate)
                     this.encounterDatetime = autodate.toISOString().split('T')[0]
+                }
+            },
+            'concepts.concept48': function () {
+                if (this.concepts.concept48 !== ''){
+                    this.isVisitOutcome = true
+                    this.concepts.concept47 = ''
+                    const nad = document.querySelector("#nad")
+                    nad.disabled = true
+                }
+                else{
+                    if(this.isVisit){
+                        this.isVisitOutcome = false
+                        const nad = document.querySelector("#nad")
+                        nad.disabled = false
+                    }
                 }
             }
         },
