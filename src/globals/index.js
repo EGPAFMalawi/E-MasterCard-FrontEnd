@@ -121,7 +121,7 @@ export const validateDate = (e) => {
 
 export const matchString = (word) => {
   if (word === null) return true
-  const pattern = /^[a-zA-Z']+$/
+  const pattern = /^[a-zA-Z'\s]+$/
   const match = word.match(pattern)
   return (match && word !== '') ? true : false
 }

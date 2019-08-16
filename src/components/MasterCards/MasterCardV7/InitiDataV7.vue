@@ -23,7 +23,7 @@
                         <div class="col-md-4 mb-3">
                             <label for="validationServer02">Middle Name</label>
                             <input type="text" class="form-control" placeholder="Middle name"
-                            pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                            pattern="^[a-zA-Z']+$" title="Name cannot have numbers." 
                             :class="{'is-invalid':!mnameAlphanumericValidation && patient.person.personName.middle !== ''}"
                             v-model="patient.person.personName.middle">
                             <b-form-invalid-feedback v-if="patient.person.personName.middle !== ''" :state="mnameAlphanumericValidation">
@@ -34,7 +34,7 @@
                         <div class="col-md-4 mb-3">
                             <label for="validationServer02">Family Name*</label>
                             <input type="text" class="form-control" placeholder="Last name" 
-                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                                pattern="^[a-zA-Z']+$" title="Name cannot have numbers." 
                                 :class="{'is-invalid':!fnameAlphanumericValidation && patient.person.personName.family !== ''}"
                                 v-model="patient.person.personName.family">
                             <b-form-invalid-feedback v-if="patient.person.personName.family !== ''" :state="fnameAlphanumericValidation">
@@ -72,7 +72,7 @@
                         <div class="col-md-12 mb-3">
                                 <label >Guardian Name</label>
                                 <input type="text" class="form-control" placeholder="Name of guardian" 
-                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers."
+                                pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers."
                                 :class="{'is-invalid':!guardnameAlphanumericValidation && patient.guardianName !== ''}"
                                     v-model="patient.guardianName">
                                 <b-form-invalid-feedback v-if="patient.guardianName !== ''" :state="guardnameAlphanumericValidation">
@@ -604,7 +604,7 @@
                     const birthdate = new Date(birthYear.toString())
                     return birthdate.toISOString().split('T')[0]
                 }else if(ageType === 'Months'){
-                    date.setMonth(date.getMonth() - age);
+                    date.setMonth(date.getMont() - age);
                     return date.toISOString().split('T')[0]
                 }
 
