@@ -126,7 +126,6 @@
                     </td>
                     <td>
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" 
-                        @keyup="validateDate"  @click="setDateMinMax" @focus="setDateMinMax"
                         class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
@@ -234,7 +233,7 @@
                 </tr>
                 <tr>
                     <td>
-                         <select v-on:change="disableVisitFields" v-model="concepts.concept32" class="form-control tb-form">
+                         <select v-model="concepts.concept32" class="form-control tb-form" required>
                             <option value="Clinical Visit">Clinical Visit</option>
                             <option value="Outcome">Outcome</option>
                         </select>
@@ -330,7 +329,7 @@
                         <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input id="tooltip-button-1" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date" required :disabled="!isVisit && isOutcome">
+                        <input id="tooltip-button-1" v-model="concepts.concept47" @click="setAppointmentMinMax" @focus="setAppointmentMinMax" class="form-control tb-form"  type="date" required :disabled="!isVisit && isOutcome">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
@@ -343,9 +342,9 @@
                     </td>
                     <td></td>
                 </tr>
-                <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                <!-- <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
                     Visit Date must be before Appointment Date
-                </b-tooltip>
+                </b-tooltip> -->
                 </tbody>
             </table>
             <div class="d-flex justify-content-end pl-0">
@@ -365,7 +364,7 @@
 <script>
     import {authResource} from './../../../authResource'
     import _ from 'lodash'
-    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString } from '../../../globals'
+    import { notificationSystem, matchString, addDays, compareDates } from '../../../globals'
     import { networkInterfaces } from 'os';
     import { constants } from 'crypto';
     import { mapGetters, mapActions } from 'vuex' 
@@ -381,7 +380,7 @@
                     'encounter-type' : this.encounterTypes[3].encounterTypeID,
                     'consider-version' : true
                 };
-
+                
                 authResource().post(url, payload)
                     .then((response)=>{
                         this.patientCardData.push(...response.data.data)
@@ -641,9 +640,58 @@
                 }
             },
             setEventDateMinMax(e){
-                setMinDate(e, this.startDate ? this.startDate : this.patient.person.birthdate)
-                setMaxDate(e)
+                this.setMinDate(e, this.startDate ? this.startDate : this.patient.person.birthdate)
+                this.setMinDate(
+                    e,
+                    this.startDate ? this.startDate :
+                        compareDates(new Date(this.patient.person.birthdate),new Date('1985-01-01')) ?
+                        this.patient.person.birthdate : '1985-01-01'
+                )
+                this.setMaxDate(e)
             },
+
+            validateDate(e)  {
+                if (e.target.validity.valid){
+                    e.target.vale = ''
+                    return  !e.target.validity.valid
+                }
+                else{
+                    return !e.target.validity.valid
+                }
+            },
+            
+            setMinDate(e, date){
+                const target = e.target
+                const min = new Date(date)
+                Object.assign(target, {min: min.toISOString().split('T')[0]})
+            },
+
+            setMaxDate (e) {
+                const target = e.target
+                const max = new Date()
+                Object.assign(target, {max: max.toISOString().split('T')[0]})
+            },
+            appointmentMinDate(e, date, days){
+                const target = e.target
+                const min = addDays(date, days)
+                Object.assign(target, {min: min.toISOString().split('T')[0]})
+            },
+            setAppointmentMinMax(e){
+                this.appointmentMinDate(
+                    e, 
+                    this.encounterDatetime !== null ? this.encounterDatetime : (
+                        compareDates(new Date(this.patient.person.birthdate), new Date('1985-01-01')) ? 
+                        this.patient.person.birthdate : '1985-01-01' ), 
+                    1)
+                // this.setMaxDate(e)
+            },
+            // setEventDateMini(e){
+            //     this.setMinDate(
+            //         e,
+            //         compareDates(new Date(this.patient.person.birthdate),new Date('1985-01-01')) ?
+            //         this.patient.person.birthdate : '1985-01-01'
+            //     )
+            // }
         },
         data: () => {
             return {
@@ -686,12 +734,12 @@
             this.getPatientCardDetails()
         },
         watch : {
-            encounterTypes : function (value) {
-                if (value.length > 0)
-                {
-                    this.getPatientCardDetails()
-                }
-            },
+            // encounterTypes : function (value) {
+            //     if (value.length > 0)
+            //     {
+            //         this.getPatientCardDetails()
+            //     }
+            // },
             patientCardData : function (value) {
                 this.fillConceptObservations(value);
                 // this.setMinMax('visitDate')
@@ -711,7 +759,7 @@
                 if(this.encounterDatetime!=='' && this.concepts.concept47!=='')
                     this.show = this.evaluateIfVisitDateBeforeAppointmenttDate(this.encounterDatetime, this.concepts.concept47)
             },
-            'concepts.concept32': function(e){
+            'concepts.concept32': function(){
                 if (this.concepts.concept32 === "Clinical Visit"){
                     this.isOutcome = false
                     this.isVisit = true

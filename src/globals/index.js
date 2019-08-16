@@ -125,3 +125,13 @@ export const matchString = (word) => {
   const match = word.match(pattern)
   return (match && word !== '') ? true : false
 }
+
+export const addDays = (date, days) => {
+  let d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+export const compareDates = (date1, date2) => {
+  return date1 > date2
+}
