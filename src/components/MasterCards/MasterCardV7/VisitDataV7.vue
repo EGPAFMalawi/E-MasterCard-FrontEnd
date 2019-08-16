@@ -129,7 +129,9 @@
                         class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="30" step="any" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept33Encounter'+encounter.encounterID].value" 
+                        class="form-control tb-form"  type="number" min="30" step="any" 
+                        :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:50px" v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -589,12 +591,12 @@
                 if (visitObservation.encounterVoided)
                     action = false
 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
+                let url = `${this.APIHosts.art}/encounters/`+visitObservation.encounter+'/toggle-void';
                 let payload = {
                     'void' : action,
                 };
 
-                authResource().patch(dhisAPIEndpoint, payload)
+                authResource().patch(url, payload)
                     .then((response)=>{
                         this.clearFields();
                         this.patientCardData = [];

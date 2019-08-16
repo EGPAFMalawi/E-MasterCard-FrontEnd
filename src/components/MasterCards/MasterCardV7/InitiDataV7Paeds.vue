@@ -130,9 +130,9 @@
                                                 <option v-for="(condition) in conditions" v-bind:key="condition">{{condition}}</option>
                                             </select> -->
                                             <multi-select :options="conditions"
-                                                    :selected-options="selectedConditions"
-                                                    placeholder="select items"
-                                                    @select="onSelect">
+                                                :selected-options="selectedConditions"
+                                                placeholder="select items"
+                                                @select="onSelect">
                                             </multi-select>
                                         </div>
                                         <div class="col-md-12 mb-2">
@@ -701,6 +701,8 @@
             //     this.conditions = this.getConditions(this.concepts.concept3)
             // }
             this.toggleAgeEstimateButton()
+
+            console.log(this.conditions)
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
