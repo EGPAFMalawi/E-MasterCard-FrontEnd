@@ -213,10 +213,22 @@
             </b-tab>
             <b-tab title="Enter Registration Details" v-if="isPatientAdded" :active="!patientFormIsActive">
                 <form @submit.prevent="handlePatientRegistration">
+
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label>Select MasterCard Version</label>
+                                <select class="form-control" v-model="selectedMasterCardVersion" required>
+                                    <option :value="null" disabled>Pick from the Available Versions</option>
+                                    <option v-for="(masterCard,index) in availableMasterCards" v-bind:key="index" :value="masterCard.masterCardID">{{masterCard.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" :class="{'is-disabled-section':selectedMasterCardVersion === null}">
+                        <div class="col-md-6 mb-3">
                             <label>ART Status at Registration*</label>
-                            <select class="form-control" v-model="concepts.concept55">
+                            <select class="form-control" v-model="concepts.concept55" :disabled="selectedMasterCardVersion === null">
                                 <option :value="null" disabled>Select Status</option>
                                 <option value="First Time Initiation">First Time Initiation</option>
                                 <option value="Reinitiation">Reinitiation</option>
@@ -226,13 +238,13 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Registration Date</label>
-                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}" required>
+                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}" :disabled="selectedMasterCardVersion === null" required>
                              <b-form-invalid-feedback :state="!invalidRegDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row" :class="{'is-disabled-section':selectedMasterCardVersion === null}">
                         <div class="col-md-6 mb-3">
                             <label>Date of First Starting ART</label>
                             <input v-model="concepts.concept57" ref="artStartDate" @keyup="validateARTFirstStartDate" @change="validateARTFirstStartDate"  type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
@@ -244,8 +256,8 @@
                         <div class="col-md-3 mb-3">
                             <label>Age at Initiation</label>
                             <div class="form-inline fit-2-input-fields">
-                                <input v-model="concepts.concept58" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
-                                <select v-model="concepts.concept59" class="form-control">
+                                <input v-model="concepts.concept58" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" :disabled="selectedMasterCardVersion === null" required>
+                                <select v-model="concepts.concept59" class="form-control" :disabled="selectedMasterCardVersion === null">
                                     <option value="Months">Months</option>
                                     <option value="Years">Years</option>
                                 </select>
@@ -253,28 +265,17 @@
                         </div>
                         <div class="col-md-3 mb-3" v-if="birthdate === '' && patient.person.birthdate === ''">
                             <label>Estimated DOB</label>
-                            <input v-model="estimatedDoB" ref="estimatedDoB" id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" >
+                            <input v-model="estimatedDoB" ref="estimatedDoB" id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" :disabled="selectedMasterCardVersion === null">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row" :class="{'is-disabled-section': selectedMasterCardVersion === null}">
                         <div class="col-md-6 mb-3">
                             <label>ARV Number</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">CODE</span>
                                 </div>
-                                <input type="number" v-model="identifier" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label>Select MasterCard Version</label>
-                                <select class="form-control" v-model="selectedMasterCardVersion" required>
-                                    <option :value="null" disabled>Pick from the Available Versions</option>
-                                    <option v-for="(masterCard,index) in availableMasterCards" v-bind:key="index" :value="masterCard.masterCardID">{{masterCard.name}}</option>
-                                </select>
+                                <input type="number" v-model="identifier" class="form-control" :disabled="selectedMasterCardVersion === null" required>
                             </div>
                         </div>
                     </div>
@@ -645,20 +646,12 @@ export default {
                 this.selectPatient(data)
             })
         },
-        handleAgeEstimation(ageType){
+        handleAgeEstimation(){
             if (
                 this.patient.person.birthdate !== null
                 && this.concepts.concept57 !== null
                 )
             {
-                // let startDateObj = new Date(this.concepts.concept57)
-                // let birthDateObj = new Date(this.patient.person.birthdate)
-
-                // const startYear = startDateObj.getFullYear()
-                // const birthYear = birthDateObj.getFullYear()
-                // this.concepts.concept58 =  startYear - birthYear
-                // this.concepts.concept59 = 'Years'
-                console.log(this.patient.person.birthdate, this.concepts.concept57)
                     let birthDateObj = new Date(this.patient.person.birthdate)
                     let diff_ms = new Date(this.concepts.concept57) - birthDateObj.getTime();
                     let age_dt = new Date(diff_ms); 
@@ -666,7 +659,23 @@ export default {
                     this.concepts.concept58 = Math.abs(age_dt.getUTCFullYear() - 1970)
                     this.concepts.concept59 = 'Years'
             }
-        }
+        },
+        handleAgeEstimationMonths(){
+            if (
+                this.patient.person.birthdate !== null
+                && this.concepts.concept57 !== null
+            )
+            {
+                let startDateObj = new Date(this.concepts.concept57)
+                let birthDateObj = new Date(this.patient.person.birthdate)
+
+                const monthDiff = startDateObj.getMonth() - birthDateObj.getMonth()
+                const yearDiff = startDateObj.getFullYear() - birthDateObj.getFullYear()
+
+                this.concepts.concept58 =  monthDiff + (12 * yearDiff)
+                this.concepts.concept59 = 'Months'
+            }
+        },
     },
     created(){
         this.loadRegions()
@@ -765,8 +774,12 @@ export default {
             this.loadTAs(districtId)
         },
         'concepts.concept57': function(){
-            this.handleAgeEstimation()
-             if (this.watchRegStart === true && (this.concepts.concept56 !== this.concepts.concept57)){
+            if (this.selectedMasterCardVersion === 7)
+                this.handleAgeEstimation()
+            else if(this.selectedMasterCardVersion === 8)
+                this.handleAgeEstimationMonths()
+
+            if (this.watchRegStart === true && (this.concepts.concept56 !== this.concepts.concept57)){
                 this.concepts.concept56 = this.concepts.concept57
             }
         },
@@ -782,6 +795,12 @@ export default {
             else{
                 this.watchRegStart = false
             }
+        },
+        selectedMasterCardVersion: function(){
+            if (this.selectedMasterCardVersion === 7)
+                this.handleAgeEstimation()
+            else if(this.selectedMasterCardVersion === 8)
+                this.handleAgeEstimationMonths()
         }
     }
     

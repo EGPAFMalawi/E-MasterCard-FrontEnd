@@ -263,6 +263,12 @@ td .selection {
   z-index: 989 !important
 }
 
+.is-disabled-section{
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @media (max-width: 1367px){
   body{
     zoom: 0.8;

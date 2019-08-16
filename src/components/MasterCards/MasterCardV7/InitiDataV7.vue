@@ -256,6 +256,7 @@
                                                     <option value="15A">15A</option>
                                                     <option value="NVP">NVP</option>
                                                     <option value="PEP">PEP</option>
+                                                    <option value="Oth">Oth</option>
                                                 </select>
                                                 
                                                 <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control" required>
@@ -357,6 +358,7 @@
                                                 <option value="13A">13A</option>
                                                 <option value="14A">14A</option>
                                                 <option value="15A">15A</option>
+                                                <option value="Oth">Oth</option>
                                             </select>
                                             <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
                                     </div>

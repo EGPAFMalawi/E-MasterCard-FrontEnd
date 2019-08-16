@@ -24,7 +24,8 @@
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
-                :patientCard='patientCard'>
+                :patientCard='patientCard'
+                :autofill="autofill">
             </InitDataV7Paeds>
         </div>
 
@@ -54,7 +55,7 @@
 
     export default {
         name: 'MasterCardV7Paeds',
-        props: ['patient', 'patientCard'],
+        props: ['autofill', 'patient', 'patientCard'],
         components: {RegistrationDataV7Paeds, VisitDataV7Paeds, InitDataV7Paeds},
         methods: {
             ...mapActions(['loadMasterCardDetails']),

@@ -7,20 +7,39 @@
                             <h5 class="text-align-center">Patient / Guardian Details</h5>
                         </div>
                         <div class="card-body reduce-margin-p">
+                            <form v-on:submit.prevent="updatePatient">
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="validationServer01">Given Name*</label>
-                                    <input type="text" class="form-control" placeholder="First name" v-model="patient.person.personName.given" required>
+                                    <input type="text" class="form-control" placeholder="First name" 
+                                    pattern="^[a-zA-Z']+$" title="Name cannot have numbers." 
+                                    :class="{'is-invalid':!gnameAlphanumericValidation && patient.person.personName.given !== ''}"
+                                    v-model="patient.person.personName.given" required>
+                                    <b-form-invalid-feedback v-if="patient.person.personName.given !== ''" :state="gnameAlphanumericValidation">
+                                        Name cannot have numbers.
+                                    </b-form-invalid-feedback>
                                     
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationServer02">Middle Name</label>
-                                    <input type="text" class="form-control" placeholder="Middle name" v-model="patient.person.personName.middle">
+                                    <input type="text" class="form-control" placeholder="Middle name" 
+                                    pattern="^[a-zA-Z']+$" title="Name cannot have numbers." 
+                                    :class="{'is-invalid':!mnameAlphanumericValidation && patient.person.personName.middle !== ''}"
+                                    v-model="patient.person.personName.middle">
+                                    <b-form-invalid-feedback v-if="patient.person.personName.middle !== ''" :state="mnameAlphanumericValidation">
+                                        Name cannot have numbers.
+                                    </b-form-invalid-feedback>
 
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="validationServer02">Family Name*</label>
-                                    <input type="text" class="form-control" placeholder="Last name" v-model="patient.person.personName.family" required>
+                                    <input type="text" class="form-control" placeholder="Last name" 
+                                    pattern="^[a-zA-Z']+$" title="Name cannot have numbers." 
+                                        :class="{'is-invalid':!fnameAlphanumericValidation && patient.person.personName.family !== ''}"
+                                        v-model="patient.person.personName.family">
+                                    <b-form-invalid-feedback v-if="patient.person.personName.family !== ''" :state="fnameAlphanumericValidation">
+                                        Name cannot have numbers.
+                                    </b-form-invalid-feedback>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -79,11 +98,18 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label >Guardian Relation</label>
-                                    <input type="text" class="form-control" placeholder="Guardian Relation" v-model="patient.guardianRelation">
+                                    <input type="text" class="form-control" placeholder="Guardian Relation" 
+                                    pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers."
+                                    :class="{'is-invalid':!guardnameAlphanumericValidation && patient.guardianName !== ''}"
+                                        v-model="patient.guardianName">
+                                    <b-form-invalid-feedback v-if="patient.guardianName !== ''" :state="guardnameAlphanumericValidation">
+                                        Name cannot have numbers.
+                                    </b-form-invalid-feedback>
                                 </div>
                                 
                             </div>  
-                             <button class="btn btn-outline-success" @click="updatePatient">UPDATE</button>
+                             <button class="btn btn-outline-success" type="submit">UPDATE</button>
+                            </form>
                         </div>
                     </div>
                     <!-- Patient Details end here -->
@@ -98,11 +124,16 @@
                                 <div class="form-row">
                                         <div class="col-md-12 mb-2">
                                             <label>HIV Related Diseases</label>
-                                            <select v-model="concepts.concept1" class="form-control">
+                                            <!-- <select v-model="concepts.concept1" class="form-control">
                                                 <option :value="null" disabled>Reasons for ART Start</option>
                                                 <option value=""></option>
                                                 <option v-for="(condition) in conditions" v-bind:key="condition">{{condition}}</option>
-                                            </select>
+                                            </select> -->
+                                            <multi-select :options="conditions"
+                                                    :selected-options="selectedConditions"
+                                                    placeholder="select items"
+                                                    @select="onSelect">
+                                            </multi-select>
                                         </div>
                                         <div class="col-md-12 mb-2">
                                             <label>Urine LAM / CrAg Result</label>
@@ -136,7 +167,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4</label>
-                                        <input v-model="concepts.concept4" type="text" class="form-control" placeholder="CD4" required>
+                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" required>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label>KS</label>
@@ -233,7 +264,7 @@
                             <div class="col-md-12 mb-2">
                                     <label >Test Date</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <input v-model="concepts.concept16" type="date" ref="regimenStartDate" class="form-control">
+                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}">
                                             <select v-model="concepts.concept17" class="form-control" >
                                                 <option :value="null" disabled>Rapid or PCR</option>
                                                 <option value=""></option>
@@ -241,12 +272,9 @@
                                                 <option value="PCR">PCR</option>
                                             </select>
                                     </div>
-                                    <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
-                                        Please make sure that the Test date is before the ART regimen start date 
+                                    <b-form-invalid-feedback :state="!isTestDateValid || eval">
+                                        INVALID DATE! the Test date must be before the ART regimen start date
                                     </b-form-invalid-feedback>
-                                    <b-form-valid-feedback :state="eval">
-                                        Looks Good. (Coming before ART Regimen start date)
-                                    </b-form-valid-feedback>
                             </div>
                             
                         </div>
@@ -261,7 +289,7 @@
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
-                                            <input v-model="concepts.concept19" type="date" ref="regimenStartDate" class="form-control" required>
+                                           <input @click="setTestDateMinMax" @focus="setTestDateMinMax"  @keyup="validateEduDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" :class="{'is-invalid': isEduDateValid}">
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
@@ -303,7 +331,7 @@
                                                 <option value="9A">9A</option>
                                                 <option value="Oth">Oth</option>
                                             </select>
-                                            <input v-model="concepts.concept23" ref="regimenStartDate" type="date" class="form-control" required>
+                                            <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                         Please make sure that the Test date is before the ART regimen start date 
@@ -336,19 +364,24 @@
 
 <script>
     import {authResource} from './../../../authResource'
-    import { notificationSystem } from '../../../globals'
+    import { MultiSelect } from 'vue-search-select'
+    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString } from '../../../globals'
     import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'InitDataV7Paeds',
-        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard', 'autofill'],
+        components: { MultiSelect },
         methods: {
             ...mapActions([
                 'selectPatient', 
                 'patchPatient', 
                 'loadPatientCardData',
                 'resetPatientCardData',
-                'loadARTstartDate'
+                'loadARTstartDate',
+                'setTestDate',
+                'setStartDate',
+                'setRegStartDate'
             ]),
             updatePatient (){
                 if (this.patient.person.gender === ''){
@@ -442,25 +475,25 @@
                     }
                 });
 
-                if (this.concepts.concept18 === 'Y')
-                {
-                    if(this.concepts.concept19 === ''){
-                        //accept ART education done if Y but date is null
-                    }
-                    else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
-                        return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
-                    }
-                }
+                // if (this.concepts.concept18 === 'Y')
+                // {
+                //     if(this.concepts.concept19 === ''){
+                //         //accept ART education done if Y but date is null
+                //     }
+                //     else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
+                //         return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
+                //     }
+                // }
 
-                 if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
-                    return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
-                }else{
+                //  if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
+                //     return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
+                // }else{
                     let finalPayload = [];
                     finalPayload.push(...payloadForStatus);
                     finalPayload.push(...payloadForConfirmatory);
 
                     this.handlePost(finalPayload, message);
-                }
+                // }
                 
             },
             getObservation: function (conceptID)
@@ -482,7 +515,7 @@
                     'observations' : payload
                 };
 
-                authResource().post(dhisAPIEndpoint, finalPayload)
+                authResource().post(url, finalPayload)
                     .then((response)=>{
                         this.resetPatientCardData()
                         this.getPatientCardStatusAtInitDetails();
@@ -559,6 +592,11 @@
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
             },
+            onSelect(conditions, lastSelectCondition){
+                this.selectedConditions = conditions
+                this.lastSelectCondition = lastSelectCondition
+                this.concepts.concept1 = JSON.stringify(this.selectedConditions)
+            },
             handleAgeEstimation()
             {
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
@@ -593,6 +631,23 @@
                 }
                 else
                     this.showEstimateButton = false
+            },
+            setTestDateMinMax(e){
+                setMinDate(e, this.patient.person.birthdate)
+                setMaxDate(e)
+            },
+            setStartDateMinMax(e){
+                setMinDate(e, this.patient.person.birthdate)
+                setMaxDate(e)
+            },
+            validateTestDate(e){
+                this.isTestDateValid = validateDate(e)
+            },
+            validateEduDate(e){
+                this.isEduDateValid = validateDate(e)
+            },
+            validateStartDate(e){
+                this.isStartDateValid = validateDate(e)
             }
         },
         data: () => {
@@ -603,15 +658,17 @@
                 eval:null, //turns to boolean when evaluating 
                 evalEduDate: null, // turns to boolean when evaluating
                 showEstimateButton: false,
+                selectedConditions: [],
+                lastSelectCondition: {},
                 concepts : {
-                    concept1 : '',
+                    concept1 : [],
                     concept2 : '',
                     concept3 : '',
                     concept4 : '',
                     concept5 : '',
                     concept6 : '',
                     concept7 : '',
-                    concept8 : '',
+                    concept8 : '', // age at initiation
                     concept9 : '',
                     concept10 : '',
                     concept11 : '',
@@ -619,28 +676,37 @@
                     concept13 : '',
                     concept14 : '',
                     concept15 : '',
-                    concept16 : '',
+                    concept16 : '', //test date
                     concept17 : '',
                     concept18 : '',
                     concept19 : '',
                     concept20 : '',
                     concept21 : '',
                     concept22 : '',
-                    concept23 : '',
+                    concept23 : '', // ART start date
                     concept24 : '',
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
                     concept54 : '',
                 },
+                isTestDateValid: false,
+                isEduDateValid: false,
+                isStartDateValid: false
             }
         },
         created() {
             this.fillConceptObservations(this.patientCardData)
-            if (this.concepts.concept3 && this.concepts.concept1){
-                this.conditions = this.getConditions(this.concepts.concept3)
-            }
+            // if (this.concepts.concept3 && this.concepts.concept1){
+            //     this.conditions = this.getConditions(this.concepts.concept3)
+            // }
             this.toggleAgeEstimateButton()
+
+            this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
+            this.concepts.concept8 = this.autofill.ageAtARTInit || ''
+            console.log(this.concepts.concept1)
+            if (this.concepts.concept1 !== null) 
+                this.selectedConditions = JSON.parse(this.concepts.concept1)
         },
 
         watch : {
@@ -662,24 +728,43 @@
                 if (this.patient.person.birthdate === ''){
                     this.setMinMax()
                 }
-
+                this.setStartDate(this.concepts.concept23)  
                 this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
             },
             'concepts.concept16': function(){
                 this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
+                this.setTestDate(value)
             },
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
             },
             'concepts.concept3': function(){
-                this.conditions = this.getConditions(this.concepts.concept3)
+                // this.conditions = this.getConditions(this.concepts.concept3)
             },
             'concepts.concept8': function(){
                 this.toggleAgeEstimateButton()
             }
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages'])
+            ...mapGetters(['patientCardData', 'stages', 'conditions']),
+            patientPhoneValidation() {
+                return this.patient.patientPhone !== '' && this.patient.patientPhone.length === 10 
+            },
+            guardianPhoneValidation() {
+                return this.patient.guardianPhone !== '' && this.patient.guardianPhone.length === 10 
+            },
+            gnameAlphanumericValidation(){
+                return matchString(this.patient.person.personName.given)
+            },
+            fnameAlphanumericValidation(){
+                return matchString(this.patient.person.personName.family)
+            },
+            mnameAlphanumericValidation(){
+                return matchString(this.patient.person.personName.middle)
+            },
+            guardnameAlphanumericValidation(){
+                return matchString(this.patient.guardianName)
+            }
         }
     }
 </script>

@@ -14,7 +14,8 @@
             </MasterCardV7>
             <MasterCardV7Paeds v-else-if="patientCard.masterCard.version == '7 Peds'" 
                 :patientCard="patientCard"
-                :patient='patient'>
+                :patient='patient'
+                :autofill='autofill'>
             </MasterCardV7Paeds>
             <div v-else>MasterCard Version not yet Supported</div>
         </div>
