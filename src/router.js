@@ -9,6 +9,7 @@ import LoginPage from "./views/LoginPage";
 import Steps from './components/Steps/Steps'
 import HTS from './components/HTS'
 import Settings from './components/Settings'
+import Facility from './components/Settings/facility'
 
 Vue.use(Router);
 
@@ -59,9 +60,17 @@ const router =  new Router({
             }
         },
         {
-            path: '/settings',
-            name: 'settings',
+            path: '/users',
+            name: 'users',
             component: Settings,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/facilities',
+            name: 'facilities',
+            component: Facility,
             meta: {
                 requiresAuth: true
             }

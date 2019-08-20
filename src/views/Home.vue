@@ -654,6 +654,8 @@ export default {
                 && this.concepts.concept57 !== null
                 )
             {
+                console.log( this.concepts.concept57)
+                console.log( this.patient.person.birthdate)
                     let birthDateObj = new Date(this.patient.person.birthdate)
                     let diff_ms = new Date(this.concepts.concept57) - birthDateObj.getTime();
                     let age_dt = new Date(diff_ms); 

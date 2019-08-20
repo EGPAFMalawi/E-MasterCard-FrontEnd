@@ -34,7 +34,12 @@
 
         <div id="mySidenav" class="sidenav" v-if="showSidebar" v-on-clickaway="clickeAway">
             <a href="javascript:void(0)" class="closebtn" @click="toggleSidebar()">&times;</a>
-            <router-link to="/settings"><span>Manage Users<span class="sr-only">(current)</span></span></router-link>
+                <router-link to="/users">
+                    <span>Manage Users<span class="sr-only">(current)</span></span>
+                </router-link>
+                <router-link to="/facilities">
+                    <span>Facility Details</span>
+                </router-link>
             <a href="#">
                 <LogoutButton></LogoutButton>
             </a>

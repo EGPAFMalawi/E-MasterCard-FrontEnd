@@ -142,7 +142,7 @@
 </template>
 
 <script>
-    import authResource from './../../authResource'
+    import {authResource} from './../../authResource'
     import NavBar from '../../views/NavBar'
     import { notificationSystem } from '../../globals'
 
@@ -244,7 +244,7 @@
             rowSelected(row){
                 this.username = row[0].username || ''
                 this.password = ''
-                this.showUpdateModal = true;
+                this.showUpdateModal = true
                 this.userID = row[0].userID || ''
             },
             processRecord(){
@@ -329,16 +329,6 @@
                             
                     }) 
             },
-            // setYears(){
-            //     const today = new Date()
-            //     let years = []
-            //     for(let year = 0; year < 4; year++){
-            //         let theYear = new Date(today.setFullYear(today.getFullYear() - 1))
-
-            //         years.push( parseInt( theYear.getFullYear() + 1 ))
-            //     }
-            //     return this.years = years
-            // }
         },
         data: () => {
             return {
@@ -372,7 +362,6 @@
         },
         created() {
             this.getUsers()
-            // this.setYears()
         }
     }
 </script>

@@ -269,6 +269,15 @@ td .selection {
   cursor: not-allowed;
 }
 
+.ui.selection.dropdown{
+  border-radius: unset !important;
+  min-height: unset !important;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+}
+
 @media (max-width: 1367px){
   body{
     zoom: 0.8;
