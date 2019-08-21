@@ -920,10 +920,14 @@ export default {
             }
         },
         selectedMasterCardVersion: function(){
-            if (this.selectedMasterCardVersion === 7)
+            if (this.selectedMasterCardVersion === 7){
                 this.handleAgeEstimation()
-            else if(this.selectedMasterCardVersion === 8)
+                this.concepts.concept59 = 'Years'
+            }
+            else if(this.selectedMasterCardVersion === 8){
                 this.handleAgeEstimationMonths()
+                 this.concepts.concept59 = 'Months'
+            }
         },
         'concepts.concept58': function(){
             this.handleDoBEstimation()
