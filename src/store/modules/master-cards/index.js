@@ -7,6 +7,7 @@ const state = {
     ageAtARTInit: null, //maps to ageAtInit concept
     patients: [],
     patient: [],
+    regPatientId: null,
     patientCard: {},
     patientCardData: [],
     initiationData: {},
@@ -88,6 +89,7 @@ const state = {
 }
 
 const getters = {
+    regPatientId: ({regPatientId}) => regPatientId,
     searchParam: ({searchParam}) => searchParam,
     patients: state => state.patients,
     patient: state => state.patient,
@@ -105,6 +107,9 @@ const getters = {
 const actions = {
     setTestDate({commit}, param){
         commit('setTestDate', param)
+    },
+    setRegPatientId({commit}, param){
+        commit('setRegPatientId', param)
     },
     setStartDate({commit}, param){
         commit('setStartDate', param)
@@ -226,6 +231,9 @@ const mutations = {
     setRegStartDate: (state, regStartDate) => {
         state.regStartDate = regStartDate
     },
+    setRegPatientId: (state, regPatientId) => {
+        state.regPatientId = regPatientId
+    }
 }
 
 const modules = {

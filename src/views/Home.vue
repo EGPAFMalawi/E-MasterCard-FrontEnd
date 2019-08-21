@@ -39,7 +39,7 @@
                             Click on the button below to add a new Patient
                         </p>
                         <div>
-                            <button type="button" class="btn btn-success btn-lg" v-b-modal.modal-1>Add New Patient</button>
+                            <button type="button" class="btn btn-success btn-lg" @click="activatePatientForm" v-b-modal.modal-1>Add New Patient</button>
                             
                         </div>
                         
@@ -263,9 +263,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3" v-if="birthdate === '' && patient.person.birthdate === ''">
+                        <div class="col-md-3 mb-3" v-if="birthdate === null && patient.person.birthdate === null">
                             <label>Estimated DOB</label>
-                            <input v-model="estimatedDoB" ref="estimatedDoB" id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" :disabled="selectedMasterCardVersion === null">
+                            <input v-model="estimatedDoB"  id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" :disabled="selectedMasterCardVersion === null">
                         </div>
                     </div>
                     <div class="form-row" :class="{'is-disabled-section': selectedMasterCardVersion === null}">
@@ -316,6 +316,7 @@ export default {
             'loadMasterCardDetails',
             'setAgeAtARTInit',
             'setDateOfFirstStartingART',
+            'patchPatient'
         ]),
         search(e){
             this.setSearchParam(e.target.value)
@@ -345,7 +346,7 @@ export default {
         },
         addPatient(){
             this.isLoading = true;
-
+            console.log(this.birthdate)
             if (this.gender === ''){
                 this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 this.patientFormIsActive = true
@@ -378,17 +379,19 @@ export default {
                     subregion : this.subregion,
                     township_division : this.township_division
                 }
+                
+                debuglog
+                console.log(payload)
+                let url = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
 
-                let dhisAPIEndpoint = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
-
-                authResource().post(dhisAPIEndpoint, payload)
+                authResource().post(url, payload)
                 .then(({data: {data}})=>{
+                    console.log(data)
                     this.isLoading = false
                     this.showButton = false
                     this.selectPatient(data)
                     this.$toast.success('Successfully added patient!', 'OK', notificationSystem.options.success)
                     this.isPatientAdded = true
-                    
                 })
                 .catch(({response: {data: {errors}, data}}) => {
                     this.isLoading = false
@@ -422,6 +425,9 @@ export default {
                         'OK', 
                         notificationSystem.options.success
                     )
+                    if (this.estimatedDoB !== null){
+                        this.updatePatientDoB()
+                    }
                     this.addNewPatientCard()
                 })
                 .catch(({response: {data: {errors}, data}}) => {
@@ -489,10 +495,10 @@ export default {
         },
         setDateMinMax(e){
             this.setDOBMax(e)
-            if(this.birthdate !== '')
+            if(this.birthdate !== null)
                 this.setMinDate(e, this.birthdate)
             else
-                this.setMinDate(e, '1900-01-01')
+                this.setMinDate(e, '1910-01-01')
         },
         hideModal() {
             this.$refs['register-patient'].hide()
@@ -533,6 +539,7 @@ export default {
             }
         },
         continueRegistration(patient){
+            this.clearData()
             this.isPatientAdded = true
             this.patientFormIsActive = false
             this.showPatientForm = false
@@ -541,6 +548,7 @@ export default {
         },
 
         activatePatientForm(){
+            this.clearData()
             this.isPatientAdded = false
             this.patientFormIsActive = true
             this.showPatientForm = true
@@ -644,7 +652,6 @@ export default {
             const url = `${this.APIHosts.art}/patients/${id}`
             authResource().get(url)
             .then(({data: {data}}) => {
-                console.log(data)
                 this.selectPatient(data)
             })
         },
@@ -654,7 +661,6 @@ export default {
                 && this.concepts.concept57 !== null
                 )
             {
-                console.log( this.concepts.concept57)
                 console.log( this.patient.person.birthdate)
                     let birthDateObj = new Date(this.patient.person.birthdate)
                     let diff_ms = new Date(this.concepts.concept57) - birthDateObj.getTime();
@@ -680,12 +686,116 @@ export default {
                 this.concepts.concept59 = 'Months'
             }
         },
+        handleDoBEstimation(){
+            if (
+                this.patient.person.birthdate === null
+                && this.concepts.concept57 !== null
+                )
+            {
+               this.estimatedDoB = this.calculatedBirthDate(this.concepts.concept59)
+               console.log(this.estimatedDoB)
+            }
+        },
+        calculatedBirthDate(ageType){
+               const date = new Date(this.concepts.concept57)
+               const age = parseInt(this.concepts.concept58)
+
+               if (ageType === 'Years'){
+                    const birthYear = date.getFullYear() - age
+                    console.log(birthYear.toString())
+                    const birthdate = new Date(birthYear.toString())
+                    return birthdate.toISOString().split('T')[0]
+               }else if(ageType === 'Months'){
+                    date.setMonth(date.getMonth() - age);
+                    return date.toISOString().split('T')[0]
+               }
+               
+            },
+
+        updatePatientDoB (){
+                if (this.estimatedDoB !== null){
+                    let payload = {
+                        
+                        birthdate : this.estimatedDoB,
+                        birthdate_estimated: 1,
+                        given_name : this.patient.person.personName.given,
+                        family_name : this.patient.person.personName.family,
+                        gender : this.patient.person.gender,
+                    };
+                    
+                    let endpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
+                    this.patchPatient({endpoint, payload})
+                        .then(({response: {data}})=>{
+                            this.selectPatient(data)
+                            this.isLoading = false
+                            this.$toast.success('DoB Saved', 'OK', notificationSystem.options.success)
+                        })
+                        .catch(({response: {data: {errors}, data}}) => {
+                            return Object.values(errors).forEach(error => {
+                                this.$toast.error(
+                                    `${data.message}, 
+                                    ${error[0]}`, 
+                                    'Error', 
+                                    notificationSystem.options.error
+                                    )
+                            });
+                                
+                        }) 
+                }
+
+            },
+        clearData(){
+            this.art_number = ''
+            this.given_name = ''
+            this.middle_name = ''
+            this.family_name = ''
+            this.gender = ''
+            this.birthdate = null
+            this.guardian_name = ''
+            this.patient_phone = ''
+            this.guardian_phone = ''
+            this.follow_up = ''
+            this.guardian_relation = ''
+            this.cityVillage = ''
+            this.address2 = ''
+            this.city_village =  ''
+            this.state_province = ''
+            this.postal_code = ''
+            this.country = ''
+            this.county_district = ''
+            this.region = ''
+            this.subregion = ''
+            this.township_division = ''
+            this.invalidDoBDate= false
+            this.invalidARTFirstStartDate= false
+            this.invalidRegDate= false
+            this.showPatientForm= true
+            this.showButton= true
+            this.estimatedDoB= null
+            this.identifier= null //ART number
+            this.concepts= {
+                concept55: null, //Clinic Registration Type (ConceptID:55, DataType : Text)
+                concept56: null, //Clinic Registration Date (ConceptID:56, DataType : Date)
+                concept57: null, //Clinic Registration ART Start Date (ConceptID:57, DataType : Date)
+                concept58: null, //Clinic Registration Age at Initiation (ConceptID:58, DataType : Number)
+                concept59: null, //}Clinic Registration Age at Init Units(Months/year) (ConceptID:59, DataType : Text)
+            },
+            this.selectedMasterCardVersion = null
+        }
     },
     created(){
         this.loadRegions()
         this.loadDistricts()
         this.getMasterCards()
         
+    },
+    mounted() {
+        this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
+            if (bvEvent.type === 'hide'){
+                this.clearData()
+                this.selectPatient({})
+            }
+        })
     },
     data: () => {
         return {
@@ -708,7 +818,7 @@ export default {
             middle_name : '',
             family_name : '',
             gender : '',
-            birthdate : '',
+            birthdate : null,
             tribe : '',
             guardian_name : '',
             patient_phone : '',
@@ -755,7 +865,8 @@ export default {
             'patientCard', 
             'masterCardDetails',
             'dateOfFirstStartingART',
-            'ageAtARTInit'
+            'ageAtARTInit',
+            'regPatientId'
         ]),
         patientPhoneValidation() {
             return this.patient_phone !== '' && this.patient_phone.length === 10 
@@ -779,10 +890,17 @@ export default {
             this.loadTAs(districtId)
         },
         'concepts.concept57': function(){
-            if (this.selectedMasterCardVersion === 7)
+            if (this.selectedMasterCardVersion === 7){
+                this.concepts.concept59 = 'Years'
                 this.handleAgeEstimation()
-            else if(this.selectedMasterCardVersion === 8)
+                this.handleDoBEstimation()
+            }
+            else if(this.selectedMasterCardVersion === 8){
+                this.concepts.concept59 = 'Months'
                 this.handleAgeEstimationMonths()
+                this.handleDoBEstimation()
+                console.log( this.concepts.concept59 )
+            }
 
             if (this.watchRegStart === true && (this.concepts.concept56 !== this.concepts.concept57)){
                 this.concepts.concept56 = this.concepts.concept57
@@ -802,10 +920,17 @@ export default {
             }
         },
         selectedMasterCardVersion: function(){
-            if (this.selectedMasterCardVersion === 7)
+            if (this.selectedMasterCardVersion === 7){
                 this.handleAgeEstimation()
-            else if(this.selectedMasterCardVersion === 8)
+                this.concepts.concept59 = 'Years'
+            }
+            else if(this.selectedMasterCardVersion === 8){
                 this.handleAgeEstimationMonths()
+                 this.concepts.concept59 = 'Months'
+            }
+        },
+        'concepts.concept58': function(){
+            this.handleDoBEstimation()
         }
     }
     
