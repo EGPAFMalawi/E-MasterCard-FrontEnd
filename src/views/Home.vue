@@ -7,6 +7,9 @@
         <div class="row d-flex justify-content-center">
             <h5>Search For Patient</h5>
         </div>
+        <div class="row d-flex justify-content-center">
+            <h6>(Search Params : Patient Given and Last Name, Patient ART Number)</h6>
+        </div>
     </section>
     <section class="sticky-top bg-default">
         <div class="container">
