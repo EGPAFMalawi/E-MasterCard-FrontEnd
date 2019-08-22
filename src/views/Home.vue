@@ -225,7 +225,7 @@
                 </form>
             </b-tab>
             <b-tab title="Enter Registration Details" v-if="isPatientAdded" :active="!patientFormIsActive">
-                <form @submit.prevent="handlePatientRegistration">
+                <form @submit.prevent="promptOnRegistration">
 
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
@@ -357,13 +357,48 @@ export default {
             this.selectPatient(patient)
             this.$router.push(route)
         },
+        promptOnRegistration(){
+            const happen = {
+                    onClosing: (instance, toast, closedBy) => {
+                        if (closedBy === 'yes'){
+                            this.handlePatientRegistration()
+                        }
+                    }
+            }
+
+            const buttons = {
+                buttons: [
+                [
+                    "<button><b>Yes</b></button>",
+                    function(instance, toast) {
+                    instance.hide({ transitionOut: "fadeOut" }, toast, "yes");
+                    },
+                    true
+                ],
+                [
+                    "<button>No</button>",
+                    function(instance, toast) {
+                    instance.hide({ transitionOut: "fadeOut" }, toast, "no");
+                    }
+                ]
+                ]
+            }
+
+            Object.assign(notificationSystem.options.question, buttons, happen)
+            if (this.selectedMasterCardVersion === 7){
+                this.$toast.question(`You have selected Version 7 Adults Card, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
+            }else{
+                this.$toast.question(`You have selected Version 7 Peads Card, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
+            }
+        },
+
         addPatient(){
             this.isLoading = true;
-            console.log(this.birthdate)
             if (this.gender === ''){
                 this.$toast.error(`Missing information, sex is required`, 'Error', notificationSystem.options.error)
                 this.patientFormIsActive = true
             } else{
+                
                 let payload = {
                     prefix : this.prefix,
                     art_number : this.art_number,

@@ -256,7 +256,11 @@ td .selection {
 }
 
 .iziToast-overlay{
-  z-index: 990 !important
+  z-index: 1045 !important
+}
+
+.iziToast-wrapper{
+  z-index: 1050 !important
 }
 
 .sticky-top {
