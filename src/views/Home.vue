@@ -211,6 +211,16 @@
                             </select>
                         </div>
                     </div>
+                     <div class="form-row" v-if="isMDF">
+                        <div class="col-12 mb-3">
+                            <label>Is patient a solder?</label>
+                            <div class="input-group pt-1">
+                                <b-form-radio v-model="isSoldier" name="isSoldier" value="1">Yes, Patient is a is a Soldier</b-form-radio>
+                                <span style="padding: 10px"></span>
+                                <b-form-radio v-model="isSoldier" name="isSoldier" value="0">No, Patient is a civilian</b-form-radio>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-success" type="submit" @click="patientFormIsActive = !patientFormIsActive" :disabled="!showButton">Add Patient</button>
                 </form>
             </b-tab>
@@ -268,7 +278,7 @@
                         </div>
                         <div class="col-md-3 mb-3" v-if="birthdate === null && patient.person.birthdate === null">
                             <label>Estimated DOB</label>
-                            <input v-model="estimatedDoB"  id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" :disabled="selectedMasterCardVersion === null">
+                            <input v-model="estimatedDoB"  id="estimetedDoB" type="date" @click="setDOBMax" @focus="setDOBMax" class="form-control" :disabled="selectedMasterCardVersion === null" required>
                         </div>
                     </div>
                     <div class="form-row" :class="{'is-disabled-section': selectedMasterCardVersion === null}">
@@ -276,7 +286,7 @@
                             <label>ARV Number</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">CODE</span>
+                                    <span class="input-group-text">{{site.code}}</span>
                                 </div>
                                 <input type="number" v-model="identifier" class="form-control" :disabled="selectedMasterCardVersion === null" required>
                             </div>
@@ -380,11 +390,10 @@ export default {
                     neighborhood_cell : this.neighborhood_cell,
                     region : this.region,
                     subregion : this.subregion,
-                    township_division : this.township_division
+                    township_division : this.township_division,
+                    soldier: parseInt(this.isSoldier)
                 }
                 
-                debuglog
-                console.log(payload)
                 let url = `${this.APIHosts.art}/${this.BASE_URL_POST}`;
 
                 authResource().post(url, payload)
@@ -783,7 +792,8 @@ export default {
                 concept58: null, //Clinic Registration Age at Initiation (ConceptID:58, DataType : Number)
                 concept59: null, //}Clinic Registration Age at Init Units(Months/year) (ConceptID:59, DataType : Text)
             },
-            this.selectedMasterCardVersion = null
+            this.selectedMasterCardVersion = null,
+            this.isSoldier = 0
         }
     },
     created(){
@@ -857,7 +867,8 @@ export default {
             },
             availableMasterCards: [],
             selectedMasterCardVersion: null,
-            watchRegStart: false
+            watchRegStart: false,
+            isSoldier: 0
         }
     },
     computed: {
@@ -869,7 +880,9 @@ export default {
             'masterCardDetails',
             'dateOfFirstStartingART',
             'ageAtARTInit',
-            'regPatientId'
+            'regPatientId',
+            'site',
+            'isMDF'
         ]),
         patientPhoneValidation() {
             return this.patient_phone !== '' && this.patient_phone.length === 10 

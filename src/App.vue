@@ -27,7 +27,8 @@ export default {
       'resetPatientCardData',
       'selectPatient',
       'setSearchParam',
-      'setStartDate'
+      'setStartDate',
+      'loadSettings' 
       ]),
     startTimer() {
         // window.setTimeout returns an Id that can be used to start and stop a timer
@@ -117,7 +118,8 @@ export default {
     }
   },
   created(){
-    
+    const settings = `${this.APIHosts.art}/settings`
+    this.loadSettings(settings)
   },
   watch: {
     '$route' (to, from) {

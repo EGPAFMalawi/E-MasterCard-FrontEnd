@@ -10,6 +10,9 @@
 
                     <div class="card w-100 mt-5">
                         <div class="card-body">
+                            <h3>Basic Settings</h3>
+                        </div>
+                        <div class="card-body">
                             <form v-on:submit.prevent="saveFacilitySettings">
                                 <div class="form-row">
                                     <div class="col-12">
@@ -38,6 +41,37 @@
             </div>
             
         </section>
+
+        <section>
+            <div class="container">
+                <div class="row">
+
+                    <div class="card w-100 mt-5">
+                        <div class="card-body">
+                            <h3>MDF Settings</h3>
+                        </div>
+                        <div class="card-body">
+                            <form v-on:submit.prevent="saveMDFSettings">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <label>Is MDF Facility?*</label>
+                                        <div class="input-group pt-1">
+                                            <b-form-radio v-model="isFieldMDF" name="mdf" :value="true">Yes</b-form-radio>
+                                            <span style="padding: 10px"></span>
+                                            <b-form-radio v-model="isFieldMDF" name="mdf" :value="false">No</b-form-radio>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-success mt-3" type="submit">Save</button>
+                            
+                            
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
     </div>
 </template>
 
@@ -46,11 +80,13 @@
     import NavBar from '../../views/NavBar'
     import { notificationSystem } from '../../globals'
     import { ModelSelect } from 'vue-search-select'
+    import { mapActions, mapGetters} from 'vuex'
 
     export default {
         name: 'Settings',
         components: { NavBar, ModelSelect},
         methods: {
+            ...mapActions(['setSite', 'setMDF']),
             loadFacilities(){
                 let url = `${this.APIHosts.art}/facilities`;
 
@@ -79,7 +115,22 @@
                     }
 
                 authResource().patch(url, payload)
-                    .then( data => {
+                    .then( ({data: {data: {options}}}) => {
+                        this.setSite(options)
+                        this.$toast.success('Saved', 'OK', notificationSystem.options.success)
+                    })
+                    .catch( error => console.error(error))
+            },
+            saveMDFSettings(){
+                const url = `${this.APIHosts.art}/settings/2`,
+                    payload = {
+                        settingID: 2,
+                        options: {active: this.isFieldMDF}
+                    }
+
+                authResource().patch(url, payload)
+                    .then( ({data: {data: {options}}}) => {
+                        this.setMDF(this.isFieldMDF)
                         this.$toast.success('Saved', 'OK', notificationSystem.options.success)
                     })
                     .catch( error => console.error(error))
@@ -112,19 +163,25 @@
                 facilityCode: null,
                 facilities: [],
                 selectMode: 'single',
-                status: ''
+                status: '',
+                isFieldMDF: false
             }
         },
         computed: {
+            ...mapGetters(['isMDF'])
         },
         watch: {
             selectedFacility: function(){
                 this.facilityCode = this.facilities.filter(({text}) => text === this.selectedFacility.text)[0].code
+            },
+            isFieldMDF: function (){
+                console.log(this.isMDF)
             }
         },
         created() {
             this.loadFacilities()
             this.loadFacilitySettings()
+            this.isFieldMDF = this.isMDF
         },
         beforeMount(){
             

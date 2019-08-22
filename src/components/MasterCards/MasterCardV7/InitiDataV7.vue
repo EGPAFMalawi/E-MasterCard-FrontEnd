@@ -114,7 +114,17 @@
                             </select>
                         </div>
                         
-                    </div>  
+                    </div> 
+                     <div class="form-row" v-if="isMDF">
+                        <div class="col-12 mb-3">
+                            <label>Is patient a solder?</label>
+                            <div class="input-group pt-1">
+                                <b-form-radio v-model="patient.soldier" name="isSoldier" value="1">Yes, Patient is a is a Soldier</b-form-radio>
+                                <span style="padding: 10px"></span>
+                                <b-form-radio v-model="patient.soldier" name="isSoldier" value="0">No, Patient is a civilian</b-form-radio>
+                            </div>
+                        </div>
+                    </div> 
                     <button class="btn btn-outline-success" type="submit" >UPDATE</button>
                 </form>
                 
@@ -445,6 +455,7 @@
                         city_village :  this.patient.person.personAddress.cityVillage,
                         region : this.region,
                         subregion : this.subregion,
+                        soldier: parseInt(this.patient.soldier)
                     };
                     
                     let endpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
@@ -788,7 +799,7 @@
             
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages', 'conditions']),
+            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF']),
             patientPhoneValidation() {
                 return this.patient.patientPhone !== '' && this.patient.patientPhone.length === 10 
             },

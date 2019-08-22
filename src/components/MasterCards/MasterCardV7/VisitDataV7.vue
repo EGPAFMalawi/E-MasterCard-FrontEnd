@@ -502,6 +502,7 @@
                     }
                     const newkey = 'concept'+observation.concept+'Encounter'+observation.encounter
                     this.observations[newkey] = observation
+
                 });
                 
                 this.encounters  = _.chain(patientCardData)
@@ -683,6 +684,7 @@
                     1)
                 // this.setMaxDate(e)
             },
+            
             // setEventDateMini(e){
             //     this.setMinDate(
             //         e,
@@ -731,6 +733,8 @@
         },
         created() {
             this.getPatientCardDetails()
+            console.log(Object.values(this.observations))
+            //this.observations = Object.entries(this.observations)
         },
         watch : {
             // encounterTypes : function (value) {
@@ -792,7 +796,10 @@
             }
         },
         computed: {
-            ...mapGetters(['startDate', 'regimens', 'testDate'])
+            ...mapGetters(['startDate', 'regimens', 'testDate']),
+            voidedObservations(){
+                
+            }
         }
     }
 </script>
