@@ -306,10 +306,10 @@
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="15" max="360" step="1" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="15" max="360" step="1"  :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
                         <select v-model="concepts.concept45" class="form-control tb-form" :disabled="!isVisit && isOutcome">
@@ -325,10 +325,11 @@
                             <option value="<"> &lt; </option>
                             <option value="=">=</option>
                             <option value="LDL">LDL</option>
+                            <option value="<LDL">&lt;LDL</option>
                         </select>
                     </td>
                     <td>
-                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome || isltLDL">
                     </td>
                     <td>
                         <input :required="!isVisitOutcome" id="nad" v-model="concepts.concept47" @click="setAppointmentMinMax" @focus="setAppointmentMinMax" class="form-control tb-form"  type="date" :disabled="!isVisit && isOutcome">
@@ -729,7 +730,8 @@
                 isOutcome: false,
                 isVisit: false,
                 isVisitOutcome: false,
-                voidObs: []
+                voidObs: [],
+                isltLDL: false
             }
         },
         created() {
@@ -751,8 +753,6 @@
                         this.voidObs[value[0]] = value[1] 
                     }
                 })
-
-                this.observations = this.voidObs
 
                 // this.setMinMax('visitDate')
                 // this.setMinMax('appointmentDate')
@@ -801,6 +801,13 @@
                         const nad = document.querySelector("#nad")
                         nad.disabled = false
                     }
+                }
+            },
+            'concepts.concept53': function(){
+                if (this.concepts.concept53 === '<LDL'){
+                    this.isltLDL = true
+                }else{
+                    this.isltLDL = false
                 }
             }
         },

@@ -185,7 +185,7 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
                             <label>CD4</label>
-                            <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" required>
+                            <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" required>
                         </div>
                         <div class="col-md-6 mb-2">
                             <label>KS</label>
@@ -217,8 +217,8 @@
                         <div class="col-md-6 mb-2">
                             <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(Kg)</label>
                             <div class="form-inline fit-2-input-fields">
-                                    <input v-model="concepts.concept6" type="number" min="0" class="form-control" step="any" required>
-                                    <input v-model="concepts.concept7" type="number" min="0" class="form-control" step="any" required>
+                                    <input v-model="concepts.concept6" type="number" min="50" max="200" class="form-control" step="any" required>
+                                    <input v-model="concepts.concept7" type="number" min="5" max="200" class="form-control" step="any" required>
                             </div>  
                         </div>
                         <div class="col-md-6 mb-2">

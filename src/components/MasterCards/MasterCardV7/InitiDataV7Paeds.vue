@@ -167,7 +167,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4</label>
-                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" required>
+                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" required>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label>KS</label>
