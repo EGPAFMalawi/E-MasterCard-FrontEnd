@@ -273,6 +273,10 @@ td .selection {
   cursor: not-allowed;
 }
 
+.is-invalid-custom{
+  border-color: #dc3545 !important;
+}
+
 .ui.selection.dropdown{
   border-radius: unset !important;
   min-height: unset !important;

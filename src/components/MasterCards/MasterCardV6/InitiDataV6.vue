@@ -96,7 +96,7 @@
                                 <label for="validationServer01">HIV Related Diseases</label>
                                 <select v-model="concepts.concept1" class="form-control">
                                     <option :value="null" disabled>Reasons for ART Start</option>
-                                    <option value=""></option>
+                                    <option value="Blank">Blank</option>
                                     <option v-for="(condition) in conditions" v-bind:key="condition">{{condition}}</option>
                                 </select>
                             </div>
@@ -110,7 +110,7 @@
                                 <label >TB Status at Init</label>
                                 <select class="form-control" v-model="concepts.concept9">
                                     <option :value="null" disabled>Select Status</option>
-                                    <option value=""></option>
+                                    <option value="Blank">Blank</option>
                                     <option value="Never > 2yrs">Never > 2yrs</option>
                                     <option value="Last 2yrs">Last 2yrs</option>
                                     <option value="Curr">Curr</option>
@@ -127,7 +127,7 @@
                                 <label>KS</label>
                                 <select class="form-control" v-model="concepts.concept10">
                                     <option :value="null" disabled>Y for yes, N for no</option>
-                                    <option value=""></option>
+                                    <option value="Blank">Blank</option>
                                     <option value="N">N</option>
                                     <option value="Y">Y</option>
                                 </select>
@@ -146,7 +146,7 @@
                                     <label >Pregnant/Breastfeeding</label>
                                     <select class="form-control" v-model="concepts.concept10">
                                         <option v-if="patient.person.gender === 'M'" :value="null" disabled>Not Allowed</option>
-                                        <option value=""></option>
+                                        <option value="Blank">Blank</option>
                                         <option v-if="patient.person.gender !== 'M'" value="N">N</option>
                                         <option v-if="patient.person.gender !== 'M'" value="Preg">Preg</option>
                                         <option v-if="patient.person.gender !== 'M'" value="Bf">Bf</option>
@@ -170,7 +170,7 @@
                                         <label >Ever taken ARVs</label>
                                         <select class="form-control" v-model="concepts.concept12">
                                             <option :value="null" disabled>Y for yes, N for no</option>
-                                            <option value=""></option>
+                                            <option value="Blank">Blank</option>
                                             <option value="N">N</option>
                                             <option value="Y">Y</option>
                                         </select>
@@ -181,7 +181,7 @@
                                         <label >Last ARVs (type/date)</label>
                                         <div class="form-inline fit-2-input-fields">
                                             <select  class="form-control" v-model="concepts.concept13">
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
                                                 <option value="1A">1A</option>
                                                 <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
@@ -194,11 +194,9 @@
                                                 <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
                                                 <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
                                                 <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                                                <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                                                <option value="14A">14A (ABC600 / 3TC300 + DTG50</option>
-                                                <option value="15A">15A</option>
-                                                <option value="NVP">NVP</option>
-                                                <option value="PEP">PEP</option>
+                                                <option value="13A">13A (TDF300 / 3TC300 / DTG50)</option>
+                                                <option value="14A">14A (AZT 300 / 3TC300 + DTG50)</option>
+                                                <option value="15A">15A (ABC600 / 3TC300 + DTG50)</option>
                                             </select>
                                             <input v-model="concepts.concept14" type="date" class="form-control" required>
                                         </div>
@@ -228,7 +226,7 @@
                                             <input ref="eduDate" v-model="concepts.concept16" type="date" class="form-control">
                                             <select v-model="concepts.concept17" class="form-control" >
                                                 <option :value="null" disabled>Rapid or PCR</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="Rapid">Rapid</option>
                                                 <option value="PCR">PCR</option>
                                             </select>
@@ -248,7 +246,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept18" class="form-control" >
                                                 <option :value="null" disabled>Y for yes, N for no</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
@@ -279,7 +277,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept22" class="form-control">
                                                 <option :value="null" disabled>Regimen</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="0A">0A</option>
                                                 <option value="1A">1A</option>
                                                 <option value="2A">2A</option>
@@ -321,7 +319,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept24" class="form-control">
                                                 <option :value="null" disabled>Regimen</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="0A">0A</option>
                                                 <option value="1A">1A</option>
                                                 <option value="2A">2A</option>

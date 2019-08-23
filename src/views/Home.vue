@@ -164,8 +164,15 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
-                                <label for="validationServer03">Guardian Name</label>
-                                <input type="text" class="form-control" placeholder="Name of guardian" v-model="guardian_name">
+                            <label for="guardian-name">Guardian Name</label>
+                            <input type="text" class="form-control" placeholder="Name of guardian"
+                                   pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers."
+                                   :class="{'is-invalid':!guardnameAlphanumericValidation && guardian_name !== ''}"
+                                   v-model="guardian_name"
+                                    id="guardian-name">
+                            <b-form-invalid-feedback v-if="guardian_name !== ''" :state="guardnameAlphanumericValidation">
+                                Name cannot have numbers.
+                            </b-form-invalid-feedback>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="patient-phone">Patient Phone Number</label>
@@ -174,7 +181,7 @@
                                 id="patient-phone" 
                                 v-model="patient_phone">
                             <b-form-invalid-feedback v-if="patient_phone !== ''" :state="patientPhoneValidation">
-                                Phone Number must be 10 characters long.
+                                Phone Number must be 10 characters long and Start with 0.
                             </b-form-invalid-feedback>
                             <b-form-valid-feedback :state="patientPhoneValidation">
                                 Looks Good.
@@ -182,9 +189,9 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="validationServer03">Guardian Phone Number</label>
-                            <input type="number" class="form-control" placeholder="Guardian" v-model="guardian_phone">
+                            <input type="number" class="form-control" placeholder="Guardian" v-model="guardian_phone"  >
                             <b-form-invalid-feedback v-if="guardian_phone !== ''" :state="guardianPhoneValidation">
-                                Phone Number must be 10 characters long.
+                                Phone Number must be 10 characters long and Start with 0.
                             </b-form-invalid-feedback>
                             <b-form-valid-feedback :state="guardianPhoneValidation">
                                 Looks Good.
@@ -307,7 +314,7 @@
 </template>
 
 <script>
-import { notificationSystem, compareDates } from '../globals'
+import { notificationSystem, compareDates, matchString } from '../globals'
 import NavBar from "./NavBar";
 import { authResource } from './../authResource'
 import { constants } from 'crypto';
@@ -934,10 +941,10 @@ export default {
             'isMDF'
         ]),
         patientPhoneValidation() {
-            return this.patient_phone !== '' && this.patient_phone.length === 10 
+            return this.patient_phone !== '' && this.patient_phone.length === 10 && (new RegExp("^((0)[0-9]{9})$")).test(this.patient_phone)
         },
         guardianPhoneValidation() {
-            return this.guardian_phone !== '' && this.guardian_phone.length === 10 
+            return this.guardian_phone !== '' && this.guardian_phone.length === 10 && (new RegExp("^((0)[0-9]{9})$")).test(this.guardian_phone)
         },
         gnameAlphanumericValidation(){
             return this.matchSting(this.given_name)
@@ -947,7 +954,10 @@ export default {
         },
         mnameAlphanumericValidation(){
             return this.matchSting(this.middle_name)
-        }
+        },
+        guardnameAlphanumericValidation(){
+            return matchString(this.guardian_name)
+        },
     },
     watch: {
         county_district: function(){

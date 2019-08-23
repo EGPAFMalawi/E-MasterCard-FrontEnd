@@ -74,11 +74,11 @@ const state = {
             value: '13A'
         },
         {
-            title: '14A (ABC600 / 3TC300 + DTG50',
+            title: '14A (AZT 300 / 3TC300 + DTG50)',
             value: '14A'
         },
         {
-            title: '15A',
+            title: '15A (ABC600 / 3TC300 + DTG50',
             value: '15A'
         },
         {
