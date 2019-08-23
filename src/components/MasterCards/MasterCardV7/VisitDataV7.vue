@@ -728,7 +728,8 @@
                 patientCardData: [],
                 isOutcome: false,
                 isVisit: false,
-                isVisitOutcome: false
+                isVisitOutcome: false,
+                voidObs: []
             }
         },
         created() {
@@ -744,7 +745,15 @@
             //     }
             // },
             patientCardData : function (value) {
-                this.fillConceptObservations(value);
+                this.fillConceptObservations(value)
+                Object.entries(this.observations).forEach((value, key) => {
+                    if (value[1].encounterVoided){
+                        this.voidObs[value[0]] = value[1] 
+                    }
+                })
+
+                this.observations = this.voidObs
+
                 // this.setMinMax('visitDate')
                 // this.setMinMax('appointmentDate')
             },

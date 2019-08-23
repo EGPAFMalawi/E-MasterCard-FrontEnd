@@ -251,7 +251,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Registration Date</label>
-                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}" :disabled="selectedMasterCardVersion === null" required>
+                            <input ref="registrationDate" v-model="concepts.concept56" @keyup="validateRegDate" type="date" @click="setARTInitDateMinMax" @focus="setARTInitDateMinMax" class="form-control" placeholder="Registration Date" :class="{'is-invalid':invalidRegDate}" :disabled="selectedMasterCardVersion === null" required>
                              <b-form-invalid-feedback :state="!invalidRegDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -260,7 +260,7 @@
                     <div class="form-row" :class="{'is-disabled-section':selectedMasterCardVersion === null}">
                         <div class="col-md-6 mb-3">
                             <label>Date of First Starting ART</label>
-                            <input v-model="concepts.concept57" ref="artStartDate" @keyup="validateARTFirstStartDate" @change="validateARTFirstStartDate"  type="date" @click="setDateMinMax" @focus="setDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
+                            <input v-model="concepts.concept57" ref="artStartDate" @keyup="validateARTFirstStartDate" @change="validateARTFirstStartDate"  type="date" @click="setARTInitDateMinMax" @focus="setARTInitDateMinMax" class="form-control" placeholder="Art Start Date" :class="{'is-invalid':invalidARTFirstStartDate}">
                              <b-form-invalid-feedback :state="!invalidARTFirstStartDate">
                                 Invalid Date
                             </b-form-invalid-feedback>
@@ -307,7 +307,7 @@
 </template>
 
 <script>
-import { notificationSystem } from '../globals'
+import { notificationSystem, compareDates } from '../globals'
 import NavBar from "./NavBar";
 import { authResource } from './../authResource'
 import { constants } from 'crypto';
@@ -547,6 +547,23 @@ export default {
             else
                 this.setMinDate(e, '1910-01-01')
         },
+        setARTInitDateMinMax(e){
+            console.log(this.patient.person)
+            this.setDOBMax(e)
+            if(this.birthdate !== null)
+                this.setMinDate(
+                    e, 
+                    compareDates(new Date(this.birthdate), new Date('2000-01-01')) 
+                    ? this.birthdate : '2000-01-01')
+            else if (this.patient.person.birthdate !== null)
+                this.setMinDate(
+                    e, 
+                    compareDates(new Date(this.patient.person.birthdate, new Date('2000-01-01')) 
+                    ? this.patient.person.birthdate : '2000-01-01')
+                )
+            else
+                this.setMinDate(e, '2000-01-01')
+        },
         hideModal() {
             this.$refs['register-patient'].hide()
         },
@@ -708,7 +725,6 @@ export default {
                 && this.concepts.concept57 !== null
                 )
             {
-                console.log( this.patient.person.birthdate)
                     let birthDateObj = new Date(this.patient.person.birthdate)
                     let diff_ms = new Date(this.concepts.concept57) - birthDateObj.getTime();
                     let age_dt = new Date(diff_ms); 
@@ -740,7 +756,6 @@ export default {
                 )
             {
                this.estimatedDoB = this.calculatedBirthDate(this.concepts.concept59)
-               console.log(this.estimatedDoB)
             }
         },
         calculatedBirthDate(ageType){
@@ -749,7 +764,6 @@ export default {
 
                if (ageType === 'Years'){
                     const birthYear = date.getFullYear() - age
-                    console.log(birthYear.toString())
                     const birthdate = new Date(birthYear.toString())
                     return birthdate.toISOString().split('T')[0]
                }else if(ageType === 'Months'){
