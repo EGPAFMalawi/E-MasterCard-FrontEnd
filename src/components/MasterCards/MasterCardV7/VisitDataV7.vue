@@ -135,14 +135,14 @@
                     </td>
                     <td style="width:50px" v-if="patient.person.gender === 'F'">
                         <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="Preg">Preg</option>
                             <option value="Bf">Bf</option>
                         </select>
                     </td>
                     <td>
                         <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
                             <option value="C">C (Confirmed Not Rx)</option>
@@ -151,31 +151,31 @@
                     </td>
                     <td style="width:60px">
                         <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="N">N</option> 
                             <option value="Y">Y</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept37Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number"  min="0" max="180" step="1" onblur="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept38Encounter'+encounter.encounterID].value" class="form-control tb-form" min="0" step="1" oninput="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
                                 {{regimen.title}}
                             </option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" value="" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" :class="{'is-invalid-custom': observations['concept40Encounter'+encounter.encounterID].value > 180}" step="1" type="number" min="15" max="360" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="P">P</option>
                             <option value="G">G</option>
                         </select>
@@ -183,28 +183,28 @@
 
                     <td>
                         <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
                             <option value="CI">CI (CPT + IPT)</option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="15" max="360" step="1" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td>
                         <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="BLED">BLED</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
                     <td style="width:60px">
                         <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value=">"> &gt; </option>
                             <option value="<"> &lt; </option>
                             <option value="=">=</option>
@@ -247,18 +247,18 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  type="number" min="30" step="any">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  type="number" min="5" max="200" step="any">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" :disabled="!isVisit && isOutcome" class="form-control tb-form" >
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="Preg">Preg</option>
                             <option value="Bf">Bf</option>
                         </select>
                     </td>
                     <td>
                         <select v-model="concepts.concept35" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="N">N (Suspected No)</option>
                             <option value="Y">Y (Suspected Yes)</option>
                             <option value="C">C (Confirmed Not Rx)</option>
@@ -267,7 +267,7 @@
                     </td>
                     <td>
                         <select v-model="concepts.concept36" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="N">N</option>
                             <option value="Y">Y</option>
                         </select>
@@ -280,18 +280,18 @@
                     </td>
                     <td>
                         <select v-model="concepts.concept39" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
                                 {{regimen.title}}
                             </option>
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" min="15" max="360" step="1" :class="{'is-invalid-custom': concepts.concept40 > 180}" onblur="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="concepts.concept41" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="P">P</option>
                             <option value="G">G</option>
                         </select>
@@ -299,7 +299,7 @@
 
                     <td>
                         <select v-model="concepts.concept42" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="C">C (CPT Only)</option> 
                             <option value="I">I (IPT Only)</option>
                             <option value="CI">CI (CPT + IPT)</option>
@@ -309,18 +309,18 @@
                         <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="15" max="360" step="1" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="15" max="360" step="1"  :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1"  :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
                         <select v-model="concepts.concept45" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="BLED">BLED</option>
                             <option value="N/A">N/A</option>
                         </select>
                     </td>
                     <td>
                         <select v-model="concepts.concept53" class="form-control tb-form" :disabled="!isVisit && isOutcome">
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value=">"> &gt; </option>
                             <option value="<"> &lt; </option>
                             <option value="=">=</option>
@@ -337,7 +337,7 @@
                     </td>
                     <td>
                        <select v-model="concepts.concept48" class="form-control tb-form">
-                           <option value=""></option>
+                           <option value="Blank">Blank</option>
                             <option value="D">Died</option>
                             <option value="Def"> Defaulted</option>
                             <option value="Stop"> Stop </option>

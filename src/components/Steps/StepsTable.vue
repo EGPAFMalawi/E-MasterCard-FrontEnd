@@ -47,7 +47,7 @@
                     <td>
                         <select v-model="singleStep.step" class="form-control">
                             <option>{{singleStep.step}}</option>
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>
@@ -95,7 +95,7 @@
                     </td>
                     <td>
                         <select v-model="step" class="form-control" required>
-                            <option value=""></option>
+                            <option value="Blank">Blank</option>
                             <option value="ART Start">ART Start</option>
                             <option value="Trans-in">Trans-in</option>
                             <option value="Trans-out">Trans-out</option>

@@ -70,22 +70,38 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-12 mb-3">
-                                        <label >Guardian Name</label>
-                                        <input type="text" class="form-control" placeholder="Name of guardian" v-model="patient.guardianName">
+                                    <label >Guardian Name</label>
+                                    <input type="text" class="form-control" placeholder="Name of guardian"
+                                           pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers."
+                                           :class="{'is-invalid':!guardnameAlphanumericValidation && patient.guardianName !== ''}"
+                                           v-model="patient.guardianName">
+                                    <b-form-invalid-feedback v-if="patient.guardianName !== ''" :state="guardnameAlphanumericValidation">
+                                        Name cannot have numbers.
+                                    </b-form-invalid-feedback>
+
                                 </div>
                             </div>
-                            
                             <div class="form-row">
                                 <div class="col-md-6 mb-3">
-                                    <label >Patient Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Patient" v-model="patient.patientPhone">
-                                    
+                                    <label>Patient Phone Number</label>
+                                    <input type="text" class="form-control" placeholder="Patient" v-model="patient.patientPhone" :class="{'is-invalid': (patient.patientPhone !== '' && !patientPhoneValidation)}"  id="patient-phone">
+                                    <b-form-invalid-feedback v-if="patient.patientPhone !== ''" :state="patientPhoneValidation">
+                                        Phone Number must be 10 characters long and Start with 0
+                                    </b-form-invalid-feedback>
+                                    <b-form-valid-feedback :state="patientPhoneValidation">
+                                        Looks Good.
+                                    </b-form-valid-feedback>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label >Guardian Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Guardian" v-model="patient.guardianPhone">
+                                    <input type="text" class="form-control" placeholder="Guardian" v-model="patient.guardianPhone" :class="{'is-invalid': (patient.guardianPhone !== '' && !guardianPhoneValidation)}" id="guardian-phone">
+                                    <b-form-invalid-feedback v-if="patient.guardianPhone !== ''" :state="guardianPhoneValidation">
+                                        Phone Number must be 10 characters long and Start with 0
+                                    </b-form-invalid-feedback>
+                                    <b-form-valid-feedback :state="guardianPhoneValidation">
+                                        Looks Good.
+                                    </b-form-valid-feedback>
                                 </div>
-                                
                             </div>
                             <div class="form-row">
                                 <div class="col-md-6 mb-3">
@@ -106,7 +122,17 @@
                                         Name cannot have numbers.
                                     </b-form-invalid-feedback>
                                 </div>
-                                
+                                <div class="form-row" v-if="isMDF">
+                                    <div class="col-12 mb-3">
+                                        <label>Is patient a solder?</label>
+                                        <div class="input-group pt-1">
+                                            <b-form-radio v-model="patient.soldier" name="isSoldier" value="1">Yes, Patient is a is a Soldier</b-form-radio>
+                                            <span style="padding: 10px"></span>
+                                            <b-form-radio v-model="patient.soldier" name="isSoldier" value="0">No, Patient is a civilian</b-form-radio>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>  
                              <button class="btn btn-outline-success" type="submit">UPDATE</button>
                             </form>
@@ -126,7 +152,7 @@
                                             <label>HIV Related Diseases</label>
                                             <!-- <select v-model="concepts.concept1" class="form-control">
                                                 <option :value="null" disabled>Reasons for ART Start</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option v-for="(condition) in conditions" v-bind:key="condition">{{condition}}</option>
                                             </select> -->
                                             <multi-select :options="conditions"
@@ -135,9 +161,15 @@
                                                 @select="onSelect">
                                             </multi-select>
                                         </div>
+
                                         <div class="col-md-12 mb-2">
                                             <label>Urine LAM / CrAg Result</label>
-                                            <input v-model="concepts.concept2" type="text" class="form-control" placeholder="Urine LAM / CrAg Result">
+                                            <select v-model="concepts.concept2" class="form-control" >
+                                                <option :value="null" disabled>Positive or Negative</option>
+                                                <option value="Blank">Blank</option>
+                                                <option value="Positive">Positive(+)</option>
+                                                <option value="Negative">Negative(-)</option>
+                                            </select>
                                         </div>
                                 </div>
                                 <div class="form-row">
@@ -145,7 +177,7 @@
                                         <label>WHO Stage</label>
                                         <select v-model="concepts.concept3" class="form-control">
                                             <option :value="null" disabled>Select WHO stage</option>
-                                            <option value=""></option>
+                                            <option value="Blank">Blank</option>
                                             <option value="Clinical stage 1">Clinical stage 1</option>
                                             <option value="Clinical stage 2">Clinical stage 2</option>
                                             <option value="Clinical stage 3">Clinical stage 3</option>
@@ -157,7 +189,7 @@
                                         <label>TB Status at Init</label>
                                         <select class="form-control" v-model="concepts.concept9">
                                             <option :value="null" disabled>Select Status</option>
-                                            <option value=""></option>
+                                            <option value="Blank">Blank</option>
                                             <option value="Never > 2yrs">Never > 2yrs</option>
                                             <option value="Last 2yrs">Last 2yrs</option>
                                             <option value="Curr">Curr</option>
@@ -172,7 +204,7 @@
                                     <div class="col-md-6 mb-2">
                                         <label>KS</label>
                                         <select v-model="concepts.concept10" class="form-control" >
-                                            <option value=""></option>
+                                            <option value="Blank">Blank</option>
                                             <option value="N">N</option>
                                             <option value="Y">Y</option>
                                         </select>
@@ -193,15 +225,15 @@
                                     <div class="col-md-6 mb-2">
                                         <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(kg)</label>
                                         <div class="form-inline fit-2-input-fields">
-                                                <input v-model="concepts.concept6" type="number" min="0" step="any" class="form-control" placeholder="CM" required>
-                                                <input v-model="concepts.concept7" type="number" min="0" step="any" class="form-control" placeholder="KG" required>
+                                                <input v-model="concepts.concept6" type="number" min="50" max="200" step="any" class="form-control" placeholder="CM" required>
+                                                <input v-model="concepts.concept7" type="number" min="5" max="200" step="any" class="form-control" placeholder="KG" required>
                                         </div>  
                                     </div>
                                     <div class="col-md-6 mb-2">
                                             <label >Ever taken ARVs</label>
                                             <select class="form-control" v-model="concepts.concept12">
                                                 <option :value="null" disabled>Y for yes, N for no</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
@@ -224,7 +256,7 @@
                                                 <label >Last ARVs (type/date)</label>
                                                 <div class="form-inline fit-2-input-fields">
                                                         <select  class="form-control" v-model="concepts.concept13">
-                                                            <option value=""></option>
+                                                            <option value="Blank">Blank</option>
                                                             <option value="0P">0P</option>
                                                             <option value="1P">1P</option>
                                                             <option value="2P">2P</option>
@@ -267,7 +299,7 @@
                                             <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}">
                                             <select v-model="concepts.concept17" class="form-control" >
                                                 <option :value="null" disabled>Rapid or PCR</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="Rapid">Rapid</option>
                                                 <option value="PCR">PCR</option>
                                             </select>
@@ -285,7 +317,7 @@
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept18" class="form-control" >
                                                 <option :value="null" disabled>Y for yes, N for no</option>
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
@@ -316,7 +348,7 @@
                                     <label >ART Regimens (Regimen / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept22" class="form-control">
-                                                <option value=""></option>
+                                                <option value="Blank">Blank</option>
                                                 <option value="0P">0P</option>
                                                 <option value="1P">1P</option>
                                                 <option value="2P">2P</option>
@@ -746,12 +778,16 @@
             }
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages', 'conditions']),
+            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF']),
             patientPhoneValidation() {
-                return this.patient.patientPhone !== '' && this.patient.patientPhone.length === 10 
+                if (this.patient.patientPhone == null)
+                    return true
+                return this.patient.patientPhone !== '' && this.patient.patientPhone.length === 10 && (new RegExp("^((0)[0-9]{9})$")).test(this.patient.patientPhone)
             },
             guardianPhoneValidation() {
-                return this.patient.guardianPhone !== '' && this.patient.guardianPhone.length === 10 
+                if (this.patient.guardianPhone == null)
+                    return true
+                return this.patient.guardianPhone !== '' && this.patient.guardianPhone.length === 10 && (new RegExp("^((0)[0-9]{9})$")).test(this.patient.guardianPhone)
             },
             gnameAlphanumericValidation(){
                 return matchString(this.patient.person.personName.given)

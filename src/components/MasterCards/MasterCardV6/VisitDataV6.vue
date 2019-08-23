@@ -122,14 +122,14 @@
                         </td>
                         <td v-if="patient.person.gender === 'F'">
                             <select v-model="observations['concept34Encounter'+encounter.encounterID].value" class="form-control tb-form" >
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="Preg">Preg</option>
                                 <option value="Bf">Bf</option>
                             </select>
                         </td>
                         <td>
                             <select v-model="observations['concept35Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="N">N (Suspected No)</option>
                                 <option value="Y">Y (Suspected Yes)</option>
                                 <option value="C">C (Confirmed Not Rx)</option>
@@ -138,7 +138,7 @@
                         </td>
                         <td>
                             <select v-model="observations['concept36Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="N">N</option>
                                 <option value="Y">Y</option>
                             </select>
@@ -151,7 +151,7 @@
                         </td>
                         <td>
                             <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="0A">0A</option>
                                 <option value="1A">1A</option>
                                 <option value="2A">2A</option>
@@ -176,7 +176,7 @@
                         </td>
                         <td style="width:30px">
                             <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="P">P</option>
                                 <option value="G">G</option>
                             </select>
@@ -184,7 +184,7 @@
 
                         <td>
                             <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="C">C (CPT Only)</option>
                                 <option value="I">I (IPT Only)</option>
                                 <option value="CI">CI (CPT + IPT)</option>
@@ -195,7 +195,7 @@
                         </td>
                         <td v-if="patient.person.gender === 'F'">
                             <select v-model="observations['concept49Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="Depo">Depo Given</option>
                                 <option value="false">Depo not Given</option>
                             </select>
@@ -208,7 +208,7 @@
                         </td>
                         <td>
                             <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="BLED">BLED</option>
                                 <option value="NOT BLED">NOT BLED</option>
                                 <option value="N/A">N/A</option>
@@ -216,7 +216,7 @@
                         </td>
                         <td>
                             <select v-model="observations['concept53Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value=">"> &gt; </option>
                                 <option value="<"> &lt; </option>
                                 <option value="=">=</option>
@@ -240,14 +240,14 @@
                         </td>
                         <td v-if="patient.person.gender === 'F'">
                             <select v-model="concepts.concept34" class="form-control tb-form" >
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="Preg">Preg</option>
                                 <option value="Bf">Bf</option>
                             </select>
                         </td>
                         <td>
                             <select v-model="concepts.concept35" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="N">N (Suspected No)</option>
                                 <option value="Y">Y (Suspected Yes)</option>
                                 <option value="C">C (Confirmed Not Rx)</option>
@@ -256,7 +256,7 @@
                         </td>
                         <td>
                             <select v-model="concepts.concept36" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="N">N</option>
                                 <option value="Y">Y</option>
                             </select>
@@ -269,7 +269,7 @@
                         </td>
                         <td>
                             <select v-model="concepts.concept39" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="0A">0A</option>
                                 <option value="1A">1A</option>
                                 <option value="2A">2A</option>
@@ -294,7 +294,7 @@
                         </td>
                         <td style="width:30px">
                             <select v-model="concepts.concept41" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="P">P</option>
                                 <option value="G">G</option>
                             </select>
@@ -302,7 +302,7 @@
 
                         <td>
                             <select v-model="concepts.concept42" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="C">C (CPT Only)</option>
                                 <option value="I">I (IPT Only)</option>
                                 <option value="CI">CI (CPT + IPT)</option>
@@ -313,7 +313,7 @@
                         </td>
                         <td v-if="patient.person.gender === 'F'">
                             <select v-model="concepts.concept49"  class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="Depo">Depo Given</option>
                                 <option value="false">Depo not Given</option>
                             </select>
@@ -326,7 +326,7 @@
                         </td>
                         <td>
                             <select v-model="concepts.concept45" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value="BLED">BLED</option>
                                 <option value="NOT BLED">NOT BLED</option>
                                 <option value="N/A">N/A</option>
@@ -334,7 +334,7 @@
                         </td>
                         <td>
                             <select v-model="concepts.concept53" class="form-control tb-form">
-                                <option value=""></option>
+                                <option value="Blank">Blank</option>
                                 <option value=">"> &gt; </option>
                                 <option value="<"> &lt; </option>
                                 <option value="=">=</option>
