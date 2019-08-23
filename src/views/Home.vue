@@ -65,7 +65,7 @@
                             </thead>
                             <tbody>
                               <tr v-for="(patient, index) in patients" v-bind:key="index">
-                                <th scope="row">{{ patient.artNumber === null ? 'Unregistered' : patient.artNumber}}</th>
+                                <th scope="row">{{ patient.artNumber === null ? 'Unregistered' : patient.fullArtNumber}}</th>
                                 <td>{{ patient.person.personName.given}}</td>
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>

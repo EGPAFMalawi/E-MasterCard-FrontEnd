@@ -1,11 +1,12 @@
 <template>
+    <div>
     <div class="row">
         <div class="col-6">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">ART Reg no</span>
                 </div>
-                <input type="text" class="form-control" v-model="patient.artNumber" disabled>
+                <input type="text" class="form-control" v-model="patient.fullArtNumber" disabled>
             </div>
         </div>
         <div class="col-4">
@@ -16,6 +17,38 @@
                 <input type="number" class="form-control" v-model="concepts.concept31">
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Registration Type</span>
+                </div>
+                <select class="form-control" v-model="concepts.concept55">
+                    <option :value="null" disabled>Select Status</option>
+                    <option value="First Time Initiation">First Time Initiation</option>
+                    <option value="Reinitiation">Reinitiation</option>
+                    <option value="Transfer In">Transfer In</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Registration Date</span>
+                </div>
+                <input type="date" class="form-control" v-model="concepts.concept56">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">ART Initiation Date</span>
+                </div>
+                <input type="date" class="form-control" v-model="concepts.concept57">
+            </div>
+        </div>
+    </div>
     </div>
 </template>
 
@@ -31,7 +64,7 @@
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
                     'encounter-type' : this.encounterTypes[0].encounterTypeID,
-                    'consider-version' : true
+                    'consider-version' : false
                 };
 
                 authResource().post(url, payload)
@@ -102,6 +135,10 @@
                     concept29 : '',
                     concept30 : '',
                     concept31 : '',
+                    concept55 : '',
+                    concept56 : '',
+                    concept57 : '',
+                    concept58 : '',
                 }
             }
         },

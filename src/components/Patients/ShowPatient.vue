@@ -18,7 +18,7 @@
                                 patient.person.personName.family }}
                                 <!-- <span v-if="patient.lastStep.step === 'Died'" class="badge badge-danger">deceased</span> -->
                             </h5>
-                            <h5 class="card-title">ARTNo : {{patient.artNumber }}</h5>
+                            <h5 class="card-title">ARTNo : {{patient.fullArtNumber }}</h5>
                         </div>
                     </div>
             </div>
