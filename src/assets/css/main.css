@@ -282,6 +282,10 @@ td .selection {
   border: 1px solid #ced4da;
 }
 
+.no-padding{
+ padding: unset !important
+}
+
 @media (max-width: 1367px){
   body{
     zoom: 0.8;

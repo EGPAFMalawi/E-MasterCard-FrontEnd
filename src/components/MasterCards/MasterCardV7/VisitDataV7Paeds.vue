@@ -54,9 +54,9 @@
                     <th>
                         Outcome
                     </th>
-                    <th>
+                    <!-- <th>
                         Void Status
-                    </th>
+                    </th> -->
                 </tr>
                 <tr>
                     <th>
@@ -119,9 +119,9 @@
                     <th>
 
                     </th>
-                    <th>
+                    <!-- <th>
 
-                    </th>
+                    </th> -->
                     
                 </tr>
                 </thead>
@@ -241,15 +241,15 @@
                             <option value="TO">Trans Out</option>
                         </select>
                     </td>
-                    <td align="center">
+                    <!-- <td align="center">
                         <div class="mt-2">
                             <b-form-checkbox v-model="observations['concept32Encounter'+encounter.encounterID].encounterVoided" name="check-button" @change="voidVisit(observations['concept32Encounter'+encounter.encounterID])" switch>
                                 {{observations['concept32Encounter'+encounter.encounterID].encounterVoided ? 'VOID' : 'NOT VOID'}}
                             </b-form-checkbox>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
-                <tr>
+                <tr v-if="!this.patient.person.dead">
                     <td>
                          <select v-model="concepts.concept32" class="form-control tb-form" required>
                             <option value="Clinical Visit">Clinical Visit</option>
@@ -350,6 +350,7 @@
                             <option value="<"> &lt; </option>
                             <option value="=">=</option>
                             <option value="LDL">LDL</option>
+                            <option value="<LDL">&lt;LDL</option>
                         </select>
                     </td>
                     <td>
@@ -398,6 +399,7 @@
         name: 'VisitDataV7Paeds',
         props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
+            ...mapActions(['reloadPatient']),
             getPatientCardDetails (){
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
                 let payload = {
@@ -500,6 +502,7 @@
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
+                        this.reloadPatient(`${this.APIHosts.art}/patients/${this.patient.patientID}`)
                         this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
@@ -810,6 +813,13 @@
                         const nad = document.querySelector("#nad")
                         nad.disabled = false
                     }
+                }
+            },
+            'concepts.concept53': function(){
+                if (this.concepts.concept53 === '<LDL'){
+                    this.isltLDL = true
+                }else{
+                    this.isltLDL = false
                 }
             }
         },

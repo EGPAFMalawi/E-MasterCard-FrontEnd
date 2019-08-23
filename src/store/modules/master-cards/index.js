@@ -195,6 +195,15 @@ const actions = {
                reject(error)
             }
         })
+    },
+    async reloadPatient({commit}, url){
+        try {
+            const {data: {data}} = await authResource().get(url)
+            commit('setPatient', data)
+        }
+        catch(error){
+           console.error(error)
+        }
     }
 }
 

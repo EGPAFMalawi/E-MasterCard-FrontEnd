@@ -51,9 +51,6 @@
                     <th>
                         Outcome
                     </th>
-                    <th>
-                        Void Status
-                    </th>
                 </tr>
                 <tr>
                     <th></th>
@@ -104,9 +101,6 @@
                     </th>
                     <th>
                         Result
-                    </th>
-                    <th>
-
                     </th>
                     <th>
 
@@ -225,15 +219,15 @@
                             <option value="TO">Trans Out</option>
                         </select>
                     </td>
-                    <td align="center">
+                    <!-- <td align="center">
                         <div class="mt-2">
                             <b-form-checkbox v-model="observations['concept32Encounter'+encounter.encounterID].encounterVoided" name="check-button" @change="voidVisit(observations['concept32Encounter'+encounter.encounterID])" switch>
                                 {{observations['concept32Encounter'+encounter.encounterID].encounterVoided ? 'VOID' : 'NOT VOID'}}
                             </b-form-checkbox>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
-                <tr>
+                <tr v-if="!this.patient.person.dead">
                     <td>
                          <select v-model="concepts.concept32" class="form-control tb-form" required>
                             <option value="Clinical Visit">Clinical Visit</option>
@@ -309,7 +303,7 @@
                         <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="15" max="360" step="1" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="15" max="360" step="1"  :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="15" max="360" step="1"  :disabled="!isVisit && isOutcome" :class="{'is-invalid':pillcount}"> 
                     </td>
                     <td>
                         <select v-model="concepts.concept45" class="form-control tb-form" :disabled="!isVisit && isOutcome">
@@ -346,9 +340,11 @@
                     </td>
                     <td></td>
                 </tr>
-                <!-- <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
-                    Visit Date must be before Appointment Date
-                </b-tooltip> -->
+                <!-- 
+                    <b-tooltip :show.sync="show" target="tooltip-button-1" placement="top">
+                        Visit Date must be before Appointment Date
+                    </b-tooltip> 
+                -->
                 </tbody>
             </table>
             <div class="d-flex justify-content-end pl-0">
@@ -377,6 +373,7 @@
         name: 'VisitDataV7',
         props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
+            ...mapActions(['reloadPatient']),
             getPatientCardDetails(){
 
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
@@ -474,6 +471,7 @@
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails()
+                        this.reloadPatient(`${this.APIHosts.art}/patients/${this.patient.patientID}`)
                         this.$toast.success(`Success! ${message}`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
@@ -560,7 +558,7 @@
                     currentVisitDate = new Date(currentVisitDate)
 
                     const months = currentVisitDate.getMonth() - artStartDate.getMonth() + (12 * (currentVisitDate.getFullYear() - artStartDate.getFullYear()))
-                    return months
+                    return Math.ceil(months)
                 }
                 else{
                     return 0
@@ -599,6 +597,7 @@
                         this.clearFields();
                         this.patientCardData = [];
                         this.getPatientCardDetails();
+
                         this.$toast.success(`Success! Visit Void Toggled`, 'OK', notificationSystem.options.success)
                     })
                     .catch(({response: {data: {errors}, data}}) => {
