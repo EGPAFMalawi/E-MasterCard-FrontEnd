@@ -35,16 +35,13 @@ Vue.use(VeeValidate, {
 });
 
 
-
-// Vue.use(require('vue-moment'))
-
 //Vue.config.productionTip = false
 
 Vue.mixin({
     data(){
         return {
             APIHosts : {
-                art : 'http://localhost:8000/api/v1'
+                art : 'http://localhost/api/v1'
             },
             messageStr: 'Hello',
 
