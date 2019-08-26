@@ -263,13 +263,13 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept52" class="form-control tb-form"  type="text">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept52" class="form-control tb-form"  type="number">
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept51" class="form-control tb-form"  type="number" min="0" step="any">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept51" class="form-control tb-form"  @keyup="validateHeight" type="number" min="50" max="200" step="any" :class="{'is-invalid-custom':isHeightValid}">
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  type="number" min="0" step="any">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  @keyup="validateWeight" type="number" min="5" max="200" step="any" :class="{'is-invalid-custom':isWeightValid}">
                     </td>
                     <td>
                         <select :disabled="!isVisit && isOutcome" v-model="concepts.concept35" class="form-control tb-form">
@@ -378,11 +378,11 @@
             </table>
             <div class="d-flex justify-content-end pl-0">
                 <button @click="updateVisitData" class="btn btn-success btn-lg my-4">
-                    Update Visit Data
+                    Update Event Data
                     <font-awesome-icon icon="save" class="ml-1"/>
                 </button>
                 <button type="submit" class="btn btn-primary btn-lg my-4">
-                    Save Visit
+                    Save Event
                 </button>
             </div>
         </div>
@@ -391,7 +391,7 @@
 
 <script>
     import {authResource} from './../../../authResource'
-    import { notificationSystem, matchString, addDays, compareDates } from '../../../globals'
+    import { notificationSystem, matchString, addDays, compareDates, validateDate } from '../../../globals'
     import _ from 'lodash'
     import { mapGetters, mapActions } from 'vuex' 
 
@@ -678,16 +678,6 @@
                 )
                 this.setMaxDate(e)
             },
-
-            validateDate(e)  {
-                if (e.target.validity.valid){
-                    e.target.vale = ''
-                    return  !e.target.validity.valid
-                }
-                else{
-                    return !e.target.validity.valid
-                }
-            },
             
             setMinDate(e, date){
                 const target = e.target
@@ -713,6 +703,18 @@
                         this.patient.person.birthdate : '1985-01-01' ), 
                     1)
                 // this.setMaxDate(e)
+            },
+            validateWeight(e){
+                this.isWeightValid = validateDate(e)
+                if (this.isWeightValid){
+                    this.$toast.warning(`Weight value if outside range (5-200)`, 'Caution', notificationSystem.options.warning)
+                }
+            },
+            validateHeight(e){
+                this.isHeightValid = validateDate(e)
+                if (this.isHeightValid){
+                    this.$toast.warning(`Height value if outside range (50-200)`, 'Caution', notificationSystem.options.warning)
+                }
             }
         },
         data: () => {
@@ -751,7 +753,9 @@
                 patientCardData: [],
                 isOutcome: false,
                 isVisit: false,
-                isVisitOutcome: false
+                isVisitOutcome: false,
+                isWeightValid: false,
+                isHeightValid: false
             }
         },
         created() {

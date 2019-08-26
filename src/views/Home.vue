@@ -150,11 +150,11 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                                 <label>Physical Address</label>
                                 <input type="text" class="form-control" placeholder="Physical Address" v-model="city_village">
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="validationServer03">District</label>
                             
                                 <select v-model="county_district" class="form-control" placeholder="District" >
@@ -314,7 +314,7 @@
 </template>
 
 <script>
-import { notificationSystem, compareDates, matchString } from '../globals'
+import { notificationSystem, compareDates, matchString, validateDate } from '../globals'
 import NavBar from "./NavBar";
 import { authResource } from './../authResource'
 import { constants } from 'crypto';
@@ -440,7 +440,6 @@ export default {
 
                 authResource().post(url, payload)
                 .then(({data: {data}})=>{
-                    console.log(data)
                     this.isLoading = false
                     this.showButton = false
                     this.selectPatient(data)
@@ -555,7 +554,6 @@ export default {
                 this.setMinDate(e, '1910-01-01')
         },
         setARTInitDateMinMax(e){
-            console.log(this.patient.person)
             this.setDOBMax(e)
             if(this.birthdate !== null)
                 this.setMinDate(
@@ -580,34 +578,13 @@ export default {
             return (match && word !== '') ? true : false
         },
         validateDoBDate(e){
-            this.invalidDoBDate = e.target.validity.valid
-            if (e.target.validity.valid){
-                e.target.vale = ''
-                this.invalidDoBDate = !e.target.validity.valid
-            }
-            else{
-                this.invalidDoBDate = !e.target.validity.valid
-            }
+            this.invalidDoBDate = validateDate(e)
         },
         validateARTFirstStartDate(e){
-            this.invalidARTFirstStartDate = e.target.validity.valid
-            if (e.target.validity.valid){
-                e.target.vale = ''
-                this.invalidARTFirstStartDate = !e.target.validity.valid
-            }
-            else{
-                this.invalidARTFirstStartDate = !e.target.validity.valid
-            }
+            this.invalidARTFirstStartDate = validateDate(e)
         },
         validateRegDate(e){
-            this.invalidRegDate = e.target.validity.valid
-            if (e.target.validity.valid){
-                e.target.vale = ''
-                this.invalidRegDate = !e.target.validity.valid
-            }
-            else{
-                this.invalidRegDate = !e.target.validity.valid
-            }
+            this.invalidRegDate = validateDate(e)
         },
         continueRegistration(patient){
             this.clearData()

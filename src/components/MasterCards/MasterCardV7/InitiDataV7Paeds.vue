@@ -623,11 +623,6 @@
                     this.stages.filter(({name}) => name === stageName)[0].conditions :
                     []
             },
-            onSelect(conditions, lastSelectCondition){
-                this.selectedConditions = conditions
-                this.lastSelectCondition = lastSelectCondition
-                //this.concepts.concept1 = JSON.stringify(this.selectedConditions)
-            },
             handleAgeEstimation()
             {
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')

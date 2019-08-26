@@ -276,6 +276,9 @@ td .selection {
 .is-invalid-custom{
   border-color: #dc3545 !important;
 }
+.is-invalid-custom:focus{
+  box-shadow: 0 0 0 0.2rem #dc354573 !important
+}
 
 .ui.selection.dropdown{
   border-radius: unset !important;

@@ -241,7 +241,7 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  type="number" min="5" max="200" step="any">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" @keyup="validateWeight" class="form-control tb-form"  type="number" min="5" max="200" step="any" :class="{'is-invalid-custom': isWeightValid}">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" :disabled="!isVisit && isOutcome" class="form-control tb-form" >
@@ -349,11 +349,11 @@
             </table>
             <div class="d-flex justify-content-end pl-0">
                 <button @click="updateVisitData" class="btn btn-success btn-lg my-4">
-                    Update Visit Data
+                    Update Event Data
                     <font-awesome-icon icon="save" class="ml-1"/>
                 </button>
                 <button type="submit" class="btn btn-primary btn-lg my-4">
-                    Save Visit
+                    Save Event
                 </button>
             </div>
         </div>
@@ -364,7 +364,7 @@
 <script>
     import {authResource} from './../../../authResource'
     import _ from 'lodash'
-    import { notificationSystem, matchString, addDays, compareDates } from '../../../globals'
+    import { notificationSystem, matchString, addDays, compareDates, validateDate } from '../../../globals'
     import { networkInterfaces } from 'os';
     import { constants } from 'crypto';
     import { mapGetters, mapActions } from 'vuex' 
@@ -648,16 +648,6 @@
                 )
                 this.setMaxDate(e)
             },
-
-            validateDate(e)  {
-                if (e.target.validity.valid){
-                    e.target.vale = ''
-                    return  !e.target.validity.valid
-                }
-                else{
-                    return !e.target.validity.valid
-                }
-            },
             
             setMinDate(e, date){
                 const target = e.target
@@ -685,6 +675,12 @@
                 // this.setMaxDate(e)
             },
             
+            validateWeight(e){
+                this.isWeightValid = validateDate(e)
+                if (this.isWeightValid){
+                    this.$toast.warning(`Weight value if outside range (5-200)`, 'Caution', notificationSystem.options.warning)
+                }
+            }
             // setEventDateMini(e){
             //     this.setMinDate(
             //         e,
@@ -730,7 +726,8 @@
                 isVisit: false,
                 isVisitOutcome: false,
                 voidObs: [],
-                isltLDL: false
+                isltLDL: false,
+                isWeightValid: false
             }
         },
         created() {
@@ -818,3 +815,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .popover-custom{
+        top: 100px !important;
+    }
+</style>
