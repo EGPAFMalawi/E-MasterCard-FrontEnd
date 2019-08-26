@@ -178,10 +178,10 @@
                                         <select v-model="concepts.concept3" class="form-control">
                                             <option :value="null" disabled>Select WHO stage</option>
                                             <option value="Blank">Blank</option>
-                                            <option value="Clinical stage 1">Clinical stage 1</option>
-                                            <option value="Clinical stage 2">Clinical stage 2</option>
-                                            <option value="Clinical stage 3">Clinical stage 3</option>
-                                            <option value="Clinical stage 4">Clinical stage 4</option>
+                                            <option value="Clinical Stage 1">Clinical Stage 1</option>
+                                            <option value="Clinical Stage 2">Clinical Stage 2</option>
+                                            <option value="Clinical Stage 3">Clinical Stage 3</option>
+                                            <option value="Clinical Stage 4">Clinical Stage 4</option>
                                             <option value="PSHD">PSHD</option>
                                         </select>
                                     </div>
@@ -663,6 +663,17 @@
                 else
                     this.showEstimateButton = false
             },
+            onSelect(conditions, lastSelectCondition){
+                if(this.concepts.concept3 === '' || this.concepts.concept3 === null){
+                    this.concepts.concept3 = "Clinical Stage 1"
+                }
+                this.selectedConditions = conditions
+                this.lastSelectCondition = lastSelectCondition
+                this.concepts.concept1 = JSON.stringify(this.selectedConditions)
+                if (lastSelectCondition.stage > parseInt(this.concepts.concept3.slice(-1))){
+                    this.concepts.concept3 = `Clinical Stage ${lastSelectCondition.stage}`
+                }
+            },
             setTestDateMinMax(e){
                 setMinDate(e, this.patient.person.birthdate)
                 setMaxDate(e)
@@ -732,11 +743,9 @@
             // }
             this.toggleAgeEstimateButton()
 
-            console.log(this.conditions)
-
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
-            console.log(this.concepts.concept1)
+
             // if (this.concepts.concept1 !== null) 
             //     this.selectedConditions = JSON.parse(this.concepts.concept1)
         },

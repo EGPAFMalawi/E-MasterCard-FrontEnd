@@ -44,7 +44,6 @@
             ...mapActions(['setDateOfFirstStartingART', 'setFormDoB','setAgeAtARTInit'])
         },
         created() {
-            console.log(this.patient)
             if (!this.patient || !this.patientCard){
                 this.$router.push('/')
             }
@@ -57,8 +56,6 @@
                 this.ageAtARTInit !== null ? {
                     ageAtARTInit: this.ageAtARTInit
                 } : {})
-
-            console.log(this.autofill)
             
             this.setDateOfFirstStartingART(null)
             this.setAgeAtARTInit(null)

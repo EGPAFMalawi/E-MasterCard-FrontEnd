@@ -84,14 +84,7 @@ export const  notificationSystem = {
         },
         onClosed: function(instance, toast, closedBy) {
           console.info("Closed | closedBy: " + closedBy)
-          Object.defineProperties(Vue.prototype, {
-            $toastResponse: {
-                get () {
-                  return closedBy
-                }
-              }
-            }
-          )
+          
         }
       }
     }

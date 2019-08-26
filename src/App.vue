@@ -124,7 +124,6 @@ export default {
   watch: {
     '$route' (to, from) {
       // react to route changes...
-      console.log(to, from)
       if (to.name !== 'login'){
         if (this.removeListeners() === 'removed'){
           document.addEventListener("mousemove", this.resetTimer, false);
