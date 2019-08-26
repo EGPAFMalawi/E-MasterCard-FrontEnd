@@ -266,10 +266,10 @@
                         <input :disabled="!isVisit && isOutcome" v-model="concepts.concept52" class="form-control tb-form"  type="number">
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept51" class="form-control tb-form"  @keyup="validateHeight" type="number" min="50" max="200" step="any" :class="{'is-invalid-custom':isHeightValid}">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept51" class="form-control tb-form"  @keyup="validateHeight" @blur="clearField(isHeightValid, 'concept51')" type="number" min="50" max="200" step="any" :class="{'is-invalid-custom':isHeightValid}">
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  @keyup="validateWeight" type="number" min="5" max="200" step="any" :class="{'is-invalid-custom':isWeightValid}">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" class="form-control tb-form"  @keyup="validateWeight" @blur="clearField(isWeightValid, 'concept33')" type="number" min="5" max="200" step="any" :class="{'is-invalid-custom':isWeightValid}">
                     </td>
                     <td>
                         <select :disabled="!isVisit && isOutcome" v-model="concepts.concept35" class="form-control tb-form">
@@ -714,6 +714,11 @@
                 this.isHeightValid = validateDate(e)
                 if (this.isHeightValid){
                     this.$toast.warning(`Height value if outside range (50-200)`, 'Caution', notificationSystem.options.warning)
+                }
+            },
+            clearField(isInvalid, concept){
+                if (isInvalid){
+                    this.concepts[concept] = ''
                 }
             }
         },

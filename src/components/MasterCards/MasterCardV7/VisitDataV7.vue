@@ -241,7 +241,7 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" @keyup="validateWeight" class="form-control tb-form"  type="number" min="5" max="200" step="any" :class="{'is-invalid-custom': isWeightValid}">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" @keyup="validateWeight" @blur="clearField(isWeightValid, 'concept33')" class="form-control tb-form"  type="number" min="5" max="200" step="any" :class="{'is-invalid-custom': isWeightValid}">
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" :disabled="!isVisit && isOutcome" class="form-control tb-form" >
@@ -679,6 +679,11 @@
                 this.isWeightValid = validateDate(e)
                 if (this.isWeightValid){
                     this.$toast.warning(`Weight value if outside range (5-200)`, 'Caution', notificationSystem.options.warning)
+                }
+            },
+            clearField(isInvalid, concept){
+                if (isInvalid){
+                    this.concepts[concept] = ''
                 }
             }
             // setEventDateMini(e){

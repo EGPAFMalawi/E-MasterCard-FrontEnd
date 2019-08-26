@@ -80,11 +80,9 @@ export const  notificationSystem = {
         ],
         onClosing: function(instance, toast, closedBy) {
           console.info("Closing | closedBy: " + closedBy)
-          
         },
         onClosed: function(instance, toast, closedBy) {
           console.info("Closed | closedBy: " + closedBy)
-          
         }
       }
     }
@@ -104,7 +102,6 @@ export const setMaxDate = (e) => {
 
 export const validateDate = (e) => {
   if (e.target.validity.valid){
-      e.target.vale = ''
       return  !e.target.validity.valid
   }
   else{
@@ -127,4 +124,10 @@ export const addDays = (date, days) => {
 
 export const compareDates = (date1, date2) => {
   return date1 > date2
+}
+
+export const clearField = (isInvalid, e) => {
+  if (isInvalid){
+      e.target.value = ''
+  }
 }

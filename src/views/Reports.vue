@@ -161,14 +161,24 @@
                                             <b-card-body>
                                                 <div>
                                                     <form v-on:submit.prevent="loadCumulativeAgeDisaggregates">
-                                                        <label for="cumulative-end-date">Report EndDate</label>
-                                                        <input id="cumulative-end-date" v-model="cumulativeEndDate" type="date" required/>
-                                                        <button type="submit">Run Report</button>
+                                                        <div class="form-row">
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">Report EndDate</span>
+                                                                    </div>
+                                                                    <input id="cumulative-end-date" class="form-control" v-model="cumulativeEndDate" type="date" required/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button class="btn btn-success" type="submit">Run Report</button>
+                                                            </div>
+                                                        </div>
                                                     </form>
                                                 </div>
 
-                                                <table v-if="cumulativeDisaggregates !== null">
-                                                    <thead>
+                                                <table class="table visit-table" v-if="cumulativeDisaggregates !== null">
+                                                    <thead class="thead-dark">
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
@@ -470,14 +480,14 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>&lt;1</th>
-                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['defaulted1Month']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['defaulted2Months']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['died']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['males']['disaggregatedByAge']['<1']+cumulativeDisaggregates['defaulted1Month']['pediatrics']['males']['disaggregatedByAge']['<1']+cumulativeDisaggregates['defaulted2Months']['pediatrics']['males']['disaggregatedByAge']['<1']+cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge']['<1']+cumulativeDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge']['<1']+cumulativeDisaggregates['died']['pediatrics']['males']['disaggregatedByAge']['<1']+cumulativeDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
+                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['defaulted1Month']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['defaulted2Months']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['died']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['males']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['defaulted1Month']['pediatrics']['males']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['defaulted2Months']['pediatrics']['males']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['died']['pediatrics']['males']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
@@ -532,14 +542,14 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>&lt;1</th>
-                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['defaulted1Month']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['defaulted2Months']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['died']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['females']['disaggregatedByAge']['<1']+cumulativeDisaggregates['defaulted1Month']['pediatrics']['females']['disaggregatedByAge']['<1']+cumulativeDisaggregates['defaulted2Months']['pediatrics']['females']['disaggregatedByAge']['<1']+cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge']['<1']+cumulativeDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge']['<1']+cumulativeDisaggregates['died']['pediatrics']['females']['disaggregatedByAge']['<1']+cumulativeDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
+                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['defaulted1Month']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['defaulted2Months']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['died']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['females']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['defaulted1Month']['pediatrics']['females']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['defaulted2Months']['pediatrics']['females']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['died']['pediatrics']['females']['disaggregatedByAge'][lt1]+cumulativeDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
@@ -630,22 +640,34 @@
                                             <b-card-body>
                                                 <div>
                                                     <form v-on:submit.prevent="loadQuarterlyAgeDisaggregates">
-                                                        <div class="form-group">
-                                                            <label for="quarterly-start-date">Report EndDate</label>
-                                                            <input id="quarterly-start-date" v-model="quarterlyStartDate" type="date" required/>
-                                                        </div
-                                                        ><div class="form-group">
-                                                            <label for="quarterly-end-date">Report EndDate</label>
-                                                            <input id="quarterly-end-date" v-model="quarterlyEndDate" type="date" required/>
-                                                        </div><div class="form-group">
-                                                            <button type="submit">Run Report</button>
+                                                        <div class="form-row">
+                                                            <div class="col-4 pr-0 pl-1">
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">Start Date</span>
+                                                                    </div>
+                                                                    <input id="quarterly-start-date" class="form-control" v-model="quarterlyStartDate" type="date" required/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 pr-0 pl-1">
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">End Date</span>
+                                                                    </div>
+                                                                    <input id="quarterly-end-date" class="form-control" v-model="quarterlyEndDate" type="date" required/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <button type="submit" class="btn btn-success">Run Report</button>
+                                                            </div>
+
                                                         </div>
 
                                                     </form>
                                                 </div>
 
-                                                <table v-if="quarterlyDisaggregates !== null">
-                                                    <thead>
+                                                <table class="table visit-table" v-if="quarterlyDisaggregates !== null">
+                                                    <thead class="thead-dark">
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
@@ -999,16 +1021,16 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>&lt;1</th>
-                                                        <th>{{quarterlyDisaggregates['txNew']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['reInitiated']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['transferredIn']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['died']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>
-<!--                                                        {{&#45;&#45;        <th>{{quarterlyDisaggregates['txCurrent']['pediatrics']['males']['disaggregatedByAge']['<1']+quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['males']['disaggregatedByAge']['<1']+quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['males']['disaggregatedByAge']['<1']+quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge']['<1']+quarterlyDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge']['<1']+quarterlyDisaggregates['died']['pediatrics']['males']['disaggregatedByAge']['<1']+quarterlyDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge']['<1']}}</th>&#45;&#45;}}-->
+                                                        <th>{{quarterlyDisaggregates['txNew']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['reInitiated']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['transferredIn']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['died']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>
+<!--                                                        {{&#45;&#45;        <th>{{quarterlyDisaggregates['txCurrent']['pediatrics']['males']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['males']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['stopped']['pediatrics']['males']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['died']['pediatrics']['males']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['transferredOut']['pediatrics']['males']['disaggregatedByAge'][lt1]}}</th>&#45;&#45;}}-->
                                                     </tr>
                                                     <tr>
                                                         <th></th>
@@ -1071,16 +1093,16 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>&lt;1</th>
-                                                        <th>{{quarterlyDisaggregates['txNew']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['reInitiated']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['transferredIn']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['died']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-                                                        <th>{{quarterlyDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>
-<!--                                                        {{&#45;&#45;        <th>{{quarterlyDisaggregates['txCurrent']['pediatrics']['females']['disaggregatedByAge']['<1']+quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['females']['disaggregatedByAge']['<1']+quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['females']['disaggregatedByAge']['<1']+quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge']['<1']+quarterlyDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge']['<1']+quarterlyDisaggregates['died']['pediatrics']['females']['disaggregatedByAge']['<1']+quarterlyDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge']['<1']}}</th>&#45;&#45;}}-->
+                                                        <th>{{quarterlyDisaggregates['txNew']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['reInitiated']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['transferredIn']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['died']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+                                                        <th>{{quarterlyDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>
+<!--                                                        {{&#45;&#45;        <th>{{quarterlyDisaggregates['txCurrent']['pediatrics']['females']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['defaulted1MonthPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['defaulted2MonthsPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['stopped']['pediatrics']['females']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['died']['pediatrics']['females']['disaggregatedByAge'][lt1]+quarterlyDisaggregates['transferredOut']['pediatrics']['females']['disaggregatedByAge'][lt1]}}</th>&#45;&#45;}}-->
                                                     </tr>
                                                     <tr>
                                                         <th></th>
@@ -1564,6 +1586,7 @@ export default {
             transIn: {},
             transOut: {},
             died: {},
+            lt1: '<1',
 
             payloads: {
                 dueAfterYear: {
