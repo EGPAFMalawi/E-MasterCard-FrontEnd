@@ -352,7 +352,7 @@
                     Update Event Data
                     <font-awesome-icon icon="save" class="ml-1"/>
                 </button>
-                <button type="submit" class="btn btn-primary btn-lg my-4">
+                <button v-if="!this.patient.person.dead" type="submit" class="btn btn-primary btn-lg my-4">
                     Save Event
                 </button>
             </div>

@@ -183,6 +183,7 @@
                             <option value="3A">3A</option>
                             <option value="4A">4A</option>
                             <option value="9A">9A</option>
+                            <option value="11A">11A</option>
                             <option value="Oth">Oth</option>
                         </select>
                     </td>
@@ -308,6 +309,7 @@
                             <option value="3A">3A</option>
                             <option value="4A">4A</option>
                             <option value="9A">9A</option>
+                            <option value="11A">11A</option>
                             <option value="Oth">Oth</option>
                         </select>
                     </td>
@@ -381,7 +383,7 @@
                     Update Event Data
                     <font-awesome-icon icon="save" class="ml-1"/>
                 </button>
-                <button type="submit" class="btn btn-primary btn-lg my-4">
+                <button v-if="!this.patient.person.dead" type="submit" class="btn btn-primary btn-lg my-4">
                     Save Event
                 </button>
             </div>

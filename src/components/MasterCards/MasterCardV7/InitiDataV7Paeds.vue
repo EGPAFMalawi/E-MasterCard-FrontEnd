@@ -114,13 +114,13 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label >Guardian Relation</label>
-                                    <input type="text" class="form-control" placeholder="Guardian Relation" 
-                                    pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers."
-                                    :class="{'is-invalid':!guardnameAlphanumericValidation && patient.guardianName !== ''}"
-                                        v-model="patient.guardianName">
-                                    <b-form-invalid-feedback v-if="patient.guardianName !== ''" :state="guardnameAlphanumericValidation">
-                                        Name cannot have numbers.
-                                    </b-form-invalid-feedback>
+                                     <select class="form-control" v-model="patient.guardianRelation">
+                                        <option :value="null" disabled>Select Relation</option>
+                                        <option value="Parent">Parent</option>
+                                        <option value="Spouse">Spouse</option>
+                                        <option value="Relative">Relative</option>
+                                        <option value="Other">Other</option>
+                                    </select>
                                 </div>
                                 <div class="form-row" v-if="isMDF">
                                     <div class="col-12 mb-3">
@@ -269,6 +269,7 @@
                                                             <option value="3A">3A</option>
                                                             <option value="4A">4A</option>
                                                             <option value="9A">9A</option>
+                                                             <option value="11A">11A</option>
                                                             <option value="Oth">Oth</option>
                                                         </select>
                                                         <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control" required>
@@ -361,6 +362,7 @@
                                                 <option value="3A">3A</option>
                                                 <option value="4A">4A</option>
                                                 <option value="9A">9A</option>
+                                                <option value="11A">11A</option>
                                                 <option value="Oth">Oth</option>
                                             </select>
                                             <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">

@@ -12,7 +12,7 @@ export default {
   name: "App",
   data() {
     return {
-      warningTimeout: 120000,
+      warningTimeout: 900000,
       timoutNow: 20000,
       warningTimerID: null,
       timeoutTimerID: null,
