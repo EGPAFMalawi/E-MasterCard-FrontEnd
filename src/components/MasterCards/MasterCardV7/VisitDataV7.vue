@@ -120,11 +120,15 @@
                     </td>
                     <td>
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" 
+                        @click="setEventDateMinMax" @focus="setEventDateMinMax"
+                        @change="calcObsMonthsOnART($event, 'concept44Encounter'+encounter.encounterID)"
                         class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept33Encounter'+encounter.encounterID].value" 
-                        class="form-control tb-form"  type="number" min="30" step="any" 
+                        class="form-control tb-form"  type="number" min="5" max="200" step="any" 
+                        @keyup="validateWeight"
+                        @blur="clearField(isWeightValid, 'concept33Encounter'+encounter.encounterID, false)"
                         :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:50px" v-if="patient.person.gender === 'F'">
@@ -209,10 +213,17 @@
                         <input v-model="observations['concept46Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome" >
+                        <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" 
+                        :disabled="isObsOutcome(observations['concept32Encounter'+encounter.encounterID].isOutcome, observations['concept48Encounter'+encounter.encounterID].value)" 
+                        @click="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)" 
+                        @focus="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)"
+                        
+                        >
                     </td>
                     <td style="width:60px">
-                        <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                        <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="form-control tb-form"
+                            @change="disableNextAppointment($event, 'concept47Encounter'+encounter.encounterID)">
+                            <option value="Blank">Blank</option>
                             <option value="D">Died</option>
                             <option value="Def"> Defaulted</option>
                             <option value="Stop"> Stop </option>
@@ -241,7 +252,12 @@
                         <span>{{ errors.first('Visit-Date')}}</span>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept33" @keyup="validateWeight" @blur="clearField(isWeightValid, 'concept33')" class="form-control tb-form"  type="number" min="5" max="200" step="any" :class="{'is-invalid-custom': isWeightValid}">
+                        <input :disabled="!isVisit && isOutcome" 
+                            v-model="concepts.concept33" 
+                            @keyup="validateWeight"
+                            @blur="clearField(isWeightValid, 'concept33')" 
+                            class="form-control tb-form"  type="number" min="5" max="200" step="any" 
+                            >
                     </td>
                     <td v-if="patient.person.gender === 'F'">
                         <select v-model="concepts.concept34" :disabled="!isVisit && isOutcome" class="form-control tb-form" >
@@ -326,7 +342,10 @@
                         <input v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');" :disabled="!isVisit && isOutcome || isltLDL">
                     </td>
                     <td>
-                        <input :required="!isVisitOutcome" id="nad" v-model="concepts.concept47" @click="setAppointmentMinMax" @focus="setAppointmentMinMax" class="form-control tb-form"  type="date" :disabled="!isVisit && isOutcome">
+                        <input :required="!isVisitOutcome" id="nad" v-model="concepts.concept47" 
+                        @click="setAppointmentMinMax($event, encounterDatetime)" 
+                        @focus="setAppointmentMinMax($event, encounterDatetime)" 
+                        class="form-control tb-form"  type="date" :disabled="!isVisit && isOutcome">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
@@ -543,7 +562,7 @@
                 this.encounterDatetime = null
                 this.concepts.concept44 = ''
             },
-             evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
+            evaluateIfVisitDateBeforeAppointmenttDate(visitDate, appointmentDate){
                 visitDate = new Date(visitDate)
                 appointmentDate = new Date(appointmentDate)
 
@@ -639,7 +658,7 @@
                 }
             },
             setEventDateMinMax(e){
-                this.setMinDate(e, this.startDate ? this.startDate : this.patient.person.birthdate)
+                // this.setMinDate(e, this.startDate ? this.startDate : this.patient.person.birthdate)
                 this.setMinDate(
                     e,
                     this.startDate ? this.startDate :
@@ -665,10 +684,10 @@
                 const min = addDays(date, days)
                 Object.assign(target, {min: min.toISOString().split('T')[0]})
             },
-            setAppointmentMinMax(e){
+            setAppointmentMinMax(e, encounterDatetime){
                 this.appointmentMinDate(
                     e, 
-                    this.encounterDatetime !== null ? this.encounterDatetime : (
+                    encounterDatetime !== null ? encounterDatetime : (
                         compareDates(new Date(this.patient.person.birthdate), new Date('1985-01-01')) ? 
                         this.patient.person.birthdate : '1985-01-01' ), 
                     1)
@@ -679,13 +698,53 @@
                 this.isWeightValid = validateDate(e)
                 if (this.isWeightValid){
                     this.$toast.warning(`Weight value if outside range (5-200)`, 'Caution', notificationSystem.options.warning)
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
                 }
             },
-            clearField(isInvalid, concept){
-                if (isInvalid){
+            clearField(isInvalid, concept, isConcept = true){
+                if (isInvalid && isConcept){
                     this.concepts[concept] = ''
                 }
+
+                if (isInvalid && !isConcept){
+                    this.observations[concept].value = null
+                }
+            },
+            calcObsMonthsOnART(e, ob){
+                const tds = Array.from(e.target.parentNode.parentNode.children)
+                tds[13].children[0].value = this.calculateMonthsOnART(this.startDate, e.target.value)
+                this.observations[ob].value = this.calculateMonthsOnART(this.startDate, e.target.value)
+
+            },
+            disableNextAppointment(e, ob){
+                if (this.nextAppointmentDateEdit === null)
+                    this.nextAppointmentDateEdit = this.observations[ob].value
+                const appointmentOb = e.target.parentNode.parentNode.children[17].children[0]
+                if (e.target.value !== '' && e.target.value !== 'Blank'){
+                    appointmentOb.disabled = true
+                    appointmentOb.value = ''
+                    this.observations[ob].value = ''
+                }
+                else{
+                    appointmentOb.disabled = false
+                    appointmentOb.value = this.nextAppointmentDateEdit
+                    this.observations[ob].value = this.nextAppointmentDateEdit
+                    this.nextAppointmentDateEdit = null
+                }
+            },
+            isObsOutcome(eventType, outcome){
+                if (eventType){
+                    return true
+                }
+                else if (outcome !== null && outcome !== 'Blank'){
+                    return true
+                }else{
+                    return false
+                }
             }
+            
             // setEventDateMini(e){
             //     this.setMinDate(
             //         e,
@@ -700,6 +759,7 @@
                 BASE_URL : 'patients',
                 encounters : [],
                 observations : {},
+                nextAppointmentDateEdit: null,
                 show: false,
                 concepts : {
                     concept32 : '', //Event Type
@@ -737,8 +797,6 @@
         },
         created() {
             this.getPatientCardDetails()
-            console.log(Object.values(this.observations))
-            //this.observations = Object.entries(this.observations)
         },
         watch : {
             // encounterTypes : function (value) {
@@ -790,7 +848,7 @@
                 }
             },
             'concepts.concept48': function () {
-                if (this.concepts.concept48 !== ''){
+                if (this.concepts.concept48 !== '' && this.concepts.concept48 !== 'Blank'){
                     this.isVisitOutcome = true
                     this.concepts.concept47 = ''
                     const nad = document.querySelector("#nad")
@@ -814,9 +872,7 @@
         },
         computed: {
             ...mapGetters(['startDate', 'regimens', 'testDate']),
-            voidedObservations(){
-                
-            }
+            
         }
     }
 </script>

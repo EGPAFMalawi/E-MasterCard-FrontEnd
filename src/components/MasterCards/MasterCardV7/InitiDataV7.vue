@@ -383,7 +383,7 @@
                                                 <option value="15A">15A</option>
                                                 <option value="Oth">Oth</option>
                                             </select>
-                                            <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
+                                            <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" min="2000-01-01" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept16 !== ''" :state="eval">
                                         Please make sure that the Test date is before the ART regimen start date 
@@ -427,7 +427,7 @@
 <script>
     import {authResource} from './../../../authResource'
     import { MultiSelect } from 'vue-search-select'
-    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString } from '../../../globals'
+    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString, compareDates } from '../../../globals'
     import { mapGetters, mapActions } from 'vuex' 
 
     export default {
@@ -704,11 +704,13 @@
                     this.showEstimateButton = false
             },
             setTestDateMinMax(e){
-                setMinDate(e, this.patient.person.birthdate)
+                if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
+                    setMinDate(e, this.patient.person.birthdate)
                 setMaxDate(e)
             },
             setStartDateMinMax(e){
-                setMinDate(e, this.patient.person.birthdate)
+                if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
+                    setMinDate(e, this.patient.person.birthdate)
                 setMaxDate(e)
             },
             validateTestDate(e){
