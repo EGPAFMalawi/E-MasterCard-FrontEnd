@@ -277,7 +277,7 @@ td .selection {
   border-color: #dc3545 !important;
 }
 .is-invalid-custom:focus{
-  box-shadow: 0 0 0 0.2rem #dc354573 !important
+  box-shadow: 0 0 0 0.2rem #dc354573 !important                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 }
 
 .ui.selection.dropdown{
@@ -291,6 +291,10 @@ td .selection {
 
 .no-padding{
  padding: unset !important
+}
+
+.reg-details {
+  padding: 0.375rem 0.3rem !important
 }
 
 @media (max-width: 1367px){

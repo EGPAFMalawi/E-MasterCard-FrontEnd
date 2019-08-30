@@ -1,8 +1,8 @@
 <template>
     <div>
         <button class="sticky-top btn btn-info" @click.prevent="goBack">Back</button>
-        <div class="container py-2">
-            <div class="row d-flex justify-content-center">
+        <div class="container  d-flex justify-content-center py-2">
+            <div class="row">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <h5 class="navbar-brand">
@@ -11,13 +11,15 @@
                         </h5>
                     </li>
                 </ul>
-                <RegistrationDataV7 
-                    :encounterTypes="masterCardDetails.encounterTypes" 
-                    :postPayload="postPayload"
-                    :patient='patient'
-                    :patientCard='patientCard'>
-                </RegistrationDataV7>
             </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-center">
+            <RegistrationDataV7 
+                :encounterTypes="masterCardDetails.encounterTypes" 
+                :postPayload="postPayload"
+                :patient='patient'
+                :patientCard='patientCard'>
+            </RegistrationDataV7>
         </div>
         <div class="container-fluid d-flex justify-content-center">
             <InitDataV7 

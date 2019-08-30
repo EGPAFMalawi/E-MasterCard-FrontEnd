@@ -1,30 +1,27 @@
 <template>
-    <div>
     <div class="row">
-        <div class="col-6">
-            <div class="input-group mb-3">
+        <div class="col-2">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">ART Reg no</span>
+                    <span class="input-group-text reg-details">ART Reg no</span>
                 </div>
                 <input type="text" class="form-control" v-model="patient.fullArtNumber" disabled>
             </div>
         </div>
-        <div class="col-4">
-            <div class="input-group mb-3">
+        <div class="col-1">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Year</span>
+                    <span class="input-group-text reg-details">Year</span>
                 </div>
-                <input type="number" class="form-control" v-model="concepts.concept31">
+                <input type="number" class="form-control tb-form" v-model="concepts.concept31">
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-4">
-            <div class="input-group mb-3">
+        <div class="col-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Registration Type</span>
+                    <span class="input-group-text reg-details">Registration Type</span>
                 </div>
-                <select class="form-control" v-model="concepts.concept55">
+                <select class="form-control tb-form" v-model="concepts.concept55">
                     <option :value="null" disabled>Select Status</option>
                     <option value="First Time Initiation">First Time Initiation</option>
                     <option value="Reinitiation">Reinitiation</option>
@@ -32,23 +29,22 @@
                 </select>
             </div>
         </div>
-        <div class="col-4">
-            <div class="input-group mb-3">
+        <div class="col-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Registration Date</span>
+                    <span class="input-group-text reg-details">Registration Date</span>
                 </div>
-                <input type="date" class="form-control" v-model="concepts.concept56">
+                <input type="date" class="form-control tb-form" v-model="concepts.concept56">
             </div>
         </div>
-        <div class="col-4">
-            <div class="input-group mb-3">
+        <div class="col-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">ART Initiation Date</span>
+                    <span class="input-group-text reg-details">ART Initiation Date</span>
                 </div>
-                <input type="date" class="form-control" v-model="concepts.concept57">
+                <input type="date" class="form-control tb-form" v-model="concepts.concept57">
             </div>
         </div>
-    </div>
     </div>
 </template>
 

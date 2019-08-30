@@ -605,6 +605,9 @@
                     this.concepts[`concept${conceptID}`] = value
                 })
 
+                if (this.concepts.concept1 !== null) 
+                    this.selectedConditions = JSON.parse(this.concepts.concept1)
+
                 this.loadARTstartDate(this.concepts.concept23)
             },
             calculatedBirthDate(ageType){
@@ -770,17 +773,11 @@
         },
         created(){
             this.fillConceptObservations(this.patientCardData)
-            // if (this.concepts.concept3 && this.concepts.concept1){
-            //     this.conditions = this.getConditions(this.concepts.concept3)
-            // }
+            
             this.toggleAgeEstimateButton()
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
-
-            if (this.concepts.concept1 !== null) 
-                this.selectedConditions = JSON.parse(this.concepts.concept1)
-
         },
         watch: {
             encounterTypes : function (value) {

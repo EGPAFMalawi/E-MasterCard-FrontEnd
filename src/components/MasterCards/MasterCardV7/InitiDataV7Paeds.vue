@@ -572,6 +572,8 @@
                 patientCardData.map(({concept: {conceptID}, value}, key) => {
                     this.concepts[`concept${conceptID}`] = value
                 })
+                if (this.concepts.concept1 !== null) 
+                    this.selectedConditions = JSON.parse(this.concepts.concept1)
 
                 this.loadARTstartDate(this.concepts.concept23)
             },
@@ -735,14 +737,13 @@
         },
         created() {
             this.fillConceptObservations(this.patientCardData)
-            
+
             this.toggleAgeEstimateButton()
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
 
-            if (this.concepts.concept1 !== null) 
-                this.selectedConditions = JSON.parse(this.concepts.concept1)
+
         },
 
         watch : {
@@ -769,7 +770,6 @@
             },
             'concepts.concept16': function(){
                 this.eval = this.evaluateIfTestDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)
-                this.setTestDate(value)
             },
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)

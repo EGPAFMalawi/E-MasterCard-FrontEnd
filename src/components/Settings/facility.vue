@@ -93,7 +93,6 @@
                 authResource().get(url)
                     .then(({data: {data}})=>{
                         this.isLoading = false
-                        console.log(data)
                         this.facilities = JSON.parse(JSON.stringify(data)).map(({name, siteCode, facilityID}) => {
                             return {value: name, text: name, code: siteCode, facilityID}
                         })
