@@ -667,9 +667,9 @@
                 this.selectedConditions = conditions
                 this.lastSelectCondition = lastSelectCondition
                 this.concepts.concept1 = JSON.stringify(this.selectedConditions)
-                if (lastSelectCondition.stage > parseInt(this.concepts.concept3.slice(-1))){
-                    this.concepts.concept3 = `Clinical Stage ${lastSelectCondition.stage}`
-                }
+                const numArray = conditions.map(({stage}) => stage )
+
+                this.concepts.concept3 = `Clinical Stage ${Math.max.apply(null, numArray)}`;
             },
             setTestDateMinMax(e){
                 setMinDate(e, this.patient.person.birthdate)
@@ -735,16 +735,14 @@
         },
         created() {
             this.fillConceptObservations(this.patientCardData)
-            // if (this.concepts.concept3 && this.concepts.concept1){
-            //     this.conditions = this.getConditions(this.concepts.concept3)
-            // }
+            
             this.toggleAgeEstimateButton()
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
 
-            // if (this.concepts.concept1 !== null) 
-            //     this.selectedConditions = JSON.parse(this.concepts.concept1)
+            if (this.concepts.concept1 !== null) 
+                this.selectedConditions = JSON.parse(this.concepts.concept1)
         },
 
         watch : {

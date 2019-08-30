@@ -668,9 +668,9 @@
                 this.selectedConditions = conditions
                 this.lastSelectCondition = lastSelectCondition
                 this.concepts.concept1 = JSON.stringify(this.selectedConditions)
-                if (lastSelectCondition.stage > parseInt(this.concepts.concept3.slice(-1))){
-                    this.concepts.concept3 = `Clinical Stage ${lastSelectCondition.stage}`
-                }
+                const numArray = conditions.map(({stage}) => stage )
+
+                this.concepts.concept3 = `Clinical Stage ${Math.max.apply(null, numArray)}`
             },
             handleAgeEstimation(){
                 if ((this.concepts.concept8 == null || this.concepts.concept8 == '')
