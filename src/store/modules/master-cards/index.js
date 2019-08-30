@@ -124,19 +124,22 @@ const actions = {
         commit('setDOFSA', param)
     },
     setSearchParam({commit}, param){
-        commit('setParam', param)
+        return new Promise((resolve, reject) => {
+            commit('setParam', param)
+            resolve(param)
+        })
     },
     clearPatients({commit}){
         commit('setPatients', [])
     },
-    async searchPatients({commit}, {endpoint, payload}) {
-        try {
-            const {data: {data}} = await authResource().post(endpoint, payload)
+    searchPatients({commit}, data) {
+        // try {
+            //const {data: {data}} = await authResource().post(endpoint, payload)
             commit('setPatients', data)
-        }
-        catch(error){
-            console.error(error)
-        }
+        // }
+        // catch(error){
+        //     console.error(error)
+        // }
     },
     async selectPatient({commit}, patient){
         commit('setPatient', patient)

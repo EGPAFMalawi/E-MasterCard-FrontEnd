@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row  py-2">
                 <form v-on:submit.prevent="search" class="search-form form-inline my-2 my-lg-0 d-flex justify-content-center align-self-center w-100">
-                    <input v-model="searchParam" v-on:keyup="search" class="form-control mr-sm-2 py-4" style="width: 30% !important" type="search" placeholder="Search for Patient" aria-label="Search">
+                    <input v-model="searchParameter" v-on:keyup="search" class="form-control mr-sm-2 py-4" style="width: 30% !important" type="search" placeholder="Search for Patient" aria-label="Search">
                     <button class="btn btn-success my-2 my-sm-0 py-2" type="submit"> <font-awesome-icon icon="search" class="ml-1"/> Search</button>
                 </form>
             </div>
@@ -338,23 +338,30 @@ export default {
             'setDateOfFirstStartingART',
             'patchPatient'
         ]),
-        search(e){
-            this.setSearchParam(e.target.value)
-            this.isLoading = true;
-            this.patients = [];
-
-            let payload = {
-                search : this.searchParam,
-            };
-            let endpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
-
-            if(this.searchParam !== '' && this.searchParam !== undefined){
-                this.searchPatients({endpoint, payload})
-            }
-            else{
-                this.clearPatients()
-            }
+        async search(e){
+    
+                let payload = { search : this.searchParameter }
+                let endpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
+    
+                if(this.searchParameter !== '' && this.searchParameter !== undefined){
+                    const {data: {data}} = await authResource().post(endpoint, payload)
+                    this.patients = data
+                }
+                else{
+                    this.clearPatients()
+                }
+                
             
+        },
+        debounce(fn, delay) {
+            let timer = null;
+            return function () {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                fn.apply(context, args);
+                }, delay);
+            };
         },
         setPatient (patient, route){
             if(patient.person.birthdate && patient.person.birthdate !== ''){
@@ -901,12 +908,13 @@ export default {
             availableMasterCards: [],
             selectedMasterCardVersion: null,
             watchRegStart: false,
-            isSoldier: 0
+            isSoldier: 0,
+            patients: [],
+            searchParameter: null
         }
     },
     computed: {
         ...mapGetters([
-            'patients', 
             'patient', 
             'searchParam', 
             'patientCard', 
