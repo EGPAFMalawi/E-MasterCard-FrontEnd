@@ -658,7 +658,6 @@
                 }
             },
             setEventDateMinMax(e){
-                // this.setMinDate(e, this.startDate ? this.startDate : this.patient.person.birthdate)
                 this.setMinDate(
                     e,
                     this.startDate ? this.startDate :
