@@ -720,7 +720,8 @@
             disableNextAppointment(e, ob){
                 if (this.nextAppointmentDateEdit === null)
                     this.nextAppointmentDateEdit = this.observations[ob].value
-                const appointmentOb = e.target.parentNode.parentNode.children[17].children[0]
+                const appointmentOb = e.target.parentNode.parentNode.children[16].children[0]
+                
                 if (e.target.value !== '' && e.target.value !== 'Blank'){
                     appointmentOb.disabled = true
                     appointmentOb.value = ''
