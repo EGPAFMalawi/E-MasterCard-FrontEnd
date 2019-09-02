@@ -37,7 +37,7 @@
                         ARVs Given
                     </th>
                     <th colspan="2">
-                        CPT/IPT Given
+                        IPT Given
                     </th>
                     <th>
                         Month on ART
@@ -191,7 +191,7 @@
                         <input v-model="observations['concept43Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="15" max="360" step="1" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept44Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="number" min="0" step="1" onblur="validity.valid||(value='');" disabled>
                     </td>
                     <td>
                         <select v-model="observations['concept45Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -317,7 +317,7 @@
                         <input v-model="concepts.concept43" class="form-control tb-form"  type="number" min="15" max="360" step="1" :disabled="!isVisit && isOutcome">
                     </td>
                     <td>
-                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1"  :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept44" class="form-control tb-form"  type="number" min="0" step="1"  disabled>
                     </td>
                     <td>
                         <select v-model="concepts.concept45" class="form-control tb-form" :disabled="!isVisit && isOutcome">
@@ -695,6 +695,11 @@
                 const min = addDays(date, days)
                 Object.assign(target, {min: min.toISOString().split('T')[0]})
             },
+            appointmentMaxDate(e, date, days){
+                const target = e.target
+                const max = addDays(date, days)
+                Object.assign(target, {max: max.toISOString().split('T')[0]})
+            },
             setAppointmentMinMax(e, encounterDatetime){
                 this.appointmentMinDate(
                     e, 
@@ -702,7 +707,7 @@
                         compareDates(new Date(this.patient.person.birthdate), new Date('1985-01-01')) ? 
                         this.patient.person.birthdate : '1985-01-01' ), 
                     1)
-                // this.setMaxDate(e)
+                this.appointmentMaxDate(e, encounterDatetime, 180)
             },
             
             validateWeight(e){
@@ -820,12 +825,12 @@
             this.getPatientCardDetails()
         },
         watch : {
-            // encounterTypes : function (value) {
-            //     if (value.length > 0)
-            //     {
-            //         this.getPatientCardDetails()
-            //     }
-            // },
+            encounterTypes : function (value) {
+                if (value.length > 0)
+                {
+                    this.getPatientCardDetails()
+                }
+            },
             patientCardData : function (value) {
                 this.fillConceptObservations(value)
                 Object.entries(this.observations).forEach((value, key) => {

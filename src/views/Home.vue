@@ -26,7 +26,7 @@
     <section class="search-results">
         <div class="container-fluid px-5">
             <div class="row d-flex justify-content-center py-5">
-                    <div v-if="patients[0] !== undefined" class="alert alert-info" role="alert">
+                    <div v-if="patients[0] !== undefined && searchParameter != ''" class="alert alert-info" role="alert">
                              
                             <span class="alert-link">
                                 {{patients.length}}  Patients Matching {{this.searchParameter}} Search.
@@ -102,33 +102,33 @@
                         <div class="col-md-4 mb-3">
                             <label>Given Name*</label>
                             <input type="text" class="form-control" placeholder="First name" 
-                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers or symbals." 
                                 :class="{'is-invalid':!gnameAlphanumericValidation && given_name !== ''}"
                                 v-model="given_name" required>
                             <b-form-invalid-feedback v-if="given_name !== ''" :state="gnameAlphanumericValidation">
-                                Name cannot have numbers.
+                                Name cannot have numbers or symbals.
                             </b-form-invalid-feedback>
                             
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="validationServer02">Middle Name</label>
                             <input type="text" class="form-control" placeholder="Middle name" 
-                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers or symbals." 
                                 :class="{'is-invalid':!mnameAlphanumericValidation && middle_name !== ''}"
                                 v-model="middle_name">
                             <b-form-invalid-feedback v-if="middle_name !== ''" :state="mnameAlphanumericValidation">
-                                Name cannot have numbers.
+                                Name cannot have numbers or symbals.
                             </b-form-invalid-feedback>
 
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="validationServer02">Family Name*</label>
                             <input type="text" class="form-control" placeholder="Last name" 
-                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers." 
+                                pattern="^[a-zA-Z]+$" title="Name cannot have numbers or symbals." 
                                 :class="{'is-invalid':!fnameAlphanumericValidation && family_name !== ''}"
                                 v-model="family_name" required>
                             <b-form-invalid-feedback v-if="family_name !== ''" :state="fnameAlphanumericValidation">
-                                Name cannot have numbers.
+                                Name cannot have numbers or symbals.
                             </b-form-invalid-feedback>
                         </div>
                     </div>
@@ -166,12 +166,12 @@
                         <div class="col-md-6 mb-3">
                             <label for="guardian-name">Guardian Name</label>
                             <input type="text" class="form-control" placeholder="Name of guardian"
-                                   pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers."
+                                   pattern="^[a-zA-Z'\s]+$" title="Name cannot have numbers or symbals."
                                    :class="{'is-invalid':!guardnameAlphanumericValidation && guardian_name !== ''}"
                                    v-model="guardian_name"
                                     id="guardian-name">
                             <b-form-invalid-feedback v-if="guardian_name !== ''" :state="guardnameAlphanumericValidation">
-                                Name cannot have numbers.
+                                Name cannot have numbers or symbals.
                             </b-form-invalid-feedback>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -843,7 +843,7 @@ export default {
         this.loadRegions()
         this.loadDistricts()
         this.getMasterCards()
-        
+        console.log(this.patients[0])
     },
     mounted() {
         this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
@@ -913,7 +913,7 @@ export default {
             watchRegStart: false,
             isSoldier: 0,
             patients: [],
-            searchParameter: null
+            searchParameter: ''
         }
     },
     computed: {

@@ -163,9 +163,9 @@
                                         @select="onSelect">
                                 </multi-select>
                             </div>
-                            <div class="col-md-12 mb-2">
+                            <div class="col-md-12 mb-2 is-disabled-section">
                                 <label>Urine LAM / CrAg Result</label>
-                                <select v-model="concepts.concept2" class="form-control" >
+                                <select v-model="concepts.concept2" class="form-control" disabled>
                                     <option :value="null" disabled>Positive or Negative</option>
                                     <option value="Blank">Blank</option>
                                     <option value="Positive">Positive(+)</option>
@@ -215,7 +215,7 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-2">
                             <label>CD4 Date</label>
-                            <input v-model="concepts.concept5" type="date"  ref="regimenStartDate" class="form-control">
+                            <input v-model="concepts.concept5" type="date"  ref="regimenStartDate" class="form-control" @focus="setCD4MinMaxDate" @click="setCD4MinMaxDate">
                         </div>
                         <div class="col-md-6 mb-2" v-if="patient.person.gender !== 'M'">
                                 <label >Pregnant/Breastfeeding</label>
@@ -296,19 +296,19 @@
             </div>
             <div class="card-body">
                 <form>
-                    <div class="form-row">
+                    <div class="form-row is-disabled-section">
                         <div class="col-md-12 mb-2">
                             <label>Site, HTC Serial No.</label>
-                            <input v-model="concepts.concept15" type="text" class="form-control" placeholder="Site, HTC Serial No."  required>
+                            <input v-model="concepts.concept15" type="text" class="form-control" placeholder="Site, HTC Serial No."  disabled>
                         </div>
-                        </div>
+                    </div>
 
-                        <div class="form-row">
+                        <div class="form-row is-disabled-section">
                             <div class="col-md-12 mb-2">
                                     <label >Test Date</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}">
-                                            <select v-model="concepts.concept17" class="form-control" >
+                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}" disabled>
+                                            <select v-model="concepts.concept17" class="form-control" disabled>
                                                 <option :value="null" disabled>Rapid or PCR</option>
                                                 <option value="Blank">Blank</option>
                                                 <option value="Rapid">Rapid</option>
@@ -400,12 +400,12 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
+                        <div class="form-row is-disabled-section">
                             <div class="col-md-12 mb-2">
                                     <label >Annual BP Screening for 30+ yrs (sys / dias)</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <input v-model="concepts.concept26" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="SYS" required>
-                                            <input v-model="concepts.concept27" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="DIAS" required>
+                                            <input v-model="concepts.concept26" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="SYS" required disabled>
+                                            <input v-model="concepts.concept27" type="number" min="0" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="DIAS" required disabled>
                                     </div>
                             </div>
                         </div>
@@ -716,6 +716,16 @@
                     setMinDate(e, this.patient.person.birthdate)
                 setMaxDate(e)
             },
+            setCD4MinMaxDate(e){
+                if(this.startDate !== undefined){
+                    console.log(e, this.startDate)
+                    setMinDate(e, this.startDate)
+                }
+                else if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01'))){
+                    setMinDate(e, this.patient.person.birthdate)
+                }
+                setMaxDate(e)
+            },
             validateTestDate(e){
                 this.isTestDateValid = validateDate(e)
             },
@@ -820,7 +830,7 @@
             
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF']),
+            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF', 'startDate']),
             gnameAlphanumericValidation(){
                 return matchString(this.patient.person.personName.given)
             },
