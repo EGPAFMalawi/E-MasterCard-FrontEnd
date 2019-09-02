@@ -232,9 +232,15 @@
                         <div class="col-md-6 mb-2">
                             <label>Height(cm) &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Wgt(Kg)</label>
                             <div class="form-inline fit-2-input-fields">
-                                    <input v-model="concepts.concept6" type="number" min="50" max="200" class="form-control" step="any" required>
-                                    <input v-model="concepts.concept7" type="number" min="5" max="200" class="form-control" step="any" required>
-                            </div>  
+                                    <input v-model="concepts.concept6" type="number" min="50" max="200" class="form-control" @change="validateHeight" @keyup="validateHeight" @blur="clearField(isHeightValid, 'concept6')" step="any" required>
+                                    <input v-model="concepts.concept7" type="number" min="5" max="200" class="form-control" @change="validateWeight" @keyup="validateWeight" @blur="clearField(isWeightValid, 'concept7')" step="any" required>
+                            </div>
+                            <b-form-invalid-feedback v-if="isHeightValid" :state="!isHeightValid">
+                                Height outside range of (50 - 200)
+                            </b-form-invalid-feedback> 
+                            <b-form-invalid-feedback v-if="isWeightValid" :state="!isWeightValid">
+                                Weight outside range of (5 - 200)
+                            </b-form-invalid-feedback>
                         </div>
                         <div class="col-md-6 mb-2">
                                 <label >Ever taken ARVs</label>
@@ -303,12 +309,12 @@
                         </div>
                     </div>
 
-                        <div class="form-row is-disabled-section">
+                        <div class="form-row">
                             <div class="col-md-12 mb-2">
                                     <label >Test Date</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}" disabled>
-                                            <select v-model="concepts.concept17" class="form-control" disabled>
+                                            <input @click="setTestDateMinMax" @focus="setTestDateMinMax" @keyup="validateTestDate" v-model="concepts.concept16" type="date" class="form-control" :class="{'is-invalid': isTestDateValid}">
+                                            <select v-model="concepts.concept17" class="form-control">
                                                 <option :value="null" disabled>Rapid or PCR</option>
                                                 <option value="Blank">Blank</option>
                                                 <option value="Rapid">Rapid</option>
@@ -718,7 +724,6 @@
             },
             setCD4MinMaxDate(e){
                 if(this.startDate !== undefined){
-                    console.log(e, this.startDate)
                     setMinDate(e, this.startDate)
                 }
                 else if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01'))){
@@ -734,7 +739,29 @@
             },
             validateStartDate(e){
                 this.isStartDateValid = validateDate(e)
-            }
+            },
+            validateWeight(e){
+                this.isWeightValid = validateDate(e)
+                if (validateDate(e)){
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
+            validateHeight(e){
+                this.isHeightValid = validateDate(e)
+                if (this.isHeightValid){
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
+
+            clearField(isInvalid, concept, isConcept = true){
+                if (isInvalid && isConcept){
+                    this.concepts[concept] = ''
+                }
+            },
 
         },
         data: () => {
@@ -778,7 +805,9 @@
                 },
                 isTestDateValid: false,
                 isEduDateValid: false,
-                isStartDateValid: false
+                isStartDateValid: false,
+                isHeightValid: false,
+                isWeightValid: false
             }
         },
         created(){
