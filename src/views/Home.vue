@@ -8,7 +8,7 @@
             <h5>Search For Patient</h5>
         </div>
         <div class="row d-flex justify-content-center">
-            <h6>(Search Params : Patient Given and Last Name, Patient ART Number)</h6>
+            <h6>(Search By : Patient Given and Last Name, Patient ART Number)</h6>
         </div>
     </section>
     <section class="sticky-top bg-default">
@@ -29,15 +29,15 @@
                     <div v-if="patients[0] !== undefined" class="alert alert-info" role="alert">
                              
                             <span class="alert-link">
-                                {{patients.length}}  Patients Matching {{this.searchParam}} Search.
+                                {{patients.length}}  Patients Matching {{this.searchParameter}} Search.
                             </span> 
                             Did not find who you were looking for? 
                             <button type="button" class="btn btn-success btn-lg" @click="activatePatientForm" v-b-modal.modal-1>
                                 Add New Patient
                             </button>
                     </div>
-                    <div v-if="patients[0] === undefined && searchParam != ''" class="alert text-align-center alert-warning" role="alert">
-                        <h4 class="alert-heading">No Patient found  matching <strong>{{this.searchParam}}</strong> Search</h4>
+                    <div v-if="patients[0] === undefined && searchParameter != ''" class="alert text-align-center alert-warning" role="alert">
+                        <h4 class="alert-heading">No Patient found  matching <strong>{{this.searchParameter}}</strong> Search</h4>
                         <p class="mb-3">
                             Click on the button below to add a new Patient
                         </p>
@@ -342,6 +342,8 @@ export default {
     
                 let payload = { search : this.searchParameter }
                 let endpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
+
+                this.patients = []
     
                 if(this.searchParameter !== '' && this.searchParameter !== undefined){
                     const {data: {data}} = await authResource().post(endpoint, payload)
@@ -349,6 +351,7 @@ export default {
                 }
                 else{
                     this.clearPatients()
+                    this.patients = []
                 }
                 
             
@@ -400,9 +403,9 @@ export default {
 
             Object.assign(notificationSystem.options.question, buttons, happen)
             if (this.selectedMasterCardVersion === 7){
-                this.$toast.question(`You have selected Version 7 Adults Card, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
+                this.$toast.question(`You have selected Version 7 Adults Card, Do you intend to proceed?`, 'Caution', notificationSystem.options.question)
             }else{
-                this.$toast.question(`You have selected Version 7 Peads Card, Do you intend to proceed?`, 'Warning', notificationSystem.options.question)
+                this.$toast.question(`You have selected Version 7 Peads Card, Do you intend to proceed?`, 'Caution', notificationSystem.options.question)
             }
         },
 

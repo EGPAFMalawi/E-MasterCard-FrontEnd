@@ -85,7 +85,7 @@
                         Given To
                     </th>
                     <th>
-                        CPT/IPT Given
+                        IPT Given
                     </th>
                     <th >
                         No. of Tablets
@@ -112,11 +112,13 @@
                 </thead>
                 <tbody>
                 <tr v-for="(encounter, key) in encounters" v-bind:key="key">
-                    <td>
-                        <select v-on:change="disableVisitFields" v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form">
-                            <option value="Clinical Visit">Clinical Visit</option>
-                            <option value="Outcome">Outcome</option>
-                        </select>
+                    <td ref="test">
+                        <slot>
+                            <select v-on:change="disableVisitFields($event, 'concept47Encounter'+encounter.encounterID)" v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form">
+                                <option value="Clinical Visit">Clinical Visit</option>
+                                <option value="Outcome">Outcome</option>
+                            </select>
+                        </slot>
                     </td>
                     <td>
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" 
@@ -182,9 +184,7 @@
                     <td>
                         <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value="Blank">Blank</option>
-                            <option value="C">C (CPT Only)</option>
                             <option value="I">I (IPT Only)</option>
-                            <option value="CI">CI (CPT + IPT)</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -310,9 +310,7 @@
                     <td>
                         <select v-model="concepts.concept42" class="form-control tb-form" :disabled="!isVisit && isOutcome">
                             <option value="Blank">Blank</option>
-                            <option value="C">C (CPT Only)</option> 
                             <option value="I">I (IPT Only)</option>
-                            <option value="CI">CI (CPT + IPT)</option>
                         </select>
                     </td>
                     <td>
@@ -627,13 +625,24 @@
                     })
 
             },
-            disableVisitFields(e){
-                if (e.target.value === "Outcome"){
+            disableVisitFields(e, ob){
+                if (this.nextAppointmentDateEdit === null)
+                    this.nextAppointmentDateEdit = this.observations[ob].value
 
+                let maxChild = null
+                if (this.patient.person.gender === 'M')
+                    maxChild = 17
+                else if (this.patient.person.gender === 'F')
+                    maxChild = 18
+
+                if (e.target.value === "Outcome"){
+                    
                     const tds = Array.from(e.target.parentNode.parentNode.children)
                     
+
                     tds.forEach((td, key) => {
-                        if (key > 1 && key < 17){
+                        
+                        if (key > 1 && key < maxChild){
                             td.children[0].disabled = true
                             td.children[0].value = null
                         }
@@ -644,14 +653,17 @@
                     })
                 }else if(e.target.value === "Clinical Visit") {
                     const tds = Array.from(e.target.parentNode.parentNode.children)
-                    
+                        
                     tds.forEach((td, key) => {
-                        if (key > 1 && key < 17){
+                        if (key > 1 && key < maxChild){
                             td.children[0].disabled = false
                         }
 
-                        if (key === 16){
+                        if (key === (maxChild - 1 )){
                             td.children[0].required = true
+                            td.children[0].value = this.nextAppointmentDateEdit
+                            this.observations[ob].value = this.nextAppointmentDateEdit
+                            this.nextAppointmentDateEdit = null
                         }
 
                     })
@@ -721,13 +733,13 @@
                 if (this.nextAppointmentDateEdit === null)
                     this.nextAppointmentDateEdit = this.observations[ob].value
                     
-                    let child = null
-                    if (this.patient.person.gender === 'M')
-                        child = 16
-                    else if (this.patient.person.gender === 'F')
-                        child = 17
-                    
-                    const appointmentOb = e.target.parentNode.parentNode.children[child].children[0]
+                let child = null
+                if (this.patient.person.gender === 'M')
+                    child = 16
+                else if (this.patient.person.gender === 'F')
+                    child = 17
+                
+                const appointmentOb = e.target.parentNode.parentNode.children[child].children[0]
                 
                 if (e.target.value !== '' && e.target.value !== 'Blank'){
                     appointmentOb.disabled = true
@@ -741,6 +753,8 @@
                     this.nextAppointmentDateEdit = null
                 }
             },
+
+
             isObsOutcome(eventType, outcome){
                 if (eventType){
                     return true

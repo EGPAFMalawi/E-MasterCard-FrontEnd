@@ -70,7 +70,7 @@ const state = {
             value: '12A'
         },
         {
-            title: '13A (TDF300 / 3TC300 / DTG50',
+            title: '13A (TDF300 / 3TC300 / DTG50)',
             value: '13A'
         },
         {
@@ -78,7 +78,7 @@ const state = {
             value: '14A'
         },
         {
-            title: '15A (ABC600 / 3TC300 + DTG50',
+            title: '15A (ABC600 / 3TC300 + DTG50)',
             value: '15A'
         },
         {
