@@ -8,12 +8,12 @@
                     <input type="text" class="form-control tb-form" v-model="patient.fullArtNumber" disabled>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2" v-if="isAdults">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">Child HCC no</span>
                     </div>
-                    <input type="text" class="form-control tb-form" v-model="concepts.concept30">
+                    <input type="text" class="form-control tb-form" v-model="concepts.concept30" @blur="updateRegData($event, 'concept30')">
                 </div>
             </div>
             <div class="col-1">
@@ -21,7 +21,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">Year</span>
                     </div>
-                    <input type="number" class="form-control tb-form" v-model="concepts.concept31">
+                    <input type="number" class="form-control tb-form" v-model="concepts.concept31" @blur="updateRegData($event, 'concept31')">
                 </div>
             </div>
             <div class="col-3">
@@ -29,7 +29,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">Registration Type</span>
                     </div>
-                    <select class="form-control tb-form" v-model="concepts.concept55">
+                    <select class="form-control tb-form" v-model="concepts.concept55" @blur="updateRegData($event, 'concept55')">
                         <option :value="null" disabled>Select Status</option>
                         <option value="First Time Initiation">First Time Initiation</option>
                         <option value="Reinitiation">Reinitiation</option>
@@ -42,7 +42,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">Registration Date</span>
                     </div>
-                    <input type="date" class="form-control tb-form" v-model="concepts.concept56">
+                    <input type="date" class="form-control tb-form" v-model="concepts.concept56" @blur="updateRegData($event, 'concept56')">
                 </div>
             </div>
             <div class="col-2">
@@ -50,7 +50,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">ART Initiation Date</span>
                     </div>
-                    <input type="date" class="form-control tb-form" v-model="concepts.concept57">
+                    <input type="date" class="form-control tb-form" v-model="concepts.concept57" @blur="updateRegData($event, 'concept56')">
                 </div>
             </div>
         </div>
@@ -59,12 +59,28 @@
 
 <script>
     import {authResource} from './../../../authResource'
+    import { notificationSystem, matchString, addDays, compareDates, validateDate } from '../../../globals'
     import { mapGetters, mapActions } from 'vuex' 
 
     export default {
         name: 'RegistrationDataV7',
-        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
+        props : ['encounterTypes', 'postPayload', 'patient', 'patientCard', 'isPeads', 'isAdults'],
         methods: {
+            updateRegData(e, concept){
+                const payload = this.encounterTypes[0].concepts.map((item)=>{
+                    if (concept === 'concept'+item.conceptID){
+
+                        return {
+                            'concept' : item.conceptID,
+                            'encounter-type' : this.encounterTypes[0].encounterTypeID,
+                            'value' : this.concepts['concept'+item.conceptID],
+                            'observation' : this.getObservation(item.conceptID)
+                        }
+                    }
+                }).filter(item => item !== undefined);
+
+                this.handlePost(payload)
+            },
             getPatientCardDetails : function ()
             {
                 let url = `${this.APIHosts.art}/patient-cards/${this.patientCard.patientCardID}/data`;
@@ -117,6 +133,7 @@
                     .then((response)=>{
                         this.patientCardData = [];
                         this.getPatientCardDetails()
+                        this.$toast.success(`Saved!`, 'OK', notificationSystem.options.success)
                     })
                     .catch((error)=>{
                         console.log(error)
@@ -132,6 +149,7 @@
         },
         data: () => {
             return {
+                notificationSystem,
                 BASE_URL : 'patients',
                 patientCardData : [],
                 masterCardWithDetails : {},

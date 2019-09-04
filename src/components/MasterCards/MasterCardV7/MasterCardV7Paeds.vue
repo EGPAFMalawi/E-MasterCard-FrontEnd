@@ -14,12 +14,12 @@
             </div>
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <RegistrationDataV7Paeds 
+            <RegistrationDataV7 
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
                 :patientCard='patientCard'>
-            </RegistrationDataV7Paeds>
+            </RegistrationDataV7>
         </div>
         <div class="container-fluid d-flex justify-content-center">
             <InitDataV7Paeds 
@@ -51,13 +51,13 @@
 <script>
     import InitDataV7Paeds from "./InitiDataV7Paeds";
     import VisitDataV7Paeds from "./VisitDataV7Paeds";
-    import RegistrationDataV7Paeds from "./RegistrationDataV7Paeds";
+    import RegistrationDataV7 from "./RegistrationDataV7Paeds";
     import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'MasterCardV7Paeds',
         props: ['autofill', 'patient', 'patientCard'],
-        components: {RegistrationDataV7Paeds, VisitDataV7Paeds, InitDataV7Paeds},
+        components: {RegistrationDataV7, VisitDataV7Paeds, InitDataV7Paeds},
         methods: {
             ...mapActions(['loadMasterCardDetails']),
             goBack(){

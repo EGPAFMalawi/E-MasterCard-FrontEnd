@@ -18,7 +18,8 @@
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
-                :patientCard='patientCard'>
+                :patientCard='patientCard'
+                :isAdults="true">
             </RegistrationDataV7>
         </div>
         <div class="container-fluid d-flex justify-content-center">

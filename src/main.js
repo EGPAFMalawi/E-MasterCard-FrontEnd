@@ -41,10 +41,9 @@ Vue.mixin({
     data(){
         return {
             APIHosts : {
-                art : 'http://localhost/api/v1'
+                art : 'http://localhost:8000/api/v1'
             },
-            messageStr: 'Hello',
-
+            messageStr: 'Hello'
         }
     },
     methods: {
@@ -69,7 +68,6 @@ Vue.mixin({
     created(){
         const elem = document.documentElement
         this.openFullscreen(elem)
-        
     }
 });
 
