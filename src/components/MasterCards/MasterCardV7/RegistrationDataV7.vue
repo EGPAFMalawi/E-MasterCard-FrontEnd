@@ -67,6 +67,7 @@
         props : ['encounterTypes', 'postPayload', 'patient', 'patientCard', 'isPeads', 'isAdults'],
         methods: {
             updateRegData(e, concept){
+                
                 const payload = this.encounterTypes[0].concepts.map((item)=>{
                     if (concept === 'concept'+item.conceptID){
 
@@ -78,7 +79,6 @@
                         }
                     }
                 }).filter(item => item !== undefined);
-
                 this.handlePost(payload)
             },
             getPatientCardDetails : function ()

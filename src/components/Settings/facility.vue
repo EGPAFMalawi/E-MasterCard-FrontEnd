@@ -28,7 +28,7 @@
                                 <div class="form-row">
                                     <div class="col-12">
                                         <label>Facility Code</label>
-                                        <input v-model="facilityCode" class="form-control"  type="facilityCode" placeholder="Create User Password" required>
+                                        <input v-model="facilityCode" class="form-control"  type="facilityCode" placeholder="Enter Facility Code" required>
                                     </div>
                                 </div>
                                 <button class="btn btn-success mt-3" type="submit">Save</button>
