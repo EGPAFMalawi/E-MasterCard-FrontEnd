@@ -537,7 +537,7 @@
                                                         <th>{{cumulativeDisaggregates['stopped']['pediatrics']['females']['count']}}</th>
                                                         <th>{{cumulativeDisaggregates['died']['pediatrics']['females']['count']}}</th>
                                                         <th>{{cumulativeDisaggregates['transferredOut']['pediatrics']['females']['count']}}</th>
-                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['females']['count']+cumulativeDisaggregates['defaulted1Month']['pediatrics']['females']['count']+cumulativeDisaggregates['defaulted2Months']['pediatrics']['females']['count']+cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['count']+cumulativeDisaggregates['stopped']['pediatrics']['females']['count']+cumulativeDisaggregates['died']['pediatrics']['count']+cumulativeDisaggregates['transferredOut']['pediatrics']['count']}}</th>
+                                                        <th>{{cumulativeDisaggregates['txCurrent']['pediatrics']['females']['count']+cumulativeDisaggregates['defaulted1Month']['pediatrics']['females']['count']+cumulativeDisaggregates['defaulted2Months']['pediatrics']['females']['count']+cumulativeDisaggregates['defaulted3MonthsPlus']['pediatrics']['females']['count']+cumulativeDisaggregates['stopped']['pediatrics']['females']['count']+cumulativeDisaggregates['died']['pediatrics']['females']['count']+cumulativeDisaggregates['transferredOut']['pediatrics']['females']['count']}}</th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
