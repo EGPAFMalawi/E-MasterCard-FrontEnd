@@ -268,21 +268,9 @@
                                                 <label >Last ARVs (type/date)</label>
                                                 <div class="form-inline fit-2-input-fields">
                                                         <select  class="form-control" v-model="concepts.concept13">
+                                                            <option :value="null" disabled>Select Regimen</option>
                                                             <option value="Blank">Blank</option>
-                                                            <option value="0P">0P</option>
-                                                            <option value="1P">1P</option>
-                                                            <option value="2P">2P</option>
-                                                            <option value="3P">3P</option>
-                                                            <option value="4P">4P</option>
-                                                            <option value="9P">9P</option>
-                                                            <option value="0P">0A</option>
-                                                            <option value="1A">1A</option>
-                                                            <option value="2A">2A</option>
-                                                            <option value="3A">3A</option>
-                                                            <option value="4A">4A</option>
-                                                            <option value="9A">9A</option>
-                                                             <option value="11A">11A</option>
-                                                            <option value="Oth">Oth</option>
+                                                            <option v-for="regimen in regimensPeads" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
                                                         </select>
                                                         <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control" required>
                                                 </div>
@@ -361,21 +349,9 @@
                                     <label >ART Regimens (Regimen / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept22" class="form-control">
+                                                <option :value="null" disabled>Select Regimen</option>
                                                 <option value="Blank">Blank</option>
-                                                <option value="0P">0P</option>
-                                                <option value="1P">1P</option>
-                                                <option value="2P">2P</option>
-                                                <option value="3P">3P</option>
-                                                <option value="4P">4P</option>
-                                                <option value="9P">9P</option>
-                                                <option value="0P">0A</option>
-                                                <option value="1A">1A</option>
-                                                <option value="2A">2A</option>
-                                                <option value="3A">3A</option>
-                                                <option value="4A">4A</option>
-                                                <option value="9A">9A</option>
-                                                <option value="11A">11A</option>
-                                                <option value="Oth">Oth</option>
+                                                <option v-for="regimen in regimensPeads" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
                                             </select>
                                             <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
                                     </div>
@@ -830,7 +806,7 @@
             }
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF', 'startDate']),
+            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF', 'startDate', 'regimensPeads']),
             patientPhoneValidation() {
                 if (this.patient.patientPhone == null)
                     return true

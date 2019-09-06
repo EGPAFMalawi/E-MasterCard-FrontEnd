@@ -164,6 +164,7 @@
                     </td>
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                            <option :value="null" disabled>Select Regimen</option>
                             <option value="Blank">Blank</option>
                             <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
                                 {{regimen.title}}
@@ -290,6 +291,7 @@
                     </td>
                     <td>
                         <select v-model="concepts.concept39" class="form-control tb-form" :disabled="!isVisit && isOutcome">
+                            <option :value="null" disabled>Select Regimen</option>
                             <option value="Blank">Blank</option>
                             <option v-for="regimen in regimens" :key="regimen.value" :value="regimen.value">
                                 {{regimen.title}}

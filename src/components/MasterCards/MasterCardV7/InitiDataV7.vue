@@ -276,22 +276,7 @@
                                             <div class="form-inline fit-2-input-fields">
                                                 <select  class="form-control" v-model="concepts.concept13">
                                                     <option value="Blank">Blank</option>
-                                                    <option value="0A">0A (ABC600 / 3TC300 + NVP200)</option>
-                                                    <option value="1A">1A</option>
-                                                    <option value="2A">2A (AZT300 / 3TC150 + NVP200)</option>
-                                                    <option value="4A">4A (AZT300 / 3TC150 + EFV600)</option>
-                                                    <option value="5A">5A (TDF300 / 3TC300 + EFV600)</option>
-                                                    <option value="6A">6A (TDF300 / 3TC300 + NVP200)</option>
-                                                    <option value="7A">7A (TDF300 / 3TC300 + ATV/r300/100)</option>
-                                                    <option value="8A">8A (AZT300 / 3TC150 + ATV/r300/100)</option>
-                                                    <option value="9A">9A (ABC600 / 3TC300 + LPV/r200/50)</option>
-                                                    <option value="10A">10A (TDF300 / 3TC300 + LPV/r200/50)</option>
-                                                    <option value="11A">11A (AZT300 / 3TC150 + LPV/r200/50)</option>
-                                                    <option value="12A">12A (DRV600 + r100 + DTG50(+-NRTIs)</option>
-                                                    <option value="13A">13A (TDF300 / 3TC300 / DTG50</option>
-                                                    <option value="14A">14A (AZT 300 / 3TC300 + DTG50)</option>
-                                                    <option value="15A">15A (ABC600 / 3TC300 + DTG50)</option>
-                                                    <option value="Oth">Oth</option>
+                                                    <option v-for="regimen in regimens" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
                                                 </select>
                                                 
                                                 <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control no-padding" required>
@@ -375,25 +360,9 @@
                                     <label >ART Regimens (Regimen / Start Date)</label>
                                     <div class="form-inline fit-2-input-fields">
                                             <select v-model="concepts.concept22" class="form-control">
-                                                <option :value="null" disabled>Regimen</option>
+                                                <option :value="null" disabled>Select Regimen</option>
                                                 <option value="Blank">Blank</option>
-                                                <option value="0A">0A</option>
-                                                <option value="1A">1A</option>
-                                                <option value="2A">2A</option>
-                                                <option value="3A">3A</option>
-                                                <option value="4A">4A</option>
-                                                <option value="5A">5A</option>
-                                                <option value="6A">6A</option>
-                                                <option value="7A">7A</option>
-                                                <option value="8A">8A</option>
-                                                <option value="9A">9A</option>
-                                                <option value="10A">10A</option>
-                                                <option value="11A">11A</option>
-                                                <option value="12A">12A</option>
-                                                <option value="13A">13A</option>
-                                                <option value="14A">14A</option>
-                                                <option value="15A">15A</option>
-                                                <option value="Oth">Oth</option>
+                                                <option v-for="regimen in regimens" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
                                             </select>
                                             <input v-model="concepts.concept23" @click="setStartDateMinMax" @focus="setStartDateMinMax" @keyup="validateStartDate" min="2000-01-01" ref="regimenStartDate" type="date" class="form-control" :class="{'is-invalid': isStartDateValid}">
                                     </div>
@@ -882,7 +851,7 @@
             
         },
         computed: {
-            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF', 'startDate']),
+            ...mapGetters(['patientCardData', 'stages', 'conditions', 'isMDF', 'startDate', 'regimens']),
             gnameAlphanumericValidation(){
                 return matchString(this.patient.person.personName.given)
             },

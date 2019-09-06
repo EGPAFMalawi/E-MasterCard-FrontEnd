@@ -178,21 +178,9 @@
                     </td>
                     <td>
                         <select v-model="observations['concept39Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                            <option :value="null" disabled>Select Regimen</option>
                             <option value="Blank">Blank</option>
-                            <option value="0P">0P</option>
-                            <option value="1P">1P</option>
-                            <option value="2P">2P</option>
-                            <option value="3P">3P</option>
-                            <option value="4P">4P</option>
-                            <option value="9P">9P</option>
-                            <option value="0P">0A</option>
-                            <option value="1A">1A</option>
-                            <option value="2A">2A</option>
-                            <option value="3A">3A</option>
-                            <option value="4A">4A</option>
-                            <option value="9A">9A</option>
-                            <option value="11A">11A</option>
-                            <option value="Oth">Oth</option>
+                            <option v-for="regimen in regimensPeads" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -313,21 +301,9 @@
                     </td>
                     <td>
                         <select :disabled="!isVisit && isOutcome" v-model="concepts.concept39" class="form-control tb-form">
+                            <option :value="null" disabled>Select Regimen</option>
                             <option value="Blank">Blank</option>
-                            <option value="0P">0P</option>
-                            <option value="1P">1P</option>
-                            <option value="2P">2P</option>
-                            <option value="3P">3P</option>
-                            <option value="4P">4P</option>
-                            <option value="9P">9P</option>
-                            <option value="0P">0A</option>
-                            <option value="1A">1A</option>
-                            <option value="2A">2A</option>
-                            <option value="3A">3A</option>
-                            <option value="4A">4A</option>
-                            <option value="9A">9A</option>
-                            <option value="11A">11A</option>
-                            <option value="Oth">Oth</option>
+                            <option v-for="regimen in regimensPeads" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -898,7 +874,7 @@
             }
         },
         computed: {
-            ...mapGetters(['startDate', 'regimens', 'testDate'])
+            ...mapGetters(['startDate', 'regimens', 'testDate', 'regimensPeads'])
         }
     }
 </script>

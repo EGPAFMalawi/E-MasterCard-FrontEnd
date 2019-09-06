@@ -18,68 +18,102 @@ const state = {
     regStartDate: null,
     regimens: [
         {
-            title: '0A (ABC600 / 3TC300 + NVP200)',
+            title: '0A (ABC 600 / 3TC 300 + NVP 200)',
             value: '0A'
         },
         {
-            title: '1A',
+            title: '1A (d4T 30/3TC 150 / NVP 200)',
             value: '1A'
         },
         {
-            title: '2A (AZT300 / 3TC150 + NVP200)',
+            title: '2A (AZT 300 / 3TC 150/ NVP 200)',
             value: '2A'
         },
         {
-            title: '3A',
+            title: '3A (d4T 30/3TC 150 + EFV 600)',
             value: '3A'
         },
         {
-            title: '4A (AZT300 / 3TC150 + EFV600)',
+            title: '4A (AZT 300 / 3TC 150 + EFV 600)',
             value: '4A'
         },
         {
-            title: '5A (TDF300 / 3TC300 + EFV600)',
+            title: '5A (TDF 300 / 3TC 300 /EFV 600)',
             value: '5A'
         },
         {
-            title: '6A (TDF300 / 3TC300 + NVP200)',
+            title: '6A (TDF 300 / 3TC 300 + NVP 200)',
             value: '6A'
         },
         {
-            title: '7A (TDF300 / 3TC300 + ATV/r300/100)',
+            title: '7A (TDF 300 / 3TC 300 + ATV/r 300/100)',
             value: '7A'
         },
         {
-            title: '8A (AZT300 / 3TC150 + ATV/r300/100)',
+            title: '8A 8A (AZT 300 / 3TC 150 + ATV/r 300/100)',
             value: '8A'
         },
         {
-            title: '9A (ABC600 / 3TC300 + LPV/r200/50)',
+            title: '9A 9A (ABC 600 / 3TC 300 + LPV/r 200/50)',
             value: '9A'
         },
         {
-            title: '10A (TDF300 / 3TC300 + LPV/r200/50)',
+            title: '10A 10A (TDF 300 / 3TC 300 + LPV/r 200/50)',
             value: '10A'
         },
         {
-            title: '11A (AZT300 / 3TC150 + LPV/r200/50)',
+            title: '11A (AZT 300 / 3TC 150 + LPV/r 200/50)',
             value: '11A'
         },
         {
-            title: '12A (DRV600 + r100 + DTG50(+-NRTIs)',
+            title: '12A (DRV 600 + r 100+ DTG 50 [+-NRTIs])',
             value: '12A'
         },
         {
-            title: '13A (TDF300 / 3TC300 / DTG50)',
+            title: '13A (TDF 300 / 3TC 300 / DTG 50)',
             value: '13A'
         },
         {
-            title: '14A (AZT 300 / 3TC300 + DTG50)',
+            title: '14A  (AZT 300 / 3TC 300 + DTG 50)',
             value: '14A'
         },
         {
-            title: '15A (ABC600 / 3TC300 + DTG50)',
+            title: '15A (ABC 600 / 3TC 300 + DTG 50)',
             value: '15A'
+        },
+        {
+            title: 'Other',
+            value: 'Other'
+        },
+    ],
+    regimensPeads: [
+        {
+            title: '0P (ABC 60 / 3TC 30 + NVP 50)',
+            value: '0P'
+        },
+        {
+            title: '1P (d4T 6 / 3TC 30 / NVP 50)',
+            value: '1P'
+        },
+        {
+            title: '2P (AZT 60 / 3TC 30/ NVP 50)',
+            value: '2P'
+        },
+        {
+            title: '3P (d4T 6 / 3TC 30 + EFV 200)',
+            value: '3P'
+        },
+        {
+            title: '4P (AZT 60 / 3TC 30 + EFV 200)',
+            value: '4P'
+        },
+        {
+            title: '9P (ABC 60 / 3TC 30 + LPV/r 100/25)',
+            value: '9P'
+        },
+        {
+            title: '11P (AZT 60 / 3TC 30 + LPV/r 100/50)',
+            value: '11P'
         },
         {
             title: 'Other',
@@ -96,6 +130,7 @@ const getters = {
     patientCardData: state => state.patientCardData,
     patientCard: state => state.patientCard,
     regimens: ({regimens}) => regimens,
+    regimensPeads: ({regimensPeads}) => regimensPeads,
     masterCardDetails: state => state.masterCardDetails,
     dateOfFirstStartingART: ({dateOfFirstStartingART}) => dateOfFirstStartingART, //maps to ART StartDate concept
     ageAtARTInit: ({ageAtARTInit}) => ageAtARTInit, //maps to ageAtInit concept
