@@ -199,7 +199,10 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4</label>
-                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" max="1000" required>
+                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" max="1000" @keyup="validateCD4" @change="validateCD4" @blur="clearField(isCD4Valid, 'concept4')" required>
+                                        <b-form-invalid-feedback v-if="isCD4Valid" :state="!isCD4Valid">
+                                            Invalid CD4 value
+                                        </b-form-invalid-feedback> 
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label>KS</label>
@@ -214,7 +217,10 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4 Date</label>
-                                        <input v-model="concepts.concept5" type="date" ref="regimenStartDate" class="form-control" @focus="setCD4MinMaxDate" @click="setCD4MinMaxDate" @blur="clearField(isHeightValid, 'concept5')">
+                                        <input v-model="concepts.concept5" type="date" ref="regimenStartDate" class="form-control" @keyup="validateCD4Date" @change="validateCD4Date" @focus="setCD4MinMaxDate" @click="setCD4MinMaxDate" @blur="clearField(isCD4DateValid, 'concept5')">
+                                        <b-form-invalid-feedback v-if="isCD4DateValid" :state="!isCD4DateValid">
+                                            Invalid Date
+                                        </b-form-invalid-feedback> 
                                     </div>
                                     <div class="col-md-6 mb-2">
 
@@ -707,7 +713,22 @@
                     e.target.classList.remove('is-invalid-custom')
                 }
             },
-
+            validateCD4(e){
+                this.isCD4Valid = validateDate(e)
+                if (this.isCD4Valid){
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
+            validateCD4Date(e){
+                this.isCD4DateValid = validateDate(e)
+                if (this.isCD4DateValid){
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
             clearField(isInvalid, concept, isConcept = true){
                 if (isInvalid && isConcept){
                     this.concepts[concept] = ''
@@ -757,7 +778,9 @@
                 isEduDateValid: false,
                 isStartDateValid: false,
                 isHeightValid: false,
-                isWeightValid: false
+                isWeightValid: false,
+                isCD4DateValid: false,
+                isCD4Valid: false
             }
         },
         created() {
