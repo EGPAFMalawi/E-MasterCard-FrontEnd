@@ -199,7 +199,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4</label>
-                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" required>
+                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" max="1000" required>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label>KS</label>
@@ -214,7 +214,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4 Date</label>
-                                        <input v-model="concepts.concept5" type="date" ref="regimenStartDate" class="form-control" @focus="setCD4MinMaxDate" @click="setCD4MinMaxDate">
+                                        <input v-model="concepts.concept5" type="date" ref="regimenStartDate" class="form-control" @focus="setCD4MinMaxDate" @click="setCD4MinMaxDate" @blur="clearField(isHeightValid, 'concept5')">
                                     </div>
                                     <div class="col-md-6 mb-2">
 
@@ -514,25 +514,11 @@
                     }
                 });
 
-                // if (this.concepts.concept18 === 'Y')
-                // {
-                //     if(this.concepts.concept19 === ''){
-                //         //accept ART education done if Y but date is null
-                //     }
-                //     else if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)){
-                //         return this.$toast.error(`<strong>ART education date</strong> must not be after ART Regimen start`, 'Error', notificationSystem.options.error)
-                //     }
-                // }
+                let finalPayload = [];
+                finalPayload.push(...payloadForStatus);
+                finalPayload.push(...payloadForConfirmatory);
 
-                //  if(!this.evaluateDateBeforeARTStartDate(this.concepts.concept16, this.concepts.concept23)){
-                //     return this.$toast.error(`<strong>ART start date</strong> must not be after ART test date`, 'Error', notificationSystem.options.error)
-                // }else{
-                    let finalPayload = [];
-                    finalPayload.push(...payloadForStatus);
-                    finalPayload.push(...payloadForConfirmatory);
-
-                    this.handlePost(finalPayload, message);
-                // }
+                this.handlePost(finalPayload, message);
                 
             },
             getObservation (conceptID)
@@ -578,7 +564,7 @@
                 patientCardData.map(({concept: {conceptID}, value}, key) => {
                     this.concepts[`concept${conceptID}`] = value
                 })
-                if (this.concepts.concept1 !== null) 
+                if (this.concepts.concept1 !== '') 
                     this.selectedConditions = JSON.parse(this.concepts.concept1)
 
                 this.loadARTstartDate(this.concepts.concept23)

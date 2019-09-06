@@ -611,7 +611,7 @@
                     this.concepts[`concept${conceptID}`] = value
                 })
 
-                if (this.concepts.concept1 !== null) 
+                if (this.concepts.concept1 !== '') 
                     this.selectedConditions = JSON.parse(this.concepts.concept1)
 
                 this.loadARTstartDate(this.concepts.concept23)
@@ -829,7 +829,7 @@
             patientCardData : function (value) {
                 this.fillConceptObservations(value)
                 
-                if (this.concepts.concept1 !== null)
+                if (this.concepts.concept1 !== '')
                     this.selectedConditions = JSON.parse(this.concepts.concept1)
 
                 this.setMinMax()
