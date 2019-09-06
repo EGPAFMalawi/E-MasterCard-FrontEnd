@@ -3,6 +3,7 @@ import { start } from 'pretty-error';
 const state = {
     startDate: null,
     conditions: [
+        {value: 'Blank', text: 'Blank', stage: 0},
         {value: 'Asymptomatic', text: 'Asymptomatic', stage: 1},
         {value: 'Persistent generalized lymphadenopathy', text: 'Persistent generalized lymphadenopathy', stage: 1}, 
         {value: 'Moderate unexplained weight loss (<10% ofpresumed or measured body weight)', text: 'Moderate unexplained weight loss (<10% ofpresumed or measured body weight)', stage: 2},
