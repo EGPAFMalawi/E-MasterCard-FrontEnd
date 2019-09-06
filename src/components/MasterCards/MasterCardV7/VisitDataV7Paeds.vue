@@ -184,7 +184,11 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" :class="{'is-invalid-custom': observations['concept40Encounter'+encounter.encounterID].value > 180}" type="number" min="15" max="360" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" 
+                            class="form-control tb-form" 
+                            :class="{'is-invalid-custom': (observations['concept40Encounter'+encounter.encounterID].value < 30 || observations['concept40Encounter'+encounter.encounterID].value > 180)}" 
+                            type="number" min="30" max="180" onblur="validity.valid||(value='');" 
+                            :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -229,7 +233,8 @@
                         <input v-model="observations['concept47Encounter'+encounter.encounterID].value" class="form-control tb-form"  type="date" 
                         :disabled="isObsOutcome(observations['concept32Encounter'+encounter.encounterID].isOutcome, observations['concept48Encounter'+encounter.encounterID].value)" 
                         @click="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)" 
-                        @focus="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)">
+                        @focus="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)"
+                        @change="validate4months($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)" >
                     </td>
                     <td style="width:60px">
                         <select v-model="observations['concept48Encounter'+encounter.encounterID].value" class="form-control tb-form"
@@ -307,7 +312,7 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form"  :class="{'is-invalid-custom': concepts.concept40 > 180}" type="number" min="15" max="360" onblur="validity.valid||(value='');">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form"  :class="{'is-invalid-custom': (concepts.concept40 < 30|| concepts.concept40 > 180)}" type="number" min="30" max="180" onblur="validity.valid||(value='');">
                     </td>
                     <td style="width:30px">
                         <select :disabled="!isVisit && isOutcome"  v-model="concepts.concept41" class="form-control tb-form">
@@ -350,7 +355,11 @@
                         <input :disabled="!isVisit && isOutcome"  v-model="concepts.concept46" class="form-control tb-form"  type="number" min="0" step="1" oninput="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input id="nad" :disabled="!isVisit && isOutcome" :required="!isVisitOutcome"  @click="setAppointmentMinMax" @focus="setAppointmentMinMax" v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date">
+                        <input id="nad" :disabled="!isVisit && isOutcome" :required="!isVisitOutcome" 
+                            @click="setAppointmentMinMax($event, encounterDatetime)" 
+                            @focus="setAppointmentMinMax($event, encounterDatetime)" 
+                            @change="validate4months($event, encounterDatetime)" 
+                            v-model="concepts.concept47" ref="appointmentDate" class="form-control tb-form"  type="date">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
                     <td>
@@ -701,6 +710,14 @@
                     1)
                 
                 this.appointmentMaxDate(e, encounterDatetime, 180)
+            },
+            validate4months(e, encounterDatetime){
+                if (compareDates(new Date(e.target.value), addDays(new Date(encounterDatetime), 120))){
+                    this.$toast.warning(`Next appointment date is greater than 4 months`, 'Caution', notificationSystem.options.warning)
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
             },
             validateWeight(e){
                 this.isWeightValid = validateDate(e)

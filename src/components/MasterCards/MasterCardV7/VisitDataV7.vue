@@ -172,7 +172,9 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" :class="{'is-invalid-custom': observations['concept40Encounter'+encounter.encounterID].value > 180}" step="1" type="number" min="15" max="360" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" 
+                            :class="{'is-invalid-custom': (observations['concept40Encounter'+encounter.encounterID].value < 30 || observations['concept40Encounter'+encounter.encounterID].value > 180)}" 
+                            step="1" type="number" min="30" max="180" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -218,6 +220,7 @@
                         :disabled="isObsOutcome(observations['concept32Encounter'+encounter.encounterID].isOutcome, observations['concept48Encounter'+encounter.encounterID].value)" 
                         @click="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)" 
                         @focus="setAppointmentMinMax($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)"
+                        @change="validate4months($event, observations['concept32Encounter'+encounter.encounterID].encounterDatetime)"
                         
                         >
                     </td>
@@ -299,7 +302,7 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" min="15" max="360" step="1" :class="{'is-invalid-custom': concepts.concept40 > 180}" onblur="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" :class="{'is-invalid-custom': (concepts.concept40 < 30|| concepts.concept40 > 180)}" step="1" min="30" max="180" onblur="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="concepts.concept41" class="form-control tb-form" :disabled="!isVisit && isOutcome">
@@ -345,6 +348,7 @@
                         <input :required="!isVisitOutcome" id="nad" v-model="concepts.concept47" 
                         @click="setAppointmentMinMax($event, encounterDatetime)" 
                         @focus="setAppointmentMinMax($event, encounterDatetime)" 
+                        @change="validate4months($event, encounterDatetime)" 
                         class="form-control tb-form"  type="date" :disabled="!isVisit && isOutcome">
                         <span>{{ errors.first('Next Visit')}}</span>
                     </td>
@@ -711,7 +715,14 @@
                     1)
                 this.appointmentMaxDate(e, encounterDatetime, 180)
             },
-            
+            validate4months(e, encounterDatetime){
+                if (compareDates(new Date(e.target.value), addDays(new Date(encounterDatetime), 120))){
+                    this.$toast.warning(`Next appointment date is greater than 4 months`, 'Caution', notificationSystem.options.warning)
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
             validateWeight(e){
                 this.isWeightValid = validateDate(e)
                 if (this.isWeightValid){

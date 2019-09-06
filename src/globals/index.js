@@ -50,9 +50,11 @@ export const  notificationSystem = {
         position: "bottomRight"
       },
       warning: {
-        position: "topLeft"
+        timeout: 15000,
+        position: "bottomLeft"
       },
       error: {
+        timeout: 15000,
         position: "topRight"
       },
       question: {
