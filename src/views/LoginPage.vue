@@ -4,8 +4,10 @@
          <div class="container my-5 ">
              <div class="row d-flex justify-content-center">
                  <div>
-                    <h3>E-Mastercard App</h3>
+                    <h3>E-Mastercard V3</h3>
+                    <img class="logo-mca" src="../assets/699px-Coat_of_arms_of_Malawi.svg.png" alt="">
                  </div>
+                 
                   
              </div>
            </div>

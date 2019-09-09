@@ -301,6 +301,9 @@ td .selection {
   padding: 0.375rem 0.3rem !important
 }
 
+.logo-mca{
+  max-width: 146px;
+}
 @media (max-width: 1367px){
   body{
     zoom: 0.8;

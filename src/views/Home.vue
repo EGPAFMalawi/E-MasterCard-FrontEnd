@@ -679,11 +679,11 @@ export default {
                     this.$toast.success(`Success! Patient Details Saved!`, 'OK', notificationSystem.options.success)
                     this.pullPatient(this.patient.patientID)
                     this.setAgeAtARTInit(this.concepts.concept58)
-                    this.setAgePeriod(this.concepts.concept59)
                     this.setDateOfFirstStartingART(this.concepts.concept57)
                     this.setRegistrationData({
                         registrationDate: this.concepts.concept56,
-                        registrationType: this.concepts.concept55
+                        registrationType: this.concepts.concept55,
+                        period: this.concepts.concept59
                     })
                     this.$router.push('/patients/show/card')
                 })
