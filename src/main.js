@@ -14,7 +14,6 @@ import VeeValidate from 'vee-validate'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner, faLock, faCheck, faSearch, faPlus, faSave, faCog} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { notificationSystem } from './globals'
 import VueIziToast from "vue-izitoast";
 import VueMoment from 'vue-moment'
 import handleErrors from './helpers/handleErrors'
@@ -41,7 +40,7 @@ Vue.mixin({
     data(){
         return {
             APIHosts : {
-                art : 'http://localhost/api/v1'
+                art : 'http://localhost:8000/api/v1'
             },
             messageStr: 'Hello'
         }
@@ -54,7 +53,7 @@ Vue.mixin({
         },
         openFullscreen(elem) {
             if (elem.requestFullscreen) {
-                elem.requestFullscreen().catch(err => {})
+                elem.requestFullscreen().catch(() => {})
             } else if (elem.mozRequestFullScreen) { /* Firefox */
                 elem.mozRequestFullScreen();
             } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */

@@ -1,5 +1,5 @@
 <template>
-        <form v-on:submit.prevent="addNewVisit">
+        <form v-on:submit.prevent="addNewVisit" ref="visitForm">
         <div class="table-responsive">
             <table class="table visit-table">
                 <thead class="thead-dark">
@@ -123,7 +123,7 @@
                     <td>
                        <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime" 
                         @click="setEventDateMinMax" @focus="setEventDateMinMax"
-                        @change="calcObsMonthsOnART($event, 'concept44Encounter'+encounter.encounterID)"
+                        @change="calcObsMonthsOnART($event, 'concept44Encounter'+encounter.encounterID)" @blur="validateVisitDAte"
                         class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
@@ -679,10 +679,12 @@
                 this.setMinDate(
                     e,
                     this.startDate ? this.startDate :
-                        compareDates(new Date(this.patient.person.birthdate),new Date('1985-01-01')) ?
-                        this.patient.person.birthdate : '1985-01-01'
+                        compareDates(new Date(this.patient.person.birthdate),new Date('2000-01-01')) ?
+                        this.patient.person.birthdate : '2000-01-01'
                 )
                 this.setMaxDate(e)
+
+                
             },
             
             setMinDate(e, date){
@@ -710,8 +712,8 @@
                 this.appointmentMinDate(
                     e, 
                     encounterDatetime !== null ? encounterDatetime : (
-                        compareDates(new Date(this.patient.person.birthdate), new Date('1985-01-01')) ? 
-                        this.patient.person.birthdate : '1985-01-01' ), 
+                        compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')) ? 
+                        this.patient.person.birthdate : '2000-01-01' ), 
                     1)
                 this.appointmentMaxDate(e, encounterDatetime, 180)
             },
@@ -732,6 +734,16 @@
                     e.target.classList.remove('is-invalid-custom')
                 }
             },
+            validateVisitDAte(e){
+                this.isVDateValid = validateDate(e)
+                if (this.isVDateValid){
+                    document.forms[3].reportValidity()
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.setCustomValidity('')
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
             clearField(isInvalid, concept, isConcept = true){
                 if (isInvalid && isConcept){
                     this.concepts[concept] = ''
@@ -745,7 +757,6 @@
                 const tds = Array.from(e.target.parentNode.parentNode.children)
                 tds[13].children[0].value = this.calculateMonthsOnART(this.startDate, e.target.value)
                 this.observations[ob].value = this.calculateMonthsOnART(this.startDate, e.target.value)
-
             },
             disableNextAppointment(e, ob){
                 if (this.nextAppointmentDateEdit === null)
@@ -783,14 +794,6 @@
                     return false
                 }
             }
-            
-            // setEventDateMini(e){
-            //     this.setMinDate(
-            //         e,
-            //         compareDates(new Date(this.patient.person.birthdate),new Date('1985-01-01')) ?
-            //         this.patient.person.birthdate : '1985-01-01'
-            //     )
-            // }
         },
         data: () => {
             return {
@@ -831,7 +834,9 @@
                 isVisitOutcome: false,
                 voidObs: [],
                 isltLDL: false,
-                isWeightValid: false
+                isWeightValid: false,
+                isVDateValid: false,
+                form: null
             }
         },
         created() {

@@ -1,6 +1,4 @@
-import { reject } from "q";
-import Vue from 'vue'
-
+/* eslint-disable no-console */
 export const  notificationSystem = {
     options: {
       show: {
@@ -8,36 +6,36 @@ export const  notificationSystem = {
         icon: "icon-person",
         position: "topCenter",
         progressBarColor: "rgb(0, 255, 184)",
-        buttons: [
-          [
-            "<button>Ok</button>",
-            (instance, toast) => {
-              alert("Hello world!");
-            },
-            true
-          ],
-          [
-            "<button>Close</button>",
-            (instance, toast) => {
-              instance.hide(
-                {
-                  transitionOut: "fadeOutUp",
-                  onClosing: function(instance, toast, closedBy) {
-                    console.info("closedBy: " + closedBy);
-                  }
-                },
-                toast,
-                "buttonName"
-              );
-            }
-          ]
-        ],
-        onOpening: function(instance, toast) {
-          console.info("callback abriu!");
-        },
-        onClosing: function(instance, toast, closedBy) {
-          console.info("closedBy: " + closedBy);
-        }
+        // buttons: [
+        //   [
+        //     "<button>Ok</button>",
+        //     (instance, toast) => {
+        //       alert("Hello world!");
+        //     },
+        //     true
+        //   ],
+        //   [
+        //     "<button>Close</button>",
+        //     (instance, toast) => {
+        //       instance.hide(
+        //         {
+        //           transitionOut: "fadeOutUp",
+        //           onClosing: function(instance, toast, closedBy) {
+        //             console.info("closedBy: " + closedBy);
+        //           }
+        //         },
+        //         toast,
+        //         "buttonName"
+        //       );
+        //     }
+        //   ]
+        // ],
+        // onOpening: function(instance, toast) {
+        //   console.info("callback abriu!");
+        // },
+        // onClosing: function(instance, toast, closedBy) {
+        //   console.info("closedBy: " + closedBy);
+        // }
       },
       ballon: {
         balloon: true,

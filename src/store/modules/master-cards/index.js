@@ -159,10 +159,8 @@ const actions = {
         commit('setDOFSA', param)
     },
     setSearchParam({commit}, param){
-        return new Promise((resolve, reject) => {
-            commit('setParam', param)
-            resolve(param)
-        })
+        commit('setParam', param)
+        return Promise.resolve(param)
     },
     clearPatients({commit}){
         commit('setPatients', [])
@@ -240,6 +238,7 @@ const actions = {
             commit('setPatient', data)
         }
         catch(error){
+           // eslint-disable-next-line no-console
            console.error(error)
         }
     }

@@ -1,5 +1,3 @@
-import { start } from 'pretty-error';
-
 const state = {
     startDate: null,
     conditions: [

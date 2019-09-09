@@ -199,7 +199,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6 mb-2">
                                         <label>CD4</label>
-                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" max="1000" @keyup="validateCD4" @change="validateCD4" @blur="clearField(isCD4Valid, 'concept4')" required>
+                                        <input v-model="concepts.concept4" type="number" class="form-control" placeholder="CD4" min="1" max="1200" @keyup="validateCD4" @change="validateCD4" @blur="clearField(isCD4Valid, 'concept4')" required>
                                         <b-form-invalid-feedback v-if="isCD4Valid" :state="!isCD4Valid">
                                             Invalid CD4 value
                                         </b-form-invalid-feedback> 
@@ -312,17 +312,17 @@
                             
                         </div>
 
-                        <div class="form-row">
+                        <div class="form-row is-disabled-section">
                             <div class="col-md-12 mb-2">
                                     <label >ART education done</label>
                                     <div class="form-inline fit-2-input-fields">
-                                            <select v-model="concepts.concept18" class="form-control" >
+                                            <select v-model="concepts.concept18" class="form-control" disabled>
                                                 <option :value="null" disabled>Y for yes, N for no</option>
                                                 <option value="Blank">Blank</option>
                                                 <option value="N">N</option>
                                                 <option value="Y">Y</option>
                                             </select>
-                                           <input @click="setTestDateMinMax" @focus="setTestDateMinMax"  @keyup="validateEduDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" :class="{'is-invalid': isEduDateValid}">
+                                           <input @click="setTestDateMinMax" @focus="setTestDateMinMax"  @keyup="validateEduDate" v-if="concepts.concept18 === 'Y'" v-model="concepts.concept19" type="date" class="form-control" :class="{'is-invalid': isEduDateValid}" disabled>
                                     </div>
                                     <b-form-invalid-feedback v-if="concepts.concept19 !== '' && concepts.concept18 === 'Y'" :state="evalEduDate">
                                         Please make sure that the education is before the ART regimen start date 
@@ -546,7 +546,7 @@
                 patientCardData.map(({concept: {conceptID}, value}, key) => {
                     this.concepts[`concept${conceptID}`] = value
                 })
-                if (this.concepts.concept1 !== '') 
+                if (this.concepts.concept1 !== null) 
                     this.selectedConditions = JSON.parse(this.concepts.concept1)
 
                 this.loadARTstartDate(this.concepts.concept23)
@@ -721,7 +721,7 @@
                 selectedConditions: [],
                 lastSelectCondition: {},
                 concepts : {
-                    concept1 : '',
+                    concept1 : null,
                     concept2 : '',
                     concept3 : '',
                     concept4 : '',

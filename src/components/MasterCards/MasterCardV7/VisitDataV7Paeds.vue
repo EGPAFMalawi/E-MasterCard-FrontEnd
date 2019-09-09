@@ -137,6 +137,7 @@
                         <input v-model="observations['concept32Encounter'+encounter.encounterID].encounterDatetime"
                         @click="setEventDateMinMax" @focus="setEventDateMinMax"
                         @change="calcObsMonthsOnART($event, 'concept44Encounter'+encounter.encounterID)"
+                        @blur="validateVisitDAte"
                         class="form-control tb-form"  type="date" >
                     </td>
                     <td style="width:60px">
@@ -186,9 +187,9 @@
                     <td style="width:60px">
                         <input v-model="observations['concept40Encounter'+encounter.encounterID].value" 
                             class="form-control tb-form" 
-                            :class="{'is-invalid-custom': (observations['concept40Encounter'+encounter.encounterID].value < 30 || observations['concept40Encounter'+encounter.encounterID].value > 180)}" 
-                            type="number" min="30" max="180" onblur="validity.valid||(value='');" 
-                            :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                            @keyup="validateARVPills" @blur="clearField(isPillsValid, 'concept40Encounter'+encounter.encounterID, false)"
+                            type="number" min="30" max="540" onblur="validity.valid||(value='');" 
+                            :disabled="observations[' concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -312,7 +313,7 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form"  :class="{'is-invalid-custom': (concepts.concept40 < 30|| concepts.concept40 > 180)}" type="number" min="30" max="180" onblur="validity.valid||(value='');">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form" @keyup="validateARVPills" @blur="clearField(isPillsValid, 'concept40')" type="number" min="30" max="540" onblur="validity.valid||(value='');">
                     </td>
                     <td style="width:30px">
                         <select :disabled="!isVisit && isOutcome"  v-model="concepts.concept41" class="form-control tb-form">
@@ -674,8 +675,8 @@
                 this.setMinDate(
                     e,
                     this.startDate ? this.startDate :
-                        compareDates(new Date(this.patient.person.birthdate),new Date('1985-01-01')) ?
-                        this.patient.person.birthdate : '1985-01-01'
+                        compareDates(new Date(this.patient.person.birthdate),new Date('2000-01-01')) ?
+                        this.patient.person.birthdate : '2000-01-01'
                 )
                 this.setMaxDate(e)
             },
@@ -705,8 +706,8 @@
                 this.appointmentMinDate(
                     e, 
                     encounterDatetime !== null ? encounterDatetime : (
-                        compareDates(new Date(this.patient.person.birthdate), new Date('1985-01-01')) ? 
-                        this.patient.person.birthdate : '1985-01-01' ), 
+                        compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')) ? 
+                        this.patient.person.birthdate : '2000-01-01' ), 
                     1)
                 
                 this.appointmentMaxDate(e, encounterDatetime, 180)
@@ -732,6 +733,25 @@
                 this.isHeightValid = validateDate(e)
                 if (this.isHeightValid){
                     this.$toast.warning(`Height value if outside range (50-200)`, 'Caution', notificationSystem.options.warning)
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
+            validateVisitDAte(e){
+                this.isVDateValid = validateDate(e)
+                if (this.isVDateValid){
+                    document.forms[3].reportValidity()
+                    e.target.classList.add('is-invalid-custom')
+                }else{
+                    e.target.setCustomValidity('')
+                    e.target.classList.remove('is-invalid-custom')
+                }
+            },
+            validateARVPills(e){
+                this.isPillsValid = validateDate(e)
+                if (parseInt(e.target.value) < 30 || parseInt(e.target.value) > 180){
+                    // this.$toast.warning(`Height value if outside range (50-200)`, 'Caution', notificationSystem.options.warning)
                     e.target.classList.add('is-invalid-custom')
                 }else{
                     e.target.classList.remove('is-invalid-custom')
@@ -818,7 +838,8 @@
                 isVisit: false,
                 isVisitOutcome: false,
                 isWeightValid: false,
-                isHeightValid: false
+                isHeightValid: false,
+                isPillsValid: false
             }
         },
         created() {
