@@ -336,25 +336,24 @@ export default {
             'loadMasterCardDetails',
             'setAgeAtARTInit',
             'setDateOfFirstStartingART',
-            'patchPatient'
+            'patchPatient',
+            'setAgePeriod',
+            'setRegistrationData'
         ]),
         async search(e){
-    
-                let payload = { search : this.searchParameter }
-                let endpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
+            let payload = { search : this.searchParameter }
+            let endpoint = `${this.APIHosts.art}/${this.BASE_URL}`;
 
+            this.patients = []
+
+            if(this.searchParameter !== '' && this.searchParameter !== undefined){
+                const {data: {data}} = await authResource().post(endpoint, payload)
+                this.patients = data
+            }
+            else{
+                this.clearPatients()
                 this.patients = []
-    
-                if(this.searchParameter !== '' && this.searchParameter !== undefined){
-                    const {data: {data}} = await authResource().post(endpoint, payload)
-                    this.patients = data
-                }
-                else{
-                    this.clearPatients()
-                    this.patients = []
-                }
-                
-            
+            }
         },
         debounce(fn, delay) {
             let timer = null;
@@ -376,11 +375,11 @@ export default {
         },
         promptOnRegistration(){
             const happen = {
-                    onClosing: (instance, toast, closedBy) => {
-                        if (closedBy === 'yes'){
-                            this.handlePatientRegistration()
-                        }
+                onClosing: (instance, toast, closedBy) => {
+                    if (closedBy === 'yes'){
+                        this.handlePatientRegistration()
                     }
+                }
             }
 
             const buttons = {
@@ -388,14 +387,14 @@ export default {
                 [
                     "<button><b>Yes</b></button>",
                     function(instance, toast) {
-                    instance.hide({ transitionOut: "fadeOut" }, toast, "yes");
+                        instance.hide({ transitionOut: "fadeOut" }, toast, "yes");
                     },
                     true
                 ],
                 [
                     "<button>No</button>",
                     function(instance, toast) {
-                    instance.hide({ transitionOut: "fadeOut" }, toast, "no");
+                        instance.hide({ transitionOut: "fadeOut" }, toast, "no");
                     }
                 ]
                 ]
@@ -468,13 +467,6 @@ export default {
             }
 
         },
-        addClinicalRegistrationDetails(){
-            const payload = {
-                id: 1,
-                name: 'Registration Details',
-
-            }
-        },
         addARTNumber(){
             const payload = {
                 identifier: this.identifier,
@@ -521,7 +513,6 @@ export default {
         loadDistricts(){
             let dhisAPIEndpoint = `${this.APIHosts.art}/districts`;
 
-
             authResource().get(dhisAPIEndpoint)
                 .then(({data: {data}})=>{
                     this.isLoading = false;
@@ -534,7 +525,6 @@ export default {
         },
         loadTAs(districtId){
             let dhisAPIEndpoint = `${this.APIHosts.art}/districts/${districtId}/traditional-authorities`;
-
 
             authResource().get(dhisAPIEndpoint)
                 .then(({data: {data}})=>{
@@ -565,17 +555,18 @@ export default {
         },
         setARTInitDateMinMax(e){
             this.setDOBMax(e)
-            if(this.birthdate !== null)
+            if(this.birthdate !== null){
                 this.setMinDate(
                     e, 
                     compareDates(new Date(this.birthdate), new Date('2000-01-01')) 
                     ? this.birthdate : '2000-01-01')
-            else if (this.patient.person.birthdate !== null)
+            }
+            else if (this.patient.person.birthdate !== null){
                 this.setMinDate(
                     e, 
-                    compareDates(new Date(this.patient.person.birthdate, new Date('2000-01-01')) 
+                    compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')) 
                     ? this.patient.person.birthdate : '2000-01-01')
-                )
+            }
             else
                 this.setMinDate(e, '2000-01-01')
         },
@@ -688,8 +679,12 @@ export default {
                     this.$toast.success(`Success! Patient Details Saved!`, 'OK', notificationSystem.options.success)
                     this.pullPatient(this.patient.patientID)
                     this.setAgeAtARTInit(this.concepts.concept58)
+                    this.setAgePeriod(this.concepts.concept59)
                     this.setDateOfFirstStartingART(this.concepts.concept57)
-                    
+                    this.setRegistrationData({
+                        registrationDate: this.concepts.concept56,
+                        registrationType: this.concepts.concept55
+                    })
                     this.$router.push('/patients/show/card')
                 })
                 .catch((error)=>{
@@ -722,9 +717,11 @@ export default {
                     let birthDateObj = new Date(this.patient.person.birthdate)
                     let diff_ms = new Date(this.concepts.concept57) - birthDateObj.getTime();
                     let age_dt = new Date(diff_ms); 
-                
-                    this.concepts.concept58 = Math.abs(age_dt.getUTCFullYear() - 1970)
-                    this.concepts.concept59 = 'Years'
+
+                    return { 
+                        age: Math.abs(age_dt.getUTCFullYear() - 1970),
+                        time: 'Years'
+                    }
             }
         },
         handleAgeEstimationMonths(){
@@ -739,8 +736,10 @@ export default {
                 const monthDiff = startDateObj.getMonth() - birthDateObj.getMonth()
                 const yearDiff = startDateObj.getFullYear() - birthDateObj.getFullYear()
 
-                this.concepts.concept58 =  monthDiff + (12 * yearDiff)
-                this.concepts.concept59 = 'Months'
+                return {
+                    age: monthDiff + (12 * yearDiff),
+                    time: 'Months'
+                }
             }
         },
         handleDoBEstimation(){
@@ -753,52 +752,52 @@ export default {
             }
         },
         calculatedBirthDate(ageType){
-               const date = new Date(this.concepts.concept57)
-               const age = parseInt(this.concepts.concept58)
+            const date = new Date(this.concepts.concept57)
+            const age = parseInt(this.concepts.concept58)
 
-               if (ageType === 'Years'){
-                    const birthYear = date.getFullYear() - age
-                    const birthdate = new Date(birthYear.toString())
-                    return birthdate.toISOString().split('T')[0]
-               }else if(ageType === 'Months'){
-                    date.setMonth(date.getMonth() - age);
-                    return date.toISOString().split('T')[0]
-               }
-               
-            },
+            if (ageType === 'Years'){
+                const birthYear = date.getFullYear() - age
+                const birthdate = new Date(birthYear.toString())
+                return birthdate.toISOString().split('T')[0]
+            }else if(ageType === 'Months'){
+                date.setMonth(date.getMonth() - age);
+                return date.toISOString().split('T')[0]
+            }
+            
+        },
 
         updatePatientDoB (){
-                if (this.estimatedDoB !== null){
-                    let payload = {
-                        
-                        birthdate : this.estimatedDoB,
-                        birthdate_estimated: 1,
-                        given_name : this.patient.person.personName.given,
-                        family_name : this.patient.person.personName.family,
-                        gender : this.patient.person.gender,
-                    };
+            if (this.estimatedDoB !== null){
+                let payload = {
                     
-                    let endpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
-                    this.patchPatient({endpoint, payload})
-                        .then(({response: {data}})=>{
-                            this.selectPatient(data)
-                            this.isLoading = false
-                            this.$toast.success('DoB Saved', 'OK', notificationSystem.options.success)
-                        })
-                        .catch(({response: {data: {errors}, data}}) => {
-                            return Object.values(errors).forEach(error => {
-                                this.$toast.error(
-                                    `${data.message}, 
-                                    ${error[0]}`, 
-                                    'Error', 
-                                    notificationSystem.options.error
-                                    )
-                            });
-                                
-                        }) 
-                }
+                    birthdate : this.estimatedDoB,
+                    birthdate_estimated: 1,
+                    given_name : this.patient.person.personName.given,
+                    family_name : this.patient.person.personName.family,
+                    gender : this.patient.person.gender,
+                };
+                
+                let endpoint = `${this.APIHosts.art}/patients/${this.patient.patientID}`;
+                this.patchPatient({endpoint, payload})
+                    .then(({response: {data}})=>{
+                        this.selectPatient(data)
+                        this.isLoading = false
+                        this.$toast.success('DoB Saved', 'OK', notificationSystem.options.success)
+                    })
+                    .catch(({response: {data: {errors}, data}}) => {
+                        return Object.values(errors).forEach(error => {
+                            this.$toast.error(
+                                `${data.message}, 
+                                ${error[0]}`, 
+                                'Error', 
+                                notificationSystem.options.error
+                                )
+                        });
+                            
+                    }) 
+            }
 
-            },
+        },
         clearData(){
             this.art_number = ''
             this.given_name = ''
@@ -843,7 +842,6 @@ export default {
         this.loadRegions()
         this.loadDistricts()
         this.getMasterCards()
-        console.log(this.patients[0])
     },
     mounted() {
         this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
@@ -954,15 +952,20 @@ export default {
         },
         'concepts.concept57': function(){
             if (this.selectedMasterCardVersion === 7){
-                this.concepts.concept59 = 'Years'
-                this.handleAgeEstimation()
+                if(this.handleAgeEstimationMonths().age > 24){
+                    this.concepts.concept58 = this.handleAgeEstimation().age
+                    this.concepts.concept59 = 'Years'
+                }else{
+                    this.concepts.concept58 = this.handleAgeEstimationMonths().age
+                    this.concepts.concept59 = this.handleAgeEstimationMonths().time
+                }
                 this.handleDoBEstimation()
             }
             else if(this.selectedMasterCardVersion === 8){
+                this.concepts.concept58 =  this.handleAgeEstimationMonths().age
                 this.concepts.concept59 = 'Months'
-                this.handleAgeEstimationMonths()
+                
                 this.handleDoBEstimation()
-                console.log( this.concepts.concept59 )
             }
 
             if (this.watchRegStart === true && (this.concepts.concept56 !== this.concepts.concept57)){
@@ -984,12 +987,17 @@ export default {
         },
         selectedMasterCardVersion: function(){
             if (this.selectedMasterCardVersion === 7){
-                this.handleAgeEstimation()
-                this.concepts.concept59 = 'Years'
+                if(this.handleAgeEstimationMonths().age > 24){
+                    this.concepts.concept58 = this.handleAgeEstimation().age
+                    this.concepts.concept59 = 'Years'
+                }else{
+                    this.concepts.concept58 = this.handleAgeEstimationMonths().age
+                    this.concepts.concept59 = this.handleAgeEstimationMonths().time
+                }
             }
             else if(this.selectedMasterCardVersion === 8){
-                this.handleAgeEstimationMonths()
-                 this.concepts.concept59 = 'Months'
+                this.concepts.concept58 =  this.handleAgeEstimationMonths().age
+                this.concepts.concept59 = 'Months'
             }
         },
         'concepts.concept58': function(){

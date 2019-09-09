@@ -254,30 +254,30 @@
                         </div>                      
                     </div>
 
-                            <div class="form-row">
-                                    <div class="col-md-6 mb-2">
-                                        <label >Age at Initiation</label>
-                                        <div class="form-inline fit-2-input-fields">
-                                        <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
-                                            <select class="form-control" v-model="concepts.concept54">
-                                                <option value="Months">Months</option>
-                                                <option value="Years">Years</option>
-                                            </select>
-                                        </div>
-                                            <!-- <button v-on:click="estimateAgeAtInitiation" class="btn btn-outline-primary my-1">Estimate</button> -->
-                                    </div>
-                                    <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
-                                            <label >Last ARVs (type/date)</label>
-                                            <div class="form-inline fit-2-input-fields">
-                                                <select  class="form-control" v-model="concepts.concept13">
-                                                    <option value="Blank">Blank</option>
-                                                    <option v-for="regimen in regimens" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
-                                                </select>
-                                                
-                                                <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control no-padding" required>
-                                            </div>
-                                    </div>    
+                    <div class="form-row">
+                        <div class="col-md-6 mb-2">
+                            <label >Age at Initiation</label>
+                            <div class="form-inline fit-2-input-fields">
+                            <input v-model="concepts.concept8" type="number" min="1" step="1" oninput="validity.valid||(value='');" class="form-control" placeholder="Age" required>
+                                <select class="form-control" v-model="concepts.concept54">
+                                    <option value="Months">Months</option>
+                                    <option value="Years">Years</option>
+                                </select>`
                             </div>
+                                <!-- <button v-on:click="estimateAgeAtInitiation" class="btn btn-outline-primary my-1">Estimate</button> -->
+                        </div>
+                        <div v-if="concepts.concept12 === 'Y'" class="col-md-6 mb-2">
+                            <label >Last ARVs (type/date)</label>
+                            <div class="form-inline fit-2-input-fields">
+                                <select  class="form-control" v-model="concepts.concept13">
+                                    <option value="Blank">Blank</option>
+                                    <option v-for="regimen in regimens" v-bind:key="regimen.value" :value="regimen.value">{{regimen.title}}</option>
+                                </select>
+                                
+                                <input  v-model="concepts.concept14" type="date" ref="regimenStartDate" class="form-control no-padding" required>
+                            </div>
+                        </div> 
+                    </div>
                 </form>
             </div>
         </div>
@@ -767,7 +767,7 @@
                     concept6 : '',
                     concept7 : '',
                     concept8 : '', // age at initiation
-                    concept9 : '',
+                    concept9 : '', // age period
                     concept10 : '',
                     concept11 : '',
                     concept12 : '',
@@ -804,6 +804,7 @@
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
+            this.concepts.concept54 = this.autofill.period || ''
         },
         watch: {
             encounterTypes : function (value) {

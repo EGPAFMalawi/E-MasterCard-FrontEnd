@@ -5,13 +5,15 @@ const state = {
     searchParam: '',
     dateOfFirstStartingART: null, //maps to ART StartDate concept
     ageAtARTInit: null, //maps to ageAtInit concept
+    period: null, // map to age at init period concept
+
     patients: [],
     patient: [],
     regPatientId: null,
     patientCard: {},
     patientCardData: [],
     initiationData: {},
-    registrationData: {},
+    registrationData: null,
     masterCardDetails: {},
     testDate: null,
     startDate: null,
@@ -134,9 +136,11 @@ const getters = {
     masterCardDetails: state => state.masterCardDetails,
     dateOfFirstStartingART: ({dateOfFirstStartingART}) => dateOfFirstStartingART, //maps to ART StartDate concept
     ageAtARTInit: ({ageAtARTInit}) => ageAtARTInit, //maps to ageAtInit concept
+    period: ({period}) => period, //maps to ageAtInit period concept 
     testDate: ({testDate}) => testDate,
     startDate: ({startDate}) => startDate,
     regStartDate: ({regStartDate}) => regStartDate,
+    registrationData: ({registrationData}) => registrationData
 }
 
 const actions = {
@@ -154,6 +158,9 @@ const actions = {
     },
     setAgeAtARTInit({commit}, param){
         commit('setARTInitAge', param)
+    },
+    setAgePeriod({commit}, param){
+        commit('setAgePeriod', param)
     },
     setDateOfFirstStartingART({commit}, param){
         commit('setDOFSA', param)
@@ -241,12 +248,18 @@ const actions = {
            // eslint-disable-next-line no-console
            console.error(error)
         }
+    },
+    setRegistrationData({commit}, param){
+        commit('setRegistrationData', param)
     }
 }
 
 const mutations = {
     setParam: (state, searchParam) => (
         state.searchParam = searchParam
+    ),
+    setRegistrationData: (state, registrationData) => (
+        state.registrationData = registrationData
     ),
     setPatients: (state, patients) => (state.patients = patients),
     setPatient: (state, patient) => (state.patient = patient),
@@ -267,6 +280,9 @@ const mutations = {
     },
     setARTInitAge: (state, ageAtARTInit) => {
         state.ageAtARTInit = ageAtARTInit
+    },
+    setAgePeriod: (state, period) => {
+        state.period = period
     },
     setTestDate: (state, testDate) => {
         state.testDate = testDate

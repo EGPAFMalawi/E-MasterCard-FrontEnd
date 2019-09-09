@@ -202,7 +202,8 @@
                     <td>
                         <select v-model="observations['concept42Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                             <option value="Blank">Blank</option>
-                            <option value="I">I (IPT Only)</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                         </select>
                     </td>
                     <td style="width:60px">
@@ -326,7 +327,8 @@
                     <td>
                         <select :disabled="!isVisit && isOutcome" v-model="concepts.concept42" class="form-control tb-form">
                             <option value="Blank">Blank</option>
-                            <option value="I">I (IPT Only)</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                         </select>
                     </td>
                     <td>
@@ -400,7 +402,7 @@
 
     export default {
         name: 'VisitDataV7Paeds',
-        props: ['encounterTypes', 'postPayload', 'patient', 'patientCard'],
+        props: ['autofill', 'encounterTypes', 'postPayload', 'patient', 'patientCard'],
         methods: {
             ...mapActions(['reloadPatient']),
             getPatientCardDetails (){
@@ -883,7 +885,8 @@
                 }
             },
             'startDate': function() { 
-                if (Object.values(this.observations).length < 1){
+                if (Object.values(this.observations).length < 1 && 
+                this.autofill.registrationType === 'First Time Initiation'){
                     const autodate = new Date(this.startDate)
                     this.encounterDatetime = autodate.toISOString().split('T')[0]
                 }

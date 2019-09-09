@@ -41,7 +41,11 @@
             }
         },
         methods: {
-            ...mapActions(['setDateOfFirstStartingART', 'setFormDoB','setAgeAtARTInit'])
+            ...mapActions([
+                'setDateOfFirstStartingART', 
+                'setFormDoB',
+                'setAgeAtARTInit'
+                ])
         },
         created() {
             if (!this.patient || !this.patientCard){
@@ -55,7 +59,10 @@
                 } : {},
                 this.ageAtARTInit !== null ? {
                     ageAtARTInit: this.ageAtARTInit
-                } : {})
+                } : {},
+                this.registrationDetails !== null ? 
+                this.registrationDetails : {}
+                )
             
             this.setDateOfFirstStartingART(null)
             this.setAgeAtARTInit(null)
@@ -67,8 +74,12 @@
                 'patientCard', 
                 'dateOfFirstStartingART', 
                 'formDoB', 
-                'ageAtARTInit'
+                'ageAtARTInit',
+                'registrationData'
             ])
+        },
+        destroyed() {
+            this.setRegistrationData(null)
         }
     }
 </script>
