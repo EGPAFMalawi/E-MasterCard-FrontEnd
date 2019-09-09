@@ -307,7 +307,8 @@
                         <input v-model="concepts.concept40" class="form-control tb-form"  
                             type="number"
                             @keyup="validateARVTablets($event, concepts.concept40)"
-                            step="1" min="30" max="600" @blur="clearField((concepts.concept40 < 30|| concepts.concept40 > 600), 'concept40')" :disabled="!isVisit && isOutcome">
+                            @blur="clearField((concepts.concept40 < 30|| concepts.concept40 > 600), 'concept40')"
+                            step="1" min="30" max="600" :disabled="!isVisit && isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="concepts.concept41" class="form-control tb-form" :disabled="!isVisit && isOutcome">

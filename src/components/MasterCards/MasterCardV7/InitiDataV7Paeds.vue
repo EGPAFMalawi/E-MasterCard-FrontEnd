@@ -648,19 +648,29 @@
                 this.concepts.concept3 = `Clinical Stage ${Math.max.apply(null, numArray)}`;
             },
             setTestDateMinMax(e){
-                setMinDate(e, this.patient.person.birthdate)
+                if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
+                    setMinDate(e, this.patient.person.birthdate)
+                else{
+                    setMinDate(e, '2001-01-01')
+                }
                 setMaxDate(e)
             },
             setStartDateMinMax(e){
-                setMinDate(e, this.patient.person.birthdate)
+                if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
+                    setMinDate(e, this.patient.person.birthdate)
+                else{
+                    setMinDate(e, '2001-01-01')
+                }
                 setMaxDate(e)
             },
             setCD4MinMaxDate(e){
-                if(this.startDate !== undefined){
+                if(this.startDate !== null){
                     setMinDate(e, this.startDate)
                 }
-                else if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01'))){
+                else if (compareDates(new Date(this.patient.person.birthdate), new Date('2001-01-01'))){
                     setMinDate(e, this.patient.person.birthdate)
+                }else{
+                    setMinDate(e, '2001-01-01')
                 }
                 setMaxDate(e)
             },
