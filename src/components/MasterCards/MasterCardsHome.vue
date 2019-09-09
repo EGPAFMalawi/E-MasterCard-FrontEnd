@@ -44,7 +44,8 @@
             ...mapActions([
                 'setDateOfFirstStartingART', 
                 'setFormDoB',
-                'setAgeAtARTInit'
+                'setAgeAtARTInit',
+                'setRegistrationData'
                 ])
         },
         created() {
