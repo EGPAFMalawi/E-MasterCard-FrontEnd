@@ -185,11 +185,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" 
-                            class="form-control tb-form" 
-                            @keyup="validateARVPills" @blur="clearField(isPillsValid, 'concept40Encounter'+encounter.encounterID, false)"
-                            type="number" min="30" max="540" onblur="validity.valid||(value='');" 
-                            :disabled="observations[' concept32Encounter'+encounter.encounterID].isOutcome">
+                        <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" 
+                            @keyup="validateARVTablets($event, observations['concept40Encounter'+encounter.encounterID].value)"
+                            @blur="clearField((observations['concept40Encounter'+encounter.encounterID].value < 30|| observations['concept40Encounter'+encounter.encounterID].value > 600), 'concept40Encounter'+encounter.encounterID, false)"
+                            step="1" type="number" min="30" max="600" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -314,7 +313,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form" @keyup="validateARVPills" @blur="clearField(isPillsValid, 'concept40')" type="number" min="30" max="540" onblur="validity.valid||(value='');">
+                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form" 
+                        @keyup="validateARVTablets($event, concepts.concept40)" 
+                        @blur="clearField((concepts.concept40 < 30|| concepts.concept40 > 600), 'concept40')" 
+                        type="number" min="30" max="600" onblur="validity.valid||(value='');">
                     </td>
                     <td style="width:30px">
                         <select :disabled="!isVisit && isOutcome"  v-model="concepts.concept41" class="form-control tb-form">
@@ -750,13 +752,19 @@
                     e.target.classList.remove('is-invalid-custom')
                 }
             },
-            validateARVPills(e){
-                this.isPillsValid = validateDate(e)
-                if (parseInt(e.target.value) < 30 || parseInt(e.target.value) > 180){
-                    // this.$toast.warning(`Height value if outside range (50-200)`, 'Caution', notificationSystem.options.warning)
-                    e.target.classList.add('is-invalid-custom')
-                }else{
-                    e.target.classList.remove('is-invalid-custom')
+            validateARVTablets(e, ob){
+                if (ob !== ''){
+                    this.isARVTabletsValid = !(ob < 30|| ob > 180)
+
+                    if(!this.isARVTabletsValid){
+                        e.target.setCustomValidity("value not within range [30, 180]")
+                        e.target.classList.add('is-invalid-custom')
+                        document.forms[3].reportValidity()
+                    }else{
+                        e.target.setCustomValidity("")
+                        e.target.classList.remove('is-invalid-custom')
+                    }
+
                 }
             },
             clearField(isInvalid, concept, isConcept = true){
@@ -841,7 +849,7 @@
                 isVisitOutcome: false,
                 isWeightValid: false,
                 isHeightValid: false,
-                isPillsValid: false
+                isARVTabletsValid: false
             }
         },
         created() {

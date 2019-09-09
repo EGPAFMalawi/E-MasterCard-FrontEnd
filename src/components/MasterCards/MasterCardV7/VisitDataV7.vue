@@ -173,8 +173,9 @@
                     </td>
                     <td style="width:60px">
                         <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" 
-                            :class="{'is-invalid-custom': (observations['concept40Encounter'+encounter.encounterID].value < 30 || observations['concept40Encounter'+encounter.encounterID].value > 180)}" 
-                            step="1" type="number" min="30" max="180" onblur="validity.valid||(value='');" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                            @keyup="validateARVTablets($event, observations['concept40Encounter'+encounter.encounterID].value)"
+                            @blur="clearField((observations['concept40Encounter'+encounter.encounterID].value < 30|| observations['concept40Encounter'+encounter.encounterID].value > 600), 'concept40Encounter'+encounter.encounterID, false)"
+                            step="1" type="number" min="30" max="600" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -303,7 +304,10 @@
                         </select>
                     </td>
                     <td style="width:60px">
-                        <input v-model="concepts.concept40" class="form-control tb-form"  type="number" :class="{'is-invalid-custom': (concepts.concept40 < 30|| concepts.concept40 > 180)}" step="1" min="30" max="180" onblur="validity.valid||(value='');" :disabled="!isVisit && isOutcome">
+                        <input v-model="concepts.concept40" class="form-control tb-form"  
+                            type="number"
+                            @keyup="validateARVTablets($event, concepts.concept40)"
+                            step="1" min="30" max="600" @blur="clearField((concepts.concept40 < 30|| concepts.concept40 > 600), 'concept40')" :disabled="!isVisit && isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="concepts.concept41" class="form-control tb-form" :disabled="!isVisit && isOutcome">
@@ -746,6 +750,21 @@
                     e.target.classList.remove('is-invalid-custom')
                 }
             },
+            validateARVTablets(e, ob){
+                if (ob !== ''){
+                    this.isARVTabletsValid = !(ob < 30|| ob > 180)
+
+                    if(!this.isARVTabletsValid){
+                        e.target.setCustomValidity("value not within range [30, 180]")
+                        e.target.classList.add('is-invalid-custom')
+                        document.forms[3].reportValidity()
+                    }else{
+                        e.target.setCustomValidity("")
+                        e.target.classList.remove('is-invalid-custom')
+                    }
+
+                }
+            },
             clearField(isInvalid, concept, isConcept = true){
                 if (isInvalid && isConcept){
                     this.concepts[concept] = ''
@@ -838,7 +857,8 @@
                 isltLDL: false,
                 isWeightValid: false,
                 isVDateValid: false,
-                form: null
+                form: null,
+                isARVTabletsValid: false
             }
         },
         created() {
