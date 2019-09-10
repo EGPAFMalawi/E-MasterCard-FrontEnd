@@ -61,8 +61,8 @@
                 this.ageAtARTInit !== null ? {
                     ageAtARTInit: this.ageAtARTInit
                 } : {},
-                this.registrationDetails !== null ? 
-                this.registrationDetails : {}
+                this.registrationData !== null ? 
+                this.registrationData : {}
                 )
             
             this.setDateOfFirstStartingART(null)

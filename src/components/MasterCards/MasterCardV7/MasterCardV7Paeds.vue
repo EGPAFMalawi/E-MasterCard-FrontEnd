@@ -43,7 +43,8 @@
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
-                :patientCard='patientCard'>
+                :patientCard='patientCard'
+                :autofill="autofill">
             </VisitDataV7Paeds>
         </div>
     </div>

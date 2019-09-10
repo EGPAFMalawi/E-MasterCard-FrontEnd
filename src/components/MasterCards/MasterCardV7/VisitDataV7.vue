@@ -112,7 +112,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="(encounter, key) in encounters" v-bind:key="key">
-                    <td ref="test">
+                    <td>
                         <slot>
                             <select v-on:change="disableVisitFields($event, 'concept47Encounter'+encounter.encounterID)" v-model="observations['concept32Encounter'+encounter.encounterID].value" class="form-control tb-form">
                                 <option value="Clinical Visit">Clinical Visit</option>
@@ -758,9 +758,9 @@
             validateARVTablets(e, ob){
                 if (ob !== ''){
                     this.isARVTabletsValid = !(ob < 15|| ob > 180)
-
+                    const message = `value not within range [15, ${this.range(ob)}]`
                     if(!this.isARVTabletsValid){
-                        e.target.setCustomValidity("value not within range [15, 180]")
+                            e.target.setCustomValidity(message)
                         e.target.classList.add('is-invalid-custom')
                         document.forms[3].reportValidity()
                         
@@ -770,6 +770,12 @@
                     }
 
                 }
+            },
+            range(ob){
+                if(ob > 600)
+                    return 600
+                else if(ob < 600)
+                    return 180
             },
             clearField(isInvalid, concept, isConcept = true){
                 if (isInvalid && isConcept){

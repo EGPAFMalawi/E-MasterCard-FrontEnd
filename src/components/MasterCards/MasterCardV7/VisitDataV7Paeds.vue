@@ -761,17 +761,24 @@
             validateARVTablets(e, ob){
                 if (ob !== ''){
                     this.isARVTabletsValid = !(ob < 15|| ob > 180)
-
+                    const message = `value not within range [15, ${this.range(ob)}]`
                     if(!this.isARVTabletsValid){
-                        e.target.setCustomValidity("value not within range [15, 180]")
+                            e.target.setCustomValidity(message)
                         e.target.classList.add('is-invalid-custom')
                         document.forms[3].reportValidity()
+                        
                     }else{
                         e.target.setCustomValidity("")
                         e.target.classList.remove('is-invalid-custom')
                     }
 
                 }
+            },
+            range(ob){
+                if(ob > 600)
+                    return 600
+                else if(ob < 600)
+                    return 180
             },
             clearField(isInvalid, concept, isConcept = true){
                 if (isInvalid && isConcept){

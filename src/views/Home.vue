@@ -70,7 +70,7 @@
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
                                 <td>{{ patient.person.gender}}</td>
-                                <td>{{ patient.person.birthdate | moment("calendar")}}</td>
+                                <td>{{ patient.person.birthdate | moment("L")}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.person.personAddress.cityVillage }}</td>
@@ -763,13 +763,11 @@ export default {
                 date.setMonth(date.getMonth() - age);
                 return date.toISOString().split('T')[0]
             }
-            
         },
 
         updatePatientDoB (){
             if (this.estimatedDoB !== null){
                 let payload = {
-                    
                     birthdate : this.estimatedDoB,
                     birthdate_estimated: 1,
                     given_name : this.patient.person.personName.given,
@@ -793,7 +791,6 @@ export default {
                                 notificationSystem.options.error
                                 )
                         });
-                            
                     }) 
             }
 
