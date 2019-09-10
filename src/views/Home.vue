@@ -70,7 +70,7 @@
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
                                 <td>{{ patient.person.gender}}</td>
-                                <td>{{ patient.person.birthdate | moment("MMMM Do, YYYY")}}</td>
+                                <td>{{ patient.person.birthdate | moment("calendar")}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.person.personAddress.cityVillage }}</td>
@@ -962,9 +962,13 @@ export default {
                 this.handleDoBEstimation()
             }
             else if(this.selectedMasterCardVersion === 8){
-                this.concepts.concept58 =  this.handleAgeEstimationMonths().age
-                this.concepts.concept59 = 'Months'
-                
+                if(this.handleAgeEstimationMonths().age > 24){
+                    this.concepts.concept58 = this.handleAgeEstimation().age
+                    this.concepts.concept59 = 'Years'
+                }else{
+                    this.concepts.concept58 = this.handleAgeEstimationMonths().age
+                    this.concepts.concept59 = this.handleAgeEstimationMonths().time
+                }
                 this.handleDoBEstimation()
             }
 
@@ -986,18 +990,27 @@ export default {
             }
         },
         selectedMasterCardVersion: function(){
-            if (this.selectedMasterCardVersion === 7){
-                if(this.handleAgeEstimationMonths().age > 24){
-                    this.concepts.concept58 = this.handleAgeEstimation().age
+            if ( this.selectedMasterCardVersion === 7){
+                if (this.concepts.concept59 === null){
                     this.concepts.concept59 = 'Years'
-                }else{
+                }
+                else if(this.concepts.concept59 === 'Years'){
+                    this.concepts.concept58 = this.handleAgeEstimation().age
+
+                }else if(this.concepts.concept59 === 'Months'){
                     this.concepts.concept58 = this.handleAgeEstimationMonths().age
-                    this.concepts.concept59 = this.handleAgeEstimationMonths().time
                 }
             }
             else if(this.selectedMasterCardVersion === 8){
-                this.concepts.concept58 =  this.handleAgeEstimationMonths().age
-                this.concepts.concept59 = 'Months'
+                if (this.concepts.concept59 === null){
+                    this.concepts.concept59 = 'Months'
+                }
+                else if(this.concepts.concept59 === 'Years'){
+                    this.concepts.concept58 = this.handleAgeEstimation().age
+
+                }else if(this.concepts.concept59 === 'Months'){
+                    this.concepts.concept58 = this.handleAgeEstimationMonths().age
+                }
             }
         },
         'concepts.concept58': function(){

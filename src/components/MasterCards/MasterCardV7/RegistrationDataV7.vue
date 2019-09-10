@@ -37,7 +37,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-2">
+            <div :class="{'col-2': isAdults, 'col-3': !isAdults}" >
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">Registration Date</span>
@@ -45,7 +45,7 @@
                     <input type="date" class="form-control tb-form" v-model="concepts.concept56" @change="updateRegData($event, 'concept56')">
                 </div>
             </div>
-            <div class="col-2">
+            <div :class="{'col-2': isAdults, 'col-3': !isAdults}">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text reg-details">ART Initiation Date</span>
@@ -111,13 +111,23 @@
 
                         return {
                             'concept' : item.conceptID,
-                            'encounter-type' : this.encounterTypes[0].encounterTypeID,
-                            'value' : this.concepts['concept'+item.conceptID],
-                            'observation' : this.getObservation(item.conceptID)
+                            'encounter-type' : 1,
+                            'value' : null,
+                            'observation' : null
                         }
                     }
                 }).filter(item => item !== undefined);
-                this.handlePost(payload)
+
+                const finalPayload = [...payload]
+                Object.entries(this.concepts).forEach(([key, concept]) => {
+                    finalPayload.push({
+                        'concept' : key.match(/\d+/)[0],
+                        'encounter-type' : 1,
+                        'value' : concept,
+                        'observation' : null
+                    })
+                })
+                this.handlePost(finalPayload)
             },
             getPatientCardDetails : function ()
             {
@@ -135,29 +145,7 @@
                         console.log(error)
                     })
             },
-            processDataForPost: function ()
-            {
-                let payload = this.encounterTypes[0].concepts.map((item)=>{
-                    return {
-                        'concept' : item.conceptID,
-                        'encounter-type' : this.encounterTypes[0].encounterTypeID,
-                        'value' : this.concepts['concept'+item.conceptID],
-                        'observation' : this.getObservation(item.conceptID)
-                    }
-                });
-
-                const finalPayload = [...payload]
-                Object.entries(this.concepts).forEach(([key, concept]) => {
-                    finalPayload.push({
-                        'concept' : key.match(/\d+/)[0],
-                        'encounter-type' : 1,
-                        'value' : concept,
-                        'observation' : null
-                    })
-                })
-
-                this.handlePost(finalPayload);
-            },
+            
             getObservation: function (conceptID)
             {
                 let obs = this.patientCardData.filter((item)=>{
@@ -176,6 +164,7 @@
                     'patient-card' : this.patientCard.patientCardID,
                     'observations' : payload
                 };
+                console.log(finalPayload)
 
                 authResource().post(dhisAPIEndpoint, finalPayload)
                     .then((response)=>{
@@ -215,10 +204,6 @@
             }
         },
         watch : {
-            postPayload : function ()
-            {
-                this.processDataForPost();
-            },
             encounterTypes : function (value) {
                 if (value.length > 0)
                 {

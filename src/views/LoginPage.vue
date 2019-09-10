@@ -3,8 +3,8 @@
     <div >
          <div class="container my-5 ">
              <div class="row d-flex justify-content-center">
-                 <div>
-                    <h3>E-Mastercard V3</h3>
+                 <div class="text-center">
+                    <h3>E-Mastercard V3.5</h3>
                     <img class="logo-mca" src="../assets/699px-Coat_of_arms_of_Malawi.svg.png" alt="">
                  </div>
                  
@@ -15,6 +15,7 @@
             <div class="row d-flex justify-content-center align-items-center">
                 <LoginForm />
             </div>
+            <h6 class="text-center my-3">V3.5 September 10, 2019</h6>
             
         </div>
     </div>

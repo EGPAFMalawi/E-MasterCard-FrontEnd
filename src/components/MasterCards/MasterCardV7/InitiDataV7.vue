@@ -686,7 +686,7 @@
                 if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
                     setMinDate(e, this.patient.person.birthdate)
                 else{
-                    setMinDate(e, '2001-01-01')
+                    setMinDate(e, '2000-01-01')
                 }
                 setMaxDate(e)
             },
@@ -694,13 +694,13 @@
                 if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
                     setMinDate(e, this.patient.person.birthdate)
                 else{
-                    setMinDate(e, '2001-01-01')
+                    setMinDate(e, '2000-01-01')
                 }
                 setMaxDate(e)
             },
             setCD4MinMaxDate(e){
-                if(this.startDate !== null){
-                    setMinDate(e, this.startDate)
+                if(this.concepts.concept16 !== ''){
+                    setMinDate(e, this.concepts.concept16)
                 }
                 else if (compareDates(new Date(this.patient.person.birthdate), new Date('2001-01-01'))){
                     setMinDate(e, this.patient.person.birthdate)
@@ -794,7 +794,7 @@
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
-                    concept54 : 'Years'
+                    concept54 : ''
                 },
                 isTestDateValid: false,
                 isEduDateValid: false,
@@ -845,9 +845,6 @@
             },
             'concepts.concept19': function(){
                 this.evalEduDate = this.evaluateDateBeforeARTStartDate(this.concepts.concept19, this.concepts.concept23)
-            },
-            'concepts.concept3': function(){
-                //this.conditions = this.getConditions(this.concepts.concept3)
             },
             'concepts.concept8': function(){
                 this.toggleAgeEstimateButton()

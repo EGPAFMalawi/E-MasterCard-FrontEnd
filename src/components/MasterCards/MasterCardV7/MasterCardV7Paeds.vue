@@ -18,7 +18,8 @@
                 :encounterTypes="masterCardDetails.encounterTypes" 
                 :postPayload="postPayload"
                 :patient='patient'
-                :patientCard='patientCard'>
+                :patientCard='patientCard'
+                :isAdults="false">>
             </RegistrationDataV7>
         </div>
         <div class="container-fluid d-flex justify-content-center">
@@ -51,7 +52,7 @@
 <script>
     import InitDataV7Paeds from "./InitiDataV7Paeds";
     import VisitDataV7Paeds from "./VisitDataV7Paeds";
-    import RegistrationDataV7 from "./RegistrationDataV7Paeds";
+    import RegistrationDataV7 from "./RegistrationDataV7";
     import { mapActions, mapGetters } from 'vuex'
 
     export default {

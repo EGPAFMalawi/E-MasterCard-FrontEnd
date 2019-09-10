@@ -187,8 +187,11 @@
                     <td style="width:60px">
                         <input v-model="observations['concept40Encounter'+encounter.encounterID].value" class="form-control tb-form" 
                             @keyup="validateARVTablets($event, observations['concept40Encounter'+encounter.encounterID].value)"
-                            @blur="clearField((observations['concept40Encounter'+encounter.encounterID].value < 30|| observations['concept40Encounter'+encounter.encounterID].value > 600), 'concept40Encounter'+encounter.encounterID, false)"
-                            step="1" type="number" min="30" max="600" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
+                            @blur="($e) => {
+                                        $e.target.setCustomValidity('')
+                                        clearField((observations['concept40Encounter'+encounter.encounterID].value < 15|| observations['concept40Encounter'+encounter.encounterID].value > 600), 'concept40Encounter'+encounter.encounterID, false)
+                                    }"
+                            step="1" type="number" min="15" max="600" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
                     </td>
                     <td style="width:30px">
                         <select v-model="observations['concept41Encounter'+encounter.encounterID].value" class="form-control tb-form" :disabled="observations['concept32Encounter'+encounter.encounterID].isOutcome">
@@ -315,8 +318,11 @@
                     <td style="width:60px">
                         <input :disabled="!isVisit && isOutcome" v-model="concepts.concept40" class="form-control tb-form" 
                         @keyup="validateARVTablets($event, concepts.concept40)" 
-                        @blur="clearField((concepts.concept40 < 30|| concepts.concept40 > 600), 'concept40')" 
-                        type="number" min="30" max="600" onblur="validity.valid||(value='');">
+                        @blur="($e) => {
+                                $e.target.setCustomValidity('')
+                                clearField((concepts.concept40 < 15|| concepts.concept40 > 600), 'concept40')
+                            }" 
+                        type="number" min="15" max="600" onblur="validity.valid||(value='');">
                     </td>
                     <td style="width:30px">
                         <select :disabled="!isVisit && isOutcome"  v-model="concepts.concept41" class="form-control tb-form">
@@ -334,10 +340,10 @@
                         </select>
                     </td>
                     <td>
-                        <input :disabled="!isVisit && isOutcome" v-model="concepts.concept43" class="form-control tb-form" type="number" min="15" max="360" step="1" onblur="validity.valid||(value='');">
+                        <input :disabled="!isIPT" v-model="concepts.concept43" class="form-control tb-form" type="number" min="15" max="360" step="1" onblur="validity.valid||(value='');">
                     </td>
                     <td>
-                        <input disabled v-model="concepts.concept44" class="form-control tb-form" type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                        <input disabled v-model="concepts.concept44" class="form-control tb-form" type="number" min="0" step="1" oninput="validity.valid||(value='');" >
                     </td>
                     <td>
                         <select :disabled="!isVisit && isOutcome" v-model="concepts.concept45" class="form-control tb-form">
@@ -754,10 +760,10 @@
             },
             validateARVTablets(e, ob){
                 if (ob !== ''){
-                    this.isARVTabletsValid = !(ob < 30|| ob > 180)
+                    this.isARVTabletsValid = !(ob < 15|| ob > 180)
 
                     if(!this.isARVTabletsValid){
-                        e.target.setCustomValidity("value not within range [30, 180]")
+                        e.target.setCustomValidity("value not within range [15, 180]")
                         e.target.classList.add('is-invalid-custom')
                         document.forms[3].reportValidity()
                     }else{
@@ -849,7 +855,8 @@
                 isVisitOutcome: false,
                 isWeightValid: false,
                 isHeightValid: false,
-                isARVTabletsValid: false
+                isARVTabletsValid: false,
+                isIPT: false
             }
         },
         created() {
@@ -920,6 +927,12 @@
                 }else{
                     this.isltLDL = false
                 }
+            },
+            'concepts.concept42': function(value){
+                if(value === 'Yes')
+                    this.isIPT = true
+                else
+                    this.isIPT = false
             }
         },
         computed: {

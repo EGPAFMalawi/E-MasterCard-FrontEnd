@@ -52,15 +52,15 @@ const state = {
             value: '7A'
         },
         {
-            title: '8A 8A (AZT 300 / 3TC 150 + ATV/r 300/100)',
+            title: '8A (AZT 300 / 3TC 150 + ATV/r 300/100)',
             value: '8A'
         },
         {
-            title: '9A 9A (ABC 600 / 3TC 300 + LPV/r 200/50)',
+            title: '9A (ABC 600 / 3TC 300 + LPV/r 200/50)',
             value: '9A'
         },
         {
-            title: '10A 10A (TDF 300 / 3TC 300 + LPV/r 200/50)',
+            title: '10A (TDF 300 / 3TC 300 + LPV/r 200/50)',
             value: '10A'
         },
         {

@@ -387,7 +387,7 @@
 <script>
     import {authResource} from './../../../authResource'
     import { MultiSelect } from 'vue-search-select'
-    import { notificationSystem, setMinDate, setMaxDate, validateDate, matchString } from '../../../globals'
+    import { notificationSystem, setMinDate, setMaxDate, compareDates, validateDate, matchString } from '../../../globals'
     import { mapGetters, mapActions } from 'vuex' 
 
     export default {
@@ -651,7 +651,7 @@
                 if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
                     setMinDate(e, this.patient.person.birthdate)
                 else{
-                    setMinDate(e, '2001-01-01')
+                    setMinDate(e, '2000-01-01')
                 }
                 setMaxDate(e)
             },
@@ -659,13 +659,13 @@
                 if (compareDates(new Date(this.patient.person.birthdate), new Date('2000-01-01')))
                     setMinDate(e, this.patient.person.birthdate)
                 else{
-                    setMinDate(e, '2001-01-01')
+                    setMinDate(e, '2000-01-01')
                 }
                 setMaxDate(e)
             },
             setCD4MinMaxDate(e){
-                if(this.startDate !== null){
-                    setMinDate(e, this.startDate)
+                if(this.concepts.concept16 !== ''){
+                    setMinDate(e, this.concepts.concept16)
                 }
                 else if (compareDates(new Date(this.patient.person.birthdate), new Date('2001-01-01'))){
                     setMinDate(e, this.patient.person.birthdate)
@@ -758,7 +758,7 @@
                     concept25 : '',
                     concept26 : '',
                     concept27 : '',
-                    concept54 : 'Months',
+                    concept54 : '',
                 },
                 isTestDateValid: false,
                 isEduDateValid: false,
@@ -776,8 +776,7 @@
 
             this.concepts.concept23 = this.autofill.dateOfFirstStartingART || ''
             this.concepts.concept8 = this.autofill.ageAtARTInit || ''
-
-
+            this.concepts.concept54 = this.autofill.period || ''
         },
 
         watch : {
