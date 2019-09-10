@@ -70,7 +70,7 @@
                                 <td>{{ patient.person.personName.middle}}</td>
                                 <td>{{ patient.person.personName.family}}</td>
                                 <td>{{ patient.person.gender}}</td>
-                                <td>{{ patient.person.birthdate | moment("L")}}</td>
+                                <td>{{ patient.person.birthdate | moment("DD/MM/YYYY")}}</td>
                                 <td>{{ patient.guardianName}}</td>
                                 <td>{{ patient.patientPhone}}</td>
                                 <td>{{ patient.person.personAddress.cityVillage }}</td>
