@@ -17,7 +17,7 @@
     "bootstrap-4-grid": "^2.4.1",
     "bootstrap-vue": "^2.0.0-rc.16",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-file-download": "^0.4.5",
     "lodash": "^4.17.11",
     "vee-validate": "^2.2.0",
