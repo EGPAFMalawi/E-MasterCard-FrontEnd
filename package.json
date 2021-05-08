@@ -19,7 +19,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "js-file-download": "^0.4.5",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "vee-validate": "^2.2.0",
     "vue": "^2.5.17",
     "vue-clickaway": "^2.2.2",
