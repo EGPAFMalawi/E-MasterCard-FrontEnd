@@ -31,9 +31,9 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.5.5",
+    "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-eslint": "^3.5.1",
-    "@vue/cli-service": "^3.5.3",
+    "@vue/cli-service": "^5.0.8",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
